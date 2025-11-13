@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any, ClassVar
 from urllib.parse import urlparse
 
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field, model_validator, field_validator
 from pydantic.networks import EmailStr, HttpUrl
 
 
@@ -83,7 +83,8 @@ class ClientIdValidation(BaseModel):
     """Client ID validation mixin"""
     client_id: str = Field(..., min_length=1, max_length=255, regex=r'^[a-zA-Z0-9_-]+$')
 
-    @validator('client_id')
+    @field_validator('client_id')
+    @classmethod
     def validate_client_id(cls, v):
         if not v or not v.strip():
             raise ValueError('Client ID cannot be empty')
@@ -94,7 +95,8 @@ class RedirectUriValidation(BaseModel):
     """Redirect URI validation mixin"""
     redirect_uri: HttpUrl = Field(..., description="OAuth2 redirect URI")
 
-    @validator('redirect_uri', pre=True)
+    @field_validator('redirect_uri', pre=True)
+    @classmethod
     def validate_redirect_uri(cls, v):
         if isinstance(v, str):
             # Parse and validate URL
@@ -119,7 +121,8 @@ class ScopeValidation(BaseModel):
     """Scope validation mixin"""
     scope: str = Field(..., max_length=1000, description="OAuth2 scopes")
 
-    @validator('scope')
+    @field_validator('scope')
+    @classmethod
     def validate_scope(cls, v):
         if not v or not v.strip():
             raise ValueError('Scope cannot be empty')
@@ -151,7 +154,8 @@ class AuthorizationRequest(BaseRequest, ClientIdValidation, RedirectUriValidatio
     max_age: int | None = Field(None, ge=0, le=86400)  # Max 24 hours
     login_hint: str | None = Field(None, max_length=256)
 
-    @validator('nonce')
+    @field_validator('nonce')
+    @classmethod
     def validate_nonce_with_id_token(cls, v, values):
         """Nonce is required for implicit flows with id_token"""
         response_type = values.get('response_type')
@@ -159,7 +163,8 @@ class AuthorizationRequest(BaseRequest, ClientIdValidation, RedirectUriValidatio
             raise ValueError('Nonce is required for flows returning id_token')
         return v
 
-    @validator('code_challenge_method')
+    @field_validator('code_challenge_method')
+    @classmethod
     def validate_pkce_params(cls, v, values):
         """PKCE validation"""
         code_challenge = values.get('code_challenge')
@@ -227,7 +232,8 @@ class UserInfoRequest(BaseRequest):
     """OIDC UserInfo request validation"""
     access_token: str = Field(..., min_length=1, max_length=2048, description="Bearer access token")
 
-    @validator('access_token', pre=True)
+    @field_validator('access_token', pre=True)
+    @classmethod
     def extract_bearer_token(cls, v):
         """Extract token from Bearer authorization header format"""
         if isinstance(v, str) and v.startswith('Bearer '):
@@ -245,7 +251,8 @@ class WebAuthnCredentialCreationOptions(BaseRequest):
     authenticator_attachment: str | None = Field(None, regex=r'^(platform|cross-platform)$')
     resident_key: str = Field('preferred', regex=r'^(required|preferred|discouraged)$')
 
-    @validator('username')
+    @field_validator('username')
+    @classmethod
     def validate_username_format(cls, v):
         """Validate username format"""
         if not v or not v.strip():
@@ -271,7 +278,8 @@ class WebAuthnRegistrationResponse(BaseRequest):
     client_data_json: str = Field(..., max_length=4096)
     attestation_object: str = Field(..., max_length=8192)
 
-    @validator('credential')
+    @field_validator('credential')
+    @classmethod
     def validate_credential_structure(cls, v):
         """Validate WebAuthn credential response structure"""
         required_fields = ['id', 'rawId', 'response', 'type']
@@ -294,7 +302,8 @@ class WebAuthnAuthenticationResponse(BaseRequest):
     authenticator_data: str = Field(..., max_length=2048)
     signature: str = Field(..., max_length=2048)
 
-    @validator('credential')
+    @field_validator('credential')
+    @classmethod
     def validate_auth_credential_structure(cls, v):
         """Validate WebAuthn authentication credential structure"""
         required_fields = ['id', 'rawId', 'response', 'type']
@@ -325,7 +334,8 @@ class ClientRegistrationRequest(BaseRequest):
     software_id: str | None = Field(None, max_length=256)
     software_version: str | None = Field(None, max_length=256)
 
-    @validator('redirect_uris')
+    @field_validator('redirect_uris')
+    @classmethod
     def validate_redirect_uris(cls, v):
         """Validate redirect URIs"""
         if not v:
@@ -338,7 +348,8 @@ class ClientRegistrationRequest(BaseRequest):
 
         return v
 
-    @validator('response_types', 'grant_types')
+    @field_validator('response_types', 'grant_types')
+    @classmethod
     def validate_consistent_flow_config(cls, v, values, field):
         """Ensure response_types and grant_types are consistent"""
         # This validator ensures the client configuration is consistent
@@ -354,7 +365,8 @@ class RateLimitContext(BaseModel):
     endpoint: str | None = Field(None, max_length=256)
     user_agent: str | None = Field(None, max_length=1024)
 
-    @validator('client_ip')
+    @field_validator('client_ip')
+    @classmethod
     def validate_ip_address(cls, v):
         """Basic IP address validation"""
         import ipaddress

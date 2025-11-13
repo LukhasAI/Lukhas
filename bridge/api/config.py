@@ -12,7 +12,7 @@ import os
 import secrets
 from typing import Optional
 
-from pydantic import BaseSettings, Field, validator
+from pydantic import BaseSettings, Field, field_validator
 
 # TAG:bridge
 # TAG:api
@@ -88,7 +88,8 @@ class LukhasConfig(BaseSettings):
         description="Allowed CORS origins (comma-separated)",
     )
 
-    @validator("database_url")
+    @field_validator("database_url")
+    @classmethod
     def validate_database_url(cls, v):
         """Ensure database URL is provided in production"""
         env = os.getenv("ENVIRONMENT", "development")
@@ -96,14 +97,16 @@ class LukhasConfig(BaseSettings):
             raise ValueError("DATABASE_URL must be set in production")
         return v
 
-    @validator("secret_key")
+    @field_validator("secret_key")
+    @classmethod
     def validate_secret_strength(cls, v):
         """Ensure secret key is sufficiently strong"""
         if v and len(v) < 32:
             raise ValueError("Secret key must be at least 32 characters long")
         return v
 
-    @validator("environment")
+    @field_validator("environment")
+    @classmethod
     def validate_environment(cls, v):
         """Validate environment setting"""
         valid_envs = ["development", "staging", "production", "test"]

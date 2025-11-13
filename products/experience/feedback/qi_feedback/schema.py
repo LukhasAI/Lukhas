@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from qi.safety.constants import ALLOWED_STYLES, MAX_THRESHOLD_SHIFT
 
 
@@ -32,13 +32,15 @@ class ProposedTuning(BaseModel):
     style: str | None = Field(None, description="Proposed style")
     threshold_delta: float | None = Field(None, description="Threshold adjustment")
 
-    @validator("style")
+    @field_validator("style")
+    @classmethod
     def validate_style(cls, v):
         if v and v not in ALLOWED_STYLES:
             raise ValueError(f"Style must be one of {ALLOWED_STYLES}")
         return v
 
-    @validator("threshold_delta")
+    @field_validator("threshold_delta")
+    @classmethod
     def validate_threshold(cls, v):
         if v is not None and abs(v) > MAX_THRESHOLD_SHIFT:
             raise ValueError(f"Threshold delta must be within ±{MAX_THRESHOLD_SHIFT}")
@@ -85,13 +87,15 @@ class PolicySafePatch(BaseModel):
     threshold_delta: float | None = Field(None, description="Threshold adjustment")
     explain_depth: int | None = Field(None, ge=1, le=5, description="Explanation depth")
 
-    @validator("style")
+    @field_validator("style")
+    @classmethod
     def validate_style(cls, v):
         if v and v not in ALLOWED_STYLES:
             raise ValueError(f"Style must be one of {ALLOWED_STYLES}")
         return v
 
-    @validator("threshold_delta")
+    @field_validator("threshold_delta")
+    @classmethod
     def validate_threshold(cls, v):
         if v is not None and abs(v) > MAX_THRESHOLD_SHIFT:
             raise ValueError(f"Threshold delta must be within ±{MAX_THRESHOLD_SHIFT}")

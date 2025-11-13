@@ -19,7 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field, model_validator, field_validator
 from pydantic.generics import GenericModel
 
 # from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
@@ -178,7 +178,8 @@ class EmotionalState(BaseModel):
     arousal: float = Field(..., ge=-1, le=1)
     dominance: float = Field(..., ge=-1, le=1)
 
-    @validator("valence", "arousal", "dominance")
+    @field_validator("valence", "arousal", "dominance")
+    @classmethod
     def validate_range(cls, v):
         if not -1 <= v <= 1:
             raise ValueError("Value must be between -1 and 1")
