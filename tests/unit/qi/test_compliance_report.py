@@ -6,7 +6,7 @@ PIPEDA, and LGPD with comprehensive coverage of all report sections.
 
 import json
 from datetime import datetime, timedelta, timezone
-
+from typing import Tuple
 
 import pytest
 from qi.compliance.compliance_report import (

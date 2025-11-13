@@ -1,14 +1,13 @@
 
 import asyncio
 import unittest.mock
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from labs.consciousness.awareness.awareness_engine import (
     AwarenessEngine,
-    create_awareness_component,
     create_and_initialize_awareness_component,
+    create_awareness_component,
 )
 
 # Mark all tests in this file as async

@@ -162,10 +162,7 @@ class ActionSelectionNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "selected_action" not in output["answer"]:
-            return False
-
-        return True
+        return "selected_action" in output["answer"]
 
     def _evaluate_candidates(
         self,

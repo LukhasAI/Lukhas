@@ -1,6 +1,6 @@
 """Health check endpoint with guardian state."""
-from typing import Dict, Any
 from datetime import datetime
+from typing import Any, Dict
 
 
 def get_healthz(guardian_engine: Any = None) -> Dict[str, Any]:

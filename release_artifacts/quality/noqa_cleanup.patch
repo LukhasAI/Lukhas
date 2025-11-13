@@ -1,0 +1,155 @@
+diff --git a/qi/post_quantum_crypto_v2.py b/qi/post_quantum_crypto_v2.py
+index 054f12016..3b835da36 100644
+--- a/qi/post_quantum_crypto_v2.py
++++ b/qi/post_quantum_crypto_v2.py
+@@ -288,7 +288,7 @@ class PostQuantumCryptoEngine:
+         self.config = config or SecurityConfig()
+         self.key_manager = QIResistantKeyManager(self.config)
+         self.session_cache: dict[str, dict[str, Any]] = {}
+-        self.active_sessions: Set[str] = set()  # noqa: F821  # TODO: Set
++        self.active_sessions: Set[str] = set()  # TODO: Set
+ 
+         # Initialize secure memory manager
+         self.secure_memory = SecureMemoryManager(self.config)
+diff --git a/rl/tests/test_formal_verification.py b/rl/tests/test_formal_verification.py
+index 10394433d..e0582afbd 100644
+--- a/rl/tests/test_formal_verification.py
++++ b/rl/tests/test_formal_verification.py
+@@ -26,7 +26,7 @@ from typing import Any, Optional
+ import pytest
+ 
+ try:
+-    from z3 import *  # noqa: F403 - Z3 solver types (Real, Int, Solver, etc.)
++    from z3 import *
+ 
+     Z3_AVAILABLE = True
+ except ImportError:
+diff --git a/scripts/bench_e2e_quiet.py b/scripts/bench_e2e_quiet.py
+index 3b336615d..834b2190f 100644
+--- a/scripts/bench_e2e_quiet.py
++++ b/scripts/bench_e2e_quiet.py
+@@ -17,7 +17,7 @@ logging.getLogger('governance').setLevel(logging.CRITICAL)
+ logging.getLogger('memory').setLevel(logging.CRITICAL)
+ 
+ # Import after configuring logging
+-from bench_e2e import main  # noqa: E402 - logging must be suppressed before importing
++from bench_e2e import main
+ 
+ if __name__ == "__main__":
+     # Set environment for reproducibility
+diff --git a/scripts/security/build_security_posture_artifacts.py b/scripts/security/build_security_posture_artifacts.py
+index f035a8540..d472a8824 100644
+--- a/scripts/security/build_security_posture_artifacts.py
++++ b/scripts/security/build_security_posture_artifacts.py
+@@ -43,7 +43,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
+ if str(SCRIPT_DIR.parent) not in sys.path:
+     sys.path.insert(0, str(SCRIPT_DIR.parent))
+ 
+-from security_sbom_generator import (  # noqa: E402 - scripts directory must be in sys.path before import
++from security_sbom_generator import (
+     LUKHASSecuritySBOMGenerator,
+ )
+ 
+diff --git a/scripts/validate_dynamic_id_hardening.py b/scripts/validate_dynamic_id_hardening.py
+index 598a30861..dcc1f21b6 100644
+--- a/scripts/validate_dynamic_id_hardening.py
++++ b/scripts/validate_dynamic_id_hardening.py
+@@ -24,7 +24,7 @@ from typing import Any
+ project_root = Path(__file__).parent.parent
+ sys.path.insert(0, str(project_root))
+ 
+-from observability.service_metrics import (  # noqa: E402 - project root must be injected before import
++from observability.service_metrics import (
+     MetricType,
+     ServiceType,
+ )
+diff --git a/scripts/validate_ledger_performance.py b/scripts/validate_ledger_performance.py
+index 204bf8841..31e4a9de1 100644
+--- a/scripts/validate_ledger_performance.py
++++ b/scripts/validate_ledger_performance.py
+@@ -25,16 +25,16 @@ from typing import Any, Optional
+ project_root = Path(__file__).parent.parent
+ sys.path.insert(0, str(project_root))
+ 
+-import jsonschema  # noqa: E402 - project root must be available on sys.path before import
+-from ledger.event_bus import (  # noqa: E402 - project root must be available on sys.path before import
++import jsonschema
++from ledger.event_bus import (
+     AsyncEventBus,
+ )
+-from ledger.events import (  # noqa: E402 - project root must be available on sys.path before import
++from ledger.events import (
+     ConsentGrantedEvent,
+     ConsentType,
+     validate_event_schema,
+ )
+-from ledger.metrics import (  # noqa: E402 - project root must be available on sys.path before import
++from ledger.metrics import (
+     get_metrics,
+     reset_metrics,
+ )
+diff --git a/tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py b/tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py
+index cc84a4a8f..ff792bc02 100644
+--- a/tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py
++++ b/tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py
+@@ -18,7 +18,7 @@ sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
+ dream_core_pkg.dream_snapshot = dream_core_snapshot_module
+ dream_pkg.core = dream_core_pkg
+ 
+-from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 - stub modules must be registered before import
++from consciousness.dream.core.dream_feedback_controller import (
+     DreamFeedbackController,
+ )
+ 
+diff --git a/tests/unit/candidate/core/test_task_manager.py b/tests/unit/candidate/core/test_task_manager.py
+index dc26a5c6b..20ac333b0 100644
+--- a/tests/unit/candidate/core/test_task_manager.py
++++ b/tests/unit/candidate/core/test_task_manager.py
+@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
+ for module_name in ["labs", "labs.core", "labs.core.task_manager"]:
+     sys.modules.pop(module_name, None)
+ 
+-from labs.core.task_manager import (  # noqa: E402 - repo root must be on sys.path before import
++from labs.core.task_manager import (
+     LukhλsTaskManager,
+     TaskPriority,
+ )
+diff --git a/tests/unit/core/colonies/test_oracle_colony.py b/tests/unit/core/colonies/test_oracle_colony.py
+index 71a9b8773..6ee05ed7c 100644
+--- a/tests/unit/core/colonies/test_oracle_colony.py
++++ b/tests/unit/core/colonies/test_oracle_colony.py
+@@ -17,7 +17,7 @@ mock_labs_openai_mod.OpenAIRequest = MagicMock()
+ sys.modules['labs.consciousness.reflection.openai_core_service'] = mock_labs_openai_mod
+ 
+ # Now we can import the module to be tested
+-from core.colonies.oracle_colony import (  # noqa: E402 - test stubs must populate sys.modules before import
++from core.colonies.oracle_colony import (
+     OracleAgent,
+     OracleColony,
+     OracleQuery,
+diff --git a/tests/unit/identity/test_matriz_consciousness_identity_signals.py b/tests/unit/identity/test_matriz_consciousness_identity_signals.py
+index 04855f394..f1f3ca44e 100644
+--- a/tests/unit/identity/test_matriz_consciousness_identity_signals.py
++++ b/tests/unit/identity/test_matriz_consciousness_identity_signals.py
+@@ -14,7 +14,7 @@ import pytest
+ project_root = Path(__file__).resolve().parents[3]
+ sys.path.insert(0, str(project_root))
+ 
+-from core.identity.matriz_consciousness_identity_signals import (  # noqa: E402 - tests require sys.path injection
++from core.identity.matriz_consciousness_identity_signals import (
+     ConsciousnessIdentitySignalProcessor,
+     CorrelationMatrix,
+     IdentitySignalType,
+diff --git a/tests/unit/memory/test_fold_lineage_entanglement.py b/tests/unit/memory/test_fold_lineage_entanglement.py
+index 7bc3676a8..b88803360 100644
+--- a/tests/unit/memory/test_fold_lineage_entanglement.py
++++ b/tests/unit/memory/test_fold_lineage_entanglement.py
+@@ -26,7 +26,7 @@ if flt_spec.loader is not None:
+     flt_spec.loader.exec_module(flt_module)
+ 
+ 
+-from memory.fold_lineage_tracker import (  # noqa: E402 - test constructs in-memory package before import
++from memory.fold_lineage_tracker import (
+     CausationType,
+     FoldLineageTracker,
+ )

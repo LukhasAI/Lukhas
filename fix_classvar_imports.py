@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fix missing ClassVar imports in files using ClassVar annotations."""
-import re
 import glob
+import re
 
 files_missing_import = []
 
@@ -12,7 +12,7 @@ for filepath in glob.glob("**/*.py", recursive=True):
         continue
 
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             content = f.read()
 
         if "ClassVar[" in content:

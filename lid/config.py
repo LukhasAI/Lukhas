@@ -53,14 +53,14 @@ if __name__ == "__main__":
 
     # Default config (FaceID not required)
     config = LidConfig()
-    print(f"Default config:")
+    print("Default config:")
     print(f"  FaceID required: {config.is_faceid_required()}")
     print(f"  Seed phrase allowed: {config.check_login_flow('seed_phrase')}")
     print(f"  WebAuthn allowed: {config.check_login_flow('webauthn')}\n")
 
     # FaceID required
     strict_config = LidConfig(require_faceid=True)
-    print(f"FaceID required config:")
+    print("FaceID required config:")
     print(f"  FaceID required: {strict_config.is_faceid_required()}")
     print(f"  Seed phrase allowed: {strict_config.check_login_flow('seed_phrase')}")
     print(f"  FaceID allowed: {strict_config.check_login_flow('faceid')}")

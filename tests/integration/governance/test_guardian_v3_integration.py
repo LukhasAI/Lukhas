@@ -7,20 +7,19 @@ protection and oversight.
 """
 import asyncio
 import importlib
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
+from labs.governance.guardian_sentinel import GuardianSentinel
+from labs.governance.guardian_shadow_filter import GuardianShadowFilter
 
 # LUKHAS imports
 from labs.governance.guardian_system import GuardianSystem
-from lukhas_website.lukhas.governance.guardian.reflector import GuardianReflector, DriftSeverity
-from labs.governance.guardian_shadow_filter import GuardianShadowFilter
-from labs.governance.guardian_sentinel import GuardianSentinel
+from lukhas_website.lukhas.governance.guardian.reflector import DriftSeverity, GuardianReflector
 from serve.middleware.strict_auth import StrictAuthMiddleware
-
 
 # Mark all tests in this file as integration tests
 pytestmark = pytest.mark.integration

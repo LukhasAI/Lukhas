@@ -5,7 +5,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from labs.governance.ethics.ethics_engine import EthicsEngine
 
 

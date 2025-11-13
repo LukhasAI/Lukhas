@@ -70,7 +70,8 @@ def import_path_for(py: Path, repo_root: Path, root_pkg: str) -> str|None:
     except Exception:
         return None
     parts = list(rel.parts)
-    if not parts or parts[0] != root_pkg: return None
+    if not parts or parts[0] != root_pkg:
+        return None
     if parts[-1] == "__init__.py":
         parts = parts[:-1]
     else:

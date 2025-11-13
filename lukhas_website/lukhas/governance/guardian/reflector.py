@@ -768,24 +768,21 @@ RemediationStrategy = RemediationPlan
 DriftDimension = DriftType  # Close mapping for legacy code
 
 __all__ = [
-    # Main classes
-    "GuardianReflector",
     "DriftAnalysis",
+    "DriftDimension",
     "DriftIndicator",
-    "RemediationPlan",
-
+    # Legacy aliases
+    "DriftMetrics",
+    "DriftPredictor",
     # Enums
     "DriftSeverity",
     "DriftType",
-
+    # Main classes
+    "GuardianReflector",
+    "RemediationAction",
+    "RemediationEngine",
+    "RemediationPlan",
+    "RemediationStrategy",
     # Supporting classes
     "TrendAnalyzer",
-    "DriftPredictor",
-    "RemediationEngine",
-
-    # Legacy aliases
-    "DriftMetrics",
-    "RemediationAction",
-    "RemediationStrategy",
-    "DriftDimension",
 ]

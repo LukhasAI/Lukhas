@@ -1,9 +1,11 @@
 
-import pytest
 import asyncio
-import psutil
-import time
 import os
+import time
+
+import psutil
+import pytest
+
 
 # This is a placeholder for a CPU-intensive task
 async def cpu_intensive_task():

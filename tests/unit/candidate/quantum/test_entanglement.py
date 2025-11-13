@@ -140,7 +140,6 @@ class TestEntanglementEngine(unittest.TestCase):
         rng = random.Random(1337)
         engine = EntanglementEngine(measurement_harness=QuantumMeasurement(rng=rng), rng=rng)
 
-        correlations = []
         for _ in range(100): # Run 100 trials
             state_a = create_simple_superposition_state(2, "a")
             state_b = create_simple_superposition_state(2, "b")

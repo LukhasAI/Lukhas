@@ -21,6 +21,7 @@ from typing import Any
 from core.interfaces import ICognitiveNode
 from core.registry import resolve
 
+from lukhas.observability.distributed_tracing import extract_context
 from metrics import (
     arbitration_decisions_total,
     constellation_star_activations,
@@ -38,8 +39,6 @@ from metrics import (
     stage_latency,
     stage_timeouts,
 )
-
-from lukhas.observability.distributed_tracing import extract_context, inject_context
 
 from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController

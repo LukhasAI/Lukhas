@@ -32,7 +32,8 @@ def find_module_manifest(mod: str) -> Path|None:
 
 def collect_artifacts(mod: str):
     ap = Path("artifacts")
-    if not ap.exists(): return []
+    if not ap.exists():
+        return []
     pat = re.compile(re.escape(mod.replace(".","_")) + r".*(validation|perf|contracts|resilience).*\.json$")
     return [p for p in ap.glob("*.json") if pat.search(p.name)]
 

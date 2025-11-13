@@ -7,9 +7,9 @@ This module safely handles cases where OpenTelemetry is not installed.
 
 from __future__ import annotations
 
-import asyncio
-from functools import wraps, lru_cache
+from functools import lru_cache, wraps
 from typing import Any, Callable
+
 
 # Attempt to import OpenTelemetry modules.
 @lru_cache(maxsize=1)
@@ -24,8 +24,8 @@ def is_otel_available() -> bool:
 # Import OTel modules dynamically for type hinting and functionality.
 if is_otel_available():
     from opentelemetry import context, propagate, trace
-    from opentelemetry.propagate.textmap import CarrierT, Setter, Getter
-    from opentelemetry.trace import Span, Tracer
+    from opentelemetry.propagate.textmap import CarrierT, Getter, Setter
+    from opentelemetry.trace import Tracer
 
     class DictGetter(Getter[CarrierT]):
         def get(self, carrier: CarrierT, key: str) -> list[str] | None:
@@ -53,20 +53,20 @@ else:
     Tracer = _NoOpTracer
 
 
-def get_tracer(name: str = "lukhas.matriz") -> "Tracer":
+def get_tracer(name: str = "lukhas.matriz") -> Tracer:
     """Get a tracer instance. Returns a no-op tracer if OTel is unavailable."""
     if not is_otel_available():
         return _NoOpTracer()
     return trace.get_tracer(name)
 
 
-def extract_context(carrier: dict) -> "context.Context" | None:
+def extract_context(carrier: dict) -> context.Context | None:
     """Extracts a trace context from a dictionary."""
     if not is_otel_available():
         return None
     return propagate.extract(carrier, getter=_getter)
 
-def inject_context(carrier: dict, ctx: "context.Context" | None = None) -> None:
+def inject_context(carrier: dict, ctx: context.Context | None = None) -> None:
     """Injects the current trace context into a dictionary."""
     if not is_otel_available():
         return

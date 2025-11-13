@@ -1,9 +1,9 @@
 """Comprehensive tests for Drift Detector Archival functionality."""
 
-import pytest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from datetime import datetime, timezone, timedelta
 
+import pytest
 from core.consciousness.drift_detector import (
     ConsciousnessDriftDetector,
     FileDriftArchive,
@@ -27,7 +27,7 @@ class TestFileDriftArchive:
 
     def test_archive_creates_directory(self, archive_dir):
         """Archive should create directory if it doesn't exist."""
-        archive = FileDriftArchive(archive_dir)
+        FileDriftArchive(archive_dir)
         assert archive_dir.exists()
 
     def test_archive_snapshot(self, file_archive):
@@ -290,7 +290,7 @@ class TestDriftDetectorWithArchival:
         detector.record_snapshot("layer3", 0.55, 0.0)
 
         # Reset and archive
-        archive_id = detector.reset()
+        detector.reset()
 
         # Query back
         results = detector.query_archived_snapshots()

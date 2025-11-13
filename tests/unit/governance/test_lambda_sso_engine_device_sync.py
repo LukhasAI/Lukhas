@@ -5,7 +5,7 @@ import json
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-
+from typing import List
 
 import pytest
 from labs.governance.identity.core.sing.sso_engine import LambdaSSOEngine

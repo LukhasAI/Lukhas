@@ -1,9 +1,10 @@
 
-import unittest
 import datetime
-from unittest.mock import patch, ANY
+import unittest
+from unittest.mock import ANY, patch
 
 from lukhas.memory.index import EmbeddingIndex
+
 
 class TestSoftDelete(unittest.TestCase):
 

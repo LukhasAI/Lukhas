@@ -3,6 +3,9 @@ Feedback Card System API Routes
 ================================
 Enables human-in-the-loop learning through the feedback card system.
 Part of the 21-day AGI implementation roadmap.
+
+SECURITY: All endpoints use authenticated user_id from JWT tokens to prevent
+identity spoofing (OWASP A01 mitigation).
 """
 
 import logging
@@ -12,7 +15,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from feedback.card_system import FeedbackCardSystem
 from pydantic import BaseModel, Field
 
-from lukhas.governance.auth import get_current_user_id
+from lukhas.governance.auth.dependencies import get_current_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -26,8 +29,8 @@ feedback_system = FeedbackCardSystem(storage_path="feedback_data")
 class FeedbackRequest(BaseModel):
     """Request model for capturing feedback.
 
-    Note: user_id is NOT included in request body.
-    It's derived from authenticated JWT token via get_current_user_id() dependency.
+    SECURITY: user_id is NOT accepted from client. It is derived from the
+    authenticated JWT token to prevent identity spoofing.
     """
 
     action_id: str = Field(..., description="ID of the action being rated")
@@ -35,6 +38,7 @@ class FeedbackRequest(BaseModel):
     note: Optional[str] = Field(None, description="Optional text feedback")
     symbols: Optional[list[str]] = Field(default_factory=list, description="User-selected symbols")
     context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
+    # NO user_id field - derived from authenticated JWT token!
 
 
 class FeedbackResponse(BaseModel):
@@ -75,7 +79,7 @@ class SystemMetricsResponse(BaseModel):
     "/capture",
     response_model=FeedbackResponse,
     summary="Capture Feedback",
-    description="Capture user feedback for an AI action.",
+    description="Capture user feedback for an AI action. User identity is derived from JWT token.",
     responses={
         200: {
             "description": "Feedback captured successfully.",
@@ -90,12 +94,13 @@ class SystemMetricsResponse(BaseModel):
                 }
             },
         },
+        401: {"description": "Unauthorized - Invalid or missing JWT token"},
         500: {"description": "Internal Server Error"},
     },
 )
 async def capture_feedback(
     request: FeedbackRequest,
-    user_id: str = Depends(get_current_user_id)
+    user_id: str = Depends(get_current_user_id)  # ✅ FROM VALIDATED JWT TOKEN!
 ):
     """
     Capture user feedback for an AI action.
@@ -103,20 +108,24 @@ async def capture_feedback(
     This endpoint allows users to rate AI responses and provide feedback,
     which is used for continuous alignment and learning.
 
-    Security: user_id derived from authenticated JWT token only.
+    SECURITY: User identity is extracted from the validated JWT token, not from
+    the request body. This prevents users from submitting feedback as other users.
     """
     try:
-        # Capture the feedback with validated user_id from auth token
+        # Capture the feedback with VALIDATED user_id from JWT token
         card = feedback_system.capture_feedback(
             action_id=request.action_id,
             rating=request.rating,
             note=request.note,
             symbols=request.symbols,
             context=request.context,
-            user_id=user_id,  # From JWT token, not request body
+            user_id=user_id,  # ✅ VALIDATED FROM JWT TOKEN!
         )
 
-        logger.info(f"Captured feedback card {card.card_id} with rating {request.rating}")
+        logger.info(
+            f"Captured feedback card {card.card_id} with rating {request.rating} "
+            f"for user {user_id}"
+        )
 
         return FeedbackResponse(
             card_id=card.card_id,
@@ -125,7 +134,7 @@ async def capture_feedback(
         )
 
     except Exception as e:
-        logger.error(f"Error capturing feedback: {e}")
+        logger.error(f"Error capturing feedback for user {user_id}: {e}")
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
@@ -133,7 +142,7 @@ async def capture_feedback(
     "/batch",
     response_model=list[FeedbackResponse],
     summary="Capture Batch Feedback",
-    description="Capture multiple feedback cards at once.",
+    description="Capture multiple feedback cards at once. User identity is derived from JWT token.",
     responses={
         200: {
             "description": "Batch feedback captured successfully.",
@@ -150,20 +159,21 @@ async def capture_feedback(
                 }
             },
         },
+        401: {"description": "Unauthorized - Invalid or missing JWT token"},
         500: {"description": "Internal Server Error"},
     },
 )
 async def capture_batch_feedback(
     requests: list[FeedbackRequest],
-    user_id: str = Depends(get_current_user_id)
+    user_id: str = Depends(get_current_user_id)  # ✅ FROM VALIDATED JWT TOKEN!
 ):
     """
     Capture multiple feedback cards at once.
 
     Useful for batch processing of user feedback sessions.
-    All feedback in the batch is attributed to the authenticated user.
 
-    Security: user_id derived from authenticated JWT token only.
+    SECURITY: All feedback cards in the batch are attributed to the
+    authenticated user (from JWT token). Client cannot spoof identity.
     """
     responses = []
 
@@ -175,7 +185,7 @@ async def capture_batch_feedback(
                 note=request.note,
                 symbols=request.symbols,
                 context=request.context,
-                user_id=user_id,  # From JWT token, not request body
+                user_id=user_id,  # ✅ VALIDATED FROM JWT TOKEN!
             )
 
             responses.append(
@@ -190,7 +200,7 @@ async def capture_batch_feedback(
             logger.error(f"Error capturing feedback for action {request.action_id}: {e}")
             # Continue processing other feedback
 
-    logger.info(f"Captured {len(responses)} feedback cards in batch")
+    logger.info(f"Captured {len(responses)} feedback cards in batch for user {user_id}")
     return responses
 
 
@@ -198,7 +208,7 @@ async def capture_batch_feedback(
     "/report/{path_user_id}",
     response_model=LearningReportResponse,
     summary="Get Learning Report",
-    description="Get a learning report for authenticated user.",
+    description="Get a learning report for the authenticated user.",
     responses={
         200: {
             "description": "Learning report generated successfully.",
@@ -216,31 +226,37 @@ async def capture_batch_feedback(
                 }
             },
         },
-        403: {"description": "Forbidden - Cannot access other user's report"},
+        401: {"description": "Unauthorized - Invalid or missing JWT token"},
+        403: {"description": "Forbidden - Cannot access other user's learning report"},
         500: {"description": "Internal Server Error"},
     },
 )
 async def get_learning_report(
     path_user_id: str,
-    auth_user_id: str = Depends(get_current_user_id)
+    auth_user_id: str = Depends(get_current_user_id)  # ✅ FROM VALIDATED JWT TOKEN!
 ):
     """
-    Get a learning report for authenticated user.
+    Get a learning report for a specific user.
 
     This report explains what the system has learned from the user's feedback,
     including preferences, patterns, and recommendations.
 
-    Security: Validates that path parameter matches authenticated user's ID.
-    Users can only access their own learning reports.
+    SECURITY: Users can only access their own learning reports. The path
+    parameter must match the authenticated user's ID.
     """
-    # Validate ownership: path user_id must match authenticated user_id
+    # SECURITY: Validate that path parameter matches authenticated user
     if path_user_id != auth_user_id:
+        logger.warning(
+            f"Access denied: User {auth_user_id} attempted to access "
+            f"learning report for user {path_user_id}"
+        )
         raise HTTPException(
             status_code=403,
             detail="Cannot access other user's learning report"
         )
 
     try:
+        # Use authenticated user_id (already validated to match path)
         report = feedback_system.explain_learning(auth_user_id)
 
         # Format recommendations

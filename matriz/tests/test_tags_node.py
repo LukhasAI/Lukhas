@@ -1,5 +1,7 @@
 import unittest
+
 from matriz.nodes.tags_node import TagRegistryNode
+
 
 class TestTagRegistryNode(unittest.TestCase):
     def test_get_tag(self):

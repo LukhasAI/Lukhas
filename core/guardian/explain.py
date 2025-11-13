@@ -1,7 +1,7 @@
 """Guardian veto explanation system."""
-from typing import Dict, Any
-from .policies import ReasonCode, VetoEvent
+from typing import Any, Dict
 
+from .policies import ReasonCode, VetoEvent
 
 # Explanation templates for each reason code
 REASON_EXPLANATIONS = {
@@ -78,7 +78,6 @@ def explain_veto_detailed(event: VetoEvent) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    from datetime import datetime
 
     print("=== Guardian Veto Explanation Demo ===\n")
 

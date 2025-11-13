@@ -81,7 +81,8 @@ class TestAdaptiveScheduler(unittest.TestCase):
         annealer = QuantumAnnealer(scheduler=scheduler)
 
         search_space = [{"x": i} for i in range(10)]
-        objective = lambda state: state["x"]
+        def objective(state):
+            return state["x"]
 
         result = annealer.anneal(objective, search_space=search_space)
         self.assertEqual(result.energy, 0)

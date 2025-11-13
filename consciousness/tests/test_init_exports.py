@@ -11,8 +11,8 @@ import importlib
 import sys
 import types
 import unittest
-from unittest.mock import MagicMock
 from typing import ClassVar
+from unittest.mock import MagicMock
 
 
 class TestConsciousnessInit(unittest.TestCase):

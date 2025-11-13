@@ -30,7 +30,7 @@ def run_demo():
 
     # Simulate storing memory: in real system you'd persist wavec snapshot and fold ID
     # For demo we use the snapshot metadata as the "memory pointer"
-    snapshot_meta = r1["snapshot"]
+    r1["snapshot"]
 
     # Session B: run similar decision with dream-loaded memory (we emulate by shifting seed)
     # For demo, set seed_shift higher to emulate 'loaded' memory effect

@@ -27,7 +27,7 @@ import threading
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import  Callable, Optional
+from typing import Callable, Optional
 
 # Import original types for compatibility
 from ..governance.consent_ledger_impl import (

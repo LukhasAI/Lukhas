@@ -546,7 +546,7 @@ class AnalyticsMiddleware(BaseMiddleware):
             counts[item] = counts.get(item, 0) + 1
         return counts
 
-    def _get_top_endpoints(self, logs: list[Dict]) -> list[Dict]:
+    def _get_top_endpoints(self, logs: list[dict]) -> list[dict]:
         """Get top endpoints by request count."""
         endpoint_counts = {}
         for log in logs:

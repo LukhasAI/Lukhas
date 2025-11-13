@@ -8,6 +8,7 @@ integration with Grafana Loki.
 
 import logging
 import sys
+from typing import Optional
 from unittest.mock import MagicMock
 
 # Mock missing modules that are not yet implemented.
@@ -43,7 +44,7 @@ def add_trace_id(_, __, event_dict):
     return event_dict
 
 
-def configure_logging(log_level: str = "INFO", loki_url: str = None):
+def configure_logging(log_level: str = "INFO", loki_url: Optional[str] = None):
     """
     Configures the logging system for the application.
 

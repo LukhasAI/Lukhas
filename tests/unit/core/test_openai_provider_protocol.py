@@ -5,7 +5,7 @@ for type-safe dependency injection without requiring actual OpenAI clients.
 """
 from __future__ import annotations
 
-from typing import Any, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import pytest
 from core.ports import ChatCompletionResponse, ChatMessage, OpenAIProvider

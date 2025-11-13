@@ -1,6 +1,6 @@
 import unittest
-from unittest.mock import patch, MagicMock
 from datetime import datetime
+from unittest.mock import MagicMock, patch
 
 from lukhas.memory.soft_delete import SoftDeleteEmbeddingIndex
 

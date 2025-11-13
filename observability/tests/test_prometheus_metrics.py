@@ -1,7 +1,8 @@
 
 import unittest
-from observability.prometheus_registry import counter, gauge, histogram, summary, LUKHAS_REGISTRY
-from prometheus_client.core import CounterMetricFamily, GaugeMetricFamily
+
+from observability.prometheus_registry import LUKHAS_REGISTRY, counter, gauge, histogram, summary
+
 
 class TestPrometheusMetrics(unittest.TestCase):
     def setUp(self):

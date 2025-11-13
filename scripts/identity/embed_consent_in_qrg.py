@@ -15,7 +15,7 @@ import hashlib
 import json
 import sys
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 from unittest.mock import MagicMock
@@ -76,7 +76,7 @@ sys.modules['lukhas.products.security.qrg'] = mock_qrg_core
 
 # These imports will now work because of the mocks above
 from lukhas.governance.consent import ConsentRecord
-from lukhas.products.security.qrg import QIResonanceGlyph, QIGlyph
+from lukhas.products.security.qrg import QIGlyph, QIResonanceGlyph
 
 
 def generate_consent_hash(consent_record: ConsentRecord) -> str:
@@ -149,7 +149,7 @@ def embed_consent_in_qrg(user_identity: str, consent_record: ConsentRecord) -> Q
             "purpose": consent_record.purpose_id
         }
     }
-    print(f"  - Prepared hidden payload for embedding.")
+    print("  - Prepared hidden payload for embedding.")
 
     # 5. Embed the payload into the QRG
     embedded_glyph = qrg_generator.embed_hidden_data(
@@ -197,11 +197,11 @@ if __name__ == "__main__":
         expected_hash = generate_consent_hash(sample_consent_record)
 
         if retrieved_hash == expected_hash:
-            print(f"  - SUCCESS: Embedded consent hash matches expected hash.")
+            print("  - SUCCESS: Embedded consent hash matches expected hash.")
             print(f"    - Embedded:   {retrieved_hash}")
             print(f"    - Expected:   {expected_hash}")
         else:
-            print(f"  - FAILURE: Embedded hash does not match expected hash.")
+            print("  - FAILURE: Embedded hash does not match expected hash.")
             print(f"    - Embedded:   {retrieved_hash}")
             print(f"    - Expected:   {expected_hash}")
     else:

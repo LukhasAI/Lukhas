@@ -19,17 +19,18 @@ Dependencies:
 
 import argparse
 import json
+
+# Add project root to path if needed
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-# Add project root to path if needed
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from core.qrg.signing import qrg_sign, qrg_verify
 from core.qrg.model import QRGSignature
+from core.qrg.signing import qrg_sign, qrg_verify
 
 
 def sign_release_notes(
@@ -264,7 +265,7 @@ def load_signature(signature_path: str) -> dict:
     if not signature_file.exists():
         raise FileNotFoundError(f"Signature file not found: {signature_path}")
 
-    with open(signature_file, "r") as f:
+    with open(signature_file) as f:
         return json.load(f)
 
 
@@ -338,7 +339,7 @@ Examples:
             else:
                 print(json.dumps(signature_data, indent=2, sort_keys=True))
 
-            print(f"✅ Release notes signed successfully", file=sys.stderr)
+            print("✅ Release notes signed successfully", file=sys.stderr)
 
         elif args.command == "sign-policy":
             # Sign policy change
@@ -358,7 +359,7 @@ Examples:
             else:
                 print(json.dumps(signature_data, indent=2, sort_keys=True))
 
-            print(f"✅ Policy change signed successfully", file=sys.stderr)
+            print("✅ Policy change signed successfully", file=sys.stderr)
 
         elif args.command == "verify":
             # Verify signature

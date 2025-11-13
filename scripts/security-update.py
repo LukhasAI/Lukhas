@@ -39,7 +39,7 @@ class SecurityUpdater:
 
         # Check with pip-audit
         print("  Running pip-audit...")
-        code, stdout, stderr = self.run_command(["python3", "-m", "pip_audit", "--desc", "--format", "json"])
+        code, stdout, _stderr = self.run_command(["python3", "-m", "pip_audit", "--desc", "--format", "json"])
         if code == 0 and stdout:
             try:
                 audit_results = json.loads(stdout)

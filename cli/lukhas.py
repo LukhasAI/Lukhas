@@ -10,7 +10,6 @@ def regret_demo():
 
     # Simulate dream generation with regret tracking
     from oneiric.core.generator import DreamGenerator, SimpleEventBus
-    from datetime import datetime
 
     bus = SimpleEventBus()
     generator = DreamGenerator(event_bus=bus)
@@ -30,7 +29,7 @@ def regret_demo():
 
         print(f"Dream {i}: {dream['content']}")
         print(f"  Themes: {', '.join(dream['themes'])}")
-        print(f"  Regret Signature:")
+        print("  Regret Signature:")
         print(f"    Valence: {sig['valence']:.2f}")
         print(f"    Arousal: {sig['arousal']:.2f}")
         print(f"    Cause: {sig['cause_tag']}")

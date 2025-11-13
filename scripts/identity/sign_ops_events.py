@@ -19,8 +19,8 @@ from unittest.mock import MagicMock
 # in the execution environment of this script.
 try:
     from lukhas.products.security.qrg.qrg_core import (
-        QIResonanceGlyph,
         ConsciousnessContext,
+        QIResonanceGlyph,
     )
 except ImportError:
     print(
@@ -61,12 +61,12 @@ def sign_event_file(file_path: str, user_identity: str) -> dict | None:
         A dictionary representing the signed artifact, or None on failure.
     """
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
     except FileNotFoundError:
         print(f"Error: Input file not found at {file_path}", file=sys.stderr)
         return None
-    except IOError as e:
+    except OSError as e:
         print(f"Error: Could not read input file: {e}", file=sys.stderr)
         return None
 
@@ -135,7 +135,7 @@ def main():
         with open(args.output_file, "w", encoding="utf-8") as f:
             json.dump(artifact, f, indent=2)
         print(f"Successfully wrote signed artifact to '{args.output_file}'")
-    except IOError as e:
+    except OSError as e:
         print(
             f"Error: Could not write output file at {args.output_file}: {e}",
             file=sys.stderr,

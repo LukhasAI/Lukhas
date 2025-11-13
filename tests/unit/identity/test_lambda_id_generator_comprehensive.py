@@ -13,15 +13,16 @@ Author: LUKHAS AI Systems
 Created: 2025-11-12
 """
 
-import unittest
-import time
 import re
-from unittest.mock import patch, MagicMock
-from datetime import datetime, timezone
 
 # Import the Lambda ID components
 import sys
+import time
+import unittest
+from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import MagicMock, patch
+
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
 from labs.governance.identity.core.id_service.lambd_id_generator import (
@@ -297,8 +298,8 @@ class TestTimestampHashGeneration(unittest.TestCase):
         time.sleep(0.001)  # Sleep 1ms
         id2 = self.generator.generate_lambda_id(TierLevel.FRIEND)
 
-        timestamp1 = id1.split("-")[1]
-        timestamp2 = id2.split("-")[1]
+        id1.split("-")[1]
+        id2.split("-")[1]
 
         # Timestamps should be different (or very rarely same due to collision)
         # Allow for rare collisions

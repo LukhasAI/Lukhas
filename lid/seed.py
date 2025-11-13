@@ -87,7 +87,7 @@ if __name__ == "__main__":
             if warning:
                 print(f"  ⚠️  Warning: {warning}")
             else:
-                print(f"  ✓ Valid")
+                print("  ✓ Valid")
         except SeedEntropyError as e:
             print(f"  ❌ Denied: {e}")
 

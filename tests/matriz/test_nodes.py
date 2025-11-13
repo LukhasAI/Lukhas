@@ -3,18 +3,18 @@
 Tests for MATRIZ Cognitive Nodes
 """
 
+import sys
 import unittest
 from unittest.mock import MagicMock
-import sys
 
 # Add the root directory to the python path
 sys.path.append(".")
 
-from matriz.nodes.thought.deductive_reasoning import DeductiveReasoningNode
-from matriz.nodes.action.tool_usage import ToolUsageNode
-from matriz.nodes.decision.option_selection import OptionSelectionNode
-from matriz.nodes.awareness.state_assessment import StateAssessmentNode
 from matriz.core.node_interface import CognitiveNode
+from matriz.nodes.action.tool_usage import ToolUsageNode
+from matriz.nodes.awareness.state_assessment import StateAssessmentNode
+from matriz.nodes.decision.option_selection import OptionSelectionNode
+from matriz.nodes.thought.deductive_reasoning import DeductiveReasoningNode
 
 
 class TestCognitiveNodes(unittest.TestCase):

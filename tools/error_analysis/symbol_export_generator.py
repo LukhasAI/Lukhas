@@ -31,7 +31,6 @@ from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
 
 
 class SymbolType(Enum):

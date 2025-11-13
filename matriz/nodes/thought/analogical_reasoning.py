@@ -158,10 +158,7 @@ class AnalogicalReasoningNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "analogies" not in output["answer"]:
-            return False
-
-        return True
+        return "analogies" in output["answer"]
 
     def _extract_structure(self, domain: dict) -> Dict[str, List[str]]:
         """Extract structural relationships from domain."""

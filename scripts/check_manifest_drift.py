@@ -19,7 +19,8 @@ def load(path: Path) -> dict:
         return json.load(f)
 
 def pct_drop(old: int, new: int) -> float:
-    if old == 0: return 0.0
+    if old == 0:
+        return 0.0
     return max(0.0, (old - new) / old * 100.0)
 
 def main():

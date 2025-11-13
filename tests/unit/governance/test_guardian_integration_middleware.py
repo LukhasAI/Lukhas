@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from types import SimpleNamespace
-from typing import Any, ClassVar, Optional
+from typing import Any, Dict, List, Optional
 
 import pytest
 
@@ -176,10 +176,10 @@ class _DeniedComplianceResult:
     confidence_in_decision = 0.2
     compliance_explanation = "Constitutional violation detected"
     violation_summary = "High risk content"
-    required_actions: ClassVar[list] = ["block_decision"]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L179"}
+    required_actions = ["block_decision"]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L179"}
     max_risk_level = ViolationSeverity.CRITICAL
     total_processing_time_ms = 12.5
-    principle_checks: ClassVar[dict] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L182"}
+    principle_checks = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L182"}
 
 
 class _AllowedComplianceResult:
@@ -192,7 +192,7 @@ class _AllowedComplianceResult:
     required_actions: List[str] = ["request_human_review"]  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L192"}
     max_risk_level = ViolationSeverity.LOW
     total_processing_time_ms = 6.0
-    principle_checks: ClassVar[dict] = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L195"}
+    principle_checks = {}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_tests_unit_governance_test_guardian_integration_middleware_py_L195"}
 
 
 @pytest.fixture(autouse=True)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional
+from typing import Dict, Optional
 
 import pytest
 from core.orchestration.brain.integration.brain_integration import MultiBrain

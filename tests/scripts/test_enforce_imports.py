@@ -1,15 +1,16 @@
 
-import unittest
 import os
+import shutil
 import sys
 import tempfile
-import shutil
-from unittest.mock import patch, MagicMock
+import unittest
+from unittest.mock import MagicMock, patch
 
 # Add the script's directory to the Python path to allow importing
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'scripts', 'lane_guard')))
 
 from enforce_imports import main as enforce_imports_main
+
 
 class TestEnforceImports(unittest.TestCase):
 

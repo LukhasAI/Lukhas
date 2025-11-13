@@ -1,5 +1,5 @@
 """Decision context tag bundles."""
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 
 def create_decision_context_bundle(decision: Dict[str, Any]) -> List[str]:

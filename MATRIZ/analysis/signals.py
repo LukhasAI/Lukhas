@@ -1,6 +1,6 @@
 """Self-contradiction detection signals."""
-from typing import Optional, Any
 from datetime import datetime
+from typing import Optional
 
 
 def contradiction_score(a: str, b: str) -> float:

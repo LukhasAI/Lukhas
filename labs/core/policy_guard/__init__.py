@@ -6,7 +6,7 @@ from importlib import import_module
 __all__ = ["PolicyGuard", "PolicyResult", "ReplayDecision"]
 
 _CANDIDATES = (
-    "lukhas_website.core.policy_guard",
+    "lukhas_website.lukhas.core.policy_guard",
     "governance.policy_guard",
     "labs.core.ethics.ab_safety_guard",
 )

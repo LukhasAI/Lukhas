@@ -15,7 +15,7 @@ import hashlib
 import json
 import struct
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, Tuple
 
 import pytest
 from cryptography.hazmat.primitives import hashes, serialization

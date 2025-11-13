@@ -1,10 +1,10 @@
 """Tests for ProviderRegistry."""
 
-import pytest
 from unittest.mock import MagicMock, patch
 
-from core.adapters.provider_registry import ProviderRegistry
+import pytest
 from core.adapters.config_resolver import make_resolver
+from core.adapters.provider_registry import ProviderRegistry
 
 
 class TestProviderRegistry:

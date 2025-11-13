@@ -54,10 +54,7 @@ class AdaptiveScheduler:
         drift_rate = self.drift_metrics.get_current_rate()
         complexity = energy_landscape.get_complexity()
 
-        if drift_rate > DRIFT_THRESHOLD:
-            alpha = 0.95
-        else:
-            alpha = 0.90
+        alpha = 0.95 if drift_rate > DRIFT_THRESHOLD else 0.9
 
         alpha -= (complexity - 0.5) * 0.05
 

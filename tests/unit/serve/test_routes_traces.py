@@ -10,7 +10,7 @@ Tests trace API endpoints including:
 """
 
 import uuid
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
