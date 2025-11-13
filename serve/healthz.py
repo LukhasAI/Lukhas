@@ -1,9 +1,14 @@
 """Health check endpoint with guardian state."""
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any, Optional, Protocol
 
 
-def get_healthz(guardian_engine: Any = None) -> Dict[str, Any]:
+class GuardianEngine(Protocol):
+    """Protocol for guardian engine with veto history."""
+    def get_veto_history(self) -> list[dict[str, str]]: ...
+
+
+def get_healthz(guardian_engine: Optional[GuardianEngine] = None) -> dict[str, Any]:
     """
     Get health check with guardian state.
 

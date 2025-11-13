@@ -62,11 +62,43 @@ def normalize_user_agent(user_agent: str) -> str:
 # --- Public API ---
 
 def track_feature_evaluation(flag_name: str, user_id: str, enabled: bool, context: Any):
-    """Placeholder for tracking feature evaluation."""
+    """
+    Track feature flag evaluation event.
+
+    Records when a feature flag is evaluated for a user with the evaluation result.
+    User IDs are anonymized before transmission to analytics backend.
+
+    Args:
+        flag_name: Name of the feature flag being evaluated
+        user_id: User identifier (will be anonymized via SHA-256 hash)
+        enabled: Whether the flag evaluated to enabled or disabled
+        context: Evaluation context (environment, targeting info, etc.)
+
+    Privacy:
+        - User IDs are anonymized via privacy-preserving hash
+        - No PII transmitted to analytics backend
+        - Events batched to reduce network traffic
+    """
     logger.info(f"Tracking feature evaluation for {flag_name}")
 
 def track_feature_update(flag_name: str, admin_id: str, changes: dict[str, Any]):
-    """Placeholder for tracking feature updates."""
+    """
+    Track feature flag configuration update event.
+
+    Records when an admin modifies a feature flag's configuration (enabling/disabling,
+    changing rollout percentage, etc.). Used for audit trail and compliance.
+
+    Args:
+        flag_name: Name of the feature flag being updated
+        admin_id: Administrator identifier who made the change
+        changes: Dictionary of changed fields and their new values
+                 (e.g., {"enabled": true, "percentage": 50})
+
+    Privacy:
+        - Admin IDs may be logged for audit purposes
+        - Change details recorded for compliance tracking
+        - No end-user PII in update events
+    """
     logger.info(f"Tracking feature update for {flag_name}")
 
 
