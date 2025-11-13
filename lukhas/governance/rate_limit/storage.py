@@ -241,13 +241,29 @@ class InMemoryRateLimitStorage(RateLimitStorage):
             }
 
 
-# For future Redis implementation:
 class RedisRateLimitStorage(RateLimitStorage):
     """
-    Redis-based rate limit storage (distributed).
+    Redis-based rate limit storage for distributed deployments.
 
-    TODO: Implement for production multi-server deployments
-    Uses Redis sorted sets for sliding window algorithm
+    Implementation:
+    - Uses Redis sorted sets for sliding window algorithm
+    - Score = timestamp, allows efficient range queries
+    - Atomic operations via Lua scripts for accuracy
+    - Distributed and persistent across server restarts
+    - Auto-cleanup of expired timestamps
+
+    Pros:
+    - Multi-server support (distributed state)
+    - Persistent (survives restarts)
+    - Accurate sliding window with atomic operations
+    - Horizontal scaling
+
+    Cons:
+    - Network latency (typically <1ms for local Redis)
+    - Requires Redis infrastructure
+    - Slightly more complex than in-memory
+
+    For single-server deployments, InMemoryRateLimitStorage is simpler and faster.
     """
 
     def __init__(self, redis_url: str):
@@ -255,12 +271,50 @@ class RedisRateLimitStorage(RateLimitStorage):
         Initialize Redis storage.
 
         Args:
-            redis_url: Redis connection URL
+            redis_url: Redis connection URL (e.g., "redis://localhost:6379/0")
+
+        Raises:
+            ImportError: If redis package not installed
         """
-        raise NotImplementedError(
-            "Redis rate limiting not yet implemented. "
-            "Use InMemoryRateLimitStorage for single-server deployments."
-        )
+        try:
+            import redis
+        except ImportError:
+            raise ImportError(
+                "Redis rate limiting requires the 'redis' package. "
+                "Install with: pip install redis"
+            )
+
+        self.redis_client = redis.from_url(redis_url, decode_responses=False)
+        self._key_prefix = "rate_limit:"
+
+        # Lua script for atomic rate limit check
+        # This ensures accurate sliding window even under high concurrency
+        self._check_script = self.redis_client.register_script("""
+            local key = KEYS[1]
+            local now = tonumber(ARGV[1])
+            local window = tonumber(ARGV[2])
+            local limit = tonumber(ARGV[3])
+
+            -- Remove old timestamps outside window
+            redis.call('ZREMRANGEBYSCORE', key, '-inf', now - window)
+
+            -- Count requests in current window
+            local count = redis.call('ZCARD', key)
+
+            -- Check if limit exceeded
+            if count < limit then
+                -- Add current timestamp
+                redis.call('ZADD', key, now, now)
+                -- Set expiry to window duration (auto-cleanup)
+                redis.call('EXPIRE', key, window)
+                return {1, limit - count - 1, now + window}
+            else
+                -- Get oldest timestamp to calculate reset time
+                local oldest = redis.call('ZRANGE', key, 0, 0, 'WITHSCORES')
+                local reset_time = tonumber(oldest[2]) + window
+                return {0, 0, reset_time}
+            end
+        """)
 
     def check_rate_limit(
         self,
@@ -268,13 +322,94 @@ class RedisRateLimitStorage(RateLimitStorage):
         limit: int,
         window_seconds: int
     ) -> RateLimitResult:
-        """Check rate limit using Redis sorted sets."""
-        raise NotImplementedError()
+        """
+        Check if a request is allowed under the rate limit.
+
+        Uses Redis sorted sets with atomic Lua script for accurate
+        sliding window algorithm in distributed environments.
+
+        Args:
+            key: Unique identifier for this rate limit
+            limit: Maximum number of requests allowed
+            window_seconds: Time window in seconds
+
+        Returns:
+            RateLimitResult with decision and metadata
+        """
+        now = time.time()
+        redis_key = f"{self._key_prefix}{key}"
+
+        # Execute atomic Lua script
+        result = self._check_script(
+            keys=[redis_key],
+            args=[now, window_seconds, limit]
+        )
+
+        allowed = bool(result[0])
+        remaining = int(result[1])
+        reset_time = float(result[2])
+
+        return RateLimitResult(
+            allowed=allowed,
+            remaining=remaining,
+            reset_time=reset_time,
+            retry_after=int(reset_time - now) if not allowed else 0,
+            limit=limit
+        )
 
     def reset(self, key: str) -> None:
-        """Reset rate limit in Redis."""
-        raise NotImplementedError()
+        """
+        Reset rate limit for a specific key.
+
+        Args:
+            key: Rate limit key to reset
+        """
+        redis_key = f"{self._key_prefix}{key}"
+        self.redis_client.delete(redis_key)
 
     def reset_all(self) -> None:
-        """Reset all rate limits in Redis."""
-        raise NotImplementedError()
+        """
+        Reset all rate limits.
+
+        Warning: This scans all keys with rate_limit: prefix.
+        Use sparingly in production (primarily for testing).
+        """
+        pattern = f"{self._key_prefix}*"
+        cursor = 0
+        while True:
+            cursor, keys = self.redis_client.scan(
+                cursor=cursor,
+                match=pattern,
+                count=100
+            )
+            if keys:
+                self.redis_client.delete(*keys)
+            if cursor == 0:
+                break
+
+    def get_diagnostics(self, key: str) -> dict:
+        """
+        Get diagnostic information for a rate limit key.
+
+        Args:
+            key: Rate limit key
+
+        Returns:
+            Dict with diagnostic information
+        """
+        redis_key = f"{self._key_prefix}{key}"
+
+        # Get all timestamps
+        timestamps = self.redis_client.zrange(redis_key, 0, -1, withscores=True)
+
+        # Get TTL
+        ttl = self.redis_client.ttl(redis_key)
+
+        return {
+            "key": key,
+            "redis_key": redis_key,
+            "timestamp_count": len(timestamps),
+            "timestamps": [float(score) for _, score in timestamps],
+            "ttl_seconds": ttl,
+            "exists": self.redis_client.exists(redis_key) > 0
+        }

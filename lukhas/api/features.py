@@ -18,7 +18,7 @@ PRIVACY REQUIREMENTS:
 
 # ruff: noqa: B008
 import logging
-from typing import Optional
+from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -83,7 +83,7 @@ class FlagUpdateRequest(BaseModel):
 class FlagListResponse(BaseModel):
     """Response with list of all flags."""
 
-    flags: list[FlagInfo] = Field(..., description="List of all feature flags")
+    flags: List[FlagInfo] = Field(..., description="List of all feature flags")
     total: int = Field(..., description="Total number of flags")
 
 
@@ -99,21 +99,25 @@ def get_current_user(user: dict = Depends(get_current_user_from_token)) -> dict:
     """
     Dependency to get the current user dict from the verified token.
 
-    TODO: Extract role from JWT claims once role-based JWT is implemented.
-    For now, infer role from username prefix (admin_* = admin, etc.)
+    Extracts role from JWT claims if present, otherwise infers from username prefix
+    for backward compatibility.
     """
-    # Infer role from username (temporary until JWT includes roles)
     username = user.get("username", "")
-    if username.startswith("admin_"):
-        role = "admin"
-    elif username.startswith("moderator_"):
-        role = "moderator"
-    elif username.startswith("user_"):
-        role = "user"
-    else:
-        role = "guest"
 
-    return {**user, "role": role, "id": username}
+    # Use role from JWT if present, otherwise infer from username prefix
+    if "role" not in user:
+        # Fallback: infer role from username prefix for backward compatibility
+        if username.startswith("admin_"):
+            role = "admin"
+        elif username.startswith("moderator_"):
+            role = "moderator"
+        elif username.startswith("user_"):
+            role = "user"
+        else:
+            role = "guest"
+        user["role"] = role
+
+    return {**user, "id": username}
 
 
 def require_role(required_role: str):
@@ -367,7 +371,7 @@ async def reload_flag(
     flag_name: str,
     current_user: dict = Depends(require_role("admin")),
     service: FeatureFlagsService = Depends(get_feature_flags_service),
-) -> dict[str, str]:
+) -> Dict[str, str]:
     """
     Force reload flag from configuration (admin only).
 

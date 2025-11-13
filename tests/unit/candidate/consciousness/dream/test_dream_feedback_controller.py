@@ -3,6 +3,7 @@
 # ruff: noqa: B008
 # ruff: noqa: F821  # Experimental/test code with undefined names
 from __future__ import annotations
+from typing import ClassVar
 
 import importlib
 import sys

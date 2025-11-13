@@ -9,6 +9,7 @@ Tests:
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+
 from serve.identity_api import router
 
 
@@ -107,9 +108,8 @@ class TestResponseTimes:
     @pytest.mark.asyncio
     async def test_endpoints_are_async(self):
         """Verify all endpoints are async coroutines."""
+        from serve.identity_api import authenticate, verify, tier_check
         import asyncio
-
-        from serve.identity_api import authenticate, tier_check, verify
 
         assert asyncio.iscoroutinefunction(authenticate)
         assert asyncio.iscoroutinefunction(verify)

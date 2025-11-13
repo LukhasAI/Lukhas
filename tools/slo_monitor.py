@@ -15,7 +15,7 @@ import glob
 import json
 import pathlib
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import yaml
 

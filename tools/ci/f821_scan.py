@@ -75,12 +75,12 @@ HEUR = {
     "Path": "from pathlib import Path",
     "dataclass": "from dataclasses import dataclass",
     "dataclasses": "from dataclasses import dataclass",
-    "Optional": "from typing import Optional"
-    "List": "from typing import",
-    "Dict": "from typing import",
-    "Any": "from typing import Any"
-    "Union": "from typing import Union"
-    "Tuple": "from typing import",
+    "Optional": "from typing import Optional",
+    "List": "from typing import List",
+    "Dict": "from typing import Dict",
+    "Any": "from typing import Any",
+    "Union": "from typing import Union",
+    "Tuple": "from typing import Tuple",
     "datetime": "from datetime import datetime",
 }
 

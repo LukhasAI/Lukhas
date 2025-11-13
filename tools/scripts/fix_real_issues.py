@@ -52,17 +52,17 @@ def fix_undefined_names(filepath: Path, issues: list) -> bool:
         "pd": "import pandas as pd",
         "datetime": "from datetime import datetime",
         "timezone": "from datetime import timezone",
-        "Dict": "from typing import Dict"
-        "List": "from typing import List"
-        "Optional": "from typing import Optional"
-        "Any": "from typing import Any"
-        "Union": "from typing import Union"
-        "Tuple": "from typing import Tuple"
-        "Set": "from typing import Set"
-        "Type": "from typing import Type"
-        "Callable": "from typing import Callable"
-        "TypeVar": "from typing import TypeVar"
-        "cast": "from typing import cast"
+        "Dict": "from typing import Dict",
+        "List": "from typing import List",
+        "Optional": "from typing import Optional",
+        "Any": "from typing import Any",
+        "Union": "from typing import Union",
+        "Tuple": "from typing import Tuple",
+        "Set": "from typing import Set",
+        "Type": "from typing import Type",
+        "Callable": "from typing import Callable",
+        "TypeVar": "from typing import TypeVar",
+        "cast": "from typing import cast",
         "dataclass": "from dataclasses import dataclass",
         "field": "from dataclasses import field",
         "asdict": "from dataclasses import asdict",

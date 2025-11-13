@@ -4,13 +4,12 @@ Comprehensive tests for the Troubleshooting Assistant CLI.
 Tests diagnostic checks, issue detection, and reporting functionality.
 """
 
-import socket
-import subprocess
+import pytest
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, mock_open, patch
-
-import pytest
+from unittest.mock import Mock, patch, MagicMock, mock_open
+import socket
+import subprocess
 
 from lukhas.cli.troubleshoot import TroubleshootAssistant, main
 

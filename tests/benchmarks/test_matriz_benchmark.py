@@ -1,7 +1,7 @@
 """Benchmarks for the MATRIZ Cognitive Engine."""
 
 import asyncio
-from typing import Dict, List, Optional
+from typing import List, Dict, Optional
 
 import pytest
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator

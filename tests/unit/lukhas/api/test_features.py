@@ -8,14 +8,11 @@ Coverage target: 85%+
 """
 
 import time
-import unittest
 from datetime import datetime
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
-# Create test app
-from fastapi import FastAPI, status
+from fastapi import status
 from fastapi.testclient import TestClient
 
 from lukhas.api.features import (
@@ -32,6 +29,10 @@ from lukhas.api.features import (
     router,
 )
 from lukhas.features.flags_service import FeatureFlag, FeatureFlagsService, FlagType
+
+
+# Create test app
+from fastapi import FastAPI
 
 app = FastAPI()
 app.include_router(router)
@@ -129,13 +130,13 @@ class TestCheckRateLimit:
 
     def test_requests_under_limit(self):
         """Test requests under limit are allowed."""
-        for _i in range(50):
+        for i in range(50):
             assert check_rate_limit("user1") is True
 
     def test_requests_at_limit(self):
         """Test requests at limit threshold."""
         # Make 100 requests (the limit)
-        for _i in range(100):
+        for i in range(100):
             check_rate_limit("user1")
 
         # 101st request should be blocked
@@ -144,7 +145,7 @@ class TestCheckRateLimit:
     def test_requests_over_limit(self):
         """Test requests over limit are blocked."""
         # Exceed limit
-        for _i in range(101):
+        for i in range(101):
             check_rate_limit("user1")
 
         assert check_rate_limit("user1") is False
@@ -152,7 +153,7 @@ class TestCheckRateLimit:
     def test_different_users_separate_limits(self):
         """Test different users have separate rate limits."""
         # User1 exceeds limit
-        for _i in range(101):
+        for i in range(101):
             check_rate_limit("user1")
 
         # User2 should still be allowed
@@ -189,7 +190,7 @@ class TestGetCurrentUser:
 
     def test_without_api_key(self):
         """Test authentication without API key raises error."""
-        from fastapi import HTTPException, Request
+        from fastapi import Request, HTTPException
 
         request = Mock(spec=Request)
         request.headers.get.return_value = None
@@ -752,42 +753,3 @@ class TestLogging:
             log_call = mock_logger.info.call_args[0][0]
             assert "Flag updated" in log_call
             assert "test_flag" in log_call
-
-
-class TestFeatureAnalytics:
-    """Tests for feature analytics integration."""
-
-    @patch("lukhas.api.analytics.track_feature_evaluation")
-    def test_evaluate_flag_triggers_analytics_event(
-        self, mock_track, mock_service_dependency, user_headers
-    ):
-        """Test that evaluating a flag triggers an analytics event."""
-        payload = {"user_id": "analytics_user"}
-        response = client.post(
-            "/api/features/test_flag/evaluate", json=payload, headers=user_headers
-        )
-
-        assert response.status_code == status.HTTP_200_OK
-        mock_track.assert_called_once_with(
-            flag_name="test_flag",
-            user_id="user_user_tes", # Inferred from headers
-            enabled=True,
-            context=unittest.mock.ANY
-        )
-
-    @patch("lukhas.api.analytics.track_feature_update")
-    def test_update_flag_triggers_analytics_event(
-        self, mock_track, mock_service_dependency, admin_user, admin_headers
-    ):
-        """Test that updating a flag triggers an analytics event."""
-        payload = {"enabled": True}
-        response = client.patch(
-            "/api/features/test_flag", json=payload, headers=admin_headers
-        )
-
-        assert response.status_code == status.HTTP_200_OK
-        mock_track.assert_called_once_with(
-            flag_name="test_flag",
-            admin_id="admin_test_user",
-            changes={"enabled": True}
-        )

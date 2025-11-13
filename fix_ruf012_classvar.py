@@ -17,7 +17,7 @@ import re
 import subprocess
 import json
 from pathlib import Path
-from typing import List, Dict, Set, Tuple
+from typing import ClassVar, Dict, List, Set, Tuple
 
 def get_ruf012_violations() -> List[Dict]:
     """Get all RUF012 violations from ruff"""

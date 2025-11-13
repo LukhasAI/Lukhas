@@ -6,7 +6,8 @@ import asyncio
 import time
 from collections import deque
 from enum import IntEnum
-from typing import Any, Coroutine, Deque, Dict, NamedTuple, Tuple
+from typing import Any, Deque, Dict, NamedTuple, Tuple
+from collections.abc import Coroutine
 
 
 class Priority(IntEnum):

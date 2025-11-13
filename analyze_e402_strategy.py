@@ -12,7 +12,7 @@ import subprocess
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Any, Optional
 
 def get_e402_violations() -> List[Tuple[str, int]]:
     """Get all E402 violations with file paths and line numbers."""

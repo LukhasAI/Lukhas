@@ -14,7 +14,7 @@ class DummySpecialist:
         self.name = name
         self.messages = []
 
-    def handle_message(self, message: Dict, origin: str | None = None):
+    def handle_message(self, message: Dict, origin: Optional[str] = None):
         self.messages.append((message, origin, datetime.now()))
         return {"handled_by": self.name, "origin": origin}
 

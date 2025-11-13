@@ -58,7 +58,7 @@ def fix_remaining_ruf012():
                     if line.strip().startswith('from typing import'):
                         # Add ClassVar to existing import
                         if 'ClassVar' not in line:
-                            imports = line.replace('from typing import ', '').strip().split(',')
+                            imports = line.replace('from typing import ClassVar, ', '').strip().split(',')
                             imports = [imp.strip() for imp in imports]
                             imports.append('ClassVar')
                             imports.sort()
