@@ -7,7 +7,7 @@ Hardened with conditional constraints and reusable definitions.
 """
 
 import json
-from typing import Dict, Any
+from typing import Any
 
 # Module manifest schema for LUKHAS AI platform
 MODULE_MANIFEST_SCHEMA: Dict[str, Any] = {

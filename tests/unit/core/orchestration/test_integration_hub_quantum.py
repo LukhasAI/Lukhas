@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import math
-from typing import Dict
+
 
 import pytest
 from core.orchestration.integration_hub import QIAGISystem

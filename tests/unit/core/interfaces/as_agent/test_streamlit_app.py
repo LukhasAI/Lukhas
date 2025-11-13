@@ -4,7 +4,7 @@ import importlib
 import sys
 import types
 from collections.abc import Sequence
-from typing import Any, List, Tuple
+from typing import Any
 
 import pytest
 
