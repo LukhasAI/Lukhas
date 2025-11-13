@@ -76,7 +76,59 @@ class BridgeTokenMap:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.token_map: dict[str, dict[str, dict[str, TokenMappingRecord]]] = {}
-        logger.info("BridgeTokenMap initialized.", config=self.config)
+
+        # Guardian integration
+        self.guardian_enabled = self.config.get("guardian_enabled", True)
+        self.guardian_contract: Optional[Any] = None  # Will be GuardianContract
+        self.validation_history: list[dict[str, Any]] = []
+
+        if self.guardian_enabled:
+            try:
+                from core.governance.guardian import GuardianContract
+                self.guardian_contract = GuardianContract(
+                    contract_id="symbolic_bridge_ethics",
+                    policies=self._create_default_policies()
+                )
+                logger.info("Guardian system integrated for consciousness flow validation")
+            except ImportError:
+                logger.warning("Guardian system not available - proceeding without ethical validation")
+                self.guardian_enabled = False
+
+        logger.info("BridgeTokenMap initialized.", config=self.config, guardian=self.guardian_enabled)
+
+    def _create_default_policies(self) -> list[dict[str, Any]]:
+        """
+        Create default ethical policies for consciousness token mapping.
+
+        Returns:
+            List of policy definitions for Guardian validation.
+        """
+        return [
+            {
+                "policy_id": "no_manipulation",
+                "description": "Prevent consciousness manipulation through token distortion",
+                "rule": "emotional_vector.arousal < 0.95 and abs(emotional_vector.valence) < 0.95",
+                "severity": "critical",
+            },
+            {
+                "policy_id": "preserve_autonomy",
+                "description": "Ensure consciousness autonomy in token translation",
+                "rule": "emotional_vector.dominance < 0.90",
+                "severity": "high",
+            },
+            {
+                "policy_id": "prevent_harm",
+                "description": "Block harmful consciousness state transitions",
+                "rule": "emotional_vector.valence >= -0.80",
+                "severity": "critical",
+            },
+            {
+                "policy_id": "temporal_coherence",
+                "description": "Maintain temporal coherence in consciousness flows",
+                "rule": "sync_drift_ms <= 10000",
+                "severity": "medium",
+            },
+        ]
 
     def add_mapping(
         self,
@@ -87,18 +139,43 @@ class BridgeTokenMap:
         emotional_vector: Optional[dict[str, float]] = None,
         timestamp: Optional[datetime] = None,
         temporal_signature: Optional[str] = None,
-    ) -> None:
+    ) -> bool:  # Changed return type to indicate success/failure
         """
-        Adds a mapping between two tokens.
+        Adds a mapping between two tokens with Guardian validation.
 
-        Args:
-            source_system (str): The source system.
-            target_system (str): The target system.
-            source_token (str): The source token.
-            target_token (str): The target token.
+        Returns:
+            bool: True if mapping was added, False if blocked by Guardian.
         """
         normalized_vector = self._normalize_emotional_vector(emotional_vector)
         mapping_timestamp = self._ensure_timezone(timestamp)
+
+        # Guardian validation before adding
+        if self.guardian_enabled and self.guardian_contract:
+            validation_result = self._validate_with_guardian(
+                source_system, target_system, source_token, target_token,
+                normalized_vector, mapping_timestamp
+            )
+
+            if not validation_result["allowed"]:
+                logger.warning(
+                    "Token mapping blocked by Guardian",
+                    source=f"{source_system}:{source_token}",
+                    target=f"{target_system}:{target_token}",
+                    reason=validation_result["reason"],
+                    violated_policies=validation_result["violated_policies"],
+                )
+
+                # Record validation failure
+                self.validation_history.append({
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "action": "add_mapping",
+                    "source": f"{source_system}:{target_system}:{source_token}",
+                    "allowed": False,
+                    "reason": validation_result["reason"],
+                })
+
+                return False
+
         tolerance_ms = self.config.get("temporal_tolerance_ms", 5000)
 
         source_bucket = self.token_map.setdefault(source_system, {})
@@ -123,16 +200,127 @@ class BridgeTokenMap:
         record.is_temporally_synced = drift_ms <= tolerance_ms
 
         logger.info(
-            "Token mapping added.",
+            "Token mapping added and validated.",
             source_system=source_system,
             target_system=target_system,
             source_token=source_token,
             target_token=target_token,
-            emotional_vector=normalized_vector,
-            temporal_signature=temporal_signature,
-            drift_ms=drift_ms,
-            temporally_synced=record.is_temporally_synced,
+            guardian_validated=self.guardian_enabled,
         )
+
+        return True
+
+    def _validate_with_guardian(
+        self,
+        source_system: str,
+        target_system: str,
+        source_token: str,
+        target_token: str,
+        emotional_vector: dict[str, float],
+        timestamp: datetime,
+    ) -> dict[str, Any]:
+        """
+        Validate token mapping against Guardian policies.
+
+        Returns:
+            dict with keys:
+            - allowed: bool
+            - reason: str
+            - violated_policies: list[str]
+        """
+        # Prepare context for Guardian
+        context = {
+            "source_system": source_system,
+            "target_system": target_system,
+            "source_token": source_token,
+            "target_token": target_token,
+            "emotional_vector": emotional_vector,
+            "timestamp": timestamp.isoformat(),
+        }
+
+        # Check each policy
+        violated_policies = []
+
+        # Policy 1: No consciousness manipulation (extreme emotional values)
+        arousal = emotional_vector.get("arousal", 0.0)
+        valence = emotional_vector.get("valence", 0.0)
+        dominance = emotional_vector.get("dominance", 0.0)
+
+        if arousal >= 0.95 or abs(valence) >= 0.95:
+            violated_policies.append("no_manipulation")
+
+        # Policy 2: Preserve autonomy (high dominance)
+        if dominance >= 0.90:
+            violated_policies.append("preserve_autonomy")
+
+        # Policy 3: Prevent harm (extreme negative valence)
+        if valence < -0.80:
+            violated_policies.append("prevent_harm")
+
+        # Check temporal coherence if record exists
+        existing_record = self.get_mapping_record(source_system, target_system, source_token)
+        if existing_record:
+            time_delta = abs((timestamp - existing_record.last_synced_at).total_seconds() * 1000)
+            if time_delta > 10000:
+                violated_policies.append("temporal_coherence")
+
+        allowed = len(violated_policies) == 0
+
+        # Build reason
+        reason = "Validated by Guardian" if allowed else f"Policies violated: {', '.join(violated_policies)}"
+
+        # Record in validation history
+        self.validation_history.append({
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "action": "validate_mapping",
+            "context": context,
+            "allowed": allowed,
+            "violated_policies": violated_policies,
+        })
+
+        return {
+            "allowed": allowed,
+            "reason": reason,
+            "violated_policies": violated_policies,
+        }
+
+    def get_validation_history(
+        self,
+        limit: Optional[int] = None,
+        only_violations: bool = False,
+    ) -> list[dict[str, Any]]:
+        """
+        Get Guardian validation history.
+
+        Args:
+            limit: Maximum number of records to return.
+            only_violations: If True, only return blocked attempts.
+
+        Returns:
+            List of validation records.
+        """
+        history = self.validation_history
+
+        if only_violations:
+            history = [h for h in history if not h.get("allowed", True)]
+
+        if limit:
+            history = history[-limit:]
+
+        return history
+
+    def get_guardian_status(self) -> dict[str, Any]:
+        """Get current Guardian system status."""
+        total_validations = len(self.validation_history)
+        violations = len([h for h in self.validation_history if not h.get("allowed", True)])
+
+        return {
+            "guardian_enabled": self.guardian_enabled,
+            "total_validations": total_validations,
+            "total_violations": violations,
+            "violation_rate": violations / total_validations if total_validations > 0 else 0.0,
+            "policies_active": len(self._create_default_policies()) if self.guardian_enabled else 0,
+        }
 
     def get_mapping(self, source_system: str, target_system: str, source_token: str) -> Optional[str]:
         """
