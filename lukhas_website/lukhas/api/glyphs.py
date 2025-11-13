@@ -1,3 +1,4 @@
+from typing import ClassVar
 """
 LUKHAS GLYPH API Endpoints
 ===========================
@@ -56,7 +57,7 @@ class GlyphEncodeRequest(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "concept": "morning_gratitude",
                 "emotion": {"joy": 0.8, "calm": 0.6},
@@ -79,7 +80,7 @@ class GlyphBindRequest(BaseModel):
     user_id: Optional[str] = Field(default=None, max_length=100, description="User identifier")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "glyph_data": {
                     "concept": "important_insight",

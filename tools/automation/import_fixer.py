@@ -179,13 +179,13 @@ class TargetedImportFixer:
 
         # Common fixes
         content = content.replace(
-            "from core.common import get_logger",
-            "from core.common import get_logger",
+            "from lukhas.core.common import get_logger",
+            "from lukhas.core.common import get_logger",
         )
 
         # Ensure proper imports
-        if "from core.common import" not in content:
-            content = "from core.common import get_logger\n" + content
+        if "from lukhas.core.common import" not in content:
+            content = "from lukhas.core.common import get_logger\n" + content
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
@@ -222,7 +222,7 @@ class TargetedImportFixer:
 
         # Find files with problematic imports
         import_fixes = {
-            "from core.common": "from core.common",
+            "from lukhas.core.common": "from lukhas.core.common",
             "# from MultiBrainSymphony  # External dependency": "# # from MultiBrainSymphony  # External dependency  # External dependency",
             "# import LUKHAS_ID  # External dependency": "# # import LUKHAS_ID  # External dependency  # External dependency",
             "# import Lukhas_ID  # External dependency": "# # import Lukhas_ID  # External dependency  # External dependency",
