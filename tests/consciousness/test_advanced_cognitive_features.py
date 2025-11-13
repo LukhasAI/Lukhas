@@ -32,12 +32,12 @@ from cognitive_core.reasoning.deep_inference_engine import (
     InferenceResult,
     InferenceType,
 )
-from consciousness.meta_cognitive_assessor import (
+from labs.consciousness.meta_cognitive_assessor import (
     CognitiveLoadLevel,
     MetaCognitiveAssessor,
     MetaCognitiveContext,
 )
-from consciousness.types import ConsciousnessState
+from labs.consciousness.types import ConsciousnessState
 
 # Test configuration
 pytestmark = pytest.mark.asyncio

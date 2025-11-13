@@ -1,5 +1,5 @@
 import pytest
-from consciousness.reflection.ethical_drift_sentinel import (
+from labs.consciousness.reflection.ethical_drift_sentinel import (
     EthicalDriftSentinel,
     EthicalState,
     ViolationType,

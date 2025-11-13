@@ -25,12 +25,12 @@ from hypothesis import HealthCheck, given, settings, strategies as st
 os.environ["CONSC_REFLECTION_ENABLED"] = "1"
 os.environ["LUKHAS_LANE"] = "testing"
 
-from consciousness.reflection.self_reflection_engine import (
+from labs.consciousness.reflection.self_reflection_engine import (
     REFLECTION_P95_TARGET_MS,
     ReflectionReport,
     SelfReflectionEngine,
 )
-from consciousness.systems.state import ConsciousnessState
+from labs.consciousness.systems.state import ConsciousnessState
 
 
 class MockContextProvider:
