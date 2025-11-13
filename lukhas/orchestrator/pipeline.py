@@ -6,7 +6,7 @@ Executes multi-node pipelines with timeout enforcement and cancellation support.
 
 import asyncio
 import logging
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from lukhas.orchestrator.cancellation import CancellationRegistry
 from lukhas.orchestrator.config import OrchestratorConfig
@@ -33,6 +33,9 @@ class PipelineExecutor:
         pipeline_id: str,
         nodes: list[tuple[str, Callable]],
         initial_input: Any,
+        on_timeout: Optional[Callable] = None,
+        on_cancel: Optional[Callable] = None,
+        timeout_seconds: Optional[float] = None,
     ) -> Any:
         """
         Execute a pipeline of cognitive nodes with timeout enforcement.
@@ -41,6 +44,9 @@ class PipelineExecutor:
             pipeline_id: Unique identifier for pipeline
             nodes: List of (node_id, node_func) tuples
             initial_input: Initial input data
+            on_timeout: Optional async function to call on timeout
+            on_cancel: Optional async function to call on cancellation
+            timeout_seconds: Optional override for pipeline timeout
 
         Returns:
             Final pipeline output
@@ -53,13 +59,23 @@ class PipelineExecutor:
         start_time = asyncio.get_event_loop().time()
         cancellation_token = self.registry.register(pipeline_id)
         completed_nodes = []
+        timeout = (
+            timeout_seconds
+            if timeout_seconds is not None
+            else self.config.timeouts.pipeline_timeout_seconds
+        )
 
         try:
             result = await asyncio.wait_for(
                 self._execute_nodes(
-                    pipeline_id, nodes, initial_input, cancellation_token, completed_nodes
+                    pipeline_id,
+                    nodes,
+                    initial_input,
+                    cancellation_token,
+                    completed_nodes,
+                    on_cancel,
                 ),
-                timeout=self.config.timeouts.pipeline_timeout_seconds,
+                timeout=timeout,
             )
 
             elapsed_ms = (asyncio.get_event_loop().time() - start_time) * 1000
@@ -71,15 +87,26 @@ class PipelineExecutor:
             await self.registry.cancel(pipeline_id, "Pipeline timeout")
             self._record_pipeline_timeout(pipeline_id, len(completed_nodes))
 
+            if on_timeout:
+                try:
+                    await on_timeout()
+                except Exception:
+                    logger.exception(f"Pipeline {pipeline_id} on_timeout handler failed")
+
             raise PipelineTimeoutException(
                 pipeline_id,
-                self.config.timeouts.pipeline_timeout_ms,
+                timeout * 1000,
                 completed_nodes,
                 self.registry.get_partial_results(pipeline_id),
             )
 
         except (NodeTimeoutException, CancellationException):
             await self.registry.cancel(pipeline_id, "Downstream exception")
+            if on_cancel:
+                try:
+                    await on_cancel()
+                except Exception:
+                    logger.exception(f"Pipeline {pipeline_id} on_cancel handler failed")
             raise
 
         except Exception as e:
@@ -100,6 +127,7 @@ class PipelineExecutor:
         initial_input: Any,
         cancellation_token: asyncio.Event,
         completed_nodes: list[str],
+        on_cancel: Optional[Callable] = None,
     ) -> Any:
         """Execute pipeline nodes sequentially."""
         current_input = initial_input
@@ -112,6 +140,8 @@ class PipelineExecutor:
                 node_func=node_func,
                 input_data=current_input,
                 cancellation_token=cancellation_token,
+                on_timeout=None,
+                on_cancel=on_cancel,
             )
 
             completed_nodes.append(node_id)
