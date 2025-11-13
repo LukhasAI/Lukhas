@@ -75,30 +75,10 @@ jobs:
 
             // Only post comment on newly opened PRs
             if (context.payload.action === 'opened') {
-              const comment = `## 🤖 Automated Reviews Requested
-
-This PR has been automatically assigned to:
-- **GitHub Copilot** - AI-powered code review
-- **Codex** - LUKHAS-specific validation
-
-### Review Customization
-Copilot's review follows LUKHAS-specific guidelines from [\`.github/copilot-instructions.md\`](.github/copilot-instructions.md):
-- Lane-based architecture validation
-- T4 quality gates compliance
-- Consciousness module patterns
-- Import boundary enforcement
-
-### Additional Reviews Available
-- **Claude Code Review**: Add \`@claude\` mention to request Claude-powered analysis
-- **Human Review**: Assigned based on CODEOWNERS
-
----
-*Reviews typically complete within 30 seconds. Copilot reviews are informational and won't block merging.*`;
-
               await github.rest.issues.createComment({
                 owner,
                 repo,
                 issue_number: pull_number,
-                body: comment,
+                body: `## 🤖 Automated Reviews Requested\n\nThis PR has been automatically assigned to:\n• GitHub Copilot - AI-powered code review\n• Codex - LUKHAS-specific validation\n\n### Review Customization\nCopilot's review follows LUKHAS-specific guidelines from .github/copilot-instructions.md:\n• Lane-based architecture validation\n• T4 quality gates compliance\n• Consciousness module patterns\n• Import boundary enforcement\n\n### Additional Reviews Available\n• Claude Code Review: Add @claude mention to request Claude-powered analysis\n• Human Review: Assigned based on CODEOWNERS\n\n---\nReviews typically complete within 30 seconds. Copilot reviews are informational and won't block merging.`
               });
             }
