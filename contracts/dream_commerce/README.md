@@ -45,7 +45,7 @@ This directory contains Solidity smart contracts for the LUKHAS dream commerce b
 These contracts require OpenZeppelin contracts:
 
 ```bash
-npm install --save-dev @openzeppelin/contracts@^5.0.0
+npm install --save-dev @openzeppelin/contracts@^4.9.0
 ```
 
 ## Compilation
