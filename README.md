@@ -5,16 +5,20 @@ updated: 2025-11-10
 ---
 # LUKHAS AI Platform
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17272572.svg)](https://doi.org/10.5281/zenodo.17272572)
+[![Proprietary](https://img.shields.io/badge/license-proprietary-red)](LICENSE)
 [![Manifests](https://img.shields.io/badge/manifests-928-blue)](manifests/)
 [![Smoke Tests](https://img.shields.io/badge/smoke%20tests-100%25-success)](tests/smoke/)
 [![Lint Health](https://img.shields.io/badge/lint-97%25%20clean-brightgreen)](docs/audits/)
-[![codecov](https://codecov.io/gh/LukhasAI/Lukhas/branch/main/graph/badge.svg)](https://codecov.io/gh/LukhasAI/Lukhas)
-[![DX Examples Smoke](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml)
 
 **A consciousness-aware AI development platform with distributed cognitive architecture.**
 
+> **🔒 PROPRIETARY SOFTWARE**: This repository is public for viewing only. Commercial licensing required for any use. Contact licensing@lukhas.ai
+
 LUKHAS AI is a sophisticated cognitive platform that implements consciousness-inspired patterns for advanced AI applications. Built with a modular lane-based architecture, the platform enables safe development and deployment of consciousness-aware AI systems through strict boundaries and comprehensive governance.
+
+## 👤 About the Author
+
+LUKHAS is a solo founder project, with all code developed by the founder in collaboration with AI assistants (primarily ChatGPT and Claude Code). We welcome collaboration opportunities with professionals, universities, and researchers. Contact licensing@lukhas.ai to discuss partnerships.
 
 ## 🚨 MATRIZ Migration Update
 
@@ -54,11 +58,31 @@ curl http://localhost:8000/v1/responses \
 
 📖 **[Full Installation Guide](#-installation)** | 🎯 **[API Documentation](docs/api/)** | 🧪 **[SDK Examples](examples/sdk/)**
 
-## 🎯 **MATRIZ Transition Status** (Active)
+## 📊 Project Status & Transparency
 
-**Phase**: R2 Preparation | **Progress**: 87% | **Target**: Q4 2025
+**Development Stage**: Research & Development
+**Production Readiness**: Experimental (not production-ready)
+**Solo Founder Project**: Active development with AI assistance
 
-Recent achievements (November 10, 2025):
+### ⚠️ Known Limitations & Challenges
+
+**Current Issues:**
+- 169 test collection errors requiring systematic resolution
+- MATRIZ case-sensitivity issues (MATRIZ/ vs matriz/)
+- Import boundary violations between development lanes
+- Performance targets not yet achieved (<250ms p95 latency target)
+- Documentation gaps in several modules
+- Memory cascade prevention at 96.3% (target: 99.7%)
+
+**Work in Progress:**
+- Constellation Framework implementation (~70% complete)
+- Guardian ethical system (dry-run mode, not enforced)
+- Multi-agent coordination (experimental)
+- Enterprise deployment tools (not production-ready)
+
+### ✅ What's Actually Working
+
+Recent achievements (November 2025):
 - ✅ **Security Hardening**: Resolved Dependabot alert #84 (HIGH - @actions/download-artifact CVE)
 - ✅ **Test Infrastructure Expansion**: 964 total tests (422 unit, 238 integration, 85 orchestration, 77 consciousness, 72 e2e)
 - ✅ **Performance Testing Suite**: Comprehensive MATRIZ performance validation framework
@@ -117,7 +141,7 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 5. **Decision**: Ethical constraint checking and approval
 6. **Awareness**: Self-reflection and consciousness evolution
 
-**Performance Targets**: <250ms p95 latency, <100MB memory usage, 50+ ops/sec throughput
+**Performance Targets** (aspirational, not yet achieved): <250ms p95 latency, <100MB memory usage, 50+ ops/sec throughput
 
 ## MATRIZ Lanes
 
@@ -926,17 +950,26 @@ See [`products/`](products/) for enterprise deployment configurations.
 - 🔄 Enhanced multi-agent coordination
 - 🔄 Enterprise cognitive AI deployment tools
 
-## 🤝 Contributing
+## 🤝 Collaboration Opportunities
 
-1. **Read Documentation**: Start with [`docs/development/README.md`](docs/development/README.md)
-2. **Understand Architecture**: Review Constellation Framework principles
-3. **Follow Standards**: Use lane system, maintain test coverage, add documentation
-4. **Test Thoroughly**: Ensure all tests pass and coverage meets requirements
-5. **Submit PR**: Include comprehensive description and test evidence
+While this is proprietary software, we welcome collaboration discussions with:
+- **Universities & Research Institutions**: Academic partnerships and research projects
+- **Professional Developers**: Commercial licensing and integration opportunities
+- **Industry Partners**: Enterprise deployments and custom solutions
+
+Contact licensing@lukhas.ai to discuss collaboration terms and licensing options.
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+**PROPRIETARY SOFTWARE - NOT OPEN SOURCE**
+
+This software is proprietary and confidential. The source code is viewable for evaluation purposes only.
+
+⚠️ **ALL RIGHTS RESERVED**: No permission is granted to use, copy, modify, or distribute this software without explicit written permission and appropriate licensing fees.
+
+**Commercial Licensing**: Contact licensing@lukhas.ai for pricing and licensing terms.
+
+See [LICENSE](LICENSE) file for full legal terms.
 
 ## 🔗 Links
 

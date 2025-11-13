@@ -1,5 +1,9 @@
 # Security Policy
 
+## Important Notice
+
+**This is PROPRIETARY SOFTWARE**. Security testing requires explicit written permission. Unauthorized testing may result in legal action.
+
 ## Reporting a Vulnerability
 
 **LUKHAS AI takes security seriously.** We appreciate your efforts to responsibly disclose security concerns.
@@ -102,12 +106,14 @@
 
 We support safe harbor for security researchers who:
 
-1. Make good faith effort to avoid privacy violations and service disruption
-2. Report vulnerabilities promptly via security@lukhas.ai
-3. Allow reasonable time for fixes before public disclosure
-4. Do not exploit vulnerabilities beyond proof-of-concept
+1. **Obtain written permission** before any security testing
+2. Make good faith effort to avoid privacy violations and service disruption
+3. Report vulnerabilities promptly via security@lukhas.ai
+4. Allow reasonable time for fixes before public disclosure
+5. Do not exploit vulnerabilities beyond proof-of-concept
+6. Respect the proprietary nature of this software
 
-**We will not pursue legal action** against researchers who follow these guidelines.
+**We will not pursue legal action** against researchers who follow these guidelines and have obtained prior permission.
 
 ## Security Updates
 
