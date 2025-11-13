@@ -6,7 +6,7 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, Dict
 
 logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Symbolic Bridge Integrator
