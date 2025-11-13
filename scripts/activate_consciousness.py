@@ -147,7 +147,9 @@ class ConsciousnessActivationCLI:
         logger.info("🛑 Shutdown signal received")
         self.shutdown_requested = True
         if self.orchestrator:
-            asyncio.create_task(self.orchestrator.shutdown())
+            task = asyncio.create_task(self.orchestrator.shutdown())
+            # Store reference to prevent task from being garbage collected
+            self._shutdown_task = task
 
     async def load_configuration(self) -> dict[str, Any]:
         """Load consciousness activation configuration."""

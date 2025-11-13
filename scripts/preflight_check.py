@@ -236,7 +236,7 @@ class PreflightValidator:
         # Check if running in container
         in_container = (
             Path("/.dockerenv").exists() or
-            os.getenv("container") is not None or
+            os.getenv("CONTAINER") is not None or
             (Path("/proc/1/cgroup").exists() and
             any("docker" in line or "containerd" in line
                 for line in Path("/proc/1/cgroup").read_text().split('\n')))
