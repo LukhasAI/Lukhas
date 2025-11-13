@@ -306,7 +306,7 @@ def run_validated_benchmarks():
     }
 
     # Add SLA results
-    for comp_name, sla, prefix in components:
+    for _comp_name, sla, prefix in components:
         e2e_results = [r for r in bench.results if prefix in r.name and r.type == 'e2e']
         if e2e_results:
             r = e2e_results[0]

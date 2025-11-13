@@ -238,7 +238,7 @@ class PerformanceValidator:
             ""
         ])
 
-        for test_name, target in self.targets.items():
+        for _test_name, target in self.targets.items():
             description = target["description"]
             p95_target = target["p95_ms"]
             report_lines.append(f"• {description}: P95 < {p95_target}ms")
