@@ -1,0 +1,35 @@
+name: Tests & Coverage
+
+on:
+  push:
+    branches: [ main, feat/tests-dashboard ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install pytest pytest-json-report coverage streamlit pytest-cov
+      - name: Run runner
+        run: |
+          bash tools/tests/run_and_build_reports.sh
+      - name: Upload coverage html
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: reports/coverage/html
+      - name: Upload pytest-json
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-json
+          path: reports/latest/pytest-report.json
