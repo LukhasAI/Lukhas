@@ -23,9 +23,15 @@ class TestEmergencyKillSwitch:
             yield Path(tmpdir) / "emergency_disable"
 
     @pytest.fixture
-    def kill_switch(self, temp_emergency_path):
+    def temp_log_dir(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            yield Path(tmpdir) / "emergency_logs"
+
+    @pytest.fixture
+    def kill_switch(self, temp_emergency_path, temp_log_dir):
         return GuardianEmergencyKillSwitch(
-            emergency_path=str(temp_emergency_path)
+            emergency_path=str(temp_emergency_path),
+            log_dir=str(temp_log_dir)
         )
 
     def test_initial_state_active(self, kill_switch):
@@ -99,23 +105,26 @@ class TestEmergencyKillSwitch:
         assert activated == False
         assert kill_switch.allow_decision() == True
 
-    def test_per_lane_thresholds(self, temp_emergency_path):
+    def test_per_lane_thresholds(self, temp_emergency_path, temp_log_dir):
         """Different lanes have different thresholds"""
         # Prod: 0.25
         kill_switch1 = GuardianEmergencyKillSwitch(
-            emergency_path=str(temp_emergency_path / "ks1")
+            emergency_path=str(temp_emergency_path / "ks1"),
+            log_dir=str(temp_log_dir / "ks1")
         )
         assert kill_switch1.check_emergency_triggers(0.26, "prod") == True
 
         # Candidate: 0.35
         kill_switch2 = GuardianEmergencyKillSwitch(
-            emergency_path=str(temp_emergency_path / "ks2")
+            emergency_path=str(temp_emergency_path / "ks2"),
+            log_dir=str(temp_log_dir / "ks2")
         )
         assert kill_switch2.check_emergency_triggers(0.36, "candidate") == True
 
         # Experimental: 0.50
         kill_switch3 = GuardianEmergencyKillSwitch(
-            emergency_path=str(temp_emergency_path / "ks3")
+            emergency_path=str(temp_emergency_path / "ks3"),
+            log_dir=str(temp_log_dir / "ks3")
         )
         assert kill_switch3.check_emergency_triggers(0.51, "experimental") == True
 
@@ -156,21 +165,19 @@ class TestEmergencyKillSwitch:
         assert "prod" in content
 
     def test_snapshot_written_to_log_dir(self, kill_switch):
-        """Forensic snapshot written to /var/log/lukhas/emergency/"""
+        """Forensic snapshot written to configured log directory"""
         kill_switch.record_decision({"id": 1, "action": "test"})
         kill_switch.check_emergency_triggers(drift_ema=0.30, lane="prod")
 
-        # Check snapshot was created
-        log_dir = Path("/var/log/lukhas/emergency")
-        if log_dir.exists():
-            snapshots = list(log_dir.glob("snapshot_*.json"))
-            assert len(snapshots) > 0
+        # Check snapshot was created in configured log_dir
+        snapshots = list(kill_switch.log_dir.glob("snapshot_*.json"))
+        assert len(snapshots) > 0
 
-            # Verify snapshot content
-            snapshot_data = json.loads(snapshots[-1].read_text())
-            assert snapshot_data["reason"] == "catastrophic_drift"
-            assert snapshot_data["drift_ema"] == 0.30
-            assert snapshot_data["lane"] == "prod"
+        # Verify snapshot content
+        snapshot_data = json.loads(snapshots[-1].read_text())
+        assert snapshot_data["reason"] == "catastrophic_drift"
+        assert snapshot_data["drift_ema"] == 0.30
+        assert snapshot_data["lane"] == "prod"
 
     def test_already_activated_returns_true(self, kill_switch):
         """Subsequent checks return True if already activated"""
@@ -182,7 +189,7 @@ class TestEmergencyKillSwitch:
         result = kill_switch.check_emergency_triggers(drift_ema=0.10, lane="prod")
         assert result == True
 
-    def test_activation_from_existing_file(self, temp_emergency_path):
+    def test_activation_from_existing_file(self, temp_emergency_path, temp_log_dir):
         """Kill-switch activates if emergency file already exists"""
         # Create emergency file before init
         temp_emergency_path.parent.mkdir(parents=True, exist_ok=True)
@@ -190,7 +197,8 @@ class TestEmergencyKillSwitch:
 
         # Create kill-switch (should activate from file)
         kill_switch = GuardianEmergencyKillSwitch(
-            emergency_path=str(temp_emergency_path)
+            emergency_path=str(temp_emergency_path),
+            log_dir=str(temp_log_dir)
         )
 
         assert kill_switch.disabled == True
