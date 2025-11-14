@@ -1,6 +1,11 @@
 import time
 import unittest
 
+import pytest
+
+# Skip if fakeredis not available (optional test dependency)
+pytest.importorskip("fakeredis")
+
 import fakeredis
 from core.reliability.idempotency_redis import RedisIdempotencyStore
 

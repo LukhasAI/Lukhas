@@ -130,6 +130,8 @@ class StrictAuthMiddleware(BaseHTTPMiddleware):
         token = auth_header[7:].strip()
         if not token:
             return self._auth_error('Bearer token is empty')
+        if len(token) < 8:
+            return self._auth_error('Bearer token must be at least 8 characters')
         return await call_next(request)
 
     def _auth_error(self, message: str) -> Response:
@@ -333,7 +335,18 @@ async def list_models() -> Response:
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
+    # Validate required 'input' field
+    if "input" not in request:
+        raise HTTPException(status_code=400, detail={"error": "Missing required field 'input'"})
+
     input_text = request.get("input", "")
+
+    # Validate input is not empty
+    if isinstance(input_text, str) and not input_text.strip():
+        raise HTTPException(status_code=400, detail={"error": "Input field cannot be empty"})
+    elif isinstance(input_text, list) and not input_text:
+        raise HTTPException(status_code=400, detail={"error": "Input field cannot be empty"})
+
     model = request.get("model", "text-embedding-ada-002")
     dimensions = request.get("dimensions", 1536)
 
