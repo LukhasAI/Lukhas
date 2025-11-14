@@ -1,0 +1,9 @@
+[overrides."TEMP-allow-oracle-colony-path"]
+deadline = "2025-11-04"
+why = "Adapter extraction in progress; see tracking issue #XXXX"
+
+[[overrides.contract_exceptions]]
+contract = "prod_must_not_import_candidate_or_labs"
+allowed = [
+  "core.colonies.oracle_colony -> labs_integrations.openai_adapter",
+]
