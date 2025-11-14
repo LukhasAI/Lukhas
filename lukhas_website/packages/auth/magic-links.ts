@@ -4,16 +4,6 @@ import { createHash } from 'crypto';
 
 const tokens = new Map<string, { email: string; expires: number }>();
 
-// Initialize email service
-let emailService: ReturnType<typeof createEmailServiceFromEnv> | null = null;
-
-function getEmailService() {
-  if (!emailService) {
-    emailService = createEmailServiceFromEnv();
-  }
-  return emailService;
-}
-
 function stripTrailingSlash(url: string) {
   return url.replace(/\/+$/, '');
 }
@@ -46,6 +36,12 @@ export async function createMagicLink({ email, ip }: { email: string; ip?: strin
   // Construct magic link URL
   const baseUrl = resolveMagicLinkBaseUrl();
   const magicLink = `${baseUrl}/api/auth/magic-link?token=${token}`;
+
+  // TODO: Send email with link using your email provider
+  // For development visibility only (avoid in production logs)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`Magic link for ${email}: ${magicLink}`);
+  }
 
   return { ok: true };
 }
