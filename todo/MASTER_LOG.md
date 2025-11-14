@@ -105,3 +105,278 @@
    - Implements lightweight audit logging
 
 **Rationale**: These tasks build directly on the foundation established in Batch 1, creating a cohesive set of enhancements across Oneiric, Memory, Guardian, DAST, and Observability systems.
+
+---
+
+# Lukhas_ID System Production Readiness (Tasks 41-57)
+
+**Session**: agent-identity-specialist
+**Branch**: feat/identity-production-readiness
+**Last Updated**: 2025-11-14
+**Source**: docs/gonzo/Lukhas_ID system improvement plan.md
+
+## Priority Legend
+- 🔴 P0 - CRITICAL (Must ship before any public demo)
+- 🟡 P1 - HIGH (Essential for production readiness)
+- 🟢 P2 - SECURITY (Essential for compliance and trust)
+
+---
+
+## Task Status
+
+| # | Task | Priority | Complexity | Assignee | Status | Completion Date |
+|---|------|----------|------------|----------|--------|-----------------|
+| 41 | Production Storage Layer (Redis + Postgres) | 🔴 P0 | HIGH | identity-auth-specialist | ✅ COMPLETED | 2025-11-14 |
+| 42 | Asymmetric Key Management + JWKS | 🔴 P0 | MEDIUM | identity-auth-specialist | ✅ COMPLETED | 2025-11-14 |
+| 43 | OAuth2 Token Introspection & Revocation | 🔴 P0 | LOW-MEDIUM | api-bridge-specialist | ⏳ PENDING | - |
+| 44 | Production WebAuthn with python-fido2 | 🔴 P0 | HIGH | identity-auth-specialist | ⏳ PENDING | - |
+| 45 | Consent Proof Store (GDPR-Safe) | 🟡 P1 | LOW | security-governance-specialist | ⏳ PENDING | - |
+| 46 | OPA/ABAS Identity Middleware | 🟡 P1 | MEDIUM | security-governance-specialist | ⏳ PENDING | - |
+| 47 | Observability - Prometheus Metrics & Tracing | 🟡 P1 | LOW-MEDIUM | observability-testing-specialist | ⏳ PENDING | - |
+| 48 | Canonical ΛID Model + Namespace Rules | 🟡 P1 | LOW | identity-auth-specialist | ⏳ PENDING | - |
+| 49 | Agent/Service/System Identity Integration | 🟡 P1 | MEDIUM | api-bridge-specialist | ⏳ PENDING | - |
+| 50 | Identity Event Bus + Audit Hooks | 🟡 P1 | MEDIUM | observability-testing-specialist | ⏳ PENDING | - |
+| 51 | OIDC Discovery + Public Documentation | 🟡 P1 | LOW | identity-auth-specialist | ⏳ PENDING | - |
+| 52 | MATRIZ Readiness Suite | 🟢 P2 | HIGH | observability-testing-specialist | ⏳ PENDING | - |
+| 53 | Threat Model + DPIA + Red-Team Harness | 🟢 P2 | VERY HIGH | security-governance-specialist | ⏳ PENDING | - |
+| 54 | Bridge Completion (Identity ↔ Core Sync) | 🟢 P2 | MEDIUM | api-bridge-specialist | ⏳ PENDING | - |
+| 55 | TRINITY Claims + Constellation Alignment | 🟢 P2 | MEDIUM | identity-auth-specialist | ⏳ PENDING | - |
+| 56 | Documentation Suite | 🟢 P2 | MEDIUM | security-governance-specialist | ⏳ PENDING | - |
+| 57 | Unit & Integration Test Coverage (90% Goal) | 🟢 P2 | HIGH | observability-testing-specialist | ⏳ PENDING | - |
+
+---
+
+## Task Details
+
+### Phase 1: Foundation (Week 1) - Critical Path
+
+#### Task 41: Production Storage Layer (Redis + Postgres)
+**Estimated Time**: 6-10 hours | **Blocking**: Yes | **Dependencies**: None
+
+**Deliverables**:
+- `core/identity/storage/redis_token_store.py` - Token store with TTL, revocation, introspection
+- `core/identity/storage/webauthn_store.py` - Encrypted Postgres credential store with KMS
+- Alembic migrations for database schema
+- Unit tests for concurrency, TTL expiry, revocation
+- `docs/identity/DEPLOYMENT_STORAGE.md`
+
+**Acceptance Criteria**:
+- Concurrent token operations safe
+- TTL expiry automatic
+- Revocation immediate (< 10ms)
+- WebAuthn credentials encrypted at rest (AES-GCM)
+
+---
+
+#### Task 42: Asymmetric Key Management + JWKS
+**Estimated Time**: 4-8 hours | **Blocking**: Yes | **Dependencies**: None
+
+**Deliverables**:
+- `core/identity/keys.py` - KeyManager with RS256/ES256, rotation, KMS integration
+- `core/identity/jwks_endpoint.py` - FastAPI route for `/.well-known/jwks.json`
+- Update OIDCProvider to use asymmetric signing with `kid` header
+- Key rotation tests
+- `docs/identity/JWKS_AND_KEY_ROTATION.md`
+
+**Acceptance Criteria**:
+- ID tokens signed with RS256 or ES256
+- JWKS endpoint returns public keys in JWK format
+- Key rotation maintains old tokens valid through TTL
+
+---
+
+#### Task 43: OAuth2 Token Introspection & Revocation
+**Estimated Time**: 3-5 hours | **Blocking**: No | **Dependencies**: Task 41
+
+**Deliverables**:
+- `/oauth2/introspect` endpoint (RFC 7662 compliant)
+- `/oauth2/revoke` endpoint with client authentication
+- Integration with Redis token store
+
+**Acceptance Criteria**:
+- Introspection returns `active`, `exp`, `scope`, `sub` per RFC 7662
+- Revocation immediately invalidates tokens
+
+---
+
+#### Task 44: Production WebAuthn with python-fido2
+**Estimated Time**: 6-12 hours | **Blocking**: Yes | **Dependencies**: Task 41
+
+**Deliverables**:
+- Full `python-fido2` integration replacing in-memory manager
+- Attestation verification, signature counter enforcement
+- Encrypted credential storage integration
+- Rate limiting for authentication attempts
+- `docs/identity/WEBAUTHN_PRODUCTION.md`
+
+**Acceptance Criteria**:
+- Registration and assertion flows pass with fido2 test helpers
+- Attestation verified (reject invalid attestations)
+- Signature counters enforced
+
+---
+
+### Phase 2: Integration & Policy (Week 2-3)
+
+#### Task 45: Consent Proof Store (GDPR-Safe)
+**Estimated Time**: 3-4 hours | **Dependencies**: None
+
+**Deliverables**:
+- HMAC-based consent proof storage (no raw TC strings)
+- TTL, revocation, lookup functionality
+- Integration with registration and token issuance
+- `docs/identity/CONSENT_PROCESS.md`
+
+---
+
+#### Task 46: OPA/ABAS Identity Middleware
+**Estimated Time**: 3-5 hours | **Dependencies**: Existing OPA policies
+
+**Deliverables**:
+- ABAS middleware for identity routes
+- Integration with `policies/matrix/identity.rego`
+- Step-up policy enforcement
+- PDP caching
+
+---
+
+#### Task 47: Observability - Prometheus Metrics & Tracing
+**Estimated Time**: 2-4 hours | **Dependencies**: None
+
+**Deliverables**:
+- Prometheus instrumentation for identity components
+- `/metrics` endpoint
+- X-Trace-Id propagation
+- Sample Grafana dashboard
+
+**Metrics**:
+- `identity_auth_latency_seconds{quantile="0.95"}`
+- `identity_lid_generation_total`
+- `identity_webauthn_registration_total{result}`
+
+---
+
+#### Task 48: Canonical ΛID Model + Namespace Rules
+**Estimated Time**: 2-3 hours | **Dependencies**: None
+
+**Deliverables**:
+- Centralized ΛID parse/issue/validate module
+- Namespace collision detection
+- Checksum validation
+
+---
+
+#### Task 49: Agent/Service/System Identity Integration
+**Estimated Time**: 4-6 hours | **Dependencies**: Task 48
+
+**Deliverables**:
+- Agent identity middleware (AGT ΛID validation)
+- Service token issuance (mTLS/DPoP/Client Credentials)
+- System key rotation
+
+---
+
+#### Task 50: Identity Event Bus + Audit Hooks
+**Estimated Time**: 3-5 hours | **Dependencies**: None
+
+**Deliverables**:
+- Identity event types (pydantic models)
+- Pub/sub abstraction for Guardian/Drift
+- Privacy-safe payloads (no PII)
+
+**Events**: `IdentityRegistered`, `AuthSucceeded`, `AuthFailed`, `TokenRevoked`, `ConsentRevoked`
+
+---
+
+#### Task 51: OIDC Discovery + Public Documentation
+**Estimated Time**: 2-3 hours | **Dependencies**: Task 42
+
+**Deliverables**:
+- `/.well-known/openid-configuration` endpoint
+- API documentation
+- Optional Next.js client example
+
+---
+
+### Phase 3: Hardening & Governance (Week 4-6)
+
+#### Task 52: MATRIZ Readiness Suite
+**Estimated Time**: 8-12 hours | **Dependencies**: All P0/P1 tasks
+
+**Deliverables**:
+- Performance tests (p95 <100ms validation)
+- Chaos tests (PDP failure modes)
+- Privacy invariant tests
+- CI integration
+
+---
+
+#### Task 53: Threat Model + DPIA + Red-Team Harness
+**Estimated Time**: 8-16 hours | **Dependencies**: All P0/P1 tasks
+
+**Deliverables**:
+- STRIDE/ATT&CK threat model document
+- DPIA template for legal review
+- Red-team pytest harness
+- Risk matrix and remediation plan
+
+---
+
+#### Task 54: Bridge Completion (Identity ↔ Core Sync)
+**Estimated Time**: 4-6 hours | **Dependencies**: None
+
+**Deliverables**:
+- Complete `compare_states()` implementation
+- Idempotent `resolve_differences()` logic
+- Hub contract definitions
+
+---
+
+#### Task 55: TRINITY Claims + Constellation Alignment
+**Estimated Time**: 3-5 hours | **Dependencies**: Task 46
+
+**Deliverables**:
+- Add `trinity` claim bundle to tokens
+- ABAS policy enforcement for module status
+- Runtime checks for ⚛️🧠🛡️ status
+
+---
+
+#### Task 56: Documentation Suite
+**Estimated Time**: 3-6 hours | **Dependencies**: All implementation tasks
+
+**Deliverables**:
+- API documentation
+- Operations runbooks
+- DPIA template
+
+---
+
+#### Task 57: Unit & Integration Test Coverage (90% Goal)
+**Estimated Time**: 8-12 hours | **Dependencies**: All implementation tasks
+
+**Coverage Areas**:
+- ΛID generation edge cases
+- OIDC token issuance/validation
+- WebAuthn flows
+- ABAS policy enforcement
+- Redis/Postgres store operations
+- Key rotation scenarios
+
+---
+
+## Current Session Progress
+
+**Total Tasks**: 17 (Tasks 41-57)
+**Completed**: 2 (Tasks 41-42) ✅
+**In Progress**: 0
+**Pending**: 15
+
+**Recent Completions**:
+- Task 41 (2025-11-14): Production Storage Layer - Redis + encrypted Postgres with comprehensive tests
+- Task 42 (2025-11-14): Asymmetric Key Management + JWKS - RS256/ES256 with rotation and RFC 7517 compliance
+
+**Phase 1 Foundation Complete**: Storage + Crypto infrastructure ready for production
+
+**Timeline**: 6 weeks (60-100 hours total estimated effort)
+**Target**: Production-ready Lukhas_ID system with T4-grade security
