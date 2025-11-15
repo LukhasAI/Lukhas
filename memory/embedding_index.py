@@ -23,9 +23,7 @@ except Exception:
 @dataclass
 class EmbeddingIndex:
     """Approximate nearest neighbour index with symbolic tracing."""
-from typing import Optional
-
-
+    
     metric: str = "angular"
     trees: int = 10
     dimension: Optional[int] = None

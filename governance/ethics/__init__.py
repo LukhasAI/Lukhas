@@ -1,9 +1,8 @@
-from typing import Optional
-
 """Bridge package for governance.ethics."""
 
 from __future__ import annotations
 
+from typing import Optional
 import importlib
 import os
 import pkgutil

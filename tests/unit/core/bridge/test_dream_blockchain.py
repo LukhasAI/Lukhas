@@ -283,7 +283,7 @@ class TestDreamCommerceBlockchain:
         mock_account = MagicMock()
         mock_account.address = "0x" + "4" * 40
         mock_signed_tx = MagicMock()
-        mock_signed_tx.raw_transaction = b"\xef\xgh"
+        mock_signed_tx.raw_transaction = b"\xef\x00"  # Mock raw transaction bytes
 
         with patch.object(
             blockchain.w3.eth.account, "from_key", return_value=mock_account
@@ -297,7 +297,7 @@ class TestDreamCommerceBlockchain:
                     with patch.object(
                         blockchain.w3.eth,
                         "send_raw_transaction",
-                        return_value=b"\xij\kl",
+                        return_value=b"\x00\x01",  # Mock transaction hash
                     ):
                         mock_receipt = {"status": 1}
                         with patch.object(

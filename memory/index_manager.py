@@ -21,10 +21,9 @@ Usage:
     # Delete
     manager.delete_index(index_id)
 """
-from typing import Optional
-
 from __future__ import annotations
 
+from typing import Optional
 import logging
 import threading
 import time

@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-
-# ruff: noqa: F821  # Skeleton/experimental code
-from typing import Optional
-
 """
 
 #TAG:qim
@@ -44,12 +40,14 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://ai/docs
 """
-
 from __future__ import annotations
+
+# ruff: noqa: F821  # Skeleton/experimental code
 
 import asyncio
 import logging
 from dataclasses import dataclass
+from typing import Optional
 
 from qi.security import (
     DEFAULT_COMPLIANCE_FRAMEWORKS,

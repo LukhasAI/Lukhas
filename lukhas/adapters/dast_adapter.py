@@ -37,7 +37,7 @@ class DASTOrchestrator(Protocol):
         """Dispatch a normalized task to the orchestrator."""
 
 
-@dataclass(slots=True)
+@dataclass
 class DASTAdapter:
     """Adapter responsible for normalizing requests to the DAST orchestrator."""
 

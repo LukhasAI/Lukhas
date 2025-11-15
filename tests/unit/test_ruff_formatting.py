@@ -4,7 +4,7 @@ def test_function(x, y):
     return result
 
 
-class TestClass:
+class SampleClass:
     def __init__(self, name: str):
         self.name = name
 
@@ -13,5 +13,5 @@ class TestClass:
 
 
 if __name__ == "__main__":
-    test = TestClass("World")
+    test = SampleClass("World")
     print(test.method())

@@ -6,6 +6,7 @@ import os
 from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Optional
 
 from fastapi import Header, HTTPException, status
 
@@ -28,8 +29,6 @@ except ModuleNotFoundError:  # pragma: no cover - offline fallback
 
     class PolicyGuard:  # type: ignore
         """Minimal PolicyGuard stub for docs-only environments."""
-from typing import Optional
-
 
         def __init__(self, lane: Optional[str] = None) -> None:
             self.lane = (lane or os.getenv("LUKHAS_LANE", "experimental")).lower()

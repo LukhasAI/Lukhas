@@ -16,4 +16,7 @@ class SecurityHeadersMiddleware:
         return response
 
 
-__all__ = ["SecurityHeadersMiddleware"]
+# Alias for backwards compatibility
+HeadersMiddleware = SecurityHeadersMiddleware
+
+__all__ = ["SecurityHeadersMiddleware", "HeadersMiddleware"]

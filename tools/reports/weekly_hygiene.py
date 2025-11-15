@@ -6,6 +6,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 # Repository context for relative paths
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -13,9 +14,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 def todo_count(base_path: Optional[Path] = None) -> int:
     """Return the number of tracked TODO entries from the generated index."""
-from typing import Optional
-
-
     base = Path(base_path or REPO_ROOT)
     p = base / "reports" / "todos" / "index.json"
     if not p.exists():

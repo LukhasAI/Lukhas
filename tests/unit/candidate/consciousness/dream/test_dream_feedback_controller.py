@@ -1,12 +1,10 @@
-from typing import Optional
-
 """Unit tests for DreamFeedbackController symbolic redirect scoring."""
-
 from __future__ import annotations
 
 import importlib
 import sys
 from types import ModuleType
+from typing import Optional
 
 import dream as dream_pkg
 

@@ -8,10 +8,9 @@ Usage:
   monitor = DriftMonitor(lane="experimental")
   result = monitor.update(intent=[1.0, 0.0], action=[0.9, 0.1])
 """
-from typing import Optional
-
 from __future__ import annotations
 
+from typing import Optional
 import math
 import os
 from dataclasses import dataclass
