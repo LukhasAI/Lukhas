@@ -129,7 +129,7 @@ class SecurityScanner:
                     })
 
         except Exception as e:
-            pass  # Skip files that can't be read
+            print(f"Error reading file {file_path}: {e}", file=sys.stderr)
 
         return findings
 
