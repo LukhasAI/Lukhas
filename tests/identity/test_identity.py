@@ -1,6 +1,24 @@
+"""
+Combined identity tests covering both WebAuthn credentials and LambdaID service.
+
+This file contains:
+1. WebAuthn credential store tests (from feat/identity-webauthn-tests)
+2. LambdaID service tests (from main)
+"""
+import pytest
+import base64
+import hashlib
+import time
+import json
 import sys
 import unittest
-from unittest.mock import MagicMock, patch
+from datetime import datetime, timezone
+from unittest.mock import patch, MagicMock
+
+# Adhering to LUKHAS import rules
+from core.security.auth import get_auth_system, EnhancedAuthenticationSystem, AuthMethod
+from lukhas.identity.webauthn_credential import WebAuthnCredentialStore, WebAuthnCredential
+from lukhas.identity.webauthn_verify import verify_assertion, InvalidSignatureError, InvalidAssertionError
 
 # Mock the 'identity.webauthn' module to avoid ImportError, since it's a conditional dependency
 mock_webauthn_manager_instance = MagicMock()
@@ -19,13 +37,16 @@ sys.modules['observability.matriz_decorators'] = mock_observability_module
 # Mock the 'lukhas_website.lukhas.identity.auth_service' module to avoid NameError
 sys.modules['lukhas_website.lukhas.identity.auth_service'] = MagicMock()
 
-
 # Ensure the module under test can be imported
-# The file path is `lukhas_website/lukhas/identity/lambda_id.py`.
-# Assuming `lukhas_website` is in the python path or the CWD.
 from labs.governance.identity.core.namespace_manager import NamespaceManager, NamespaceType
 from lukhas_website.lukhas.identity.lambda_id import LambdaIDService
 
+
+# 
+
+# ============================================================================
+# PART 2: LambdaID Service Tests (from main)
+# ============================================================================
 
 class TestLambdaIDService(unittest.TestCase):
 
