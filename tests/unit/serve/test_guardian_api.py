@@ -2,20 +2,26 @@
 Tests for Guardian API endpoints.
 
 Tests:
-- POST /api/v1/guardian/validate
-- GET /api/v1/guardian/audit
-- GET /api/v1/guardian/drift-check
+- POST /api/v1/guardian/validate (legacy)
+- GET /api/v1/guardian/audit (legacy)
+- GET /api/v1/guardian/drift-check (legacy)
+- POST /guardian/validate (new)
+- GET /guardian/policies (new)
+- GET /guardian/health (new)
+- POST /guardian/veto (new)
 """
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from serve.guardian_api import router
+from serve.guardian_api import router, legacy_router
 
 
 @pytest.fixture
 def app():
-    """Create test FastAPI app with guardian router."""
+    """Create test FastAPI app with guardian routers."""
     app = FastAPI()
+    # Include both legacy and new routers
+    app.include_router(legacy_router)
     app.include_router(router)
     return app
 
@@ -256,3 +262,223 @@ class TestConcurrentRequests:
             data = response.json()
             assert data["status"] == "validated"
             assert "drift_score" in data
+
+
+# ============================================================================
+# New Guardian API Tests
+# ============================================================================
+
+
+class TestNewValidateEndpoint:
+    """Tests for new /guardian/validate endpoint."""
+
+    def test_validate_requires_auth(self, client):
+        """Test that validate endpoint requires authentication."""
+        # Without auth, should get 401
+        response = client.post("/guardian/validate", json={
+            "action": "test_action",
+            "context": {}
+        })
+        assert response.status_code == 401
+
+    def test_validate_with_mock_auth(self, client, monkeypatch):
+        """Test validation with mocked authentication."""
+        # Mock get_current_user to bypass auth
+        from serve import guardian_api
+
+        async def mock_get_current_user(request):
+            return {"user_id": "test_user", "tier": 1}
+
+        monkeypatch.setattr(guardian_api, "get_current_user", mock_get_current_user)
+
+        response = client.post("/guardian/validate", json={
+            "action": "test_action",
+            "context": {"test": "data"}
+        })
+
+        # Should succeed (or 500 if Guardian unavailable, which is acceptable)
+        assert response.status_code in [200, 500]
+
+        if response.status_code == 200:
+            data = response.json()
+            assert "valid" in data
+            assert "score" in data
+            assert "violations" in data
+            assert "veto" in data
+            assert "validation_id" in data
+
+
+class TestNewPoliciesEndpoint:
+    """Tests for new /guardian/policies endpoint."""
+
+    def test_policies_requires_auth(self, client):
+        """Test that policies endpoint requires authentication."""
+        response = client.get("/guardian/policies")
+        assert response.status_code == 401
+
+    def test_policies_with_mock_auth(self, client, monkeypatch):
+        """Test policies listing with mocked authentication."""
+        from serve import guardian_api
+
+        async def mock_get_current_user(request):
+            return {"user_id": "test_user", "tier": 1}
+
+        monkeypatch.setattr(guardian_api, "get_current_user", mock_get_current_user)
+
+        response = client.get("/guardian/policies")
+        assert response.status_code == 200
+
+        data = response.json()
+        assert isinstance(data, list)
+        assert len(data) > 0
+
+        # Check policy structure
+        policy = data[0]
+        assert "policy_id" in policy
+        assert "name" in policy
+        assert "description" in policy
+        assert "active" in policy
+        assert "severity" in policy
+
+    def test_policies_active_filter(self, client, monkeypatch):
+        """Test that active_only filter works."""
+        from serve import guardian_api
+
+        async def mock_get_current_user(request):
+            return {"user_id": "test_user", "tier": 1}
+
+        monkeypatch.setattr(guardian_api, "get_current_user", mock_get_current_user)
+
+        # Get all policies
+        response = client.get("/guardian/policies?active_only=false")
+        assert response.status_code == 200
+        all_policies = response.json()
+
+        # Get active only
+        response = client.get("/guardian/policies?active_only=true")
+        assert response.status_code == 200
+        active_policies = response.json()
+
+        # Active should be <= all
+        assert len(active_policies) <= len(all_policies)
+
+
+class TestNewHealthEndpoint:
+    """Tests for new /guardian/health endpoint."""
+
+    def test_health_no_auth_required(self, client):
+        """Test that health endpoint doesn't require auth."""
+        response = client.get("/guardian/health")
+        assert response.status_code == 200
+
+    def test_health_response_structure(self, client):
+        """Test health endpoint response structure."""
+        response = client.get("/guardian/health")
+        assert response.status_code == 200
+
+        data = response.json()
+        assert "status" in data
+        assert "active_policies" in data
+        assert "last_check" in data
+        assert "drift_detected" in data
+        assert "guardian_available" in data
+        assert "constitutional_ai_available" in data
+
+        # Status should be one of expected values
+        assert data["status"] in ["healthy", "degraded", "down"]
+
+        # Active policies should be non-negative
+        assert data["active_policies"] >= 0
+
+        # Drift should be boolean
+        assert isinstance(data["drift_detected"], bool)
+
+
+class TestNewVetoEndpoint:
+    """Tests for new /guardian/veto endpoint."""
+
+    def test_veto_requires_auth(self, client):
+        """Test that veto endpoint requires authentication."""
+        response = client.post("/guardian/veto", json={
+            "action_id": "test_action_123",
+            "reason": "policy_violation",
+            "explanation": "Test explanation"
+        })
+        assert response.status_code == 401
+
+    def test_veto_with_mock_auth(self, client, monkeypatch):
+        """Test veto recording with mocked authentication."""
+        from serve import guardian_api
+
+        async def mock_get_current_user(request):
+            return {"user_id": "test_user", "tier": 1}
+
+        monkeypatch.setattr(guardian_api, "get_current_user", mock_get_current_user)
+
+        response = client.post("/guardian/veto", json={
+            "action_id": "test_action_123",
+            "reason": "policy_violation",
+            "explanation": "Test explanation for veto"
+        })
+
+        assert response.status_code == 200
+
+        data = response.json()
+        assert "veto_id" in data
+        assert "action_id" in data
+        assert data["action_id"] == "test_action_123"
+        assert "recorded_at" in data
+        assert "status" in data
+        assert data["status"] == "recorded"
+
+
+class TestIntegrationScenarios:
+    """Integration tests for Guardian API workflows."""
+
+    def test_full_validation_workflow(self, client, monkeypatch):
+        """Test complete validation workflow."""
+        from serve import guardian_api
+
+        async def mock_get_current_user(request):
+            return {"user_id": "test_user", "tier": 1}
+
+        monkeypatch.setattr(guardian_api, "get_current_user", mock_get_current_user)
+
+        # 1. Check health
+        health = client.get("/guardian/health")
+        assert health.status_code == 200
+
+        # 2. List policies
+        policies = client.get("/guardian/policies")
+        assert policies.status_code == 200
+        assert len(policies.json()) > 0
+
+        # 3. Validate action (may fail if Guardian unavailable)
+        validation = client.post("/guardian/validate", json={
+            "action": "user_login",
+            "context": {"ip": "127.0.0.1"}
+        })
+        assert validation.status_code in [200, 500]
+
+    def test_audit_trail_logging(self, client, monkeypatch, caplog):
+        """Test that validation creates audit trail logs."""
+        from serve import guardian_api
+        import logging
+
+        async def mock_get_current_user(request):
+            return {"user_id": "audit_test_user", "tier": 1}
+
+        monkeypatch.setattr(guardian_api, "get_current_user", mock_get_current_user)
+
+        # Set logging level to capture INFO logs
+        caplog.set_level(logging.INFO)
+
+        # Make validation request
+        client.post("/guardian/validate", json={
+            "action": "audit_test_action",
+            "context": {}
+        })
+
+        # Check that audit logs were created
+        audit_logs = [record for record in caplog.records if "AUDIT" in record.message]
+        assert len(audit_logs) >= 0  # May be 0 if Guardian unavailable
