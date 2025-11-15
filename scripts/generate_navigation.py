@@ -213,24 +213,15 @@ def generate_navigation():
 def update_mkdocs_config():
     """Update mkdocs.yml with new navigation"""
 
-    # Read current config - handle custom YAML tags
-    from yaml import SafeLoader
-
-    class CustomLoader(SafeLoader):
-        pass
-
-    def unknown_constructor(loader, node):
-        return None
-
-    CustomLoader.add_constructor(None, unknown_constructor)
-
+    # Read current config
     with open("mkdocs.yml") as f:
         content = f.read()
         # Replace the problematic line to avoid parsing issues
         content = content.replace(
             "!!python/name:pymdownx.superfences.fence_code_format", '"pymdownx.superfences.fence_code_format"'
         )
-        config = yaml.load(content, Loader=CustomLoader)
+        # Use safe_load to prevent code execution vulnerabilities
+        config = yaml.safe_load(content)
 
     # Generate new navigation
     new_nav = generate_navigation()

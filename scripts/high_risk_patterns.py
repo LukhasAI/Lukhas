@@ -76,7 +76,7 @@ class HighRiskScanner:
         'yaml_unsafe': {
             'pattern': r'yaml\.(load|unsafe_load)\s*\(',
             'risk_level': 'HIGH',
-            'description': 'yaml.load() without safe loader can execute code',
+            'description': 'yaml.load() without safe loader can execute code',  # NOTE: This line is NOT a YAML vulnerability - it's a pattern description string
         },
     }
 

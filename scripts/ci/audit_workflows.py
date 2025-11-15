@@ -122,8 +122,8 @@ def main():
         try:
             with open(file_path, encoding="utf-8") as f:
                 workflow_content_str = f.read()
-                # The FullLoader is safer than the default Loader
-                workflow_content = yaml.load(workflow_content_str, Loader=yaml.FullLoader)
+                # Use safe_load to prevent code execution vulnerabilities
+                workflow_content = yaml.safe_load(workflow_content_str)
 
             if not workflow_content:
                 report_warning(f"Skipping empty or invalid workflow file: {file_path}")
