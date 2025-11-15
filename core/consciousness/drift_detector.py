@@ -10,7 +10,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Protocol
+from typing import List, Protocol, Optional
 
 from core.symbolic.glyph_specialist import GlyphSignal
 
@@ -25,7 +25,7 @@ class DriftSnapshot:
     driftScore: float
     affect_delta: float
     glyph_markers: Sequence[str] = field(default_factory=list)
-    metadata: dict | None = None
+    metadata: Optional[dict] = None
     recorded_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -45,10 +45,10 @@ class DriftArchiveBackend(Protocol):
 
     def query_archives(
         self,
-        start_time: datetime | None = None,
-        end_time: datetime | None = None,
-        layer: str | None = None,
-        min_drift: float | None = None,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        layer: Optional[str] = None,
+        min_drift: Optional[float] = None,
     ) -> List[dict]:
         """Query archived drift snapshots."""
         ...
@@ -90,10 +90,10 @@ class FileDriftArchive:
 
     def query_archives(
         self,
-        start_time: datetime | None = None,
-        end_time: datetime | None = None,
-        layer: str | None = None,
-        min_drift: float | None = None,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        layer: Optional[str] = None,
+        min_drift: Optional[float] = None,
     ) -> List[dict]:
         """Query archived snapshots from JSON lines files."""
         results = []
@@ -199,10 +199,10 @@ class SQLiteDriftArchive:
 
     def query_archives(
         self,
-        start_time: datetime | None = None,
-        end_time: datetime | None = None,
-        layer: str | None = None,
-        min_drift: float | None = None,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        layer: Optional[str] = None,
+        min_drift: Optional[float] = None,
     ) -> List[dict]:
         """Query archived snapshots with indexed filtering."""
         query = "SELECT archive_id, archived_at, snapshot_json FROM drift_archives WHERE 1=1"
@@ -250,7 +250,7 @@ class ConsciousnessDriftDetector:
     def __init__(
         self,
         retention: int = 12,
-        archive_backend: DriftArchiveBackend | None = None,
+        archive_backend: Optional[DriftArchiveBackend] = None,
         archive_on_reset: bool = True,
     ) -> None:
         """Initialize drift detector with optional archival.
@@ -279,8 +279,8 @@ class ConsciousnessDriftDetector:
         layer_id: str,
         driftScore: float,
         affect_delta: float,
-        glyph_markers: Sequence[str] | None = None,
-        metadata: dict | None = None,
+        glyph_markers: Optional[Sequence[str]] = None,
+        metadata: Optional[dict] = None,
     ) -> DriftSnapshot:
         """Record a new snapshot for a consciousness layer."""
         snapshot = DriftSnapshot(
@@ -335,7 +335,7 @@ class ConsciousnessDriftDetector:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def reset(self) -> str | None:
+    def reset(self) -> Optional[str]:
         """Clear all recorded history with optional archival.
 
         Returns:
@@ -369,10 +369,10 @@ class ConsciousnessDriftDetector:
 
     def query_archived_snapshots(
         self,
-        start_time: datetime | None = None,
-        end_time: datetime | None = None,
-        layer: str | None = None,
-        min_drift: float | None = None,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        layer: Optional[str] = None,
+        min_drift: Optional[float] = None,
     ) -> List[dict]:
         """Query archived drift snapshots.
 

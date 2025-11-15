@@ -28,7 +28,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Module imports
 import numpy as np
@@ -66,7 +66,7 @@ logger.info("ΛTRACE: Initializing cognitive_adapter module.")
 class CognitiveAdapterConfig:
     """Configuration management for Cognitive Adapter."""
 
-    def __init__(self, config_path: str | None = None):
+    def __init__(self, config_path: Optional[str] = None):
         """Initialize configuration from file or defaults."""
         self.config_path = (
             config_path
@@ -199,7 +199,7 @@ class CoreComponent(ABC):
     """Abstract base class for core components."""
 
     @abstractmethod
-    def __init__(self, component_id: str, config: dict[str, Any] | None = None):
+    def __init__(self, component_id: str, config: Optional[dict[str, Any]] = None):
         self.component_id = component_id
         self.config = config or {}
         self.logger = logger.getChild(component_id)
@@ -208,7 +208,7 @@ class CoreComponent(ABC):
 class SecurityContext:
     """Security context for user authentication and authorization."""
 
-    def __init__(self, user_id: str, user_tier: int = 1, permissions: set[str] | None = None):
+    def __init__(self, user_id: str, user_tier: int = 1, permissions: Optional[set[str]] = None):
         self.user_id = user_id
         self.user_tier = user_tier
         self.permissions = permissions or set()
@@ -492,9 +492,9 @@ class CognitiveAdapter(CoreComponent):
     @lukhas_tier_required(level=3)
     def __init__(
         self,
-        user_id_context: str | None = None,
-        config: dict[str, Any] | None = None,
-        config_path: str | None = None,
+        user_id_context: Optional[str] = None,
+        config: Optional[dict[str, Any]] = None,
+        config_path: Optional[str] = None,
     ):
         """Initialize the CognitiveAdapter."""
         super().__init__(
@@ -815,7 +815,7 @@ class CognitiveAdapter(CoreComponent):
         }
 
     @lukhas_tier_required(level=3)
-    def extract_patterns(self, window_size: int | None = None) -> dict[str, Any]:
+    def extract_patterns(self, window_size: Optional[int] = None) -> dict[str, Any]:
         """Extract cognitive patterns from state history."""
         if window_size is None:
             window_size = self.adapter_config.get("pattern_window_size", 100)

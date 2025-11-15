@@ -11,7 +11,7 @@ from __future__ import annotations
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 try:
     from rich.console import Console
@@ -111,7 +111,7 @@ class GuidedCLI:
         self.print("  • Take the tour: [bold]lukhas tour[/bold]")
         self.print("  • Read docs: [bold]docs/quickstart/README.md[/bold]")
 
-    def demo(self, example_name: str | None = None) -> None:
+    def demo(self, example_name: Optional[str] = None) -> None:
         """Run a pre-configured demo."""
         examples = {
             "hello": "examples/quickstart/01_hello_lukhas.py",

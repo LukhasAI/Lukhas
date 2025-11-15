@@ -12,7 +12,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Deque
+from typing import Any, Deque, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -249,7 +249,7 @@ class EthicsSwarmColony:
         # Initialize adaptive threshold manager
         self._enable_adaptive = enable_adaptive_threshold
         if enable_adaptive_threshold:
-            self._threshold_manager: AdaptiveDriftThresholdManager | None = (
+            self._threshold_manager: Optional[AdaptiveDriftThresholdManager] = (
                 AdaptiveDriftThresholdManager(
                     base_threshold=drift_threshold, feedback_window=guardian_feedback_window
                 )
@@ -350,7 +350,7 @@ class EthicsSwarmColony:
         self._signals.clear()
 
     def update_guardian_feedback(
-        self, score: float, source: str = "guardian", context: dict[str, Any] | None = None
+        self, score: float, source: str = "guardian", context: Optional[dict[str, Any]] = None
     ) -> None:
         """Update drift threshold based on Guardian system feedback.
 

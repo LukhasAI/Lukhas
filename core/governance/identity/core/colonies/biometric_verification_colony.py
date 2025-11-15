@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -82,7 +82,7 @@ class BiometricVerificationTask:
     task_id: str
     lambda_id: str
     biometric_samples: list[BiometricSample]
-    reference_template: bytes | None
+    reference_template: Optional[bytes]
     verification_threshold: float
     tier_level: int
     required_confidence: float
@@ -264,7 +264,7 @@ class BiometricVerificationColony(BaseColony):
         )
 
         self.verification_agents: dict[str, BiometricVerificationAgent] = {}
-        self.event_publisher: IdentityEventPublisher | None = None
+        self.event_publisher: Optional[IdentityEventPublisher] = None
 
         # Colony configuration
         self.min_agents_per_type = 3
@@ -320,7 +320,7 @@ class BiometricVerificationColony(BaseColony):
         biometric_samples: list[BiometricSample],
         reference_template: bytes,
         tier_level: int,
-        session_id: str | None = None,
+        session_id: Optional[str] = None,
     ) -> VerificationResult:
         """
         Perform distributed biometric verification with consensus.

@@ -36,7 +36,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -124,7 +124,7 @@ class EthicalReflection:
     concerns: list[str]
     recommendations: list[str]
     timestamp: datetime
-    consciousness_impact: float | None = None
+    consciousness_impact: Optional[float] = None
 
 
 @dataclass
@@ -147,7 +147,7 @@ class GuardianReflector:
     ensuring moral alignment and consciousness protection.
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the Guardian Reflector plugin"""
         self.config = config or {}
         self.name = "Guardian Reflector"
@@ -167,7 +167,7 @@ class GuardianReflector:
 
         # Internal state
         self.reflection_history: list[EthicalReflection] = []
-        self.moral_baseline: float | None = None
+        self.moral_baseline: Optional[float] = None
         self.active_frameworks = [
             EthicalFramework.VIRTUE_ETHICS,
             EthicalFramework.DEONTOLOGICAL,
@@ -200,7 +200,7 @@ class GuardianReflector:
             return False
 
     async def reflect_on_decision(
-        self, decision_context: dict[str, Any], decision_id: str | None = None
+        self, decision_context: dict[str, Any], decision_id: Optional[str] = None
     ) -> EthicalReflection:
         """
         Perform comprehensive ethical reflection on a decision
@@ -260,7 +260,7 @@ class GuardianReflector:
         )
         return reflection
 
-    async def detect_moral_drift(self, time_window: timedelta | None = None) -> MoralDrift:
+    async def detect_moral_drift(self, time_window: Optional[timedelta] = None) -> MoralDrift:
         """
         Detect moral drift in recent decisions
 
@@ -738,7 +738,7 @@ class GuardianReflector:
 # Plugin factory function
 
 
-def create_plugin(config: dict[str, Any] | None = None) -> GuardianReflector:
+def create_plugin(config: Optional[dict[str, Any]] = None) -> GuardianReflector:
     """Factory function to create Guardian Reflector plugin instance"""
     return GuardianReflector(config)
 

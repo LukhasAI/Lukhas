@@ -59,7 +59,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 # Import colony infrastructure
 try:
@@ -78,7 +78,7 @@ except ImportError as e:
 
     # Create fallback base class
     class BaseColony(ABC):
-        def __init__(self, colony_id: str, config: dict | None = None):
+        def __init__(self, colony_id: str, config: Optional[dict] = None):
             self.colony_id = colony_id
             self.config = config or {}
 
@@ -173,9 +173,9 @@ class ColonyTask:
     target_colonies: list[str]
     payload: dict[str, Any]
     priority: ColonyPriority = ColonyPriority.NORMAL
-    user_context: QIUserContext | None = None
+    user_context: Optional[QIUserContext] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    deadline: datetime | None = None
+    deadline: Optional[datetime] = None
     dependencies: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -216,7 +216,7 @@ class ColonyOrchestrator:
     8. Health monitoring and recovery operations
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the colony orchestrator
 
@@ -489,7 +489,7 @@ class ColonyOrchestrator:
                 "colony_id": colony_config.colony_id,
             }
 
-    async def _create_colony_instance(self, config: ColonyConfig) -> BaseColony | None:
+    async def _create_colony_instance(self, config: ColonyConfig) -> Optional[BaseColony]:
         """Create an instance of the specified colony type"""
 
         colony_class = self.colony_type_mapping.get(config.colony_type)

@@ -10,7 +10,7 @@ import sys
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 STATE_DIR = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE_DIR, "provenance", "receipts")
@@ -51,8 +51,8 @@ def _maybe_s3_client():
 
 @dataclass
 class SinkConfig:
-    kafka_topic: str | None
-    s3_bucket: str | None
+    kafka_topic: Optional[str]
+    s3_bucket: Optional[str]
     s3_prefix: str
 
 

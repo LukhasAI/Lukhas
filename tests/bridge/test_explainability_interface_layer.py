@@ -35,7 +35,7 @@ class _SymbolicEngineStub:
 class _MegClientStub:
     """Stub MEG client returning a minimal context payload."""
 
-    async def get_context(self, decision_id: str | None) -> Dict[str, object]:  # pragma: no cover - simple stub
+    async def get_context(self, decision_id: Optional[str]) -> Dict[str, object]:  # pragma: no cover - simple stub
         return {"decision_id": decision_id, "memory": ["contextual insight"]}
 
 

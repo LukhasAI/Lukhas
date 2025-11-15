@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import Any
+from typing import Any, Optional
 
 __all__ = ["AuthContext", "AuthUser", "get_current_user"]
 
@@ -13,7 +13,7 @@ _MODULES = (
 )
 
 
-def _find(name: str) -> Any | None:
+def _find(name: str) -> Optional[Any]:
     for module in _MODULES:
         try:
             mod = import_module(module)
@@ -32,7 +32,7 @@ get_current_user = _find("get_current_user")
 
 if AuthUser is None:
     class AuthUser:  # type: ignore[misc]
-        def __init__(self, id: str = "test-user", tier: str = "experimental", lukhas_id: str | None = None) -> None:
+        def __init__(self, id: str = "test-user", tier: str = "experimental", lukhas_id: Optional[str] = None) -> None:
             self.id = id
             self.tier = tier
             self.lukhas_id = lukhas_id or "lukhas-test-id"
@@ -40,7 +40,7 @@ if AuthUser is None:
 
 if AuthContext is None:
     class AuthContext:  # type: ignore[misc]
-        def __init__(self, user: AuthUser | None = None) -> None:
+        def __init__(self, user: Optional[AuthUser] = None) -> None:
             self.user = user or AuthUser()
 
 

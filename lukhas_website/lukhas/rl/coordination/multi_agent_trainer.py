@@ -14,7 +14,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import torch
@@ -104,8 +104,8 @@ class MultiAgentConsciousnessTrainer:
         self,
         consciousness_modules: dict[str, ConsciousnessModule],
         consciousness_environment: ConsciousnessEnvironment,
-        guardian_system: GuardianSystem | None = None,
-        config: TrainingConfiguration | None = None,
+        guardian_system: Optional[GuardianSystem] = None,
+        config: Optional[TrainingConfiguration] = None,
         device: torch.device | None = None,
     ):
         self.consciousness_modules = consciousness_modules
@@ -205,7 +205,7 @@ class MultiAgentConsciousnessTrainer:
 
     @instrument("DECISION", label="rl:multi_agent_train", capability="rl:training")
     async def train(
-        self, episodes: int, save_dir: Path | None = None, evaluation_callback: callable | None = None
+        self, episodes: int, save_dir: Optional[Path] = None, evaluation_callback: Optional[callable] = None
     ) -> dict[str, Any]:
         """
         Train consciousness RL agents across all modules.

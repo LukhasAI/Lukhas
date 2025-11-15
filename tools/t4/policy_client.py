@@ -1,4 +1,6 @@
 # tools/t4/policy_client.py
+from typing import Optional
+
 from __future__ import annotations
 
 import os
@@ -31,7 +33,7 @@ def intents_by_file(file: str):
     return r.json()
 
 
-def pre_pr_check(files: list, critical_codes: list | None = None, auto_create_reserved: bool = True):
+def pre_pr_check(files: list, critical_codes: Optional[list] = None, auto_create_reserved: bool = True):
     missing = []
     for f in files:
         intents = intents_by_file(f)

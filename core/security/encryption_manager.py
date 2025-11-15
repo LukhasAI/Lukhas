@@ -51,7 +51,7 @@ Example Usage:
 from __future__ import annotations
 
 import secrets
-from typing import Any
+from typing import Any, Optional
 
 from core.security.encryption_types import (
     EncryptionAlgorithm,
@@ -115,8 +115,8 @@ class EncryptionManager:
         self,
         data: bytes,
         algorithm: EncryptionAlgorithm,
-        key: bytes | None = None,
-        associated_data: bytes | None = None,
+        key: Optional[bytes] = None,
+        associated_data: Optional[bytes] = None,
     ) -> dict[str, Any]:
         """
         Encrypt data using specified AEAD algorithm.
@@ -204,7 +204,7 @@ class EncryptionManager:
         self,
         encrypted_data: dict[str, Any],
         key: bytes,
-        associated_data: bytes | None = None,
+        associated_data: Optional[bytes] = None,
     ) -> bytes:
         """
         Decrypt and verify AEAD-encrypted data.

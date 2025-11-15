@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """Symbol Export Generator - automated symbol export stubs for pytest errors.
 
 Usage examples:
@@ -111,7 +113,7 @@ class SymbolExportGenerator:
         exports.sort(key=lambda plan: plan.count, reverse=True)
         return exports
 
-    def _parse_error_entry(self, entry: Dict) -> tuple[str, str] | None:
+    def _parse_error_entry(self, entry: Dict) -> Optional[tuple[str, str]]:
         """Extract (module, symbol) from analyzer entry."""
         category = entry.get("category")
         if category not in {"CannotImport", "ImportError"}:
@@ -232,7 +234,7 @@ class SymbolExportGenerator:
             return f"candidate.{module}"
         return f"candidate.{module}"
 
-    def _resolve_destination(self, module: str) -> Path | None:
+    def _resolve_destination(self, module: str) -> Optional[Path]:
         """Resolve module path to filesystem destination inside repo."""
         module_path = Path(*module.split("."))
         module_file = (self.repo_root / f"{module_path}.py")
@@ -284,7 +286,7 @@ class SymbolExportGenerator:
         self,
         plan: list[ExportPlan],
         mode: str,
-        limit: int | None = None,
+        limit: Optional[int] = None,
     ) -> None:
         """Apply exports according to the requested mode."""
         applied = 0
@@ -352,7 +354,7 @@ class SymbolExportGenerator:
         print("-" * 80)
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate/apply symbol export stubs based on pytest analysis."
     )
@@ -386,7 +388,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: Optional[list[str]] = None) -> int:
     args = parse_args(argv)
     repo_root = Path(".").resolve()
     generator = SymbolExportGenerator(repo_root)

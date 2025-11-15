@@ -3,6 +3,8 @@
 Exports from the richest available backend (core.common preferred).
 Also provides real exceptions submodule for explicit imports.
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import sys
@@ -11,7 +13,7 @@ from importlib import import_module
 from . import exceptions
 
 __all__: list[str] = []
-_SRC: object | None = None
+_SRC: Optional[object] = None
 
 def _bind(modname: str) -> bool:
     global _SRC, __all__

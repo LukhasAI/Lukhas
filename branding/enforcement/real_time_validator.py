@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ class ValidationResult:
     confidence: float
     issues: list[dict[str, Any]]
     suggestions: list[str]
-    auto_corrections: dict[str, str] | None
+    auto_corrections: Optional[dict[str, str]]
     performance_impact: float  # Time taken for validation
 
 
@@ -60,7 +60,7 @@ class BrandRule:
     severity: ValidationSeverity
     description: str
     auto_correctable: bool
-    correction_template: str | None
+    correction_template: Optional[str]
 
 
 class RealTimeBrandValidator:

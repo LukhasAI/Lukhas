@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 import logging
@@ -32,7 +34,7 @@ class EventReplayer:
     def __init__(self, event_store: EventStore):
         self.event_store = event_store
 
-    def _load_events(self, aggregate_id: str | None = None) -> list[Event]:
+    def _load_events(self, aggregate_id: Optional[str] = None) -> list[Event]:
         """Load events from the event store, optionally for one aggregate."""
         conn = self.event_store._get_connection()
         query = (
@@ -61,7 +63,7 @@ class EventReplayer:
             )
         return events
 
-    def filter_events_by_tag(self, tag: str, aggregate_id: str | None = None) -> list[Event]:
+    def filter_events_by_tag(self, tag: str, aggregate_id: Optional[str] = None) -> list[Event]:
         """Return all events that include the given symbolic tag."""
         events = self._load_events(aggregate_id)
         return [e for e in events if tag in e.metadata.get("tags", [])]
@@ -79,7 +81,7 @@ class EventReplayer:
     # ✅ TODO: extend with CLI interface for governance dashboard
 
 
-def replay_ethical_events(event_store: EventStore, aggregate_id: str | None = None) -> AIAgentAggregate | list[Event]:
+def replay_ethical_events(event_store: EventStore, aggregate_id: Optional[str] = None) -> AIAgentAggregate | list[Event]:
     """Filter and replay events tagged with ``ETHICAL``."""
     replayer = EventReplayer(event_store)
     ethical_events = replayer.filter_events_by_tag("ETHICAL", aggregate_id)

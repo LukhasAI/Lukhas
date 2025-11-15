@@ -167,7 +167,7 @@ def get_current_user_from_token(
     """
     try:
         payload = auth_manager.verify_token(token)
-        username: str | None = payload.get("sub")
+        username: Optional[str] = payload.get("sub")
         if username is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

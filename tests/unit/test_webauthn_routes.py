@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 def fixture_load_app(monkeypatch: pytest.MonkeyPatch) -> Callable[[str | None], Any]:
     """Reload ``serve.main`` with the provided WebAuthn environment toggle."""
 
-    def _loader(flag_value: str | None) -> Any:
+    def _loader(flag_value: Optional[str]) -> Any:
         if flag_value is None:
             monkeypatch.delenv("LUKHAS_WEBAUTHN", raising=False)
         else:

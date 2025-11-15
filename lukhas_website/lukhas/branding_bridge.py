@@ -23,7 +23,7 @@ import logging
 import re
 import warnings
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -210,11 +210,11 @@ class LUKHASBrandingBridge:
         self.is_initialized: bool = False
 
         # Instance components may be unavailable; annotate as Optional[Any]
-        self.voice_adapter: Any | None = None
-        self.validator: Any | None = None
-        self.monitor: Any | None = None
-        self.wordsmith: Any | None = None
-        self.soul: Any | None = None
+        self.voice_adapter: Optional[Any] = None
+        self.validator: Optional[Any] = None
+        self.monitor: Optional[Any] = None
+        self.wordsmith: Optional[Any] = None
+        self.soul: Optional[Any] = None
 
         # Default brand context
         self.default_context: BrandContext = BrandContext()
@@ -298,7 +298,7 @@ class LUKHASBrandingBridge:
 
         return context
 
-    def validate_output(self, text: str, context: BrandContext | None = None) -> dict[str, Any]:
+    def validate_output(self, text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
         """Validate text output for brand compliance"""
         if not isinstance(text, str):
             return {"valid": True, "issues": [], "text": text}
@@ -327,7 +327,7 @@ class LUKHASBrandingBridge:
             "compliance_level": context.compliance_level,
         }
 
-    def normalize_output(self, text: str, context: BrandContext | None = None) -> str:
+    def normalize_output(self, text: str, context: Optional[BrandContext] = None) -> str:
         """Normalize text output for brand compliance"""
         if not isinstance(text, str):
             return text
@@ -349,7 +349,7 @@ class LUKHASBrandingBridge:
             logger.warning(f"Output normalization error: {e}")
             return text
 
-    def get_brand_voice(self, content: str, context: BrandContext | None = None) -> str:
+    def get_brand_voice(self, content: str, context: Optional[BrandContext] = None) -> str:
         """Apply brand voice to content"""
         context = context or self.default_context
 
@@ -369,7 +369,7 @@ class LUKHASBrandingBridge:
 
         return content
 
-    def generate_branded_content(self, prompt: str, context: BrandContext | None = None) -> str:
+    def generate_branded_content(self, prompt: str, context: Optional[BrandContext] = None) -> str:
         """Generate brand-compliant content from prompt"""
         context = context or self.default_context
 
@@ -433,7 +433,7 @@ class LUKHASBrandingBridge:
 
 
 # Global bridge instance
-_bridge_instance: LUKHASBrandingBridge | None = None
+_bridge_instance: Optional[LUKHASBrandingBridge] = None
 
 
 async def initialize_branding() -> bool:
@@ -466,22 +466,22 @@ def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
 # Removed duplicate function definition
 
 
-def validate_output(text: str, context: BrandContext | None = None) -> dict[str, Any]:
+def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
     """Validate text for brand compliance"""
     return get_bridge().validate_output(text, context)
 
 
-def normalize_output_text(text: str, context: BrandContext | None = None) -> str:
+def normalize_output_text(text: str, context: Optional[BrandContext] = None) -> str:
     """Normalize text for brand compliance"""
     return get_bridge().normalize_output(text, context)
 
 
-def get_brand_voice(content: str, context: BrandContext | None = None) -> str:
+def get_brand_voice(content: str, context: Optional[BrandContext] = None) -> str:
     """Apply brand voice to content"""
     return get_bridge().get_brand_voice(content, context)
 
 
-def generate_branded_content(prompt: str, context: BrandContext | None = None) -> str:
+def generate_branded_content(prompt: str, context: Optional[BrandContext] = None) -> str:
     """Generate brand-compliant content"""
     return get_bridge().generate_branded_content(prompt, context)
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 
 class SecurityException(RuntimeError):
@@ -12,8 +12,8 @@ class SecurityException(RuntimeError):
         self,
         message: str,
         *,
-        code: str | None = None,
-        details: dict[str, Any] | None = None,
+        code: Optional[str] = None,
+        details: Optional[dict[str, Any]] = None,
     ) -> None:
         super().__init__(message)
         self.code = code

@@ -5,7 +5,7 @@ import logging
 import math
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -71,9 +71,9 @@ class BioCore:
     def __init__(
         self,
         *,
-        memory_manager: Any | None = None,
-        config: dict[str, Any] | None = None,
-        clock: ClockFn | None = None,
+        memory_manager: Optional[Any] = None,
+        config: Optional[dict[str, Any]] = None,
+        clock: Optional[ClockFn] = None,
     ) -> None:
         self.memory_manager = memory_manager
         self.config = config or {}
@@ -99,7 +99,7 @@ class BioCore:
         self._symbolic_trace: list[dict[str, Any]] = []
         self._trace_limit = int(self.config.get("trace_limit", 256))
 
-        self._abas_hub: Any | None = None
+        self._abas_hub: Optional[Any] = None
         self._is_initialized = False
 
         logger.info("BioCore initialized with energy reserve %.2f", self._energy_reserve)
@@ -147,7 +147,7 @@ class BioCore:
         *,
         valence: float,
         arousal: float,
-        dominance: float | None = None,
+        dominance: Optional[float] = None,
         source: str = "direct",
     ) -> EmotionalSnapshot:
         """Record a new emotional state and propagate to integrations."""

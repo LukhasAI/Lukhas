@@ -15,7 +15,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -63,12 +63,12 @@ class GLYPHGenerationTask:
     tier_level: int
     complexity: GLYPHComplexity
     identity_data: dict[str, Any]
-    orb_state: OrbVisualization | None = None
-    steganographic_data: dict[str, Any] | None = None
-    qi_seed: bytes | None = None
+    orb_state: Optional[OrbVisualization] = None
+    steganographic_data: Optional[dict[str, Any]] = None
+    qi_seed: Optional[bytes] = None
     consciousness_pattern: np.ndarray | None = None
-    dream_sequence: list[dict[str, Any]] | None = None
-    deadline: datetime | None = None
+    dream_sequence: Optional[list[dict[str, Any]]] = None
+    deadline: Optional[datetime] = None
 
 
 @dataclass
@@ -93,7 +93,7 @@ class GeneratedGLYPH:
     glyph_type: GLYPHType
     tier_level: int
     image_data: np.ndarray
-    embedded_data: dict[str, Any] | None
+    embedded_data: Optional[dict[str, Any]]
     generation_metadata: dict[str, Any]
     fragments_used: list[str]
     consensus_achieved: bool
@@ -605,9 +605,9 @@ class DistributedGLYPHColony(BaseColony):
         glyph_type: GLYPHType,
         tier_level: int,
         identity_data: dict[str, Any],
-        orb_state: OrbVisualization | None = None,
-        steganographic_data: dict[str, Any] | None = None,
-        session_id: str | None = None,
+        orb_state: Optional[OrbVisualization] = None,
+        steganographic_data: Optional[dict[str, Any]] = None,
+        session_id: Optional[str] = None,
     ) -> GeneratedGLYPH:
         """
         Generate an identity GLYPH using distributed agents.
@@ -938,7 +938,7 @@ class DistributedGLYPHColony(BaseColony):
 
         return params
 
-    def _generate_quantum_seed(self, lambda_id: str, session_id: str | None) -> bytes:
+    def _generate_quantum_seed(self, lambda_id: str, session_id: Optional[str]) -> bytes:
         """Generate quantum seed for GLYPH generation."""
         # Combine identity and session for uniqueness
         seed_data = (

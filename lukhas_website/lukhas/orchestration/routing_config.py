@@ -26,7 +26,7 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 from opentelemetry import trace
@@ -100,7 +100,7 @@ class ProviderHealth:
     success_rate: float = 0.0
     last_check: float = field(default_factory=time.time)
     consecutive_failures: int = 0
-    last_error: str | None = None
+    last_error: Optional[str] = None
 
 
 @dataclass
@@ -110,10 +110,10 @@ class RoutingRule:
     pattern: str
     strategy: RoutingStrategy
     providers: list[str]
-    weights: dict[str, float] | None = None
+    weights: Optional[dict[str, float]] = None
     health_threshold: float = 0.95
     latency_threshold_ms: float = 250.0
-    fallback_providers: list[str] | None = None
+    fallback_providers: Optional[list[str]] = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -159,7 +159,7 @@ class RoutingConfigurationManager:
 
     def __init__(self, config_path: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas/config/routing.yaml"):
         self.config_path = Path(config_path)
-        self.current_config: RoutingConfiguration | None = None
+        self.current_config: Optional[RoutingConfiguration] = None
         self.config_version: str = "1.0.0"
         self.last_reload: float = 0.0
 
@@ -268,7 +268,7 @@ class RoutingConfigurationManager:
             raise ValueError("Configuration not loaded")
         return self.current_config
 
-    def get_rule_for_request(self, request_type: str, context: dict[str, Any] | None = None) -> RoutingRule | None:
+    def get_rule_for_request(self, request_type: str, context: Optional[dict[str, Any]] = None) -> Optional[RoutingRule]:
         """Find matching routing rule for a request"""
         if not self.current_config:
             return None
@@ -288,7 +288,7 @@ class RoutingConfigurationManager:
             providers=self.current_config.default_providers
         )
 
-    def get_ab_test_variant(self, session_id: str, experiment_name: str) -> str | None:
+    def get_ab_test_variant(self, session_id: str, experiment_name: str) -> Optional[str]:
         """Get A/B test variant for session"""
         if not self.current_config:
             return None
@@ -446,7 +446,7 @@ class RoutingConfigurationManager:
 
 
 # Global configuration manager instance
-_config_manager: RoutingConfigurationManager | None = None
+_config_manager: Optional[RoutingConfigurationManager] = None
 
 
 async def get_routing_config_manager() -> RoutingConfigurationManager:

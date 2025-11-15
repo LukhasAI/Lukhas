@@ -24,7 +24,7 @@ import logging
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -104,14 +104,14 @@ class ValidationContext:
     Guardian integration, and audit logging.
     """
     # Request context
-    client_ip: str | None = None
-    user_agent: str | None = None
-    request_id: str | None = None
+    client_ip: Optional[str] = None
+    user_agent: Optional[str] = None
+    request_id: Optional[str] = None
 
     # Authentication context
-    expected_audience: str | None = None
-    required_tier: TierLevel | None = None
-    required_permissions: list[str] | None = None
+    expected_audience: Optional[str] = None
+    required_tier: Optional[TierLevel] = None
+    required_permissions: Optional[list[str]] = None
 
     # Security context
     max_token_age_seconds: int = 3600
@@ -123,7 +123,7 @@ class ValidationContext:
     ethical_validation_enabled: bool = True
 
     # Rate limiting context
-    rate_limit_key: str | None = None
+    rate_limit_key: Optional[str] = None
     max_requests_per_minute: int = 100
 
 
@@ -137,30 +137,30 @@ class ValidationResult:
     """
     # Validation status
     valid: bool
-    error_code: str | None = None
-    error_message: str | None = None
+    error_code: Optional[str] = None
+    error_message: Optional[str] = None
 
     # Token claims (if valid)
-    alias: str | None = None
-    claims: dict[str, Any] | None = None
-    parsed_alias: ΛiDAlias | None = None
+    alias: Optional[str] = None
+    claims: Optional[dict[str, Any]] = None
+    parsed_alias: Optional[ΛiDAlias] = None
 
     # Security metrics
     validation_time_ms: float = 0.0
-    token_age_seconds: float | None = None
+    token_age_seconds: Optional[float] = None
     signature_valid: bool = False
     structure_valid: bool = False
 
     # Guardian assessment
     guardian_approved: bool = True
-    guardian_reason: str | None = None
-    ethical_score: float | None = None
+    guardian_reason: Optional[str] = None
+    ethical_score: Optional[float] = None
 
     # Metadata
-    kid: str | None = None
-    issuer: str | None = None
-    tier_level: TierLevel | None = None
-    namespace: str | None = None
+    kid: Optional[str] = None
+    issuer: Optional[str] = None
+    tier_level: Optional[TierLevel] = None
+    namespace: Optional[str] = None
 
 
 class TokenValidationError(Exception):
@@ -217,7 +217,7 @@ class TokenValidator:
     def __init__(
         self,
         secret_provider: SecretProvider,
-        guardian_validator: Callable | None = None,
+        guardian_validator: Optional[Callable] = None,
         cache_size: int = 10000,
         cache_ttl_seconds: int = 300
     ):
@@ -250,7 +250,7 @@ class TokenValidator:
     def validate(
         self,
         token: str,
-        context: ValidationContext | None = None
+        context: Optional[ValidationContext] = None
     ) -> ValidationResult:
         """
         Validate JWT token with comprehensive security checks.
@@ -641,7 +641,7 @@ class TokenValidator:
                 raise GuardianBlockedError(f"Guardian validation error: {e}")
             return {"approved": True, "reason": f"Guardian error (fail-open): {e}"}
 
-    def _extract_tier_level(self, claims: dict[str, Any]) -> TierLevel | None:
+    def _extract_tier_level(self, claims: dict[str, Any]) -> Optional[TierLevel]:
         """Extract and normalize tier level from token claims."""
         tier_value = claims.get("lukhas_tier")
         if tier_value is None:
@@ -653,7 +653,7 @@ class TokenValidator:
             logger.warning(f"Invalid tier value in token: {tier_value}")
             return None
 
-    def _check_cache(self, token: str) -> ValidationResult | None:
+    def _check_cache(self, token: str) -> Optional[ValidationResult]:
         """Check token cache for previous validation result."""
         if token not in self._token_cache:
             return None
@@ -777,7 +777,7 @@ class TokenValidator:
         active_tokens_gauge.labels(component=self._component_id).set(0)
         logger.info("Token validation cache cleared")
 
-    def verify(self, token: str, context: ValidationContext | None = None) -> ValidationResult:
+    def verify(self, token: str, context: Optional[ValidationContext] = None) -> ValidationResult:
         """Alias for validate method for backward compatibility."""
         return self.validate(token, context)
 

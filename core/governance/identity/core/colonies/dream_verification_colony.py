@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -105,7 +105,7 @@ class MultiverseDreamBranch:
     symbolic_elements: list[DreamSymbol]
     emotional_trajectory: list[str]
     coherence_score: float
-    qi_signature: str | None = None
+    qi_signature: Optional[str] = None
 
 
 class DreamAnalysisAgent(SwarmAgent):
@@ -573,9 +573,9 @@ class DreamVerificationColony(BaseColony):
         )
 
         self.verification_agents: dict[str, DreamAnalysisAgent] = {}
-        self.event_publisher: IdentityEventPublisher | None = None
-        self.event_bus: EventBus | None = None
-        self.dream_authenticator: DreamAuthenticator | None = None
+        self.event_publisher: Optional[IdentityEventPublisher] = None
+        self.event_bus: Optional[EventBus] = None
+        self.dream_authenticator: Optional[DreamAuthenticator] = None
 
         # Colony configuration
         self.min_agents_per_method = 3  # More agents for Tier 5
@@ -633,7 +633,7 @@ class DreamVerificationColony(BaseColony):
         lambda_id: str,
         dream_response: dict[str, Any],
         seed_id: str,
-        session_id: str | None = None,
+        session_id: Optional[str] = None,
     ) -> DreamAuthenticationResult:
         """
         Perform Tier 5 dream-based authentication with multiverse simulation.

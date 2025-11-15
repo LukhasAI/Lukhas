@@ -18,7 +18,7 @@ import os
 import statistics
 from collections import deque
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Optional
 from uuid import UUID, uuid4
 
 # Guardian system integration
@@ -80,7 +80,7 @@ class ConsciousnessStream:
         self,
         fps: int = 30,
         store_capacity: int = 10000,
-        glyph_id: UUID | None = None,
+        glyph_id: Optional[UUID] = None,
         enable_backpressure: bool = True,
         backpressure_threshold: float = 0.8,
         decimation_factor: int = 2,
@@ -144,7 +144,7 @@ class ConsciousnessStream:
 
         logger.info(f"ConsciousnessStream initialized: lane={self.lane}, fps={fps}, glyph_id={self.glyph_id}")
 
-    def enable_guardian_integration(self, guardian_instance: Any | None = None) -> None:
+    def enable_guardian_integration(self, guardian_instance: Optional[Any] = None) -> None:
         """Enable Guardian safety validation for consciousness processing"""
         if not GUARDIAN_AVAILABLE:
             logger.warning("Guardian system not available, cannot enable consciousness validation")
@@ -681,7 +681,7 @@ class ConsciousnessStream:
         if self._should_store_event(resume_event):
             self.event_store.append(resume_event)
 
-    async def validate_consciousness_state_transition(self, new_state: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
+    async def validate_consciousness_state_transition(self, new_state: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Validate consciousness state transitions through Guardian"""
         if not self._guardian_integration_enabled or not self._guardian_instance:
             return {

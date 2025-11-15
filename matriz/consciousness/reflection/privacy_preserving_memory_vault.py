@@ -101,7 +101,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np  # Required for differential privacy
@@ -225,7 +225,7 @@ class EncryptedMemory:
     privacy_policy_id: str = ""
     encryption_scheme: EncryptionScheme = EncryptionScheme.AES_256_GCM
     key_id: str = ""
-    iv: bytes | None = None
+    iv: Optional[bytes] = None
 
     # Access tracking
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -233,7 +233,7 @@ class EncryptedMemory:
     access_count: int = 0
 
     # Compliance tracking
-    retention_expires: datetime | None = None
+    retention_expires: Optional[datetime] = None
     deletion_requested: bool = False
     anonymized: bool = False
 
@@ -242,7 +242,7 @@ class EncryptedMemory:
     encrypted_metadata: dict[str, bytes] = field(default_factory=dict)
 
     # Emotional context (encrypted)
-    encrypted_emotion_vector: bytes | None = None
+    encrypted_emotion_vector: Optional[bytes] = None
     emotion_privacy_level: PrivacyLevel = PrivacyLevel.SENSITIVE
 
     def update_access_tracking(self):
@@ -271,7 +271,7 @@ class EncryptionProvider(ABC):
     """Abstract base class for encryption providers"""
 
     @abstractmethod
-    async def encrypt(self, data: bytes, key_id: str | None = None) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: Optional[str] = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data and return ciphertext with metadata"""
 
     @abstractmethod
@@ -279,7 +279,7 @@ class EncryptionProvider(ABC):
         """Decrypt ciphertext using key and metadata"""
 
     @abstractmethod
-    async def generate_key(self, key_id: str | None = None) -> str:
+    async def generate_key(self, key_id: Optional[str] = None) -> str:
         """Generate a new encryption key"""
 
     @abstractmethod
@@ -295,7 +295,7 @@ class AESGCMProvider(EncryptionProvider):
         self.key_storage_path.mkdir(parents=True, exist_ok=True)
         self.keys: dict[str, bytes] = {}
 
-    async def encrypt(self, data: bytes, key_id: str | None = None) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: Optional[str] = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using AES-256-GCM"""
 
         if not key_id:
@@ -345,7 +345,7 @@ class AESGCMProvider(EncryptionProvider):
 
         return plaintext
 
-    async def generate_key(self, key_id: str | None = None) -> str:
+    async def generate_key(self, key_id: Optional[str] = None) -> str:
         """Generate a new AES-256 key"""
 
         if not key_id:
@@ -434,7 +434,7 @@ class FernetProvider(EncryptionProvider):
     def __init__(self):
         self.keys: dict[str, Fernet] = {}
 
-    async def encrypt(self, data: bytes, key_id: str | None = None) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: Optional[str] = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using Fernet"""
 
         if not key_id:
@@ -465,7 +465,7 @@ class FernetProvider(EncryptionProvider):
 
         return plaintext
 
-    async def generate_key(self, key_id: str | None = None) -> str:
+    async def generate_key(self, key_id: Optional[str] = None) -> str:
         """Generate a new Fernet key"""
 
         if not key_id:
@@ -579,7 +579,7 @@ class PrivacyPreservingMemoryVault:
         self.dp_provider = DifferentialPrivacyProvider()
 
         # Integration components
-        self.emotional_memory: EmotionalMemory | None = None
+        self.emotional_memory: Optional[EmotionalMemory] = None
         self.meg = None
         self.srd = None
 
@@ -698,9 +698,9 @@ class PrivacyPreservingMemoryVault:
         content: Any,
         memory_type: str = "general",
         privacy_policy_id: str = "personal",
-        emotion_vector: EmotionVector | None = None,
-        keywords: list[str] | None = None,
-        metadata: dict[str, Any] | None = None,
+        emotion_vector: Optional[EmotionVector] = None,
+        keywords: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Store a memory with privacy protection"""
 
@@ -820,7 +820,7 @@ class PrivacyPreservingMemoryVault:
         memory_id: str,
         decrypt: bool = True,
         use_differential_privacy: bool = False,
-    ) -> dict[str, Any] | None:
+    ) -> Optional[dict[str, Any]]:
         """Retrieve and decrypt a memory"""
 
         async with self._lock:
@@ -948,8 +948,8 @@ class PrivacyPreservingMemoryVault:
 
     async def search_memories(
         self,
-        keywords: list[str] | None = None,
-        memory_type: str | None = None,
+        keywords: Optional[list[str]] = None,
+        memory_type: Optional[str] = None,
         privacy_level: PrivacyLevel = None,
         use_differential_privacy: bool = True,
     ) -> list[str]:
@@ -1265,7 +1265,7 @@ class PrivacyPreservingMemoryVault:
             f.write(json.dumps(audit_entry) + "\n")
 
     async def export_memory_data(
-        self, memory_ids: list[str] | None = None, format: str = "json"
+        self, memory_ids: Optional[list[str]] = None, format: str = "json"
     ) -> dict[str, Any]:
         """Export memory data (GDPR Article 20 - Data portability)"""
 
@@ -1527,7 +1527,7 @@ class PrivacyPreservingMemoryVault:
 
 
 # Global PPMV instance
-_ppmv_instance: PrivacyPreservingMemoryVault | None = None
+_ppmv_instance: Optional[PrivacyPreservingMemoryVault] = None
 
 
 async def get_ppmv() -> PrivacyPreservingMemoryVault:
@@ -1540,7 +1540,7 @@ async def get_ppmv() -> PrivacyPreservingMemoryVault:
 
 
 # Convenience functions
-async def store_sensitive_memory(content: Any, emotion_vector: EmotionVector | None = None) -> str:
+async def store_sensitive_memory(content: Any, emotion_vector: Optional[EmotionVector] = None) -> str:
     """Store a sensitive memory with enhanced privacy protection"""
 
     ppmv = await get_ppmv()
@@ -1554,7 +1554,7 @@ async def store_sensitive_memory(content: Any, emotion_vector: EmotionVector | N
 
 async def retrieve_private_memory(
     memory_id: str, use_differential_privacy: bool = True
-) -> dict[str, Any] | None:
+) -> Optional[dict[str, Any]]:
     """Retrieve a memory with privacy protection"""
 
     ppmv = await get_ppmv()

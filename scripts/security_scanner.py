@@ -14,7 +14,7 @@ import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -27,7 +27,7 @@ class SecurityFinding:
     file_path: str
     line_number: int
     code_snippet: str
-    fix_suggestion: str | None = None
+    fix_suggestion: Optional[str] = None
 
 
 @dataclass
@@ -38,7 +38,7 @@ class VulnerabilityFinding:
     vulnerability_id: str
     severity: str
     description: str
-    fix_version: str | None = None
+    fix_version: Optional[str] = None
 
 
 @dataclass

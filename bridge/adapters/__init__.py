@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from _bridgeutils import bridge
 
-_mod: object | None = None
+_mod: Optional[object] = None
 _exports: dict[str, object] = {}
 
 try:
@@ -25,6 +25,8 @@ if not isinstance(__all__, list):
 
 class _FallbackAdapter:
     """No-op adapter stub for environments without concrete adapters."""
+from typing import Optional
+
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         self.args = args
@@ -37,7 +39,7 @@ class _FallbackAdapter:
 _FALLBACK_ADAPTER_TYPE: type = _FallbackAdapter
 
 
-def _ensure(name: str, factory: type | None = None) -> None:
+def _ensure(name: str, factory: Optional[type] = None) -> None:
     if name in globals():
         return
     target = factory if factory is not None else _FALLBACK_ADAPTER_TYPE

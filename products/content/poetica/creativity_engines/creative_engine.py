@@ -41,6 +41,7 @@ from typing import (
     Callable,
     Protocol,
     TypeVar,
+    Optional
 )
 
 try:
@@ -150,7 +151,7 @@ class CreativeConfig:
     cache_ttl_seconds: int = 3600
     max_concurrent_generations: int = 10
     enable_federated_learning: bool = True
-    neural_checkpoint_path: Path | None = None
+    neural_checkpoint_path: Optional[Path] = None
 
 
 @dataclass
@@ -385,7 +386,7 @@ class EnterpriseNeuralHaikuGenerator:
 
     @CircuitBreaker(failure_threshold=3, timeout=30.0)
     async def generate_haiku(
-        self, context: CreativeContext, style_override: CreativeStyle | None = None
+        self, context: CreativeContext, style_override: Optional[CreativeStyle] = None
     ) -> tuple[str, CreativeMetrics]:
         """
         Generate a neural-enhanced haiku with comprehensive monitoring.
@@ -459,7 +460,7 @@ class EnterpriseNeuralHaikuGenerator:
             finally:
                 ACTIVE_GENERATORS.dec()
 
-    async def _generate_base_haiku(self, context: CreativeContext, style_override: CreativeStyle | None) -> list[str]:
+    async def _generate_base_haiku(self, context: CreativeContext, style_override: Optional[CreativeStyle]) -> list[str]:
         """Generate base haiku structure using neural guidance."""
         lines = []
         syllable_pattern = [5, 7, 5]
@@ -667,7 +668,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         return np.mean(accuracy_scores)
 
-    def _generate_cache_key(self, context: CreativeContext, style_override: CreativeStyle | None) -> str:
+    def _generate_cache_key(self, context: CreativeContext, style_override: Optional[CreativeStyle]) -> str:
         """Generate cache key for haiku generation request."""
         key_components = [
             context.user_id,
@@ -680,7 +681,7 @@ class EnterpriseNeuralHaikuGenerator:
         key_string = "|".join(str(comp) for comp in key_components)
         return hashlib.sha256(key_string.encode()).hexdigest()[:16]
 
-    async def _get_cached_result(self, cache_key: str) -> tuple[str, CreativeMetrics] | None:
+    async def _get_cached_result(self, cache_key: str) -> Optional[tuple[str, CreativeMetrics]]:
         """Retrieve cached result if available and not expired."""
         if self.redis_client:
             try:
@@ -769,7 +770,7 @@ class CreativeEngineFactory:
 
     @staticmethod
     async def create_production_engine(
-        config_path: Path | None = None, redis_url: str | None = None
+        config_path: Optional[Path] = None, redis_url: Optional[str] = None
     ) -> EnterpriseNeuralHaikuGenerator:
         """Create a production-ready creative engine with full dependencies."""
 

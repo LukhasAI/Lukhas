@@ -9,12 +9,12 @@ import warnings
 from collections.abc import Iterable
 from importlib import import_module
 from types import ModuleType
-from typing import Callable
+from typing import Callable, Optional
 
 
 def resolve_first(paths: Iterable[str]) -> ModuleType:
     """Try importing from candidate paths, return first success."""
-    last_err: Exception | None = None
+    last_err: Optional[Exception] = None
     for p in paths:
         try:
             return import_module(p)
@@ -23,7 +23,7 @@ def resolve_first(paths: Iterable[str]) -> ModuleType:
     raise ModuleNotFoundError(f"None of {list(paths)} importable") from last_err
 
 
-def export_from(mod: ModuleType, names: Iterable[str] | None = None) -> dict:
+def export_from(mod: ModuleType, names: Optional[Iterable[str]] = None) -> dict:
     """Extract exports from module, respecting __all__ or using public attrs."""
     if names is None:
         names = getattr(mod, "__all__", [])
@@ -33,7 +33,7 @@ def export_from(mod: ModuleType, names: Iterable[str] | None = None) -> dict:
     return {n: getattr(mod, n) for n in names}
 
 
-def deprecate(name_or_msg: str, msg: str | None = None) -> None:
+def deprecate(name_or_msg: str, msg: Optional[str] = None) -> None:
     """Emit deprecation warning with proper stacklevel.
 
     Can be called as:
@@ -55,9 +55,9 @@ def safe_guard(name: str, exports: list[str]) -> None:
 def bridge(
     candidates: Iterable[str],
     *,
-    deprecation: str | None = None,
-    names: Iterable[str] | None = None,
-    post: Callable[[ModuleType], None] | None = None,
+    deprecation: Optional[str] = None,
+    names: Optional[Iterable[str]] = None,
+    post: Optional[Callable[[ModuleType], None]] = None,
 ) -> tuple[ModuleType, dict, list[str]]:
     """
     Create a bridge to canonical implementation with fallback resolution.

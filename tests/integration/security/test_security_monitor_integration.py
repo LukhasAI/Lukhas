@@ -15,8 +15,8 @@ class FakeAuthAttempt:
     ip: str
     success: bool
     guardian_allowed: bool = True
-    guardian_reason: str | None = None
-    anomaly_score: float | None = None
+    guardian_reason: Optional[str] = None
+    anomaly_score: Optional[float] = None
 
 
 class FakeIdentityService:

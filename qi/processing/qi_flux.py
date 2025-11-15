@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 import random
@@ -9,7 +11,7 @@ class QIFlux:
     """# ΛTAG: qi_entropy
     Provides entropy metrics for dream variability."""
 
-    seed: int | None = None
+    seed: Optional[int] = None
 
     def measure_entropy(self) -> float:
         """Return a pseudo-random entropy value between 0 and 1."""

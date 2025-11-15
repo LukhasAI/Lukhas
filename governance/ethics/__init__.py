@@ -1,3 +1,5 @@
+from typing import Optional
+
 """Bridge package for governance.ethics."""
 
 from __future__ import annotations
@@ -9,7 +11,7 @@ from types import ModuleType
 __all__: list[str] = []
 __path__: list[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
 
-_BACKEND: ModuleType | None = None
+_BACKEND: Optional[ModuleType] = None
 _CANDIDATES = [
     "lukhas_website.governance.ethics",
     "governance.ethics",

@@ -10,11 +10,11 @@ import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 class RootDirectoryAuditor:
-    def __init__(self, repo_root: Path | None = None) -> None:
+    def __init__(self, repo_root: Optional[Path] = None) -> None:
         self.repo_root = repo_root or Path.cwd()
         self.core_modules = [
             "core",
