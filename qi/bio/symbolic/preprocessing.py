@@ -15,7 +15,7 @@ from __future__ import annotations
 import logging
 from collections import deque
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 from bio.core.symbolic_fallback_systems import get_fallback_manager
@@ -333,7 +333,7 @@ class BioPreprocessingColony(BaseColony):
 
 # Colony instance factory
 def create_preprocessing_colony(
-    colony_id: str | None = None,
+    colony_id: Optional[str] = None,
 ) -> BioPreprocessingColony:
     """Create a new preprocessing colony instance."""
     return BioPreprocessingColony(colony_id or "bio_preprocessing_default")

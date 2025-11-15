@@ -34,7 +34,7 @@ import uuid
 from abc import ABC
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -91,8 +91,8 @@ class ActorMessage:
     message_type: str
     payload: dict[str, Any]
     timestamp: float
-    correlation_id: str | None = None
-    reply_to: str | None = None
+    correlation_id: Optional[str] = None
+    reply_to: Optional[str] = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -109,9 +109,9 @@ class ActorRef:
         self,
         message_type: str,
         payload: dict[str, Any],
-        correlation_id: str | None = None,
-        reply_to: str | None = None,
-        sender: str | None = "unknown",
+        correlation_id: Optional[str] = None,
+        reply_to: Optional[str] = None,
+        sender: Optional[str] = "unknown",
     ) -> bool:
         """Send a fire-and-forget message to the actor"""
         message = ActorMessage(
@@ -132,7 +132,7 @@ class ActorRef:
         message_type: str,
         payload: dict[str, Any],
         timeout: float = 5.0,
-        correlation_id: str | None = None,
+        correlation_id: Optional[str] = None,
     ) -> Any:
         """Send a message and wait for a response"""
         response_id = str(uuid.uuid4())
@@ -194,9 +194,9 @@ class Actor(ABC):
             self.mailbox = asyncio.Queue(maxsize=1000)
 
         self.message_handlers: dict[str, Callable] = {}
-        self.supervisor: ActorRef | None = None
+        self.supervisor: Optional[ActorRef] = None
         self.children: dict[str, ActorRef] = {}
-        self.actor_system: ActorSystem | None = None
+        self.actor_system: Optional[ActorSystem] = None
         self.supervision_strategy: SupervisionStrategy = SupervisionStrategy.RESTART
         self._running = False
         self._stats = {
@@ -501,11 +501,11 @@ class ActorSystem:
             logger.info(f"Restarted actor {actor_id}")
             return new_ref
 
-    def get_actor_ref(self, actor_id: str) -> ActorRef | None:
+    def get_actor_ref(self, actor_id: str) -> Optional[ActorRef]:
         """Get reference to an actor"""
         return self.actor_refs.get(actor_id)
 
-    def get_actor(self, actor_id: str) -> Actor | None:
+    def get_actor(self, actor_id: str) -> Optional[Actor]:
         """Get actor instance (for internal use)"""
         return self.actors.get(actor_id)
 
@@ -585,7 +585,7 @@ class ActorSystem:
 
         return stats
 
-    async def get_p2p_node(self, actor_id: str) -> P2PNode | None:
+    async def get_p2p_node(self, actor_id: str) -> Optional[P2PNode]:
         """Get or create a P2P node for an actor."""
         if actor_id not in self.p2p_nodes:
             actor = self.get_actor(actor_id)
@@ -604,7 +604,7 @@ class AIAgentActor(Actor):
     It also shows how an actor can change its behavior using `become`.
     """
 
-    def __init__(self, actor_id: str, capabilities: list[str] | None = None):
+    def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None):
         super().__init__(actor_id)
         self.capabilities = capabilities or []
         self.current_tasks: dict[str, dict] = {}

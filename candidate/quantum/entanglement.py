@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 import random
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 from uuid import uuid4
 
 from .measurement import QuantumMeasurement
@@ -29,7 +29,7 @@ class EntanglementEngine:
     def __init__(
         self,
         *,
-        measurement_harness: QuantumMeasurement | None = None,
+        measurement_harness: Optional[QuantumMeasurement] = None,
         rng: random.Random | None = None,
     ) -> None:
         self.entangled_systems: dict[str, EntangledSystem] = {}
@@ -59,7 +59,7 @@ class EntanglementEngine:
         self,
         system: EntangledSystem,
         measured_state_index: int,
-        context: dict[str, Any] | None = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> list[dict[str, Any]]:
         """
         Measure one state in an entangled system and collapse all others based on correlations.

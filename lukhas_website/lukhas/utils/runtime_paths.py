@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 import site
@@ -5,7 +7,7 @@ from collections.abc import Iterable
 from pathlib import Path
 
 
-def find_repo_root(start: Path | None = None) -> Path:
+def find_repo_root(start: Optional[Path] = None) -> Path:
     """Return the repo root by walking up until a known marker is found.
 
     Looks for common project markers: pyproject.toml, .git, Makefile.
@@ -24,7 +26,7 @@ def find_repo_root(start: Path | None = None) -> Path:
         current = current.parent
 
 
-def ensure_repo_paths(subdirs: Iterable[str], *, base: Path | None = None) -> None:
+def ensure_repo_paths(subdirs: Iterable[str], *, base: Optional[Path] = None) -> None:
     """Register repo-relative directories as import search locations.
 
     Uses `site.addsitedir` to make directories importable without directly

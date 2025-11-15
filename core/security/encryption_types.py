@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 Type-safe encryption algorithm definitions and metadata.
 
@@ -32,8 +34,7 @@ Example Usage:
     >>> print(f"Post-quantum resistant: {metadata.pq_resistant}")
 """
 
-from __future__ import annotations
-
+from typing import Optional
 from dataclasses import dataclass
 from enum import Enum
 
@@ -96,7 +97,7 @@ class AlgorithmMetadata:
     key_size: int  # bits
     nonce_size: int  # bytes
     tag_size: int  # bytes (for AEAD)
-    block_size: int | None  # bytes (None for stream ciphers)
+    block_size: Optional[int]  # bytes (None for stream ciphers)
     pq_resistant: bool
     security_level: SecurityLevel
     aead: bool

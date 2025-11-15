@@ -17,7 +17,7 @@ import sys
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 
 # NOTE: TraceRepairEngine is optional; defer import to runtime.
 try:  # pragma: no cover - import side effects tested via simulation
@@ -103,7 +103,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Iterable[str] | None = None) -> int:
+def main(argv: Optional[Iterable[str]] = None) -> int:
     """Entry point for CLI use."""
 
     parser = build_parser()
@@ -134,7 +134,7 @@ def simulate_collapse(
     iterations: int,
     noise: float,
     output_path: pathlib.Path,
-    seed_override: int | None = None,
+    seed_override: Optional[int] = None,
 ) -> dict[str, Any]:
     """Simulate a collapse scenario and persist summary JSON."""
 
@@ -226,7 +226,7 @@ def derive_top_symbols(scenario: str) -> list[str]:
     return symbol_map.get(scenario, ["UNKNOWN_SYMBOL"])
 
 
-def initialize_trace_repair_engine() -> TraceRepairEngine | None:
+def initialize_trace_repair_engine() -> Optional[TraceRepairEngine]:
     """Initialize TraceRepairEngine if available."""
 
     if TraceRepairEngine is None:

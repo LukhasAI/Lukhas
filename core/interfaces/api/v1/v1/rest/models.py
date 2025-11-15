@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -18,8 +18,8 @@ class ProcessRequest(BaseModel):
 
     input_text: str = Field(..., min_length=1, max_length=10000)
     mode: ProcessingMode = ProcessingMode.HYBRID
-    context: dict[str, Any] | None = None
-    options: dict[str, Any] | None = None
+    context: Optional[dict[str, Any]] = None
+    options: Optional[dict[str, Any]] = None
 
     @field_validator("input_text")
     def validate_input(cls, v: str) -> str:
@@ -43,7 +43,7 @@ class ProcessResponse(BaseModel):
     request_id: str
     timestamp: datetime
     result: dict[str, Any]
-    symbolic_state: SymbolicState | None = None
+    symbolic_state: Optional[SymbolicState] = None
     metadata: dict[str, Any] = {}
     processing_time_ms: float
 

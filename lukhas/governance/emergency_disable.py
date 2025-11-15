@@ -75,8 +75,13 @@ class GuardianEmergencyKillSwitch:
     - Explicit re-enable with new thresholds
     """
 
-    def __init__(self, emergency_path: str = "/tmp/guardian_emergency_disable"):
+    def __init__(
+        self,
+        emergency_path: str = "/tmp/guardian_emergency_disable",
+        log_dir: str = "/var/log/lukhas/emergency"
+    ):
         self.emergency_path = Path(emergency_path)
+        self.log_dir = Path(log_dir)
         self.disabled = False
         self.snapshot: Optional[EmergencySnapshot] = None
         self._decision_buffer = []  # Last 100 decisions
@@ -201,10 +206,9 @@ class GuardianEmergencyKillSwitch:
 
     def _write_snapshot(self):
         """Write forensic snapshot to disk"""
-        log_dir = Path("/var/log/lukhas/emergency")
-        log_dir.mkdir(parents=True, exist_ok=True)
+        self.log_dir.mkdir(parents=True, exist_ok=True)
 
-        snapshot_file = log_dir / f"snapshot_{self.snapshot.timestamp.isoformat()}.json"
+        snapshot_file = self.log_dir / f"snapshot_{self.snapshot.timestamp.isoformat()}.json"
         snapshot_file.write_text(json.dumps({
             "timestamp": self.snapshot.timestamp.isoformat(),
             "reason": self.snapshot.reason,

@@ -1,0 +1,570 @@
+openapi: 3.0.0
+info:
+  title: LUKHAS API
+  version: '1.0.0'
+  description: |
+    The LUKHAS API provides access to the LUKHAS AI platform, including the MATRIZ cognitive engine, the Constellation Framework, and other AI services.
+    This OpenAPI specification documents the available endpoints, authentication methods, and data schemas.
+  contact:
+    name: LUKHAS AI Team
+    url: 'https://github.com/LukhasAI/Lukhas'
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.lukhas.ai
+    description: Production server
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: A human-readable description of the error.
+    ChatCompletionRequest:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+              content:
+                type: string
+        model:
+          type: string
+        temperature:
+          type: number
+          format: float
+          default: 1.0
+        max_tokens:
+          type: integer
+          default: 1024
+        stream:
+          type: boolean
+          default: false
+      required:
+        - messages
+        - model
+
+    ChatCompletionResponseChoice:
+      type: object
+      properties:
+        index:
+          type: integer
+        message:
+          type: object
+          properties:
+            role:
+              type: string
+            content:
+              type: string
+        finish_reason:
+          type: string
+
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionResponseChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
+
+    EmbeddingRequest:
+      type: object
+      properties:
+        input:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        model:
+          type: string
+      required:
+        - input
+        - model
+
+    Embedding:
+      type: object
+      properties:
+        object:
+          type: string
+        embedding:
+          type: array
+          items:
+            type: number
+            format: float
+        index:
+          type: integer
+
+    EmbeddingResponse:
+      type: object
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Embedding'
+        model:
+          type: string
+        usage:
+          $ref: '#/components/schemas/Usage'
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+
+paths:
+  /healthz:
+    get:
+      summary: Health Check
+      description: |
+        Provides the health status of the LUKHAS API.
+        This endpoint is used for monitoring and readiness checks.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  voice_mode:
+                    type: string
+                    example: normal
+                  matriz:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                        example: "1.0"
+                      rollout:
+                        type: string
+                        example: "enabled"
+                      enabled:
+                        type: boolean
+                        example: true
+                  lane:
+                    type: string
+                    example: prod
+                  modules:
+                    type: object
+                    properties:
+                      manifest_count:
+                        type: integer
+                        example: 10
+  /health:
+    get:
+      summary: Health Check (Alias)
+      description: An alias for the `/healthz` endpoint for compatibility.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1healthz/get/responses/200/content/application~1json/schema'
+
+  /readyz:
+    get:
+      summary: Readiness Check
+      description: |
+        Indicates whether the service is ready to accept traffic.
+        Used for Kubernetes readiness probes.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ready
+
+  /metrics:
+    get:
+      summary: Prometheus Metrics
+      description: Exposes Prometheus-compatible metrics for monitoring.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |
+                  # HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+                  # TYPE process_cpu_seconds_total counter
+                  process_cpu_seconds_total 0.1
+
+                  # HELP http_requests_total Total HTTP requests processed
+                  # TYPE http_requests_total counter
+                  http_requests_total{method="GET",endpoint="/healthz",status="200"} 1
+
+                  # HELP lukhas_api_info LUKHAS API version information
+                  # TYPE lukhas_api_info gauge
+                  lukhas_api_info{version="1.0.0"} 1
+  /v1/models:
+    get:
+      summary: List Models
+      description: Lists the currently available models, and provides basic information about each one.
+      tags:
+        - OpenAI Compatible
+      responses:
+        '200':
+          description: A list of models.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    example: list
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        object:
+                          type: string
+                        created:
+                          type: integer
+                        owned_by:
+                          type: string
+
+  /v1/embeddings:
+    post:
+      summary: Create Embeddings
+      description: Creates an embedding vector representing the input text.
+      tags:
+        - OpenAI Compatible
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmbeddingRequest'
+      responses:
+        '200':
+          description: The embedding vector for the input text.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmbeddingResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/chat/completions:
+    post:
+      summary: Create Chat Completion
+      description: Creates a model response for the given chat conversation.
+      tags:
+        - OpenAI Compatible
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+      responses:
+        '200':
+          description: A chat completion response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v1/responses:
+    post:
+      summary: Create Response (LUKHAS)
+      description: LUKHAS-specific endpoint for generating responses, with support for streaming.
+      tags:
+        - LUKHAS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: string
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                      content:
+                        type: string
+                stream:
+                  type: boolean
+      responses:
+        '200':
+          description: A response from the LUKHAS engine.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+            text/event-stream:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /openapi.json:
+    get:
+      summary: OpenAPI Specification
+      description: Returns the OpenAPI specification for the LUKHAS API in JSON format.
+      responses:
+        '200':
+          description: The OpenAPI specification.
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/playground:
+    post:
+      summary: Playground Interaction
+      description: |
+        LUKHAS Playground interaction endpoint.
+        Processes user messages through the Constellation Framework + MATRIZ pipeline with Azure OpenAI integration.
+        Returns full cognitive trace for visualization.
+      tags:
+        - Playground
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                settings:
+                  type: object
+                context:
+                  type: object
+      responses:
+        '200':
+          description: A response from the playground.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                  trace:
+                    type: object
+                  nodes:
+                    type: array
+                    items:
+                      type: object
+                  guardian:
+                    type: object
+                  metadata:
+                    type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /traces/latest:
+    get:
+      summary: Get Latest MATRIZ Trace
+      description: Retrieve the most recent trace from the MATRIZ traces directory.
+      tags:
+        - Traces
+      responses:
+        '200':
+          description: The latest MATRIZ trace.
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /traces/{trace_id}:
+    get:
+      summary: Get Trace by ID
+      description: Retrieve a specific trace by its ID.
+      tags:
+        - Traces
+      parameters:
+        - in: path
+          name: trace_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the trace to retrieve.
+      responses:
+        '200':
+          description: The requested MATRIZ trace.
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /traces/:
+    get:
+      summary: List Available Traces
+      description: List traces across sources with paging and filters.
+      tags:
+        - Traces
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          description: The number of items to skip before starting to collect the result set.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 100
+          description: The numbers of items to return.
+        - in: query
+          name: source
+          schema:
+            type: string
+            enum: [env, live, golden]
+          description: Filter traces by source.
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: A search query to filter traces by ID or filename.
+      responses:
+        '200':
+          description: A list of available traces.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+                  next_offset:
+                    type: integer
+                  traces:
+                    type: array
+                    items:
+                      type: object
+  /token:
+    post:
+      summary: Get Access Token
+      description: OAuth2-compatible endpoint to get an access token.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: An access token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

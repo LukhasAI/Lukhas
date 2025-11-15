@@ -1,3 +1,5 @@
+from typing import Optional
+
 """Lightweight metrics configuration for tests."""
 
 from __future__ import annotations
@@ -11,5 +13,5 @@ __all__ = ["MetricsConfig"]
 @dataclass
 class MetricsConfig:
     namespace: str = "lukhas"
-    subsystem: str | None = None
-    enabled_metrics: Sequence[str] | None = None
+    subsystem: Optional[str] = None
+    enabled_metrics: Optional[Sequence[str]] = None

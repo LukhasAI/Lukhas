@@ -6,7 +6,7 @@ import asyncio
 import logging
 from dataclasses import asdict
 from threading import Lock
-from typing import Any
+from typing import Any, Optional
 
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 # ΛTAG: async_service_singleton -- guarantee single orchestrator instantiation
-_ORCHESTRATOR_INSTANCE: AsyncCognitiveOrchestrator | None = None
+_ORCHESTRATOR_INSTANCE: Optional[AsyncCognitiveOrchestrator] = None
 _ORCHESTRATOR_LOCK = Lock()
 
 

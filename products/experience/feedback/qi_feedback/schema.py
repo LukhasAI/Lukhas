@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from qi.safety.constants import ALLOWED_STYLES, MAX_THRESHOLD_SHIFT
 
 
@@ -23,22 +23,24 @@ class FeedbackData(BaseModel):
 
     satisfaction: float = Field(..., ge=0.0, le=1.0, description="Satisfaction score 0-1")
     issues: list[str] = Field(default_factory=list, description="List of issue types")
-    note_hash: str | None = Field(None, description="HMAC hash of user note")
+    note_hash: Optional[str] = Field(None, description="HMAC hash of user note")
 
 
 class ProposedTuning(BaseModel):
     """Proposed tuning parameters."""
 
-    style: str | None = Field(None, description="Proposed style")
-    threshold_delta: float | None = Field(None, description="Threshold adjustment")
+    style: Optional[str] = Field(None, description="Proposed style")
+    threshold_delta: Optional[float] = Field(None, description="Threshold adjustment")
 
-    @validator("style")
+    @field_validator("style")
+    @classmethod
     def validate_style(cls, v):
         if v and v not in ALLOWED_STYLES:
             raise ValueError(f"Style must be one of {ALLOWED_STYLES}")
         return v
 
-    @validator("threshold_delta")
+    @field_validator("threshold_delta")
+    @classmethod
     def validate_threshold(cls, v):
         if v is not None and abs(v) > MAX_THRESHOLD_SHIFT:
             raise ValueError(f"Threshold delta must be within ±{MAX_THRESHOLD_SHIFT}")
@@ -58,7 +60,7 @@ class FeedbackAttestation(BaseModel):
     alg: str = Field(..., description="Algorithm (dilithium3, ed25519)")
     sig: str = Field(..., description="Signature")
     content_hash: str = Field(..., description="SHA3-512 hash of content")
-    pubkey_id: str | None = Field(None, description="Public key identifier")
+    pubkey_id: Optional[str] = Field(None, description="Public key identifier")
 
 
 class FeedbackCard(BaseModel):
@@ -70,9 +72,9 @@ class FeedbackCard(BaseModel):
     session_hash: str = Field(..., description="HMAC SHA3-512 of session ID")
     context: FeedbackContext
     feedback: FeedbackData
-    proposed_tuning: ProposedTuning | None = None
+    proposed_tuning: Optional[ProposedTuning] = None
     constraints: FeedbackConstraints = Field(default_factory=FeedbackConstraints)
-    attestation: FeedbackAttestation | None = None
+    attestation: Optional[FeedbackAttestation] = None
 
     class Config:
         json_encoders = {datetime: lambda v: v.isoformat() + "Z"}
@@ -81,17 +83,19 @@ class FeedbackCard(BaseModel):
 class PolicySafePatch(BaseModel):
     """Policy-safe configuration patch."""
 
-    style: str | None = Field(None, description="Style adjustment")
-    threshold_delta: float | None = Field(None, description="Threshold adjustment")
-    explain_depth: int | None = Field(None, ge=1, le=5, description="Explanation depth")
+    style: Optional[str] = Field(None, description="Style adjustment")
+    threshold_delta: Optional[float] = Field(None, description="Threshold adjustment")
+    explain_depth: Optional[int] = Field(None, ge=1, le=5, description="Explanation depth")
 
-    @validator("style")
+    @field_validator("style")
+    @classmethod
     def validate_style(cls, v):
         if v and v not in ALLOWED_STYLES:
             raise ValueError(f"Style must be one of {ALLOWED_STYLES}")
         return v
 
-    @validator("threshold_delta")
+    @field_validator("threshold_delta")
+    @classmethod
     def validate_threshold(cls, v):
         if v is not None and abs(v) > MAX_THRESHOLD_SHIFT:
             raise ValueError(f"Threshold delta must be within ±{MAX_THRESHOLD_SHIFT}")
@@ -109,8 +113,8 @@ class ChangeProposal(BaseModel):
     ttl_sec: int = Field(3600, description="Time to live in seconds")
     status: Literal["pending", "approved", "rejected", "applied"] = Field("pending")
     created_at: datetime = Field(default_factory=datetime.utcnow)
-    feedback_ref: str | None = Field(None, description="Reference to feedback card")
-    cluster_id: str | None = Field(None, description="Reference to feedback cluster")
+    feedback_ref: Optional[str] = Field(None, description="Reference to feedback card")
+    cluster_id: Optional[str] = Field(None, description="Reference to feedback cluster")
 
     class Config:
         json_encoders = {datetime: lambda v: v.isoformat() + "Z"}
@@ -127,7 +131,7 @@ class FeedbackCluster(BaseModel):
     sat_var: float = Field(..., description="Satisfaction variance")
     n_samples: int = Field(..., description="Number of samples")
     common_issues: list[str] = Field(default_factory=list, description="Common issues")
-    drift_delta: float | None = Field(None, description="Observed drift from baseline")
+    drift_delta: Optional[float] = Field(None, description="Observed drift from baseline")
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:

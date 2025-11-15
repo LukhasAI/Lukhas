@@ -24,6 +24,8 @@ class PrometheusMetrics:
 
     def observe_latency(self, operation: str, duration_ms: float):
         """Record operation latency."""
+from typing import Optional
+
         self.latency_histogram.labels(operation=operation).observe(duration_ms)
 
     def increment_counter(self, metric: str, labels: dict):
@@ -40,7 +42,7 @@ class MemoryTracer:
         self.tracer = trace.get_tracer(service_name)
         self.metrics = PrometheusMetrics()
 
-    def trace_operation(self, operation: str, span_name: str | None = None):
+    def trace_operation(self, operation: str, span_name: Optional[str] = None):
         """Context manager for tracing memory operations."""
         return MemorySpan(
             self.tracer.start_span(span_name or f"memory.{operation}"),

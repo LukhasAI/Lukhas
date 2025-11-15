@@ -17,7 +17,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 
@@ -146,7 +146,7 @@ class ModelSelector:
 
     def select_models(self,
                      request: RoutingRequest,
-                     exclude_models: list[str] | None = None) -> list[AIModel]:
+                     exclude_models: Optional[list[str]] = None) -> list[AIModel]:
         """Select optimal models for the request"""
         exclude_models = exclude_models or []
 
@@ -720,7 +720,7 @@ class MultiAIRouter:
 
     async def _send_single_request(self,
                                  request: RoutingRequest,
-                                 model: AIModel) -> AIResponse | None:
+                                 model: AIModel) -> Optional[AIResponse]:
         """Send request to a single AI model"""
 
         start_time = time.time()
@@ -803,7 +803,7 @@ class MultiAIRouter:
 
 
 # Global router instance
-_global_router: MultiAIRouter | None = None
+_global_router: Optional[MultiAIRouter] = None
 
 def get_multi_ai_router() -> MultiAIRouter:
     """Get global multi-AI router instance"""

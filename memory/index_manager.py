@@ -21,6 +21,8 @@ Usage:
     # Delete
     manager.delete_index(index_id)
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import logging
@@ -41,7 +43,7 @@ class IndexMetadata:
     id: str
     name: str
     metric: str
-    dimension: int | None
+    dimension: Optional[int]
     created_at: float
     updated_at: float
     vector_count: int = 0
@@ -72,7 +74,7 @@ class IndexManager:
         name: str,
         metric: str = "angular",
         trees: int = 10,
-        dimension: int | None = None
+        dimension: Optional[int] = None
     ) -> str:
         """
         Create a new embedding index.
@@ -126,7 +128,7 @@ class IndexManager:
 
             return index_id
 
-    def get_index(self, index_id: str) -> EmbeddingIndex | None:
+    def get_index(self, index_id: str) -> Optional[EmbeddingIndex]:
         """
         Get an index by ID.
 
@@ -139,7 +141,7 @@ class IndexManager:
         with self._lock:
             return self._indexes.get(index_id)
 
-    def get_metadata(self, index_id: str) -> IndexMetadata | None:
+    def get_metadata(self, index_id: str) -> Optional[IndexMetadata]:
         """
         Get index metadata by ID.
 
@@ -348,7 +350,7 @@ class IndexManager:
         self,
         index_id: str,
         item_id: str
-    ) -> list[float] | None:
+    ) -> Optional[list[float]]:
         """
         Get a vector from an index by item ID.
 

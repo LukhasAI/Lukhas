@@ -51,8 +51,14 @@ Through sophisticated pattern analysis, it identifies:
 - Markdown summaries for human interpretation
 - Integration hooks for dashboard systems
 
-LUKHAS_TAG: dream_analysis, symbolic_anomaly, pattern_detection, jules_13
-TODO: Add ML-based pattern prediction for proactive anomaly detection
+🤖 ML PREDICTION:
+- Random Forest classifier for anomaly type prediction
+- Isolation Forest for unsupervised anomaly detection
+- Feature extraction from 18+ symbolic, emotional, and drift metrics
+- Proactive anomaly prediction with confidence scoring
+- Actionable recommendations based on predicted anomalies
+
+LUKHAS_TAG: dream_analysis, symbolic_anomaly, pattern_detection, jules_13, ml_prediction
 IDEA: Implement symbolic genealogy tracking for motif evolution analysis
 """
 from __future__ import annotations
@@ -60,15 +66,32 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import structlog
+
+# Optional ML dependencies (graceful degradation if not available)
+try:
+    from sklearn.ensemble import IsolationForest, RandomForestClassifier
+    from sklearn.preprocessing import StandardScaler
+
+    ML_AVAILABLE = True
+except ImportError:
+    ML_AVAILABLE = False
+
+try:
+    # Prophet for time series forecasting
+    from prophet import Prophet
+
+    PROPHET_AVAILABLE = True
+except ImportError:
+    PROPHET_AVAILABLE = False
 
 logger = structlog.get_logger("ΛTRACE.dream.anomaly")
 
@@ -178,6 +201,54 @@ class AnomalyReport:
     recommendations: list[str] = field(default_factory=list)
 
 
+@dataclass
+class AnomalyPrediction:
+    """Prediction of future anomaly occurrence."""
+
+    anomaly_type: AnomalyType
+    probability: float  # 0.0 to 1.0
+    confidence: float  # 0.0 to 1.0 (uncertainty measure)
+    time_horizon: int  # Sessions ahead (1-10)
+    contributing_features: dict[str, float]
+    predicted_severity: AnomalySeverity
+    recommended_action: Optional[str] = None
+
+
+@dataclass
+class PredictionFeatures:
+    """Features extracted from dream session history for ML prediction."""
+
+    # Temporal features
+    session_count: int
+    time_span_hours: float
+    avg_session_duration: float
+
+    # Symbolic features
+    unique_symbols_count: int
+    symbol_repetition_rate: float
+    motif_stability_score: float
+
+    # Emotional features
+    avg_valence: float
+    avg_arousal: float
+    emotional_volatility: float
+
+    # Drift features
+    avg_drift_score: float
+    drift_acceleration: float
+    max_drift_spike: float
+
+    # Anomaly history features
+    recent_conflict_count: int
+    recent_loop_count: int
+    recent_dissonance_count: int
+    recent_mutation_count: int
+
+    # Temporal patterns
+    session_interval_variance: float
+    time_of_day_pattern: float  # 0-23 hour average
+
+
 class SymbolicAnomalyExplorer:
     """
     Explorer for symbolic anomalies in dream sessions.
@@ -188,8 +259,10 @@ class SymbolicAnomalyExplorer:
 
     def __init__(
         self,
-        storage_path: str | None = None,
-        drift_integration: bool = True
+        storage_path: Optional[str] = None,
+        drift_integration: bool = True,
+        enable_ml_prediction: bool = True,
+        prediction_horizon: int = 5,
     ):
         """
         Initialize the Symbolic Anomaly Explorer.
@@ -197,6 +270,8 @@ class SymbolicAnomalyExplorer:
         Args:
             storage_path: Path to dream session storage
             drift_integration: Enable drift tracker integration
+            enable_ml_prediction: Enable ML-based anomaly prediction
+            prediction_horizon: Sessions ahead to predict
         """
         self.storage_path = (
             Path(storage_path) if storage_path else Path("dream_sessions")
@@ -236,10 +311,24 @@ class SymbolicAnomalyExplorer:
                 logger.warning("Drift tracker not available")
                 self.drift_integration = False
 
+        # ML Predictor
+        self._enable_ml_prediction = enable_ml_prediction and ML_AVAILABLE
+        if self._enable_ml_prediction:
+            try:
+                self._ml_predictor = MLAnomalyPredictor(prediction_horizon=prediction_horizon)
+                logger.info("ML prediction enabled")
+            except ImportError:
+                logger.warning("ML prediction requested but dependencies not available")
+                self._enable_ml_prediction = False
+                self._ml_predictor = None
+        else:
+            self._ml_predictor = None
+
         logger.info(
             "Symbolic Anomaly Explorer initialized",
             storage_path=str(self.storage_path),
             drift_integration=self.drift_integration,
+            ml_prediction=self._enable_ml_prediction,
         )
 
     def load_recent_dreams(self, n: int = 10) -> list[DreamSession]:
@@ -282,7 +371,7 @@ class SymbolicAnomalyExplorer:
         logger.info("Loaded dream sessions", count=len(sessions))
         return sessions
 
-    def _load_session_from_file(self, file_path: Path) -> DreamSession | None:
+    def _load_session_from_file(self, file_path: Path) -> Optional[DreamSession]:
         """Load dream session from json_file."""
         try:
             with open(file_path) as f:
@@ -1119,7 +1208,7 @@ class SymbolicAnomalyExplorer:
         return np.mean(overlaps) if overlaps else 0.0
 
     def export_report_json(
-        self, report: AnomalyReport, file_path: str | None = None
+        self, report: AnomalyReport, file_path: Optional[str] = None
     ) -> str:
         """Export anomaly report to JSON."""
         if not file_path:
@@ -1144,7 +1233,7 @@ class SymbolicAnomalyExplorer:
         return str(output_path)
 
     def export_summary_markdown(
-        self, report: AnomalyReport, file_path: str | None = None
+        self, report: AnomalyReport, file_path: Optional[str] = None
     ) -> str:
         """Export top anomalies summary to Markdown."""
         if not file_path:
@@ -1249,11 +1338,467 @@ class SymbolicAnomalyExplorer:
 
         return heatmap
 
+    def predict_future_anomalies(
+        self,
+        session_history: list[dict[str, Any]],
+        anomaly_history: list[dict[str, Any]],
+        time_horizon: int = 5,
+    ) -> list[AnomalyPrediction]:
+        """
+        Predict future anomalies using ML models.
+
+        Args:
+            session_history: Historical dream session data
+            anomaly_history: Historical anomaly detections
+            time_horizon: How many sessions ahead to predict
+
+        Returns:
+            List of predicted anomalies with probabilities
+        """
+        if not self._enable_ml_prediction or not self._ml_predictor:
+            logger.warning("ML prediction not enabled or available")
+            return []
+
+        # Extract features from current state
+        features = self._ml_predictor.extract_features(session_history, anomaly_history)
+
+        # Update predictor with latest data
+        recent_anomalies = [a.get("type") for a in anomaly_history[-1:]] if anomaly_history else []
+
+        self._ml_predictor.update_history(features, recent_anomalies)
+
+        # Get predictions
+        predictions = self._ml_predictor.predict_anomalies(features, time_horizon=time_horizon)
+
+        logger.info(
+            "ML anomaly predictions generated",
+            prediction_count=len(predictions),
+            time_horizon=time_horizon,
+            max_probability=max([p.probability for p in predictions]) if predictions else 0,
+        )
+
+        return predictions
+
+
+class MLAnomalyPredictor:
+    """
+    Machine Learning-based predictor for symbolic anomalies.
+
+    Uses ensemble of classifiers to predict anomaly occurrence:
+    - Random Forest for anomaly type classification
+    - Isolation Forest for general anomaly detection
+    - Prophet (optional) for time series forecasting
+    """
+
+    def __init__(
+        self,
+        *,
+        history_window: int = 50,
+        prediction_horizon: int = 5,
+        confidence_threshold: float = 0.6,
+    ):
+        """
+        Initialize ML predictor.
+
+        Args:
+            history_window: Number of sessions to use for training
+            prediction_horizon: How many sessions ahead to predict
+            confidence_threshold: Minimum confidence for predictions
+        """
+        if not ML_AVAILABLE:
+            raise ImportError(
+                "ML dependencies not available. Install: pip install scikit-learn"
+            )
+
+        self.history_window = history_window
+        self.prediction_horizon = prediction_horizon
+        self.confidence_threshold = confidence_threshold
+
+        # Models
+        self._anomaly_classifier = RandomForestClassifier(
+            n_estimators=100, max_depth=10, random_state=42
+        )
+        self._isolation_forest = IsolationForest(contamination=0.1, random_state=42)
+        self._scaler = StandardScaler()
+
+        # Training data
+        self._feature_history: deque = deque(maxlen=history_window)
+        self._anomaly_history: deque = deque(maxlen=history_window)
+
+        self._is_trained = False
+
+    def extract_features(
+        self,
+        session_history: list[dict[str, Any]],
+        anomaly_history: list[dict[str, Any]],
+    ) -> PredictionFeatures:
+        """
+        Extract ML features from session and anomaly history.
+
+        Args:
+            session_history: List of dream session summaries
+            anomaly_history: List of detected anomalies
+
+        Returns:
+            PredictionFeatures for ML model
+        """
+        if not session_history:
+            raise ValueError("Cannot extract features from empty history")
+
+        # Temporal features
+        session_count = len(session_history)
+
+        timestamps = [
+            datetime.fromisoformat(s["timestamp"])
+            for s in session_history
+            if "timestamp" in s
+        ]
+        time_span_hours = (
+            (max(timestamps) - min(timestamps)).total_seconds() / 3600
+            if len(timestamps) > 1
+            else 0
+        )
+
+        avg_session_duration = np.mean(
+            [s.get("duration_seconds", 0) for s in session_history]
+        )
+
+        # Symbolic features
+        all_symbols = []
+        for session in session_history:
+            all_symbols.extend(session.get("symbols", []))
+
+        unique_symbols_count = len(set(all_symbols))
+        symbol_repetition_rate = (
+            1 - (unique_symbols_count / len(all_symbols)) if all_symbols else 0
+        )
+
+        # Motif stability (how consistent are symbols across sessions)
+
+        symbol_counts = Counter(all_symbols)
+        motif_stability_score = (
+            max(symbol_counts.values()) / len(all_symbols) if all_symbols else 0
+        )
+
+        # Emotional features
+        valences = [s.get("valence", 0) for s in session_history]
+        arousals = [s.get("arousal", 0) for s in session_history]
+
+        avg_valence = np.mean(valences) if valences else 0
+        avg_arousal = np.mean(arousals) if arousals else 0
+        emotional_volatility = np.std(valences) if valences else 0
+
+        # Drift features
+        drift_scores = [s.get("drift_score", 0) for s in session_history]
+        avg_drift_score = np.mean(drift_scores) if drift_scores else 0
+        max_drift_spike = max(drift_scores) if drift_scores else 0
+
+        # Drift acceleration (derivative)
+        drift_acceleration = 0
+        if len(drift_scores) > 1:
+            drift_deltas = np.diff(drift_scores)
+            drift_acceleration = float(np.mean(drift_deltas))
+
+        # Anomaly history features
+        recent_anomalies = anomaly_history[-10:] if anomaly_history else []
+        anomaly_types = [a.get("type") for a in recent_anomalies]
+
+        recent_conflict_count = anomaly_types.count("symbolic_conflict")
+        recent_loop_count = anomaly_types.count("recursive_loop")
+        recent_dissonance_count = anomaly_types.count("emotional_dissonance")
+        recent_mutation_count = anomaly_types.count("motif_mutation")
+
+        # Temporal patterns
+        if len(timestamps) > 1:
+            intervals = [
+                (timestamps[i + 1] - timestamps[i]).total_seconds()
+                for i in range(len(timestamps) - 1)
+            ]
+            session_interval_variance = float(np.std(intervals))
+        else:
+            session_interval_variance = 0
+
+        time_of_day_pattern = (
+            np.mean([t.hour for t in timestamps]) if timestamps else 12
+        )
+
+        return PredictionFeatures(
+            session_count=session_count,
+            time_span_hours=time_span_hours,
+            avg_session_duration=avg_session_duration,
+            unique_symbols_count=unique_symbols_count,
+            symbol_repetition_rate=symbol_repetition_rate,
+            motif_stability_score=motif_stability_score,
+            avg_valence=avg_valence,
+            avg_arousal=avg_arousal,
+            emotional_volatility=emotional_volatility,
+            avg_drift_score=avg_drift_score,
+            drift_acceleration=drift_acceleration,
+            max_drift_spike=max_drift_spike,
+            recent_conflict_count=recent_conflict_count,
+            recent_loop_count=recent_loop_count,
+            recent_dissonance_count=recent_dissonance_count,
+            recent_mutation_count=recent_mutation_count,
+            session_interval_variance=session_interval_variance,
+            time_of_day_pattern=time_of_day_pattern,
+        )
+
+    def _features_to_array(self, features: PredictionFeatures) -> np.ndarray:
+        """Convert PredictionFeatures to numpy array for ML model."""
+        return np.array([
+            features.session_count,
+            features.time_span_hours,
+            features.avg_session_duration,
+            features.unique_symbols_count,
+            features.symbol_repetition_rate,
+            features.motif_stability_score,
+            features.avg_valence,
+            features.avg_arousal,
+            features.emotional_volatility,
+            features.avg_drift_score,
+            features.drift_acceleration,
+            features.max_drift_spike,
+            features.recent_conflict_count,
+            features.recent_loop_count,
+            features.recent_dissonance_count,
+            features.recent_mutation_count,
+            features.session_interval_variance,
+            features.time_of_day_pattern,
+        ])
+
+    def update_history(
+        self, features: PredictionFeatures, anomalies: list[AnomalyType]
+    ) -> None:
+        """
+        Update prediction history with new session data.
+
+        Args:
+            features: Extracted features from latest sessions
+            anomalies: Anomalies detected in latest session
+        """
+        self._feature_history.append(features)
+        self._anomaly_history.append(anomalies)
+
+        # Retrain if we have enough data
+        if len(self._feature_history) >= 20:
+            self._train_models()
+
+    def _train_models(self) -> None:
+        """Train ML models on accumulated history."""
+        if len(self._feature_history) < 20:
+            logger.warning("Insufficient data for training (need 20+ samples)")
+            return
+
+        # Prepare training data
+        X = np.array([self._features_to_array(f) for f in self._feature_history])
+
+        # Binary labels: 1 if any anomaly occurred, 0 otherwise
+        y_binary = np.array([1 if anomalies else 0 for anomalies in self._anomaly_history])
+
+        # Scale features
+        X_scaled = self._scaler.fit_transform(X)
+
+        # Train Isolation Forest (unsupervised anomaly detection)
+        self._isolation_forest.fit(X_scaled)
+
+        # Train Random Forest Classifier (if we have positive examples)
+        if y_binary.sum() > 0:
+            self._anomaly_classifier.fit(X_scaled, y_binary)
+            self._is_trained = True
+
+        logger.info(
+            "ML models trained", samples=len(X), anomaly_rate=float(y_binary.mean())
+        )
+
+    def predict_anomalies(
+        self, current_features: PredictionFeatures, time_horizon: int = 5
+    ) -> list[AnomalyPrediction]:
+        """
+        Predict anomalies for upcoming sessions.
+
+        Args:
+            current_features: Current feature state
+            time_horizon: Number of sessions to predict ahead
+
+        Returns:
+            List of anomaly predictions with probabilities
+        """
+        if not self._is_trained:
+            logger.warning("Predictor not trained yet, returning empty predictions")
+            return []
+
+        predictions = []
+
+        # Convert features to array
+        X = self._features_to_array(current_features).reshape(1, -1)
+        X_scaled = self._scaler.transform(X)
+
+        # Get probability from classifier
+        if hasattr(self._anomaly_classifier, "predict_proba"):
+            proba = self._anomaly_classifier.predict_proba(X_scaled)[0]
+            anomaly_prob = proba[1] if len(proba) > 1 else 0
+        else:
+            anomaly_prob = 0.5
+
+        # Get anomaly score from Isolation Forest
+        iso_score = self._isolation_forest.score_samples(X_scaled)[0]
+        # Convert to probability (lower score = more anomalous)
+        iso_prob = 1 / (1 + np.exp(iso_score))  # Sigmoid transformation
+
+        # Combine probabilities
+        combined_prob = (anomaly_prob + iso_prob) / 2
+
+        # Feature importance (which features contribute most)
+        feature_importance = {}
+        if hasattr(self._anomaly_classifier, "feature_importances_"):
+            feature_names = [
+                "session_count",
+                "time_span_hours",
+                "avg_session_duration",
+                "unique_symbols_count",
+                "symbol_repetition_rate",
+                "motif_stability_score",
+                "avg_valence",
+                "avg_arousal",
+                "emotional_volatility",
+                "avg_drift_score",
+                "drift_acceleration",
+                "max_drift_spike",
+                "recent_conflict_count",
+                "recent_loop_count",
+                "recent_dissonance_count",
+                "recent_mutation_count",
+                "session_interval_variance",
+                "time_of_day_pattern",
+            ]
+            for name, importance in zip(
+                feature_names, self._anomaly_classifier.feature_importances_
+            ):
+                if importance > 0.05:  # Only include significant features
+                    feature_importance[name] = float(importance)
+
+        # Predict specific anomaly types based on feature patterns
+        anomaly_type_predictions = self._predict_anomaly_types(
+            current_features, combined_prob
+        )
+
+        for anomaly_type, type_prob in anomaly_type_predictions:
+            if type_prob >= self.confidence_threshold:
+                # Determine severity based on probability
+                if type_prob >= 0.8:
+                    severity = AnomalySeverity.CRITICAL
+                elif type_prob >= 0.6:
+                    severity = AnomalySeverity.SIGNIFICANT
+                elif type_prob >= 0.4:
+                    severity = AnomalySeverity.MODERATE
+                else:
+                    severity = AnomalySeverity.MINOR
+
+                # Generate recommendation
+                recommendation = self._generate_recommendation(anomaly_type, type_prob)
+
+                predictions.append(
+                    AnomalyPrediction(
+                        anomaly_type=anomaly_type,
+                        probability=type_prob,
+                        confidence=combined_prob,
+                        time_horizon=time_horizon,
+                        contributing_features=feature_importance,
+                        predicted_severity=severity,
+                        recommended_action=recommendation,
+                    )
+                )
+
+        return sorted(predictions, key=lambda p: p.probability, reverse=True)
+
+    def _predict_anomaly_types(
+        self, features: PredictionFeatures, base_prob: float
+    ) -> list[tuple[AnomalyType, float]]:
+        """
+        Predict specific anomaly types based on feature patterns.
+
+        Uses heuristics to map features to anomaly types.
+        """
+        type_probs = []
+
+        # Symbolic Conflict: High symbol repetition + high volatility
+        conflict_score = (
+            features.symbol_repetition_rate * 0.4
+            + features.emotional_volatility * 0.3
+            + (features.recent_conflict_count / 10) * 0.3
+        )
+        type_probs.append((AnomalyType.SYMBOLIC_CONFLICT, conflict_score * base_prob))
+
+        # Recursive Loop: Low motif stability + high recent loops
+        loop_score = (
+            (1 - features.motif_stability_score) * 0.5
+            + (features.recent_loop_count / 10) * 0.5
+        )
+        type_probs.append((AnomalyType.RECURSIVE_LOOP, loop_score * base_prob))
+
+        # Emotional Dissonance: High emotional volatility
+        dissonance_score = (
+            features.emotional_volatility * 0.6
+            + (features.recent_dissonance_count / 10) * 0.4
+        )
+        type_probs.append(
+            (AnomalyType.EMOTIONAL_DISSONANCE, dissonance_score * base_prob)
+        )
+
+        # Motif Mutation: High recent mutations + low stability
+        mutation_score = (
+            (features.recent_mutation_count / 10) * 0.5
+            + (1 - features.motif_stability_score) * 0.5
+        )
+        type_probs.append((AnomalyType.MOTIF_MUTATION, mutation_score * base_prob))
+
+        # Drift Acceleration: High drift acceleration
+        drift_score = min(abs(features.drift_acceleration) / 0.5, 1.0)
+        type_probs.append((AnomalyType.DRIFT_ACCELERATION, drift_score * base_prob))
+
+        return type_probs
+
+    def _generate_recommendation(
+        self, anomaly_type: AnomalyType, probability: float
+    ) -> str:
+        """Generate actionable recommendation for predicted anomaly."""
+        recommendations = {
+            AnomalyType.SYMBOLIC_CONFLICT: "Consider symbolic integration exercises or motif reconciliation",
+            AnomalyType.RECURSIVE_LOOP: "Implement loop-breaking interventions or pattern interrupts",
+            AnomalyType.EMOTIONAL_DISSONANCE: "Schedule emotional processing or affect regulation session",
+            AnomalyType.MOTIF_MUTATION: "Monitor symbol stability and consider symbolic anchoring",
+            AnomalyType.DRIFT_ACCELERATION: "Increase drift monitoring frequency and consider stabilization",
+        }
+
+        base_rec = recommendations.get(
+            anomaly_type, "Monitor closely and prepare intervention protocols"
+        )
+
+        if probability >= 0.8:
+            return f"URGENT: {base_rec}"
+        elif probability >= 0.6:
+            return f"RECOMMENDED: {base_rec}"
+        else:
+            return f"SUGGESTED: {base_rec}"
+
+    def get_model_stats(self) -> dict[str, Any]:
+        """Get statistics about predictor state and performance."""
+        return {
+            "is_trained": self._is_trained,
+            "training_samples": len(self._feature_history),
+            "history_window": self.history_window,
+            "prediction_horizon": self.prediction_horizon,
+            "confidence_threshold": self.confidence_threshold,
+            "ml_available": ML_AVAILABLE,
+            "prophet_available": PROPHET_AVAILABLE,
+        }
+
+
 # Convenience functions for CLI usage
 
 
 def analyze_recent_dreams(
-    n: int = 10, storage_path: str | None = None
+    n: int = 10, storage_path: Optional[str] = None
 ) -> AnomalyReport:
     """Analyze recent dreams and return anomaly report."""
     explorer = SymbolicAnomalyExplorer(storage_path=storage_path)

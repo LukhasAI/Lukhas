@@ -140,7 +140,7 @@ import { TierLevel, ScopeManager, SecurityContext, ScopeCheckResult } from './sc
 import { TierManager } from './tier-system';
 import { SecurityManager } from './security';
 import { RateLimitManager } from './rate-limits';
-import { JWTManager } from './jwt';
+import { JWTManager, initializeTokenPersistence } from './jwt';
 import { PasskeyManager } from './passkeys';
 import { MagicLinkManager } from './magic-links';
 import { JWKSManager } from './jwks';
@@ -269,6 +269,8 @@ export class LambdaAuthSystem {
     this.jwtManager = new JWTManager(config.jwt, this.jwksManager);
     this.passkeyManager = new PasskeyManager();
     this.magicLinkManager = new MagicLinkManager(config.magicLinks);
+
+    initializeTokenPersistence(this.config.database);
   }
 
   /**

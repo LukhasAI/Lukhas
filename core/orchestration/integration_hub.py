@@ -13,7 +13,7 @@ import time
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 
 @dataclass
@@ -29,7 +29,7 @@ class SuperpositionState:
 class MeasurementResult:
     """Outcome of collapsing a superposition."""
 
-    collapsed_option: dict[str, Any] | None
+    collapsed_option: Optional[dict[str, Any]]
     probability: float
     metadata: dict[str, Any]
     post_state: SuperpositionState
@@ -55,7 +55,7 @@ class QuantumSuperpositionEngine:
     def create_state(
         self,
         options: Sequence[Mapping[str, Any]] | list[dict[str, Any]],
-        context: Mapping[str, Any] | None = None,
+        context: Optional[Mapping[str, Any]] = None,
     ) -> SuperpositionState:
         context = context or {}
         option_dicts = [dict(option) for option in options]
@@ -88,7 +88,7 @@ class QuantumMeasurement:
     def collapse(
         self,
         state: SuperpositionState,
-        context: Mapping[str, Any] | None = None,
+        context: Optional[Mapping[str, Any]] = None,
     ) -> MeasurementResult:
         if not state.options:
             raise ValueError("Cannot collapse an empty superposition")
@@ -121,10 +121,10 @@ class QuantumAnnealer:
 
     def anneal(
         self,
-        objective: Callable[[Mapping[str, Any]], float] | None,
+        objective: Optional[Callable[[Mapping[str, Any]], float]],
         *,
         search_space: Sequence[Mapping[str, Any]],
-        constraints: Mapping[str, Any] | None = None,
+        constraints: Optional[Mapping[str, Any]] = None,
     ) -> AnnealingResult:
         candidates = [dict(candidate) for candidate in search_space]
         history: list[dict[str, Any]] = []
@@ -177,7 +177,7 @@ except Exception:
         async def register_component(self, name: str, component: Any) -> None:
             self.components[name] = component
 
-        def get_component(self, name: str) -> Any | None:
+        def get_component(self, name: str) -> Optional[Any]:
             return self.components.get(name)
 try:
     from nias.integration.nias_integration_hub import NIASIntegrationHub
@@ -274,7 +274,7 @@ except Exception:
         Exposes a small control surface used by SystemIntegrationHub.
         """
 
-        def __init__(self, config: dict | None = None):
+        def __init__(self, config: Optional[dict] = None):
             self.config = config or {}
             self.running = False
 
@@ -314,7 +314,7 @@ class ABASIntegrationHub:
     - Integration with DAST and NIAS (Golden Trio)
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize ABAS Integration Hub
 
@@ -325,7 +325,7 @@ class ABASIntegrationHub:
         self.active = False
         self.emotional_state = {"valence": 0.0, "arousal": 0.0, "mode": "neutral"}
         self.bio_signals = {}
-        self.bio_core: Any | None = None
+        self.bio_core: Optional[Any] = None
         # ΛTAG: symbolic_trace - capture bio-aware transitions for auditing
         self._symbolic_trace: list[dict[str, Any]] = []
         self._trace_limit = int(self.config.get("trace_limit", 128))
@@ -480,7 +480,7 @@ class QIAGISystem:
     - Integration with MATRIZ cognitive engine
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize QI-AGI System
 
@@ -514,7 +514,7 @@ class QIAGISystem:
     async def create_superposition(
         self,
         options: list[dict[str, Any]],
-        context: dict[str, Any] | None = None
+        context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Create quantum superposition of decision options
@@ -558,7 +558,7 @@ class QIAGISystem:
     async def measure_collapse(
         self,
         superposition_id: str,
-        measurement_context: dict[str, Any] | None = None
+        measurement_context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Collapse quantum superposition to single decision
@@ -602,7 +602,7 @@ class QIAGISystem:
     async def quantum_anneal(
         self,
         objective_function: str,
-        constraints: dict[str, Any] | None = None
+        constraints: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Perform quantum annealing optimization
@@ -617,11 +617,11 @@ class QIAGISystem:
         """
 
         constraints = constraints or {}
-        search_space: Sequence[Mapping[str, Any]] | None = constraints.get("search_space")
+        search_space: Optional[Sequence[Mapping[str, Any]]] = constraints.get("search_space")
         if not search_space:
             raise ValueError("quantum_anneal requires a 'search_space' constraint")
 
-        objective_callable: Callable[[Mapping[str, Any]], float] | None = None
+        objective_callable: Optional[Callable[[Mapping[str, Any]], float]] = None
         if callable(constraints.get("objective_callable")):
             objective_callable = constraints["objective_callable"]
         elif callable(constraints.get("energy_function")):

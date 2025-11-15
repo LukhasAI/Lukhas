@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 """Central plugin registry for the LUKHAS system.
@@ -74,11 +76,11 @@ class PluginRegistry:
         pname = plugin.get_plugin_name()
         self._plugins[ptype][pname] = plugin
 
-    def get_plugin(self, plugin_type: PluginType, name: str) -> Plugin | None:
+    def get_plugin(self, plugin_type: PluginType, name: str) -> Optional[Plugin]:
         """Retrieve a plugin by type and name."""
         return self._plugins[plugin_type].get(name)
 
-    def list_plugins(self, plugin_type: PluginType | None = None) -> list[Plugin]:
+    def list_plugins(self, plugin_type: Optional[PluginType] = None) -> list[Plugin]:
         """List registered plugins by type or all."""
         if plugin_type:
             return list(self._plugins[plugin_type].values())

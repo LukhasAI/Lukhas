@@ -8,6 +8,8 @@
 Exports generated art and literature with glyph tagging.
 Tracks symbolic reputation for each creative item.
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import json
@@ -48,7 +50,7 @@ class CreativeItem:
 class CreativeMarket:
     """Manage export of creative works with symbolic reputation."""
 
-    def __init__(self, export_path: Path, resolver: SimpleTagResolver | None = None) -> None:
+    def __init__(self, export_path: Path, resolver: Optional[SimpleTagResolver] = None) -> None:
         self.export_path = Path(export_path)
         self.export_path.parent.mkdir(parents=True, exist_ok=True)
         self.resolver = resolver or SimpleTagResolver()
@@ -119,7 +121,7 @@ class CreativeMarket:
 
     # ΛTAG: market_replay
 
-    def import_replay(self, limit: int | None = None) -> list[CreativeItem]:
+    def import_replay(self, limit: Optional[int] = None) -> list[CreativeItem]:
         """Load previously exported creative items for replay.
 
         Args:

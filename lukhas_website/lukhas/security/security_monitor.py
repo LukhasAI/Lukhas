@@ -33,7 +33,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -82,14 +82,14 @@ class SecurityEvent:
     id: str
     event_type: EventType
     timestamp: datetime
-    source_ip: str | None = None
-    user_id: str | None = None
-    resource_id: str | None = None
-    action: str | None = None
+    source_ip: Optional[str] = None
+    user_id: Optional[str] = None
+    resource_id: Optional[str] = None
+    action: Optional[str] = None
     details: dict[str, Any] = field(default_factory=dict)
     severity: ThreatLevel = ThreatLevel.INFORMATIONAL
     tags: set[str] = field(default_factory=set)
-    correlation_id: str | None = None
+    correlation_id: Optional[str] = None
 
 
 @dataclass
@@ -128,7 +128,7 @@ class ThreatDetector:
         self.description = description
         self.enabled = True
 
-    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> ThreatDetection | None:
+    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> Optional[ThreatDetection]:
         """Detect threats in security event."""
         raise NotImplementedError
 
@@ -148,7 +148,7 @@ class BruteForceDetector(ThreatDetector):
         self.lockout_duration = timedelta(minutes=lockout_duration_minutes)
         self.failed_attempts: dict[str, list[datetime]] = defaultdict(list)
 
-    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> ThreatDetection | None:
+    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> Optional[ThreatDetection]:
         if event.event_type != EventType.AUTHENTICATION or not event.source_ip:
             return None
 
@@ -198,7 +198,7 @@ class AnomalousAccessDetector(ThreatDetector):
         self.baseline_days = baseline_days
         self.user_baselines: dict[str, dict[str, Any]] = {}
 
-    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> ThreatDetection | None:
+    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> Optional[ThreatDetection]:
         if not event.user_id or event.event_type not in [
             EventType.DATA_ACCESS,
             EventType.SYSTEM_ACCESS,
@@ -290,7 +290,7 @@ class PrivilegeEscalationDetector(ThreatDetector):
             re.compile(r"admin|administrator|root", re.IGNORECASE),
         ]
 
-    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> ThreatDetection | None:
+    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> Optional[ThreatDetection]:
         if event.event_type != EventType.PRIVILEGE_ESCALATION:
             return None
 
@@ -347,7 +347,7 @@ class MaliciousIPDetector(ThreatDetector):
         for ip in self.threat_intelligence:
             self.ip_reputation[ip] = 0.9  # High threat score
 
-    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> ThreatDetection | None:
+    def detect(self, event: SecurityEvent, context: dict[str, Any]) -> Optional[ThreatDetection]:
         if not event.source_ip:
             return None
 
@@ -644,11 +644,11 @@ class SecurityMonitor:
     def create_event(
         self,
         event_type: EventType,
-        source_ip: str | None = None,
-        user_id: str | None = None,
-        resource_id: str | None = None,
-        action: str | None = None,
-        details: dict[str, Any] | None = None,
+        source_ip: Optional[str] = None,
+        user_id: Optional[str] = None,
+        resource_id: Optional[str] = None,
+        action: Optional[str] = None,
+        details: Optional[dict[str, Any]] = None,
         severity: ThreatLevel = ThreatLevel.INFORMATIONAL,
     ) -> SecurityEvent:
         """Create a security event."""
@@ -763,7 +763,7 @@ class SecurityMonitor:
 
 
 # Factory function
-def create_security_monitor(config: dict[str, Any] | None = None) -> SecurityMonitor:
+def create_security_monitor(config: Optional[dict[str, Any]] = None) -> SecurityMonitor:
     """Create security monitor with configuration."""
     config = config or {}
 

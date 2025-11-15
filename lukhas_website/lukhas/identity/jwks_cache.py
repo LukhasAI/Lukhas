@@ -20,7 +20,7 @@ import time
 from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -31,8 +31,8 @@ class JWKSCacheEntry:
     jwks: dict[str, Any]
     created_at: datetime
     expires_at: datetime
-    etag: str | None = None
-    last_modified: str | None = None
+    etag: Optional[str] = None
+    last_modified: Optional[str] = None
     access_count: int = 0
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -140,7 +140,7 @@ class JWKSCache:
                 await self._prefetch_worker
         logger.info("🛑 JWKS Cache stopped")
 
-    def get(self, cache_key: str) -> tuple[dict[str, Any] | None, bool]:
+    def get(self, cache_key: str) -> Optional[tuple[dict[str, Any]], bool]:
         """
         Get JWKS from cache.
 
@@ -186,9 +186,9 @@ class JWKSCache:
         self,
         cache_key: str,
         jwks: dict[str, Any],
-        ttl_seconds: int | None = None,
-        etag: str | None = None,
-        last_modified: str | None = None
+        ttl_seconds: Optional[int] = None,
+        etag: Optional[str] = None,
+        last_modified: Optional[str] = None
     ) -> None:
         """
         Put JWKS in cache.
@@ -416,7 +416,7 @@ class JWKSCache:
 
 
 # Global cache instance
-_global_jwks_cache: JWKSCache | None = None
+_global_jwks_cache: Optional[JWKSCache] = None
 
 
 def get_jwks_cache() -> JWKSCache:
@@ -431,7 +431,7 @@ def get_jwks_cache() -> JWKSCache:
 async def cached_get_jwks(
     issuer_url: str,
     jwks_fetcher: Any = None,
-    cache_key: str | None = None
+    cache_key: Optional[str] = None
 ) -> dict[str, Any]:
     """
     Get JWKS with caching support.

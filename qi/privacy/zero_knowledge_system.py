@@ -35,7 +35,7 @@ import hashlib
 import inspect
 import logging
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ class ProofStatement:
     public_input: dict[str, Any]
     requires_non_interactive: bool = True
     circuit_size: int = 0
-    description: str | None = None
+    description: Optional[str] = None
 
 
 @dataclass
@@ -99,14 +99,14 @@ class ZeroKnowledgeProof:
 class ZkSnarkProof(ZeroKnowledgeProof):
     """Proof generated using zk-SNARK style circuits."""
 
-    def __init__(self, proof_data: dict[str, Any], public_input: dict[str, Any], metadata: dict[str, Any] | None = None):
+    def __init__(self, proof_data: dict[str, Any], public_input: dict[str, Any], metadata: Optional[dict[str, Any]] = None):
         super().__init__("zksnark", proof_data, public_input, metadata or {})
 
 
 class BulletProof(ZeroKnowledgeProof):
     """Proof generated using Bulletproof-style range proofs."""
 
-    def __init__(self, proof_data: dict[str, Any], public_input: dict[str, Any], metadata: dict[str, Any] | None = None):
+    def __init__(self, proof_data: dict[str, Any], public_input: dict[str, Any], metadata: Optional[dict[str, Any]] = None):
         super().__init__("bulletproof", proof_data, public_input, metadata or {})
 
 
@@ -140,8 +140,8 @@ class ZeroKnowledgePrivacyEngine:
 
     def __init__(
         self,
-        pqc_engine: Any | None = None,
-        audit_blockchain: Any | None = None,
+        pqc_engine: Optional[Any] = None,
+        audit_blockchain: Optional[Any] = None,
         threat_window: int = 5,
     ) -> None:
         self.pqc_engine = pqc_engine

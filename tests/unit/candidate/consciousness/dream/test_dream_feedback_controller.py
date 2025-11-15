@@ -1,3 +1,5 @@
+from typing import Optional
+
 """Unit tests for DreamFeedbackController symbolic redirect scoring."""
 
 from __future__ import annotations
@@ -26,7 +28,7 @@ from labs.consciousness.dream.core.dream_feedback_controller import (
 class StubSnapshotStore:
     def __init__(self, snapshots):
         self._snapshots = snapshots
-        self.requested_user_id: str | None = None
+        self.requested_user_id: Optional[str] = None
 
     def get_recent_snapshots(self, user_id: str):
         self.requested_user_id = user_id

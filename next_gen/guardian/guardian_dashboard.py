@@ -13,7 +13,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
-from typing import ClassVar
+from typing import ClassVar, Optional
 
 import yaml
 
@@ -72,7 +72,7 @@ class ThreatEvent:
     metadata: dict
     intervention_triggered: bool = False
     resolved: bool = False
-    resolution_time: float | None = None
+    resolution_time: Optional[float] = None
 
 
 @dataclass
@@ -94,10 +94,10 @@ class SystemMetrics:
 class EmergencyState:
     """Current emergency state information"""
 
-    active_emergency_level: str | None
+    active_emergency_level: Optional[str]
     emergency_description: str
     symbolic_pattern: list[str]
-    activated_at: float | None
+    activated_at: Optional[float]
     response_actions: list[str]
     escalation_history: list[dict]
 

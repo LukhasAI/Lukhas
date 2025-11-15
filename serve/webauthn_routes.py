@@ -13,6 +13,8 @@ router = APIRouter()
 
 class ChallengeRequest(BaseModel):
     """Request payload for starting a WebAuthn challenge."""
+from typing import Optional
+
 
     user_id: str = Field(..., min_length=1, description="Canonical user identifier")
     rp_id: str = Field(..., min_length=1, description="Relying party identifier")
@@ -25,7 +27,7 @@ class VerifyRequest(BaseModel):
     """Request payload for verifying a WebAuthn response."""
 
     response: dict[str, object] = Field(..., description="Client-provided assertion payload")
-    expected_challenge: str | None = Field(
+    expected_challenge: Optional[str] = Field(
         default=None,
         description="Optional challenge to enforce deterministic matching",
     )

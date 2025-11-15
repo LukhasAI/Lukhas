@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from _bridgeutils import bridge
 
-_mod: object | None = None
+_mod: Optional[object] = None
 _exports: dict[str, object] = {}
 
 _CANDIDATES = (
@@ -24,6 +24,8 @@ except (ModuleNotFoundError, AttributeError):
 
 if not isinstance(__all__, list):
     __all__ = list(__all__)
+
+from typing import Optional
 
 if "RouteHandlers" not in globals():
     class RouteHandlers:

@@ -14,7 +14,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from enrich.review_queue import ReviewQueue
 
@@ -27,7 +27,7 @@ class Signal:
     confidence: str  # "high" | "medium" | "low"
     reasons: list[str]
     extracted_at: str
-    sha: str | None = None
+    sha: Optional[str] = None
 
     def to_prov(self) -> Dict:
         """Convert to _provenance schema format"""
@@ -81,7 +81,7 @@ class Vocab:
                 mapping[syn.lower().strip()] = canonical
         return mapping
 
-    def map_feature(self, text: str) -> str | None:
+    def map_feature(self, text: str) -> Optional[str]:
         """Map raw text to canonical feature key"""
         normalized = text.lower().strip()
         return self.synonym_map.get(normalized)
@@ -99,7 +99,7 @@ class ClaudeExtractor:
         self.repo_root = repo_root
         self.queue = ReviewQueue(repo_root)
 
-    def _read(self, path: Path) -> str | None:
+    def _read(self, path: Path) -> Optional[str]:
         """Safe read with error handling"""
         if not path.exists():
             return None

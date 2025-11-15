@@ -9,7 +9,7 @@ Part of T4 lane isolation initiative to remove hard dependencies on labs.
 from __future__ import annotations
 
 from collections.abc import AsyncIterator, Iterator
-from typing import Any, Protocol
+from typing import Any, Protocol, Optional
 
 from typing_extensions import NotRequired, TypedDict
 
@@ -67,7 +67,7 @@ class OpenAIProvider(Protocol):
         model: str,
         messages: list[ChatMessage],
         temperature: float = 0.7,
-        max_tokens: int | None = None,
+        max_tokens: Optional[int] = None,
         top_p: float = 1.0,
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,
@@ -103,7 +103,7 @@ class OpenAIProvider(Protocol):
         model: str,
         messages: list[ChatMessage],
         temperature: float = 0.7,
-        max_tokens: int | None = None,
+        max_tokens: Optional[int] = None,
         top_p: float = 1.0,
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Standalone TODO/FIXME Categorization utility (extracted from TODO/scripts/categorize_todos.py)
 
@@ -114,7 +116,7 @@ def emit_json(items: list[TODORecord]) -> str:
     return json.dumps({"items": [asdict(it) for it in items]}, indent=2)
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: Optional[list[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Scan and categorize TODO/FIXME/BUG comments.")
     parser.add_argument("--root", default=".", help="Repository root to scan")
     parser.add_argument("--format", choices=["md", "json"], default="md", help="Output format")

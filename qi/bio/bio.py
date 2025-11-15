@@ -31,7 +31,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import structlog
@@ -120,7 +120,7 @@ class MitochondrialQIBridge:
     Implements conceptual electron transport chain dynamics for quantum information flow.
     """
 
-    def __init__(self, qi_oscillator: QIOscillator | None = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
 
@@ -144,7 +144,7 @@ class MitochondrialQIBridge:
 
     @lukhas_tier_required(2)
     async def process_quantum_signal(
-        self, input_signal: np.ndarray, context: dict[str, Any] | None = None
+        self, input_signal: np.ndarray, context: Optional[dict[str, Any]] = None
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Processes a quantum signal through a simulated mitochondrial-inspired pathway.
@@ -281,7 +281,7 @@ class QISynapticGate:
     Modulates signal transmission based on quantum interference patterns.
     """
 
-    def __init__(self, bio_oscillator: QIBioOscillator | None = None):
+    def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.internal_quantum_like_state = np.zeros(5, dtype=float)
@@ -295,7 +295,7 @@ class QISynapticGate:
         self,
         pre_synaptic_signal: np.ndarray,
         post_synaptic_context_signal: np.ndarray,
-        context: dict[str, Any] | None = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Processes neural-like signals with quantum-enhancement simulation.
@@ -409,7 +409,7 @@ class NeuroplasticityModulator:
     Adjusts internal state based on current and target states, modulated by a quantum oscillator.
     """
 
-    def __init__(self, qi_oscillator: QIOscillator | None = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.plasticity_state_vector = np.zeros(4, dtype=float)
@@ -425,7 +425,7 @@ class NeuroplasticityModulator:
         self,
         current_neural_state: np.ndarray,
         target_neural_state: np.ndarray,
-        context: dict[str, Any] | None = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Modulates neuroplasticity with simulated quantum enhancement.

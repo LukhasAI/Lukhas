@@ -4,7 +4,7 @@ All models are Pydantic for validation and JSON serialization.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -12,8 +12,8 @@ from pydantic import BaseModel, Field
 class DecisionTrace(BaseModel):
     """Complete decision trace with timing and outcome metadata."""
     trace_id: str
-    user_id: str | None = None
-    session_id: str | None = None
+    user_id: Optional[str] = None
+    session_id: Optional[str] = None
     input_hash: str
     started_at: float
     finished_at: float
@@ -30,11 +30,11 @@ class TraceSpan(BaseModel):
     trace_id: str
     module: str  # e.g., "Intent" | "Memory" | "Ethics" | "Action"
     operation: str  # e.g., "analyze" | "retrieve" | "guard" | "execute"
-    parent_span_id: str | None = None
+    parent_span_id: Optional[str] = None
     ts_start: float
     ts_end: float
     status: str = "OK"
-    error: str | None = None
+    error: Optional[str] = None
 
 
 class EvidenceLink(BaseModel):
@@ -43,7 +43,7 @@ class EvidenceLink(BaseModel):
     source_type: str  # "qrg" | "glymps" | "memory" | "api" | "doc"
     uri_or_key: str
     sha256: str
-    excerpt: str | None = None
+    excerpt: Optional[str] = None
     consent_scope: str = "default"  # per ΛID policy
     pii_tags: list[str] = Field(default_factory=list)
     redacted: bool = False
@@ -66,5 +66,5 @@ class FeedbackEvent(BaseModel):
     rating_0_10: int
     text: str
     labels: dict[str, float] = Field(default_factory=dict)  # taxonomy → weight
-    sentiment: str | None = None
+    sentiment: Optional[str] = None
     followup_state: dict[str, Any] = Field(default_factory=dict)

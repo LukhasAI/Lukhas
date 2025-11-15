@@ -5,7 +5,7 @@ import hashlib
 import json
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 # Merkle + Ed25519 (same primitives you already use)
 _HAS_PROV = True
@@ -19,7 +19,7 @@ def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def _semantic_hash(vector: list[float] | None) -> str | None:
+def _semantic_hash(vector: Optional[list[float]]) -> Optional[str]:
     if not vector:
         return None
     # simple stable hash (don't store vector by default)
@@ -30,10 +30,10 @@ def _semantic_hash(vector: list[float] | None) -> str | None:
 class ProvEntity:
     id: str  # "entity:artifact:<sha>"
     type: str  # e.g., "artifact", "prompt", "model_output"
-    digest_sha256: str | None = None
-    mime_type: str | None = None
-    size_bytes: int | None = None
-    storage_url: str | None = None
+    digest_sha256: Optional[str] = None
+    mime_type: Optional[str] = None
+    size_bytes: Optional[int] = None
+    storage_url: Optional[str] = None
 
 
 @dataclass
@@ -49,8 +49,8 @@ class ProvActivity:
     type: str  # e.g., "generate_summary"
     started_at: float = 0.0
     ended_at: float = 0.0
-    jurisdiction: str | None = None
-    context: str | None = None
+    jurisdiction: Optional[str] = None
+    context: Optional[str] = None
 
 
 @dataclass
@@ -61,22 +61,22 @@ class Receipt:
     agents: list[ProvAgent]
 
     # Policy & compliance replay pointers
-    policy_decision_id: str | None = None
-    consent_receipt_id: str | None = None
-    capability_lease_ids: list[str] | None = None
+    policy_decision_id: Optional[str] = None
+    consent_receipt_id: Optional[str] = None
+    capability_lease_ids: Optional[list[str]] = None
 
     # Risk & analytics
     risk_flags: list[str] = None
-    embedding_hash: str | None = None  # hash of semantic vector (no raw data)
-    latency_ms: int | None = None
-    tokens_in: int | None = None
-    tokens_out: int | None = None
+    embedding_hash: Optional[str] = None  # hash of semantic vector (no raw data)
+    latency_ms: Optional[int] = None
+    tokens_in: Optional[int] = None
+    tokens_out: Optional[int] = None
 
     # Calibration & confidence metadata
-    metrics: dict[str, Any] | None = None  # raw_conf, calibrated_conf, temperature, etc.
+    metrics: Optional[dict[str, Any]] = None  # raw_conf, calibrated_conf, temperature, etc.
 
     # Integrity
-    attestation: dict[str, Any] | None = None
+    attestation: Optional[dict[str, Any]] = None
     schema_version: str = "prov-1.0.0"
     created_at: float = 0.0
     id: str = ""  # stable id for sinks
@@ -85,26 +85,26 @@ class Receipt:
 def build_receipt(
     *,
     artifact_sha: str,
-    artifact_mime: str | None,
-    artifact_size: int | None,
-    storage_url: str | None,
+    artifact_mime: Optional[str],
+    artifact_size: Optional[int],
+    storage_url: Optional[str],
     run_id: str,
     task: str,
     started_at: float,
     ended_at: float,
-    user_id: str | None,
+    user_id: Optional[str],
     service_name: str = "lukhas",
-    jurisdiction: str | None = None,
-    context: str | None = None,
-    policy_decision_id: str | None = None,
-    consent_receipt_id: str | None = None,
-    capability_lease_ids: list[str] | None = None,
-    risk_flags: list[str] | None = None,
-    tokens_in: int | None = None,
-    tokens_out: int | None = None,
-    embedding_vector: list[float] | None = None,
-    metrics: dict[str, Any] | None = None,
-    extra_steps: list[dict[str, Any]] | None = None,
+    jurisdiction: Optional[str] = None,
+    context: Optional[str] = None,
+    policy_decision_id: Optional[str] = None,
+    consent_receipt_id: Optional[str] = None,
+    capability_lease_ids: Optional[list[str]] = None,
+    risk_flags: Optional[list[str]] = None,
+    tokens_in: Optional[int] = None,
+    tokens_out: Optional[int] = None,
+    embedding_vector: Optional[list[float]] = None,
+    metrics: Optional[dict[str, Any]] = None,
+    extra_steps: Optional[list[dict[str, Any]]] = None,
 ) -> Receipt:
     created = time.time()
     entity = ProvEntity(
@@ -139,7 +139,7 @@ def build_receipt(
     )
 
     # Optional signature (Merkle + ed25519)
-    att: dict[str, Any] | None = None
+    att: Optional[dict[str, Any]] = None
     if _HAS_PROV:
         steps = [
             {

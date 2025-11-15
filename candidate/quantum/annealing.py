@@ -7,7 +7,7 @@ import random
 from abc import ABC, abstractmethod
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -89,17 +89,17 @@ class QuantumAnnealer:
         self,
         *,
         rng: random.Random | None = None,
-        scheduler: AdaptiveScheduler | None = None,
+        scheduler: Optional[AdaptiveScheduler] = None,
     ) -> None:
         self._rng = rng or random.Random()
         self.scheduler = scheduler
 
     def anneal(
         self,
-        objective: Callable[[Mapping[str, Any]], float] | None,
+        objective: Optional[Callable[[Mapping[str, Any]], float]],
         *,
         search_space: Iterable[Mapping[str, Any]],
-        constraints: Mapping[str, Any] | None = None,
+        constraints: Optional[Mapping[str, Any]] = None,
     ) -> AnnealingResult:
         """Run simulated annealing enhanced with quantum tunneling."""
 
@@ -174,7 +174,7 @@ class QuantumAnnealer:
 
     def _resolve_energy_function(
         self,
-        objective: Callable[[Mapping[str, Any]], float] | None,
+        objective: Optional[Callable[[Mapping[str, Any]], float]],
         constraints: Mapping[str, Any],
     ) -> Callable[[Mapping[str, Any]], float]:
         """Resolves the energy function from the objective or constraints."""

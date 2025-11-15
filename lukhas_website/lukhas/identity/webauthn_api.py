@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -52,21 +52,21 @@ class RegistrationBeginRequest(BaseModel):
     username: str = Field(..., description="Username")
     display_name: str = Field(..., description="Display name")
     tier: str = Field(default="T4", description="Authentication tier (T3, T4, T5)")
-    authenticator_attachment: str | None = Field(default=None, description="platform, cross-platform, or None")
+    authenticator_attachment: Optional[str] = Field(default=None, description="platform, cross-platform, or None")
     resident_key: bool = Field(default=True, description="Require resident key")
-    device_name: str | None = Field(default=None, description="Device name for identification")
+    device_name: Optional[str] = Field(default=None, description="Device name for identification")
 
 
 class RegistrationFinishRequest(BaseModel):
     """WebAuthn registration finish request"""
     challenge_id: str = Field(..., description="Challenge ID from begin request")
     credential: dict[str, Any] = Field(..., description="WebAuthn credential response")
-    device_name: str | None = Field(default=None, description="Device name for identification")
+    device_name: Optional[str] = Field(default=None, description="Device name for identification")
 
 
 class AuthenticationBeginRequest(BaseModel):
     """WebAuthn authentication begin request"""
-    user_id: str | None = Field(default=None, description="User ID (optional for usernameless)")
+    user_id: Optional[str] = Field(default=None, description="User ID (optional for usernameless)")
     tier: str = Field(default="T4", description="Required authentication tier")
     timeout: int = Field(default=300000, description="Timeout in milliseconds")
 
@@ -80,12 +80,12 @@ class AuthenticationFinishRequest(BaseModel):
 class WebAuthnCredentialResponse(BaseModel):
     """WebAuthn credential response"""
     id: str
-    device_name: str | None
+    device_name: Optional[str]
     authenticator_type: str
     tier: str
     status: str
     created_at: str
-    last_used: str | None
+    last_used: Optional[str]
     biometric_enrolled: bool
     backup_eligible: bool
 

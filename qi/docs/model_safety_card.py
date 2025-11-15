@@ -1,4 +1,6 @@
 # path: qi/docs/model_safety_card.py
+from typing import Optional
+
 from __future__ import annotations
 
 # Safe I/O
@@ -31,7 +33,7 @@ def _read_json(path: str) -> dict:
         return json.load(f)
 
 
-def _latest_eval() -> dict | None:
+def _latest_eval() -> Optional[dict]:
     import glob
     import os
 
@@ -43,7 +45,7 @@ def _latest_eval() -> dict | None:
     return _read_json(files[0]) if files else None
 
 
-def _policy_fingerprint(policy_root: str, overlays_dir: str | None) -> str:
+def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
     import os
 
     h = hashlib.sha256()
@@ -84,7 +86,7 @@ def generate_card(
     model_name: str,
     version: str,
     policy_root: str,
-    overlays: str | None,
+    overlays: Optional[str],
     jurisdictions: list[str],
 ) -> dict:
     ev = _latest_eval() or {
@@ -129,7 +131,7 @@ def generate_card(
     return asdict(card)
 
 
-def to_markdown(card: dict, *, jurisdiction_diffs: dict | None = None) -> str:
+def to_markdown(card: dict, *, jurisdiction_diffs: Optional[dict] = None) -> str:
     jdiff = ""
     if jurisdiction_diffs:
         jdiff = "\n##"

@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from core.tiered_state_management import StateType, TieredStateManager
 
@@ -19,7 +19,7 @@ class Consistency(Enum):
 class ConsistencyManager:
     """Applies state updates with the requested consistency level."""
 
-    def __init__(self, state_manager: TieredStateManager | None = None):
+    def __init__(self, state_manager: Optional[TieredStateManager] = None):
         self.state_manager = state_manager or TieredStateManager()
         logger.info("ΛTRACE: ConsistencyManager initialized")
 

@@ -23,14 +23,14 @@ import time
 from collections.abc import Sequence
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 def now_iso() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
 
-def _run(cmd: Sequence[str], cwd: str | None = None, timeout: int = 30) -> tuple[int, str, str]:
+def _run(cmd: Sequence[str], cwd: Optional[str] = None, timeout: int = 30) -> tuple[int, str, str]:
     try:
         proc = subprocess.run(
             cmd,
@@ -122,7 +122,7 @@ def create_snapshot(out_dir: Path, *, sign: bool = True, key_env: str = "WAVEC_S
     return snapshot_dir
 
 
-def main(argv: Sequence[str] | None = None) -> int:
+def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Create a WaveC snapshot")
     parser.add_argument("--out", default="artifacts/wavec", help="Snapshot output directory")
     parser.add_argument("--no-sign", action="store_true", help="Skip signing the manifest")

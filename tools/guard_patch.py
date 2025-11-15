@@ -21,9 +21,9 @@ import sys
 from collections.abc import Iterable, Sequence
 from fnmatch import fnmatch
 from pathlib import Path
-from typing import Any, Final
+from typing import Any, Final, Optional
 
-yaml: Any | None
+yaml: Optional[Any]
 try:
     yaml = importlib.import_module("yaml")
 except ModuleNotFoundError:  # pragma: no cover - optional dependency
@@ -86,7 +86,7 @@ def _parse_pattern_lines(text: str) -> list[str]:
     return entries
 
 
-def load_whitelist(path: str | None) -> set[str]:
+def load_whitelist(path: Optional[str]) -> set[str]:
     if not path:
         return set()
 
