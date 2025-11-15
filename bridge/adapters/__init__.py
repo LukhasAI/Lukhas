@@ -1,6 +1,8 @@
 """Pre-freeze bridge surface for `bridge.adapters` expected by tests."""
 from __future__ import annotations
 
+from typing import Optional
+
 from _bridgeutils import bridge
 
 _mod: Optional[object] = None
@@ -25,8 +27,6 @@ if not isinstance(__all__, list):
 
 class _FallbackAdapter:
     """No-op adapter stub for environments without concrete adapters."""
-from typing import Optional
-
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         self.args = args

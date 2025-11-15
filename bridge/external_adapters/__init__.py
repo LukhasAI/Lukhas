@@ -21,11 +21,11 @@ except ModuleNotFoundError:
 if not isinstance(__all__, list):
     __all__ = list(__all__)
 
+from typing import Optional
+
 
 class _Stub:
     """Generic container used when inference adapters are not wired."""
-from typing import Optional
-
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         self.args = args
