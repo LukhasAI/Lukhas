@@ -12,7 +12,7 @@ Output: reports/analysis/symbolic_consistency.csv
 
 import re
 from pathlib import Path
-from typing import Dict, List, Any, Set
+from typing import Dict, List, Any
 import csv
 import sys
 
