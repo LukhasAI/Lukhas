@@ -212,13 +212,14 @@ class EnterprisSecurityScanner:
                 "auto_fixable": True,
             },
             "sql_injection": {
+                # NOT SQL INJECTION - These are regex patterns for detecting SQL injection in code
                 "patterns": [
-                    r"execute\(.*%.*\)}",
-                    r"query\(.*\+.*\)",
-                    r"cursor\.execute\([^?]*%",
-                    r"sql\s*=.*\+.*",
-                    r"SELECT.*\+.*FROM",
-                    r"INSERT.*\+.*VALUES",
+                    r"execute\(.*%.*\)}",  # SQL injection detection pattern
+                    r"query\(.*\+.*\)",  # SQL injection detection pattern
+                    r"cursor\.execute\([^?]*%",  # SQL injection detection pattern
+                    r"sql\s*=.*\+.*",  # SQL injection detection pattern
+                    r"SELECT.*\+.*FROM",  # SQL injection detection pattern
+                    r"INSERT.*\+.*VALUES",  # SQL injection detection pattern
                 ],
                 "severity": SecuritySeverity.HIGH,
                 "category": SecurityCategory.SQL_INJECTION,

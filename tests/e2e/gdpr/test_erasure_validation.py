@@ -298,6 +298,7 @@ class MockDataStore:
         cursor.execute("SELECT COUNT(*) FROM audit_log WHERE user_id = ?", (user_id,))
         verification_results["audit_log_remaining"] = cursor.fetchone()[0]
 
+        # NOT SQL INJECTION - f-string is in parameter tuple, not in query string (safe)
         cursor.execute(
             "SELECT COUNT(*) FROM audit_log WHERE sensitive_data LIKE ? AND user_id IS NULL", (f"%{user_id}%",)
         )
@@ -308,6 +309,7 @@ class MockDataStore:
         verification_results["vector_cache_remaining"] = cursor.fetchone()[0]
 
         # Check for shadow references in metadata
+        # NOT SQL INJECTION - f-string is in parameter tuple, not in query string (safe)
         cursor.execute("SELECT COUNT(*) FROM vector_cache WHERE metadata LIKE ?", (f"%{user_id}%",))
         verification_results["vector_shadow_references"] = cursor.fetchone()[0]
 

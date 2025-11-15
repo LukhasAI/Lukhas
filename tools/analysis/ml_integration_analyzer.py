@@ -102,9 +102,10 @@ def detect_naming_convention(name: str) -> str:
 # -----------------------------
 # Utility: Simple Security Heuristics
 # -----------------------------
+# NOT SQL INJECTION - These are regex patterns for detecting SQL injection in code
 SQL_PATTERNS = [
-    r"SELECT\s+.*\s+FROM\s+.*\+",  # naive concat in SQL
-    r"INSERT\s+INTO\s+.*\+",
+    r"SELECT\s+.*\s+FROM\s+.*\+",  # naive concat in SQL - detection pattern
+    r"INSERT\s+INTO\s+.*\+",  # SQL concatenation - detection pattern
     r"execute\((?P<arg>.+)\)",
 ]
 DANGEROUS_CALLS = ["eval(", "exec(", "os.system(", "subprocess.Popen("]
