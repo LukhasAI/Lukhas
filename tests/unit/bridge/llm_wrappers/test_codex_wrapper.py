@@ -6,6 +6,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import aiohttp
 import pytest
+
+# Skip if aioresponses not available (optional test dependency)
+pytest.importorskip("aioresponses")
+
 from aioresponses import aioresponses
 
 # Now we can import the module under test

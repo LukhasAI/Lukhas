@@ -1,0 +1,79 @@
+name: DAST - ZAP Baseline (PR)
+
+# Run ZAP baseline scan on every PR to catch common OWASP Top 10 vulnerabilities
+# Scan is passive-only (non-intrusive) and completes in ~5 minutes
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: dast-zap-baseline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  zap-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    services:
+      postgres:
+        image: postgres:15
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+
+      - name: Boot API server (background)
+        run: |
+          nohup python3 -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+          # Wait for API to be ready (max 120 seconds)
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:8000/healthz; then
+              echo "API server ready"
+              exit 0
+            fi
+            echo "Waiting for API... attempt $i/60"
+            sleep 2
+          done
+          echo "ERROR: API failed to start within 120 seconds"
+          exit 1
+
+      - name: ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.11.0
+        with:
+          target: 'http://127.0.0.1:8000'
+          rules_file_name: 'dast/.zap/rules.tsv'
+          allow_issue_writing: false
+          cmd_options: '-a -m 5'  # aggressive passive scan, 5 min max
+
+      - name: Upload ZAP report
+        uses: actions/upload-artifact@v4
+        if: always()  # Upload even if scan finds issues
+        with:
+          name: zap-baseline-report-${{ github.run_number }}
+          path: |
+            report_html.html
+            owasp_zap_log.txt
+          retention-days: 7

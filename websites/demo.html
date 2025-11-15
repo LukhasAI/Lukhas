@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUKHAS Design System Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./packages/ui/src/styles/variables.css">
+  <link rel="stylesheet" href="./packages/ui/src/styles/animations.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--lukhas-deep-space);
+      color: var(--lukhas-text-primary);
+      font-family: var(--font-display);
+      line-height: var(--leading-normal);
+      padding: var(--spacing-xl);
+      overflow-x: hidden;
+    }
+
+    .demo-section {
+      margin-bottom: var(--spacing-xxxl);
+      animation: fade-in-up 0.6s ease-out;
+    }
+
+    .demo-section h1 {
+      font-size: var(--text-5xl);
+      font-weight: var(--font-thin);
+      letter-spacing: var(--tracking-thin-capitals);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-lg);
+      background: linear-gradient(135deg, var(--lukhas-lambda-blue), var(--lukhas-quantum-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .demo-section h2 {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-light);
+      letter-spacing: var(--tracking-heading);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-md);
+      color: var(--lukhas-lambda-blue);
+    }
+
+    .demo-section p {
+      color: var(--lukhas-text-secondary);
+      margin-bottom: var(--spacing-lg);
+      max-width: 800px;
+    }
+
+    /* Color Grid */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .color-swatch {
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      backdrop-filter: blur(var(--glass-blur));
+      background: var(--glass-bg);
+      transition: transform var(--timing-normal) var(--easing-lukhas);
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-4px);
+    }
+
+    .color-preview {
+      width: 100%;
+      height: 100px;
+      border-radius: var(--border-radius-md);
+      margin-bottom: var(--spacing-sm);
+      border: var(--border-width-thin) solid var(--lukhas-border);
+    }
+
+    .color-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--lukhas-text-primary);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .color-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--lukhas-text-secondary);
+    }
+
+    /* Animation Grid */
+    .animation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .animation-demo {
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      text-align: center;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-md);
+    }
+
+    .animation-demo h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-light);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-logo);
+      color: var(--lukhas-lambda-blue);
+    }
+
+    .animation-shape {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--lukhas-lambda-blue), var(--lukhas-quantum-green));
+      border-radius: var(--border-radius-md);
+    }
+
+    /* Typography Showcase */
+    .typography-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+      padding: var(--spacing-xl);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+    }
+
+    .thin-capitals {
+      font-weight: var(--font-thin);
+      font-size: var(--text-6xl);
+      letter-spacing: var(--tracking-thin-capitals);
+      text-transform: uppercase;
+      line-height: var(--leading-none);
+    }
+
+    /* Shape Morphing Canvas */
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 500px;
+      margin: var(--spacing-xl) auto;
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      overflow: hidden;
+    }
+
+    #morphCanvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .shape-controls {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: var(--spacing-lg);
+    }
+
+    .shape-button {
+      padding: var(--spacing-sm) var(--spacing-lg);
+      background: var(--glass-bg);
+      border: var(--border-width-thin) solid var(--lukhas-border);
+      border-radius: var(--border-radius-pill);
+      color: var(--lukhas-text-primary);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: var(--font-light);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-logo);
+      cursor: pointer;
+      transition: all var(--timing-normal) var(--easing-lukhas);
+      backdrop-filter: blur(var(--glass-blur));
+    }
+
+    .shape-button:hover {
+      background: var(--lukhas-lambda-blue);
+      border-color: var(--lukhas-lambda-blue);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-blue);
+    }
+
+    .shape-button.active {
+      background: var(--lukhas-quantum-green);
+      border-color: var(--lukhas-quantum-green);
+      box-shadow: var(--glow-green);
+    }
+
+    /* Glass Card Examples */
+    .glass-card-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .glass-card {
+      padding: var(--spacing-xl);
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      border-radius: var(--border-radius-glass);
+      border: var(--border-width-thin) solid var(--glass-border);
+      transition: all var(--timing-normal) var(--easing-lukhas);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--lukhas-border-bright);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .glass-card h3 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-light);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-logo);
+      margin-bottom: var(--spacing-md);
+      color: var(--lukhas-lambda-blue);
+    }
+
+    .glass-card p {
+      color: var(--lukhas-text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* Domain Accent Examples */
+    .domain-accent-id {
+      border-left: 4px solid var(--domain-id-purple);
+    }
+
+    .domain-accent-com {
+      border-left: 4px solid var(--domain-com-trust-blue);
+    }
+
+    .domain-accent-us {
+      border-left: 4px solid var(--domain-us-institutional);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: var(--spacing-md);
+      }
+
+      .demo-section h1 {
+        font-size: var(--text-3xl);
+      }
+
+      .thin-capitals {
+        font-size: var(--text-4xl);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="demo-section">
+    <h1 class="animate-fade-in-up">LUKHAS Design System</h1>
+    <p>Interactive demonstration of the LUKHAS consciousness-inspired design language. This demo showcases our CSS variables, animations, typography system, and morphing engine.</p>
+  </div>
+
+  <!-- Color Palette -->
+  <div class="demo-section">
+    <h2>Color Palette</h2>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-deep-space);"></div>
+        <div class="color-name">Deep Space</div>
+        <div class="color-value">#0a0a0a</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-lambda-blue);"></div>
+        <div class="color-name">Lambda Blue</div>
+        <div class="color-value">#00d4ff</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-quantum-green);"></div>
+        <div class="color-name">Quantum Green</div>
+        <div class="color-value">#00ff88</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--lukhas-luke-gold);"></div>
+        <div class="color-name">Luke Gold</div>
+        <div class="color-value">#d4af37</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--domain-id-purple);"></div>
+        <div class="color-name">Identity Purple</div>
+        <div class="color-value">#9333EA</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-preview" style="background: var(--domain-com-trust-blue);"></div>
+        <div class="color-name">Trust Blue</div>
+        <div class="color-value">#3B82F6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="demo-section">
+    <h2>Typography System</h2>
+    <div class="typography-showcase">
+      <div class="thin-capitals">LUKHAS</div>
+      <div style="font-size: var(--text-4xl); font-weight: var(--font-light); letter-spacing: var(--tracking-heading); text-transform: uppercase;">
+        Consciousness-Aware AI
+      </div>
+      <div style="font-size: var(--text-2xl); font-weight: var(--font-extralight); letter-spacing: var(--tracking-logo); text-transform: uppercase; color: var(--lukhas-text-secondary);">
+        Distributed Cognitive Architecture
+      </div>
+      <div style="font-family: var(--font-mono); font-size: var(--text-base); color: var(--lukhas-quantum-green);">
+        // Production-ready consciousness patterns
+      </div>
+    </div>
+  </div>
+
+  <!-- Animations -->
+  <div class="demo-section">
+    <h2>Consciousness-Inspired Animations</h2>
+    <div class="animation-grid">
+      <div class="animation-demo">
+        <h3>Breathe</h3>
+        <div class="animation-shape animate-breathe"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Consciousness Pulse</h3>
+        <div class="animation-shape animate-consciousness-pulse"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Neural Glow</h3>
+        <div class="animation-shape animate-neural-glow" style="border-radius: 50%;"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Float</h3>
+        <div class="animation-shape animate-float" style="border-radius: 50%;"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Drift</h3>
+        <div class="animation-shape animate-drift"></div>
+      </div>
+      <div class="animation-demo">
+        <h3>Glass Shimmer</h3>
+        <div class="animation-shape animate-glass-shimmer" style="background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur));"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D Particle Morphing -->
+  <div class="demo-section">
+    <h2>3D Particle Morphing (Production System)</h2>
+    <p>4,096 particle WebGL visualization with GPU-accelerated morphing. Click shapes to morph, toggle voice for real-time audio modulation.</p>
+    <div class="canvas-container" style="height: 600px;">
+      <canvas id="particleCanvas"></canvas>
+    </div>
+    <div class="shape-controls">
+      <button class="shape-button active" data-shape-3d="sphere">Sphere</button>
+      <button class="shape-button" data-shape-3d="consciousness">Consciousness</button>
+      <button class="shape-button" data-shape-3d="guardian">Guardian</button>
+      <button class="shape-button" data-shape-3d="identity">Identity</button>
+      <button class="shape-button" data-shape-3d="neural">Neural</button>
+      <button class="shape-button" data-shape-3d="quantum">Quantum</button>
+      <button class="shape-button" data-shape-3d="cat" style="border-color: var(--lukhas-luke-gold);">🐱 Cat</button>
+    </div>
+    <div class="shape-controls">
+      <button id="toggleVoice" class="shape-button" style="background: var(--glass-bg);">Enable Voice Modulation</button>
+      <div id="voiceStatus" style="color: var(--lukhas-text-secondary); padding: var(--spacing-sm); font-family: var(--font-mono); font-size: var(--text-xs);">Voice: Disabled</div>
+    </div>
+  </div>
+
+  <!-- Shape Morphing (2D Comparison) -->
+  <div class="demo-section">
+    <h2>2D Morphing (Simplified Demo)</h2>
+    <p>Simplified 2D canvas demonstration for comparison. The 3D particle system above shows the production implementation.</p>
+    <div class="canvas-container">
+      <canvas id="morphCanvas"></canvas>
+    </div>
+    <div class="shape-controls">
+      <button class="shape-button active" data-shape="sphere">Sphere</button>
+      <button class="shape-button" data-shape="consciousness">Consciousness</button>
+      <button class="shape-button" data-shape="guardian">Guardian</button>
+      <button class="shape-button" data-shape="identity">Identity</button>
+      <button class="shape-button" data-shape="neural">Neural</button>
+      <button class="shape-button" data-shape="quantum">Quantum</button>
+    </div>
+  </div>
+
+  <!-- Glass Cards -->
+  <div class="demo-section">
+    <h2>Glassmorphism Components</h2>
+    <div class="glass-card-examples">
+      <div class="glass-card domain-accent-id">
+        <h3>lukhas.id</h3>
+        <p>Identity management with WebAuthn passkey authentication. Lambda-inspired secure access.</p>
+      </div>
+      <div class="glass-card domain-accent-com">
+        <h3>lukhas.com</h3>
+        <p>Corporate presence with morphing constellation orbs. Consciousness-aware platform showcase.</p>
+      </div>
+      <div class="glass-card domain-accent-us">
+        <h3>lukhas.us</h3>
+        <p>Compliance and governance. Breathing Lambda glyph with institutional trust signals.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== 3D PARTICLE MORPHING SYSTEM =====
+    class ParticleMorphing3D {
+      constructor() {
+        this.canvas = document.getElementById('particleCanvas');
+        this.gl = this.canvas.getContext('webgl') || this.canvas.getContext('experimental-webgl');
+
+        if (!this.gl) {
+          this.canvas.parentElement.innerHTML = '<div style="color: var(--lukhas-text-secondary); text-align: center; padding: var(--spacing-xl);">WebGL not supported in this browser</div>';
+          return;
+        }
+
+        this.voiceData = { intensity: 0, frequency: 0 };
+        this.currentShape = 'sphere';
+        this.time = 0;
+        this.isVoiceEnabled = false;
+
+        this.setupCanvas();
+        if (this.createShaders()) {
+          this.createGeometry();
+          this.setupControls();
+          this.startRender();
+        }
+      }
+
+      setupCanvas() {
+        this.canvas.width = this.canvas.offsetWidth;
+        this.canvas.height = this.canvas.offsetHeight;
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.gl.clearColor(0.04, 0.04, 0.04, 1); // Deep space background
+      }
+
+      createShaders() {
+        const vertexShaderSource = `
+          precision mediump float;
+          attribute vec3 position;
+          uniform mat4 modelViewMatrix;
+          uniform mat4 projectionMatrix;
+          uniform float time;
+          uniform float voiceIntensity;
+          uniform float currentShape;
+          uniform float morphProgress;
+          varying float vSize;
+          varying vec3 vColor;
+
+          // Constellation Framework shape morphing functions
+          vec3 consciousnessShape(vec3 pos, float intensity) {
+            // Complex brain-like pulsating with multiple frequencies
+            float r = length(pos);
+            float theta = atan(pos.z, pos.x);
+            float phi = acos(pos.y / (r + 0.001));
+
+            // Multi-frequency pulsing for organic consciousness feel
+            float pulse1 = sin(time * 1.2 + r * 3.0) * 0.15;
+            float pulse2 = sin(time * 0.8 + theta * 4.0) * 0.12;
+            float pulse3 = cos(time * 1.5 + phi * 5.0) * 0.10;
+            float breath = sin(time * 0.5) * 0.08;
+
+            float modulation = 1.0 + pulse1 + pulse2 + pulse3 + breath + intensity * 0.2;
+            return pos * modulation;
+          }
+
+          vec3 guardianShape(vec3 pos, float intensity) {
+            // Shield-like protective geometry with angular edges
+            float angle = atan(pos.z, pos.x);
+            float r = length(vec2(pos.x, pos.z));
+
+            // Create shield segments (hexagonal protection)
+            float segments = 6.0;
+            float segmentAngle = floor(angle / (3.14159 * 2.0 / segments)) * (3.14159 * 2.0 / segments);
+            float edgeSharp = 1.0 + cos(segmentAngle * segments) * 0.15;
+
+            // Front flattening for shield effect
+            float frontFlatten = pos.z > 0.0 ? 0.65 : 1.0;
+            float protectiveGlow = sin(time * 2.0) * 0.10;
+
+            pos.z *= frontFlatten;
+            pos.x *= edgeSharp * (1.0 + protectiveGlow);
+            pos.y *= 1.15 + protectiveGlow;
+
+            return pos * (1.0 + intensity * 0.15);
+          }
+
+          vec3 identityShape(vec3 pos, float intensity) {
+            // Lambda (Λ) symbol - pronounced pointed top, wide base
+            float absY = abs(pos.y);
+            float r = length(vec2(pos.x, pos.z));
+
+            // Sharp lambda peak at top
+            if (pos.y > 0.5) {
+              float taper = (pos.y - 0.5) / 0.5; // 0 to 1 from middle to top
+              float sharpness = 1.0 - taper * 0.7; // Narrow towards top
+              pos.x *= sharpness;
+              pos.z *= sharpness;
+              pos.y *= 1.6; // Tall peak
+            }
+            // Wide base at bottom
+            else if (pos.y < -0.3) {
+              float spread = abs(pos.y + 0.3) / 0.7;
+              pos.x *= 1.0 + spread * 0.5;
+              pos.z *= 1.0 + spread * 0.5;
+            }
+
+            // Subtle breathing
+            float breath = sin(time * 1.5) * 0.05;
+            return pos * (1.0 + breath + intensity * 0.12);
+          }
+
+          vec3 neuralShape(vec3 pos, float intensity) {
+            // Neural network with node clustering and connections
+            float r = length(pos);
+
+            // Create node clusters (synaptic connections)
+            float nodeFreq = 8.0;
+            float cluster1 = sin(pos.x * nodeFreq + time) * sin(pos.y * nodeFreq + time * 1.2) * sin(pos.z * nodeFreq + time * 0.8);
+            float cluster2 = cos(pos.x * nodeFreq * 0.7 + time * 1.5) * cos(pos.y * nodeFreq * 0.7 + time);
+
+            // Synaptic firing patterns
+            float firing = (cluster1 + cluster2) * 0.15;
+
+            // Network pulsing
+            float networkPulse = sin(time * 2.0 + r * 4.0) * 0.12;
+
+            return pos * (1.0 + firing + networkPulse + intensity * 0.2);
+          }
+
+          vec3 quantumShape(vec3 pos, float intensity) {
+            // Quantum superposition with dramatic interference patterns
+            float r = length(pos);
+            float theta = atan(pos.z, pos.x);
+
+            // Multiple quantum waves interfering
+            float wave1 = sin(time * 3.5 + r * 10.0) * 0.20;
+            float wave2 = cos(time * 2.8 + theta * 8.0) * 0.20;
+            float wave3 = sin(time * 3.2 + pos.y * 12.0) * 0.18;
+            float wave4 = cos(time * 2.5 + r * 6.0 + theta * 4.0) * 0.15;
+
+            // Quantum superposition effect
+            float superposition = (wave1 + wave2 + wave3 + wave4) / 4.0;
+
+            // Entanglement visualization
+            float entangle = sin(pos.x * 6.0 + time * 2.0) * cos(pos.z * 6.0 + time * 2.2) * 0.12;
+
+            return pos * (1.0 + superposition + entangle + intensity * 0.25);
+          }
+
+          vec3 catShape(vec3 pos, float intensity) {
+            // Extreme cat transformation - forget sphere, make actual cat!
+            // Use angular position for front/side view emphasis
+            float theta = atan(pos.z, pos.x);
+            float r = length(vec2(pos.x, pos.z));
+
+            // COMPRESSION: Flatten Z to create side-profile effect
+            pos.z *= 0.4;
+
+            // TWO POINTED EARS (most critical feature!)
+            // Left ear at x=-0.5, right ear at x=0.5, both at y=1.0+
+            float leftEarDist = length(vec2(pos.x + 0.5, pos.y - 1.0));
+            float rightEarDist = length(vec2(pos.x - 0.5, pos.y - 1.0));
+
+            if (leftEarDist < 0.4 || rightEarDist < 0.4) {
+              // Inside an ear cone - make it pointed
+              float earDist = min(leftEarDist, rightEarDist);
+              float earHeight = 1.0 - (earDist / 0.4);
+
+              // Push upward into sharp point
+              pos.y = 1.0 + earHeight * 1.0;
+
+              // Narrow to point
+              float earCenter = (leftEarDist < rightEarDist) ? -0.5 : 0.5;
+              pos.x = mix(pos.x, earCenter, earHeight * 0.7);
+              pos.z *= 1.0 - earHeight * 0.6;
+            }
+
+            // HEAD (round below ears at y: 0.4 to 0.8)
+            else if (pos.y > 0.4 && pos.y < 0.9) {
+              float headFactor = sin((pos.y - 0.4) / 0.5 * 3.14159);
+              pos.x *= 0.7 + headFactor * 0.2;
+              pos.z *= 0.7 + headFactor * 0.2;
+            }
+
+            // BODY (oval, wider, y: -0.3 to 0.4)
+            else if (pos.y > -0.3 && pos.y <= 0.4) {
+              float bodyWidth = 1.0 + (0.4 - abs(pos.y)) * 0.5;
+              pos.x *= bodyWidth;
+              pos.z *= bodyWidth * 0.6;
+            }
+
+            // HAUNCHES/BASE (sitting position, y < -0.3)
+            else if (pos.y <= -0.3) {
+              // Very wide, flat base (cat sitting)
+              pos.x *= 1.4 + abs(pos.y) * 0.3;
+              pos.z *= 0.9;
+              pos.y *= 0.5; // Compress height
+            }
+
+            // TAIL (curves from back upward)
+            // Particles near back-bottom get pulled into tail curve
+            if (r > 1.0 && pos.y < 0.2 && theta > 2.0) {
+              float tailFactor = (r - 1.0) * 2.0;
+              tailFactor = min(tailFactor, 1.0);
+
+              // Curve tail upward and around
+              pos.y += tailFactor * 1.5;
+              pos.x += tailFactor * 0.5;
+            }
+
+            return pos * (1.0 + intensity * 0.1);
+          }
+
+          vec3 morphTarget(vec3 base, float shape, float intensity) {
+            vec3 pos = base;
+
+            // Shape selector (0=sphere, 1=consciousness, 2=guardian, 3=identity, 4=neural, 5=quantum, 6=cat)
+            if (shape < 0.5) {
+              return pos; // Sphere (default)
+            } else if (shape < 1.5) {
+              return consciousnessShape(pos, intensity);
+            } else if (shape < 2.5) {
+              return guardianShape(pos, intensity);
+            } else if (shape < 3.5) {
+              return identityShape(pos, intensity);
+            } else if (shape < 4.5) {
+              return neuralShape(pos, intensity);
+            } else if (shape < 5.5) {
+              return quantumShape(pos, intensity);
+            } else {
+              return catShape(pos, intensity);
+            }
+          }
+
+          void main() {
+            float cappedIntensity = min(voiceIntensity, 1.0);
+            float scale = 1.0 + cappedIntensity * 0.35;
+            vec3 base = position * scale;
+            vec3 target = morphTarget(base, currentShape, cappedIntensity);
+            vec3 morphed = mix(base, target, morphProgress);
+
+            // Add subtle jitter for organic feel
+            float jitter = (fract(sin(dot(morphed.xyz, vec3(12.9898, 78.233, 45.164))) * 43758.5453 + time) - 0.5) * 0.08 * cappedIntensity;
+            morphed += jitter;
+
+            // Particle size varies with voice intensity
+            vSize = 5.0 + 10.0 * cappedIntensity;
+
+            // Silver color for all shapes (monochrome aesthetic)
+            vColor = vec3(0.85, 0.87, 0.90); // Cool silver
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(morphed, 1.0);
+            gl_PointSize = vSize / gl_Position.w;
+          }
+        `;
+
+        const fragmentShaderSource = `
+          precision mediump float;
+          varying float vSize;
+          varying vec3 vColor;
+
+          void main() {
+            // Create circular particles with smooth falloff
+            float dist = length(gl_PointCoord - vec2(0.5));
+            float alpha = smoothstep(0.5, 0.2, dist);
+            gl_FragColor = vec4(vColor, alpha);
+          }
+        `;
+
+        const vertexShader = this.createShader(this.gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = this.createShader(this.gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+        if (!vertexShader || !fragmentShader) {
+          return false;
+        }
+
+        this.program = this.createProgram(vertexShader, fragmentShader);
+        if (!this.program) {
+          return false;
+        }
+
+        this.gl.useProgram(this.program);
+
+        // Get uniform locations
+        this.uniforms = {
+          modelViewMatrix: this.gl.getUniformLocation(this.program, 'modelViewMatrix'),
+          projectionMatrix: this.gl.getUniformLocation(this.program, 'projectionMatrix'),
+          time: this.gl.getUniformLocation(this.program, 'time'),
+          voiceIntensity: this.gl.getUniformLocation(this.program, 'voiceIntensity'),
+          currentShape: this.gl.getUniformLocation(this.program, 'currentShape'),
+          morphProgress: this.gl.getUniformLocation(this.program, 'morphProgress')
+        };
+
+        return true;
+      }
+
+      createShader(type, source) {
+        const shader = this.gl.createShader(type);
+        this.gl.shaderSource(shader, source);
+        this.gl.compileShader(shader);
+
+        if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
+          console.error('Shader compilation error:', this.gl.getShaderInfoLog(shader));
+          this.gl.deleteShader(shader);
+          return null;
+        }
+
+        return shader;
+      }
+
+      createProgram(vertexShader, fragmentShader) {
+        const program = this.gl.createProgram();
+        this.gl.attachShader(program, vertexShader);
+        this.gl.attachShader(program, fragmentShader);
+        this.gl.linkProgram(program);
+
+        if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) {
+          console.error('Program linking error:', this.gl.getProgramInfoLog(program));
+          this.gl.deleteProgram(program);
+          return null;
+        }
+
+        return program;
+      }
+
+      createGeometry() {
+        // Create dense sphere of particles (64x64 = 4,096 particles)
+        const vertices = [];
+        const radius = 2.0;
+        const segments = 64;
+        const rings = 64;
+
+        for (let ring = 0; ring <= rings; ring++) {
+          const phi = (ring / rings) * Math.PI;
+          for (let segment = 0; segment <= segments; segment++) {
+            const theta = (segment / segments) * 2 * Math.PI;
+            const x = radius * Math.sin(phi) * Math.cos(theta);
+            const y = radius * Math.cos(phi);
+            const z = radius * Math.sin(phi) * Math.sin(theta);
+            vertices.push(x, y, z);
+          }
+        }
+
+        this.vertexCount = vertices.length / 3;
+        this.vertexBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(vertices), this.gl.STATIC_DRAW);
+
+        const positionLocation = this.gl.getAttribLocation(this.program, 'position');
+        this.gl.enableVertexAttribArray(positionLocation);
+        this.gl.vertexAttribPointer(positionLocation, 3, this.gl.FLOAT, false, 0, 0);
+      }
+
+      setupControls() {
+        // Shape buttons
+        document.querySelectorAll('[data-shape-3d]').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            document.querySelectorAll('[data-shape-3d]').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            const shape = e.target.getAttribute('data-shape-3d');
+            this.setMorphShape(shape);
+          });
+        });
+
+        // Voice toggle
+        const voiceBtn = document.getElementById('toggleVoice');
+        voiceBtn.addEventListener('click', () => {
+          if (this.isVoiceEnabled) {
+            this.stopVoice();
+            voiceBtn.textContent = 'Enable Voice Modulation';
+          } else {
+            this.startVoice();
+            voiceBtn.textContent = 'Disable Voice Modulation';
+          }
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => this.setupCanvas());
+      }
+
+      async startVoice() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          const audioContext = new AudioContext();
+          const source = audioContext.createMediaStreamSource(stream);
+          const analyser = audioContext.createAnalyser();
+
+          source.connect(analyser);
+          analyser.fftSize = 256;
+
+          const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+          const analyze = () => {
+            analyser.getByteFrequencyData(dataArray);
+
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+              sum += dataArray[i];
+            }
+
+            this.voiceData.intensity = sum / dataArray.length;
+            this.voiceData.frequency = this.voiceData.intensity * 100;
+
+            document.getElementById('voiceStatus').textContent = `Voice: ${Math.round(this.voiceData.intensity)} / Frequency: ${Math.round(this.voiceData.frequency)}`;
+
+            if (this.isVoiceEnabled) {
+              requestAnimationFrame(analyze);
+            }
+          };
+
+          this.isVoiceEnabled = true;
+          analyze();
+
+        } catch (error) {
+          document.getElementById('voiceStatus').textContent = 'Microphone access denied';
+          console.error('Voice error:', error);
+        }
+      }
+
+      stopVoice() {
+        this.isVoiceEnabled = false;
+        this.voiceData.intensity = 0;
+        this.voiceData.frequency = 0;
+        document.getElementById('voiceStatus').textContent = 'Voice: Disabled';
+      }
+
+      startRender() {
+        const render = () => {
+          this.time += 0.016;
+
+          // Animate morph progress
+          if (this.morphAnimating) {
+            this.morphProgress += 0.03;
+            if (this.morphProgress >= 1.0) {
+              this.morphProgress = 1.0;
+              this.morphAnimating = false;
+            }
+          }
+
+          this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+          const aspect = this.canvas.width / this.canvas.height;
+          const projectionMatrix = this.perspective(45 * Math.PI / 180, aspect, 0.1, 100);
+          const modelViewMatrix = this.createModelViewMatrix();
+
+          this.gl.uniformMatrix4fv(this.uniforms.projectionMatrix, false, projectionMatrix);
+          this.gl.uniformMatrix4fv(this.uniforms.modelViewMatrix, false, modelViewMatrix);
+          this.gl.uniform1f(this.uniforms.time, this.time);
+          this.gl.uniform1f(this.uniforms.voiceIntensity, Math.min(this.voiceData.intensity / 64.0, 1.0));
+          this.gl.uniform1f(this.uniforms.currentShape, this.getShapeValue(this.morphTarget));
+          this.gl.uniform1f(this.uniforms.morphProgress, this.morphProgress);
+
+          // Additive blending for glow effect
+          this.gl.enable(this.gl.BLEND);
+          this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE);
+
+          this.gl.drawArrays(this.gl.POINTS, 0, this.vertexCount);
+
+          requestAnimationFrame(render);
+        };
+        render();
+      }
+
+      createModelViewMatrix() {
+        const rotationY = this.rotateY(this.time * 0.5);
+        const rotationX = this.rotateX(this.time * 0.3);
+        const translation = this.translate(0, 0, -8);
+
+        let result = this.multiplyMatrices(rotationY, rotationX);
+        result = this.multiplyMatrices(result, translation);
+        return result;
+      }
+
+      getShapeValue(shape) {
+        const map = {
+          'sphere': 0,
+          'consciousness': 1,
+          'guardian': 2,
+          'identity': 3,
+          'neural': 4,
+          'quantum': 5,
+          'cat': 6
+        };
+        return map[shape] || 0;
+      }
+
+      // Matrix utilities
+      perspective(fov, aspect, near, far) {
+        const f = Math.tan(Math.PI * 0.5 - 0.5 * fov);
+        const rangeInv = 1.0 / (near - far);
+        return new Float32Array([
+          f / aspect, 0, 0, 0,
+          0, f, 0, 0,
+          0, 0, (near + far) * rangeInv, -1,
+          0, 0, near * far * rangeInv * 2, 0
+        ]);
+      }
+
+      translate(x, y, z) {
+        return new Float32Array([
+          1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 1, 0,
+          x, y, z, 1
+        ]);
+      }
+
+      rotateY(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+        return new Float32Array([
+          c, 0, -s, 0,
+          0, 1, 0, 0,
+          s, 0, c, 0,
+          0, 0, 0, 1
+        ]);
+      }
+
+      rotateX(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+        return new Float32Array([
+          1, 0, 0, 0,
+          0, c, s, 0,
+          0, -s, c, 0,
+          0, 0, 0, 1
+        ]);
+      }
+
+      multiplyMatrices(a, b) {
+        const result = new Float32Array(16);
+        for (let i = 0; i < 4; i++) {
+          for (let j = 0; j < 4; j++) {
+            result[i * 4 + j] = 0;
+            for (let k = 0; k < 4; k++) {
+              result[i * 4 + j] += a[i * 4 + k] * b[k * 4 + j];
+            }
+          }
+        }
+        return result;
+      }
+
+      // Morph animation state
+      morphProgress = 1.0;
+      morphTarget = 'sphere';
+      morphAnimating = false;
+
+      setMorphShape(shape) {
+        if (shape === this.morphTarget) return;
+        this.morphTarget = shape;
+        this.morphAnimating = true;
+        this.morphProgress = 0.0;
+      }
+    }
+
+    // Initialize 3D particle system
+    window.addEventListener('load', () => {
+      new ParticleMorphing3D();
+    });
+
+    // ===== 2D MORPHING SYSTEM (Simplified Comparison) =====
+    // Simplified 2D morphing visualization (not the full MorphingEngine)
+    const canvas = document.getElementById('morphCanvas');
+    const ctx = canvas.getContext('2d');
+    let currentShape = 'sphere';
+    let targetShape = 'sphere';
+    let morphProgress = 0;
+    let animationTime = 0;
+
+    // Set canvas size
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Shape generators (2D projection of 3D concepts)
+    const shapes = {
+      sphere: (angle, time) => {
+        const radius = 120;
+        return {
+          x: Math.cos(angle) * radius,
+          y: Math.sin(angle) * radius
+        };
+      },
+      consciousness: (angle, time) => {
+        const radius = 120;
+        const pulse = Math.sin(time * 0.5) * 20;
+        const r = radius + pulse;
+        return {
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        };
+      },
+      guardian: (angle, time) => {
+        const radius = 120;
+        const glow = Math.sin(time * 2) * 10;
+        const side = Math.cos(angle) > 0 ? 1.2 : 0.6;
+        return {
+          x: Math.cos(angle) * (radius * side + glow),
+          y: Math.sin(angle) * (radius + glow)
+        };
+      },
+      identity: (angle, time) => {
+        const radius = 120;
+        const breath = Math.sin(time * 1.5) * 8;
+        const y = Math.sin(angle);
+        const heightMod = y > 0.7 ? 1.4 : (y < -0.5 ? 0.8 : 1);
+        const widthMod = y > 0.7 ? 0.6 : (y < -0.5 ? 1.2 : 1);
+        return {
+          x: Math.cos(angle) * (radius * widthMod + breath),
+          y: Math.sin(angle) * (radius * heightMod + breath)
+        };
+      },
+      neural: (angle, time) => {
+        const radius = 120;
+        const pulse1 = Math.sin(time * 2 + angle * 5) * 15;
+        const pulse2 = Math.cos(time * 1.5 + angle * 3) * 15;
+        const r = radius + (pulse1 + pulse2) / 2;
+        return {
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        };
+      },
+      quantum: (angle, time) => {
+        const radius = 120;
+        const wave1 = Math.sin(time * 3 + angle * 8) * 20;
+        const wave2 = Math.cos(time * 2.5 + angle * 6) * 20;
+        const r = radius + wave1 + wave2;
+        return {
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        };
+      }
+    };
+
+    // Lerp function
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    // Draw function
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+
+      // Update morph progress
+      if (currentShape !== targetShape) {
+        morphProgress = Math.min(1.0, morphProgress + 0.02);
+        if (morphProgress >= 1.0) {
+          currentShape = targetShape;
+          morphProgress = 0;
+        }
+      }
+
+      // Generate points
+      const points = [];
+      const numPoints = 64;
+      for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * Math.PI * 2;
+        const current = shapes[currentShape](angle, animationTime);
+        const target = shapes[targetShape](angle, animationTime);
+        points.push({
+          x: lerp(current.x, target.x, morphProgress),
+          y: lerp(current.y, target.y, morphProgress)
+        });
+      }
+
+      // Draw shape
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.closePath();
+
+      // Gradient fill
+      const gradient = ctx.createLinearGradient(-150, -150, 150, 150);
+      gradient.addColorStop(0, '#00d4ff');
+      gradient.addColorStop(0.5, '#00ff88');
+      gradient.addColorStop(1, '#00d4ff');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Glow effect
+      ctx.strokeStyle = '#00d4ff';
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = '#00d4ff';
+      ctx.stroke();
+
+      ctx.restore();
+
+      animationTime += 0.016; // ~60fps
+      requestAnimationFrame(draw);
+    }
+
+    // Shape button controls
+    document.querySelectorAll('.shape-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.shape-button').forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+        targetShape = button.dataset.shape;
+      });
+    });
+
+    // Start animation
+    draw();
+  </script>
+
+</body>
+</html>

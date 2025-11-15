@@ -38,7 +38,7 @@ except ImportError:
 
 try:
     from fastapi import APIRouter, HTTPException, Request, status
-    from pydantic import BaseModel, Field, validator
+    from pydantic import BaseModel, Field, field_validator
 
     FASTAPI_AVAILABLE = True
 except ImportError:
@@ -66,7 +66,8 @@ class OnboardingStartRequest(BaseModel):
     referral_code: Optional[str] = Field(None, description="Referral code")
     marketing_source: Optional[str] = Field(None, description="Marketing source")
 
-    @validator("user_info")
+    @field_validator("user_info")
+    @classmethod
     def validate_user_info(cls, v):
         # Basic validation for user info
         if v and "email" in v:
@@ -86,7 +87,8 @@ class TierSetupRequest(BaseModel):
     industry: Optional[str] = Field(None, description="User's industry")
     organization_size: Optional[str] = Field(None, description="Organization size")
 
-    @validator("experience_level")
+    @field_validator("experience_level")
+    @classmethod
     def validate_experience_level(cls, v):
         valid_levels = ["beginner", "intermediate", "advanced", "expert"]
         if v not in valid_levels:

@@ -1,0 +1,89 @@
+name: "ABAS Middleware - OPA Policy Tests"
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  abas-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    env:
+      ABAS_FAILCLOSED: "true"
+      ABAS_SENSITIVE_PREFIXES: "/admin,/v1/responses,/nias"
+      OPA_URL: "http://127.0.0.1:8181/v1/data/abas/authz/allow"
+      OPA_REASON_URL: "http://127.0.0.1:8181/v1/data/abas/authz/reason"
+      ABAS_ENABLED: "true"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install pytest httpx
+
+      - name: Install OPA binary
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+          sudo mv opa /usr/local/bin/opa
+
+      - name: Start OPA with policies (background)
+        run: |
+          nohup opa run --server -a :8181 enforcement/abas > opa.log 2>&1 &
+          echo "Waiting for OPA to be ready..."
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8181/v1/ -o /dev/null 2>&1; then
+              echo "OPA is ready!"
+              break
+            fi
+            echo "Attempt $i/30: OPA not ready yet, waiting..."
+            sleep 1
+          done
+          curl -v http://127.0.0.1:8181/v1/ || (echo "OPA failed to start" && cat opa.log && exit 1)
+
+      - name: Run Rego unit tests
+        run: |
+          opa test enforcement/abas -v
+
+      - name: Boot API (background)
+        run: |
+          nohup python -m uvicorn serve.main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
+          echo "Waiting for API to be ready..."
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:8000/healthz 2>&1; then
+              echo "API is ready!"
+              break
+            fi
+            echo "Attempt $i/60: API not ready yet, waiting..."
+            sleep 2
+          done
+          curl -v http://127.0.0.1:8000/healthz || (echo "API failed to start" && cat uvicorn.log && exit 1)
+
+      - name: Run Python tests (ABAS middleware)
+        run: |
+          pytest tests/enforcement/test_abas_middleware.py -v
+          pytest tests/enforcement/test_abas_middleware_integration.py -v
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: abas-logs
+          path: |
+            opa.log
+            uvicorn.log
+          retention-days: 7

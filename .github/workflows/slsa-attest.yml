@@ -56,7 +56,7 @@ jobs:
       attestations: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8  # Security: pinned to safe version
         with:
           name: source-artifact
           path: .

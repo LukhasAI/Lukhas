@@ -18,7 +18,7 @@ import logging
 from typing import Any, Optional
 
 from fastapi import APIRouter, Header, HTTPException, status
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,8 @@ class GlyphEncodeRequest(BaseModel):
     domains: Optional[list[str]] = Field(default=None, description="Symbol domains")
     source_module: Optional[str] = Field(default=None, max_length=100, description="Source module name")
 
-    @validator('emotion')
+    @field_validator('emotion')
+    @classmethod
     def validate_emotion(cls, v):
         if v is not None:
             for key, value in v.items():
