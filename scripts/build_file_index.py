@@ -43,6 +43,50 @@ class FileIndexer:
             'total_imports': 0,
         }
 
+    def get_repository_name(self) -> str:
+        """
+        Derive repository name from git config.
+        
+        Returns:
+            Repository name in format 'owner/repo' (e.g., 'LukhasAI/Lukhas')
+            Falls back to 'unknown/unknown' if git config is unavailable
+        """
+        try:
+            result = subprocess.run(
+                ['git', 'config', '--get', 'remote.origin.url'],
+                cwd=self.repo_root,
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode == 0:
+                url = result.stdout.strip()
+                # Handle both HTTPS and SSH URLs
+                # HTTPS: https://github.com/owner/repo.git or https://github.com/owner/repo
+                # SSH: git@github.com:owner/repo.git
+                
+                if url.startswith('https://'):
+                    # Extract owner/repo from HTTPS URL
+                    parts = url.replace('https://', '').split('/')
+                    if len(parts) >= 3:
+                        owner = parts[1]
+                        repo = parts[2].replace('.git', '')
+                        return f"{owner}/{repo}"
+                elif url.startswith('git@'):
+                    # Extract owner/repo from SSH URL
+                    # Format: git@github.com:owner/repo.git
+                    parts = url.split(':')
+                    if len(parts) == 2:
+                        repo_path = parts[1].replace('.git', '')
+                        return repo_path
+                        
+        except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
+            pass
+        
+        # Fallback to unknown if unable to determine
+        return 'unknown/unknown'
+
     def should_exclude(self, path: Path) -> bool:
         """Check if path should be excluded"""
         parts = path.parts
@@ -258,7 +302,7 @@ class FileIndexer:
 
         return {
             'metadata': {
-                'repository': 'LukhasAI/Lukhas',
+                'repository': self.get_repository_name(),
                 'index_date': subprocess.run(
                     ['date', '-Iseconds'],
                     capture_output=True,
