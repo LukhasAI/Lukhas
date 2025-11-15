@@ -15,6 +15,27 @@ function getEmailService() {
   return emailService;
 }
 
+function stripTrailingSlash(url: string) {
+  return url.replace(/\/+$/, '');
+}
+
+function resolveMagicLinkBaseUrl() {
+  const explicitUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (explicitUrl && explicitUrl.trim().length > 0) {
+    return stripTrailingSlash(explicitUrl);
+  }
+
+  const vercelUrl = process.env.VERCEL_URL;
+  if (vercelUrl && vercelUrl.trim().length > 0) {
+    const normalized = vercelUrl.startsWith('http://') || vercelUrl.startsWith('https://')
+      ? vercelUrl
+      : `https://${vercelUrl}`;
+    return stripTrailingSlash(normalized);
+  }
+
+  return 'http://localhost:3000';
+}
+
 export async function createMagicLink({ email, ip }: { email: string; ip?: string }) {
   const token = randomBytes(32).toString('base64url');
   const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
@@ -24,7 +45,7 @@ export async function createMagicLink({ email, ip }: { email: string; ip?: strin
   tokens.set(token, { email: hashedEmail, expires });
 
   // Construct magic link URL
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+  const baseUrl = resolveMagicLinkBaseUrl();
   const magicLink = `${baseUrl}/api/auth/magic-link?token=${token}`;
 
   // Send email with link
