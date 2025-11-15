@@ -108,7 +108,7 @@ class NamingAnalyzer:
                     })
 
         except Exception as e:
-            pass  # Skip files that can't be read
+            print(f"Warning: Could not analyze {file_path}: {e}", file=sys.stderr)  # Skip files that can't be read
 
         return findings
 
