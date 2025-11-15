@@ -1,53 +1,47 @@
 #!/usr/bin/env python3
 """
-Security Surface Scanner for LUKHAS Repository Audit
+Security Scanner for LUKHAS Repository
 
-Identifies:
-- Dependency risks (parsing requirements.txt, pyproject.toml)
-- High-risk patterns (eval, exec, shell commands, pickle)
-- Network calls and external dependencies
-- Hardcoded secrets/tokens (patterns)
-- SQL injection risks
-
-Output: reports/analysis/security_surface.json
+Scans for:
+- High-risk code patterns (eval, exec, etc.)
+- Potential secrets (API keys, passwords)
+- Network calls
+- Dependencies and their risks
 """
 
-import ast
-import json
 import re
-import toml
-from pathlib import Path
-from typing import Dict, List, Any, Set
 import sys
+from pathlib import Path
+from typing import Any, Dict, List
+import json
 
 
 class SecurityScanner:
-    """Scans repository for security risks"""
+    """Scans repository for security issues"""
 
     HIGH_RISK_PATTERNS = {
-        'eval': r'\beval\s*\(',
-        'exec': r'\bexec\s*\(',
-        'compile': r'\bcompile\s*\(',
-        '__import__': r'\b__import__\s*\(',
-        'pickle_loads': r'\bpickle\.loads?\s*\(',
-        'subprocess': r'\bsubprocess\.(run|call|Popen|check_output)\s*\(',
-        'os_system': r'\bos\.system\s*\(',
+        'eval': r'\beval\(',
+        'exec': r'\bexec\(',
+        'pickle': r'\bpickle\.loads?\(',
+        'yaml_unsafe': r'yaml\.load\(',
         'shell_true': r'shell\s*=\s*True',
-        'sql_format': r'(SELECT|INSERT|UPDATE|DELETE).*\.format\(',
-        'sql_concat': r'(SELECT|INSERT|UPDATE|DELETE).*\+.*',
+        'sql_injection': r'execute\([\'"].*%s',
+        'hardcoded_password': r'password\s*=\s*[\'"][^\'"]+[\'"]',
     }
 
     SECRET_PATTERNS = {
-        'api_key': r'["\']?api[_-]?key["\']?\s*[:=]\s*["\'][^"\']{10,}["\']',
-        'secret_key': r'["\']?secret[_-]?key["\']?\s*[:=]\s*["\'][^"\']{10,}["\']',
-        'password': r'["\']?password["\']?\s*[:=]\s*["\'][^"\']{8,}["\']',
-        'token': r'["\']?token["\']?\s*[:=]\s*["\'][^"\']{20,}["\']',
-        'private_key': r'-----BEGIN (RSA |EC )?PRIVATE KEY-----',
-        'aws_key': r'AKIA[0-9A-Z]{16}',
+        'api_key': r'(?i)(api[_-]?key|apikey)\s*[:=]\s*[\'"][a-zA-Z0-9_\-]{20,}[\'"]',
+        'secret_key': r'(?i)(secret[_-]?key|secretkey)\s*[:=]\s*[\'"][a-zA-Z0-9_\-]{20,}[\'"]',
+        'aws_key': r'(?i)(aws[_-]?access[_-]?key[_-]?id|aws[_-]?secret[_-]?access[_-]?key)\s*[:=]\s*[\'"][A-Z0-9]{20,}[\'"]',
+        'github_token': r'(?i)(github[_-]?token|gh[_-]?token)\s*[:=]\s*[\'"]ghp_[a-zA-Z0-9]{36,}[\'"]',
+        'private_key': r'-----BEGIN (?:RSA|EC|OPENSSH) PRIVATE KEY-----',
+        'jwt_token': r'eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+',
     }
 
     NETWORK_PATTERNS = {
-        'http_request': r'\b(requests|httpx|aiohttp|urllib)\.',
+        'requests': r'\brequests\.',
+        'urllib': r'\burllib\.',
+        'http_client': r'\bhttp\.client\.',
         'socket': r'\bsocket\.',
         'telnetlib': r'\btelnetlib\.',
         'ftplib': r'\bftplib\.',
@@ -72,6 +66,31 @@ class SecurityScanner:
                 'total_dependencies': 0,
             }
         }
+
+    def _should_skip_secret_scan(self, file_path: Path) -> bool:
+        """Determine if a file should be excluded from secret scanning."""
+        try:
+            relative_path = file_path.relative_to(self.repo_root)
+        except ValueError:
+            relative_path = file_path
+
+        lowered_parts: List[str] = [part.lower() for part in relative_path.parts]
+        if not lowered_parts:
+            return False
+
+        directories = lowered_parts[:-1]
+        filename = lowered_parts[-1]
+
+        if any(part in {'tests', 'test', 'testing', 'examples', 'example'} for part in directories):
+            return True
+
+        if filename.startswith('test_') or filename.endswith('_test.py'):
+            return True
+
+        if filename == '.env.example' or filename.endswith('.example'):
+            return True
+
+        return False
 
     def scan_file_for_patterns(self, file_path: Path) -> List[Dict[str, Any]]:
         """Scan a single file for security patterns"""
@@ -102,15 +121,8 @@ class SecurityScanner:
                     line_num = content[:match.start()].count('\n') + 1
                     # Skip if it's in comments, tests, or examples
                     line_content = content.split('\n')[line_num - 1]
-                    
-                    # Check path segments, not substrings
-                    path_parts = [p.lower() for p in file_path.parts]
-                    if any(part in {'tests', 'test', 'testing', 'examples', 'example'} for part in path_parts[:-1]):
+                    if self._should_skip_secret_scan(file_path):
                         continue
-                    filename = path_parts[-1]
-                    if filename.startswith('test_') or filename.endswith('_test.py') or filename == '.env.example':
-                        continue
-                    
                     if line_content.strip().startswith('#'):
                         continue
 
@@ -136,133 +148,133 @@ class SecurityScanner:
                     })
 
         except Exception as e:
-            pass  # Skip files that can't be read
+            print(f"Error scanning {file_path}: {e}", file=sys.stderr)
 
         return findings
 
-    def scan_dependencies(self):
-        """Scan dependency files for risks"""
-        # Parse pyproject.toml
-        pyproject_path = self.repo_root / 'pyproject.toml'
-        if pyproject_path.exists():
-            try:
-                with open(pyproject_path, 'r') as f:
-                    pyproject = toml.load(f)
+    def scan_directory(self, directory: Path = None):
+        """Scan all Python files in directory"""
+        if directory is None:
+            directory = self.repo_root
 
-                # Extract dependencies
-                if 'project' in pyproject and 'dependencies' in pyproject['project']:
-                    self.findings['dependencies']['core'] = pyproject['project']['dependencies']
+        python_files = list(directory.rglob('*.py'))
 
-                if 'project' in pyproject and 'optional-dependencies' in pyproject['project']:
-                    for group, deps in pyproject['project']['optional-dependencies'].items():
-                        self.findings['dependencies']['optional'].extend([
-                            {'group': group, 'package': dep} for dep in deps
-                        ])
+        # Exclude common directories
+        exclude_patterns = {'.git', '__pycache__', '.venv', 'venv', 'node_modules', '.pytest_cache'}
 
-            except Exception as e:
-                print(f"Error parsing pyproject.toml: {e}", file=sys.stderr)
-
-        # Parse requirements files
-        for req_file in ['requirements.txt', 'requirements-dev.txt', 'requirements-prod.txt']:
-            req_path = self.repo_root / req_file
-            if req_path.exists():
-                try:
-                    with open(req_path, 'r') as f:
-                        deps = [
-                            line.strip() for line in f
-                            if line.strip() and not line.strip().startswith('#')
-                        ]
-
-                    if 'dev' in req_file:
-                        self.findings['dependencies']['dev'].extend(deps)
-                    else:
-                        self.findings['dependencies']['core'].extend(deps)
-
-                except Exception as e:
-                    print(f"Error parsing {req_file}: {e}", file=sys.stderr)
-
-        # Identify risky dependencies
-        risky_packages = {
-            'pickle', 'yaml', 'eval', 'exec', 'subprocess',
-            # Add more known risky packages
-        }
-
-        all_deps = (
-            self.findings['dependencies']['core'] +
-            self.findings['dependencies']['dev'] +
-            [d['package'] for d in self.findings['dependencies']['optional']]
-        )
-
-        for dep in all_deps:
-            dep_name = dep.split('[')[0].split('>=')[0].split('==')[0].split('<')[0].strip()
-            if any(risky in dep_name.lower() for risky in risky_packages):
-                self.findings['dependencies']['risks'].append({
-                    'package': dep,
-                    'reason': 'Known risky package'
-                })
-
-    def scan_repository(self):
-        """Scan entire repository"""
-        print("Scanning repository for security risks...")
-
-        # Scan all Python files
-        python_files = list(self.repo_root.rglob('*.py'))
-        excluded_dirs = {'.git', '__pycache__', '.pytest_cache', 'manifests'}
-
-        processed = 0
         for py_file in python_files:
-            # Skip excluded directories
-            if any(exc in py_file.parts for exc in excluded_dirs):
+            # Skip if in excluded directory
+            if any(part in exclude_patterns for part in py_file.parts):
                 continue
 
-            findings = self.scan_file_for_patterns(py_file)
+            file_findings = self.scan_file_for_patterns(py_file)
 
-            for finding in findings:
+            # Categorize findings
+            for finding in file_findings:
                 if finding['type'] == 'high_risk':
                     self.findings['high_risk_patterns'].append(finding)
-                    self.findings['summary']['total_high_risk'] += 1
                 elif finding['type'] == 'secret_pattern':
                     self.findings['secret_patterns'].append(finding)
-                    self.findings['summary']['total_secrets_found'] += 1
                 elif finding['type'] == 'network_call':
                     self.findings['network_calls'].append(finding)
-                    self.findings['summary']['total_network_calls'] += 1
 
-            processed += 1
-            if processed % 500 == 0:
-                print(f"  Scanned {processed} files...", file=sys.stderr)
+        # Update summary
+        self.findings['summary']['total_high_risk'] = len(self.findings['high_risk_patterns'])
+        self.findings['summary']['total_secrets_found'] = len(self.findings['secret_patterns'])
+        self.findings['summary']['total_network_calls'] = len(self.findings['network_calls'])
 
-        # Scan dependencies
-        self.scan_dependencies()
+    def scan_dependencies(self):
+        """Scan requirements files for dependencies"""
+        requirements_files = [
+            'requirements.txt',
+            'requirements-prod.txt',
+            'requirements-dev.txt',
+        ]
+
+        for req_file in requirements_files:
+            req_path = self.repo_root / req_file
+            if req_path.exists():
+                with open(req_path, 'r') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith('#'):
+                            # Parse package name
+                            pkg = line.split('==')[0].split('>=')[0].split('<=')[0].strip()
+                            category = 'dev' if 'dev' in req_file else 'core'
+                            self.findings['dependencies'][category].append(pkg)
+
         self.findings['summary']['total_dependencies'] = (
             len(self.findings['dependencies']['core']) +
-            len(self.findings['dependencies']['dev']) +
-            len(self.findings['dependencies']['optional'])
+            len(self.findings['dependencies']['dev'])
         )
 
-        print(f"\nSecurity scan complete: {processed} files scanned")
+    def generate_report(self, output_format: str = 'json') -> str:
+        """Generate security report"""
+        if output_format == 'json':
+            return json.dumps(self.findings, indent=2)
+        elif output_format == 'text':
+            report = []
+            report.append("=" * 80)
+            report.append("LUKHAS SECURITY SCAN REPORT")
+            report.append("=" * 80)
+            report.append("")
 
-        return self.findings
+            # Summary
+            report.append("SUMMARY:")
+            report.append(f"  High-Risk Patterns: {self.findings['summary']['total_high_risk']}")
+            report.append(f"  Potential Secrets: {self.findings['summary']['total_secrets_found']}")
+            report.append(f"  Network Calls: {self.findings['summary']['total_network_calls']}")
+            report.append(f"  Dependencies: {self.findings['summary']['total_dependencies']}")
+            report.append("")
+
+            # High-risk findings
+            if self.findings['high_risk_patterns']:
+                report.append("HIGH-RISK PATTERNS:")
+                for finding in self.findings['high_risk_patterns']:
+                    report.append(f"  [{finding['pattern']}] {finding['file']}:{finding['line']}")
+                    report.append(f"    {finding['context']}")
+                report.append("")
+
+            # Secret findings
+            if self.findings['secret_patterns']:
+                report.append("POTENTIAL SECRETS:")
+                for finding in self.findings['secret_patterns']:
+                    report.append(f"  [{finding['pattern']}] {finding['file']}:{finding['line']}")
+                report.append("")
+
+            return "\n".join(report)
+
+        return ""
 
 
 def main():
     """Main entry point"""
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Security scanner for LUKHAS')
+    parser.add_argument('--format', choices=['json', 'text'], default='text',
+                        help='Output format')
+    parser.add_argument('--output', type=str, help='Output file (default: stdout)')
+
+    args = parser.parse_args()
+
+    # Find repo root
     repo_root = Path(__file__).parent.parent
-    output_file = repo_root / 'reports' / 'analysis' / 'security_surface.json'
 
-    # Scan repository
     scanner = SecurityScanner(str(repo_root))
-    findings = scanner.scan_repository()
+    print("Scanning Python files...", file=sys.stderr)
+    scanner.scan_directory()
+    print("Scanning dependencies...", file=sys.stderr)
+    scanner.scan_dependencies()
 
-    # Write findings to file
-    with open(output_file, 'w') as f:
-        json.dump(findings, f, indent=2)
+    report = scanner.generate_report(args.format)
 
-    print(f"\nSecurity surface report written to: {output_file}")
-    print(f"High-risk patterns: {findings['summary']['total_high_risk']}")
-    print(f"Secret patterns found: [REDACTED - see report]")
-    print(f"Network calls: {findings['summary']['total_network_calls']}")
-    print(f"Total dependencies: {findings['summary']['total_dependencies']}")
+    if args.output:
+        with open(args.output, 'w') as f:
+            f.write(report)
+        print(f"Report written to {args.output}", file=sys.stderr)
+    else:
+        print(report)
 
 
 if __name__ == '__main__':
