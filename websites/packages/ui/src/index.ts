@@ -4,17 +4,12 @@
  * @packageDocumentation
  */
 
-// Components (will be added in next task)
-// export { Button } from './components/Button'
-// export { GlassCard } from './components/GlassCard'
-// export { Header } from './components/Header'
-// export { Footer } from './components/Footer'
+// Components
+export * from './components'
 
 // Utilities
 export { cn } from './utils'
-
-// Types (will be added as components are built)
-// export type { ButtonProps } from './components/Button'
-// export type { GlassCardProps } from './components/GlassCard'
+export type { Vector3, VoiceData, ShapeDefinition, MorphingEngineConfig } from './utils'
+export { MorphingEngine } from './utils'
 
 // Styles are imported separately via '@lukhas/ui/styles'
