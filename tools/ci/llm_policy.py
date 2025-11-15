@@ -65,6 +65,7 @@ def record_usage(api_key, agent_id, model, prompt_tokens, completion_tokens, est
             est_cost,
         ),
     )
+    # NOT SQL INJECTION - Using parameterized query with ? placeholders (safe)
     c.execute(
         "UPDATE api_keys SET daily_used = COALESCE(daily_used,0) + ? WHERE key=?",
         (est_cost, api_key),

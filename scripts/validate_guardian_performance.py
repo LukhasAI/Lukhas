@@ -429,6 +429,7 @@ class GuardianPerformanceValidator:
 
         # Create concurrent validation tasks
         for i in range(concurrent_tasks):
+            # NOT SQL INJECTION - This is array indexing with string literals
             state = ConsciousnessState(
                 phase=["IDLE", "AWARE", "REFLECT", "CREATE", "DECIDE"][i % 5],
                 level=0.3 + (i % 7) / 10,

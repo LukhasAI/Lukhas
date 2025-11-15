@@ -10,6 +10,8 @@ from typing import Any, Optional
 # The actual client is injected, so this is for type hinting.
 from psycopg2.extensions import connection as PgConnection
 
+from lukhas.security import validate_sql_identifier, validate_metadata_key
+
 
 @dataclass(frozen=True)
 class VectorDoc:
@@ -24,7 +26,8 @@ class PgVectorStore:
 
     def __init__(self, conn: PgConnection, table: str = "mem_store", dim: int = 1536):
         self.conn = conn
-        self.table = table
+        # Validate table name to prevent SQL injection
+        self.table = validate_sql_identifier(table, allow_dots=True)
         self.dim = dim
 
     def add(self, doc: VectorDoc) -> str:
@@ -94,7 +97,9 @@ class PgVectorStore:
         if filters:
             filter_clauses = []
             for key, value in filters.items():
-                filter_clauses.append(f"metadata->>'{key}' = %s")
+                # Validate metadata key to prevent SQL injection
+                safe_key = validate_metadata_key(key)
+                filter_clauses.append(f"metadata->>'{safe_key}' = %s")
                 params.append(value)
 
             where_clause = "WHERE " + " AND ".join(filter_clauses)
@@ -118,8 +123,12 @@ class PgVectorStore:
             params = (id,)
         else:
             # Simple WHERE implementation, e.g., where={"source": "doc.pdf"}
-            # This is not safe for complex queries, but works for this scope.
-            conditions = " AND ".join([f"metadata->>'{key}' = %s" for key in where])
+            # Validate all metadata keys to prevent SQL injection
+            safe_conditions = []
+            for key in where.keys():
+                safe_key = validate_metadata_key(key)
+                safe_conditions.append(f"metadata->>'{safe_key}' = %s")
+            conditions = " AND ".join(safe_conditions)
             query = f"DELETE FROM {self.table} WHERE {conditions}"
             params = tuple(where.values())
 

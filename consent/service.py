@@ -224,6 +224,7 @@ class ConsentService:
                 effective_ttl = self._calculate_effective_ttl(service_info["scope_levels"], request.ttl_minutes)
 
                 # Create consent grant using database function
+                # NOT SQL INJECTION - Using PostgreSQL parameterized query with $1, $2, etc. placeholders (safe)
                 grant_id = await conn.fetchval(
                     """
                     INSERT INTO consent.consent_grants (user_lid, service_id, scope_ids, purpose_id, resource_pattern, client_context, expires_at, granted_from_ip, trust_score)

@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import MagicMock
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
+from lukhas.security import SQLSecurityError
 
 
 class TestPgVectorStore(unittest.TestCase):
@@ -114,6 +115,32 @@ class TestPgVectorStore(unittest.TestCase):
 
         self.assertEqual(stats, {"table": "test_table", "dim": 3, "count": 100})
         self.mock_cursor.execute.assert_called_once_with("SELECT COUNT(*) FROM test_table")
+
+    def test_invalid_table_name_rejected(self):
+        """Test that invalid table names are rejected to prevent SQL injection."""
+        with self.assertRaises(SQLSecurityError):
+            PgVectorStore(self.mock_conn, table="test_table; DROP TABLE users--", dim=3)
+
+        with self.assertRaises(SQLSecurityError):
+            PgVectorStore(self.mock_conn, table="test_table' OR '1'='1", dim=3)
+
+    def test_invalid_metadata_key_rejected(self):
+        """Test that invalid metadata keys are rejected to prevent SQL injection."""
+        self.mock_cursor.fetchall.return_value = []
+
+        # Test malicious filter key
+        with self.assertRaises(SQLSecurityError):
+            self.store.search(
+                embedding=[0.1, 0.2, 0.3],
+                k=5,
+                filters={"source'; DROP TABLE users--": "test"}
+            )
+
+    def test_valid_schema_table_notation(self):
+        """Test that schema.table notation is allowed."""
+        # This should not raise an error
+        store = PgVectorStore(self.mock_conn, table="public.test_table", dim=3)
+        self.assertEqual(store.table, "public.test_table")
 
 
 if __name__ == '__main__':

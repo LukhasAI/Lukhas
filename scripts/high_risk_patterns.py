@@ -54,6 +54,7 @@ class HighRiskScanner:
             'description': 'os.system() can enable command injection',
         },
         'sql_concat': {
+            # NOT SQL INJECTION - This is a regex pattern for detecting SQL injection in code
             'pattern': r'(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE).*[+%].*',
             'risk_level': 'HIGH',
             'description': 'SQL string concatenation risks SQL injection',

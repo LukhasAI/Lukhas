@@ -19,13 +19,14 @@ import json
 class SecurityScanner:
     """Scans repository for security issues"""
 
+    # NOT SQL INJECTION - These are regex patterns for detecting security issues in code
     HIGH_RISK_PATTERNS = {
         'eval': r'\beval\(',
         'exec': r'\bexec\(',
         'pickle': r'\bpickle\.loads?\(',
         'yaml_unsafe': r'yaml\.load\(',
         'shell_true': r'shell\s*=\s*True',
-        'sql_injection': r'execute\([\'"].*%s',
+        'sql_injection': r'execute\([\'"].*%s',  # SQL injection detection pattern
         'hardcoded_password': r'password\s*=\s*[\'"][^\'"]+[\'"]',
     }
 
