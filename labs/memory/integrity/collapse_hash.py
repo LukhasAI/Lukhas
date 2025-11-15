@@ -59,6 +59,9 @@ from uuid import uuid4
 # Add logging
 from core.common import get_logger
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 logger = get_logger(__name__)
 
 # Import LUKHAS components
@@ -446,8 +449,8 @@ class CollapseHash:
     ) -> str:
         """Create a checkpoint for potential rollback"""
 
-        # Deep copy the current tree state
-        tree_snapshot = pickle.loads(pickle.dumps(self.merkle_tree.root))
+        # Deep copy the current tree state using secure serialization
+        tree_snapshot = secure_pickle_loads(secure_pickle_dumps(self.merkle_tree.root))
 
         checkpoint = Checkpoint(
             root_hash=self.merkle_tree.get_root_hash() or "",
@@ -487,8 +490,8 @@ class CollapseHash:
         }
 
         try:
-            # Restore tree state
-            self.merkle_tree.root = pickle.loads(pickle.dumps(checkpoint.tree_snapshot))
+            # Restore tree state using secure serialization
+            self.merkle_tree.root = secure_pickle_loads(secure_pickle_dumps(checkpoint.tree_snapshot))
 
             # Rebuild leaves from tree
             self._rebuild_leaves_from_tree()

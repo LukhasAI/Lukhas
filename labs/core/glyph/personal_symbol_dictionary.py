@@ -17,6 +17,9 @@ from uuid import uuid4
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 
 class SymbolType(Enum):
     """Types of personal symbols"""
@@ -465,8 +468,10 @@ class PersonalSymbolDictionary:
             "history": self.evolution_history.get(user_id, []),
         }
 
+        # Use secure pickle with HMAC signature
+        serialized = secure_pickle_dumps(data)
         with open(user_file, "wb") as f:
-            pickle.dump(data, f)
+            f.write(serialized)
 
     def _load_dictionaries(self):
         """Load all user dictionaries from disk"""
@@ -475,7 +480,10 @@ class PersonalSymbolDictionary:
 
             try:
                 with open(user_file, "rb") as f:
-                    data = pickle.load(f)
+                    serialized = f.read()
+
+                # Use secure pickle with HMAC verification
+                data = secure_pickle_loads(serialized)
 
                 self.dictionaries[user_id] = data.get("symbols", {})
 

@@ -32,6 +32,9 @@ import numpy as np
 from core.common.logger import get_logger
 from observability.service_metrics import get_metrics_collector
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 from .base import (
     AbstractVectorStore,
     DocumentNotFoundError,
@@ -747,7 +750,7 @@ class FAISSStore(AbstractVectorStore):
                 self._executor, save_index
             )
 
-            # Save metadata
+            # Save metadata with secure pickle
             metadata = {
                 'documents': {doc_id: doc.to_dict() for doc_id, doc in self.documents.items()},
                 'id_to_idx': self.id_to_idx,
@@ -758,8 +761,9 @@ class FAISSStore(AbstractVectorStore):
                 'index_params': self.index_params
             }
 
+            serialized = secure_pickle_dumps(metadata)
             with open(self.persistence_path.with_suffix('.pkl'), 'wb') as f:
-                pickle.dump(metadata, f)
+                f.write(serialized)
 
             logger.info(
                 "FAISS data saved to disk",
@@ -790,11 +794,13 @@ class FAISSStore(AbstractVectorStore):
                     self._executor, load_index
                 )
 
-            # Load metadata
+            # Load metadata with secure pickle
             metadata_path = self.persistence_path.with_suffix('.pkl')
             if metadata_path.exists():
                 with open(metadata_path, 'rb') as f:
-                    metadata = pickle.load(f)
+                    serialized = f.read()
+
+                metadata = secure_pickle_loads(serialized)
 
                 self.documents = {
                     doc_id: VectorDocument.from_dict(doc_data)

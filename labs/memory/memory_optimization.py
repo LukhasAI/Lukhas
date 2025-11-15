@@ -86,6 +86,9 @@ from typing import OptionalVar, Union
 
 from core.common import get_logger
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 # Try to import optional dependencies
 try:
     pass
@@ -294,7 +297,7 @@ class TieredMemoryCache:
     def put(self, key: str, value: Any, tier: MemoryTier = MemoryTier.HOT) -> None:
         """Store an object in the cache"""
         # Serialize to estimate size
-        serialized = pickle.dumps(value)
+        serialized = secure_pickle_dumps(value)
         size_bytes = len(serialized)
 
         # Create memory object
@@ -317,7 +320,7 @@ class TieredMemoryCache:
                     serialized = self.compressed_storage.decompress(
                         mem_obj.data, self._get_compression_strategy(mem_obj.tier)
                     )
-                    mem_obj.data = pickle.loads(serialized)
+                    mem_obj.data = secure_pickle_loads(serialized)
                     mem_obj.compressed = False
 
                 # Consider promotion
@@ -339,7 +342,7 @@ class TieredMemoryCache:
 
         # Apply compression based on tier
         if tier in [MemoryTier.COLD, MemoryTier.ARCHIVED] and not mem_obj.compressed:
-            serialized = pickle.dumps(mem_obj.data)
+            serialized = secure_pickle_dumps(mem_obj.data)
             strategy = self._get_compression_strategy(tier)
             compressed, ratio = self.compressed_storage.compress(serialized, strategy)
             mem_obj.data = compressed

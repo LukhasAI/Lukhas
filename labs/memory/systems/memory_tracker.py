@@ -10,6 +10,9 @@ import torch
 import torch.nn as nn
 from torch.utils._python_dispatch import TorchDispatchMode
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 if TYPE_CHECKING:
     from torch.utils.hooks import RemovableHandle
 
@@ -199,7 +202,7 @@ class MemoryTracker:
         _plot_figure(x, [list(y_3)], ["reserved_memory"])
 
     def save_stats(self, path: str) -> None:
-        """Save the stats using pickle during runtime if users want to plot the traces in other places like notebook."""
+        """Save the stats using secure pickle during runtime if users want to plot the traces in other places like notebook."""
         stats = {
             "memories_allocated": self.memories_allocated,
             "memories_active": self.memories_active,
@@ -208,13 +211,18 @@ class MemoryTracker:
             "num_alloc_retries": self._num_cuda_retries,
         }
 
+        # Use secure pickle with HMAC signature
+        serialized = secure_pickle_dumps(stats)
         with open(path, "wb") as f:
-            pickle.dump(stats, f, pickle.HIGHEST_PROTOCOL)
+            f.write(serialized)
 
     def load(self, path: str) -> None:
-        """Load the pickled memory stats to plot the traces or print the summary."""
+        """Load the secure pickled memory stats to plot the traces or print the summary."""
         with open(path, "rb") as f:
-            stats = pickle.load(f)
+            serialized = f.read()
+
+        # Use secure pickle with HMAC verification
+        stats = secure_pickle_loads(serialized)
 
         self.memories_allocated = stats["memories_allocated"]
         self.memories_active = stats["memories_active"]
