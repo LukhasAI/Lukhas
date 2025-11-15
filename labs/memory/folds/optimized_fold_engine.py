@@ -34,6 +34,9 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 # Compression backend helpers
 # Prefer lz4 for speed; if unavailable, fall back to zlib so tests run without optional deps.
 try:  # Optional dependency
@@ -98,19 +101,19 @@ class OptimizedMemoryFold:
         self._content = value
         self._is_loaded = True
         compressed = self._compress(value)
-        self.compression_ratio = len(compressed) / max(1, len(pickle.dumps(value)))
+        self.compression_ratio = len(compressed) / max(1, len(secure_pickle_dumps(value)))
         self.compressed_content = compressed
         self.content_hash = hashlib.sha256(compressed).hexdigest()
 
     def _compress(self, data: Any) -> bytes:
         """Compress data using LZ4"""
-        serialized = pickle.dumps(data)
+        serialized = secure_pickle_dumps(data)
         return _compress_bytes(serialized)
 
     def _decompress(self, data: bytes) -> Any:
         """Decompress LZ4 data"""
         decompressed = _decompress_bytes(data)
-        return pickle.loads(decompressed)
+        return secure_pickle_loads(decompressed)
 
     def evict(self):
         """Evict content from memory, keeping only compressed version"""

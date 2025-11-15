@@ -33,6 +33,9 @@ from typing import Any, Callable, Optional
 import aiofiles
 from core.common import get_logger
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 from .actor_system import Actor, ActorMessage, ActorSystem
 
 logger = logging.getLogger(__name__)
@@ -115,15 +118,15 @@ class ActorStateSnapshot:
             if key.startswith("_") or key in ["actor_system", "mailbox", "supervisor"]:
                 continue
             try:
-                # Test if serializable
-                pickle.dumps(value)
+                # Test if serializable using secure pickle
+                secure_pickle_dumps(value)
                 state_dict[key] = value
             except Exception:
                 # Skip non-serializable attributes
                 logger.debug(f"Skipping non-serializable attribute: {key}")
 
-        # Serialize state
-        state_data = pickle.dumps(state_dict)
+        # Serialize state using secure pickle
+        state_data = secure_pickle_dumps(state_dict)
         state_hash = hashlib.sha256(state_data).hexdigest()
 
         return cls(
@@ -142,7 +145,7 @@ class ActorStateSnapshot:
 
     def restore_to_actor(self, actor: Actor):
         """Restore snapshot state to an actor"""
-        state_dict = pickle.loads(self.state_data)
+        state_dict = secure_pickle_loads(self.state_data)
 
         for key, value in state_dict.items():
             setattr(actor, key, value)
@@ -415,8 +418,8 @@ class SnapshotStore:
             / f"{snapshot.actor_id}_{snapshot.timestamp:.0f}_{snapshot.event_id}.snap"
         )
 
-        # Compress snapshot data
-        compressed_data = gzip.compress(pickle.dumps(snapshot))
+        # Compress snapshot data using secure pickle
+        compressed_data = gzip.compress(secure_pickle_dumps(snapshot))
 
         async with aiofiles.open(filename, "wb") as f:
             await f.write(compressed_data)
@@ -452,7 +455,8 @@ class SnapshotStore:
         async with aiofiles.open(filename, "rb") as f:
             compressed_data = await f.read()
 
-        snapshot = pickle.loads(gzip.decompress(compressed_data))
+        # Decompress and deserialize using secure pickle
+        snapshot = secure_pickle_loads(gzip.decompress(compressed_data))
         return snapshot
 
     async def get_latest_snapshot(

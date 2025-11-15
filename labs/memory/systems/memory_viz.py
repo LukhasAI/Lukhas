@@ -19,6 +19,9 @@ from typing import Any
 
 from core.common import get_logger
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 # Configure logging
 logger = get_logger(__name__)
 
@@ -420,7 +423,7 @@ def _format_viz(data, viz_kind, device):
             FutureWarning,
             stacklevel=3,
         )
-    buffer = pickle.dumps(data)
+    buffer = secure_pickle_dumps(data)
     buffer += b"\x00" * (3 - len(buffer) % 3)
     # Encode the buffer with base64
     encoded_buffer = base64.b64encode(buffer).decode("utf-8")
@@ -674,7 +677,8 @@ if __name__ == "__main__":
 
     def _read(name):
         f = sys.stdin.buffer if name == "-" else open(name, "rb")
-        data = pickle.load(f)
+        serialized = f.read()
+        data = secure_pickle_loads(serialized)
         if isinstance(data, list):  # segments only...
             data = {"segments": data, "traces": []}
         return data

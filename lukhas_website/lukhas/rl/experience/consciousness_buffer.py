@@ -25,6 +25,9 @@ from observability.matriz_decorators import instrument
 
 from memory import MemoryFoldSystem
 
+# Secure serialization for internal state
+from lukhas.security.safe_serialization import secure_pickle_dumps, secure_pickle_loads
+
 logger = logging.getLogger(__name__)
 
 # Experience tuple for consciousness RL
@@ -492,8 +495,10 @@ class ConsciousnessReplayBuffer:
                 "beta": self.beta,
             }
 
+            # Use secure pickle with HMAC signature
+            serialized = secure_pickle_dumps(buffer_data)
             with open(filepath, "wb") as f:
-                pickle.dump(buffer_data, f)
+                f.write(serialized)
 
             logger.info("💾 Saved consciousness replay buffer to %s", filepath)
 
@@ -505,7 +510,10 @@ class ConsciousnessReplayBuffer:
 
         try:
             with open(filepath, "rb") as f:
-                buffer_data = pickle.load(f)
+                serialized = f.read()
+
+            # Use secure pickle with HMAC verification
+            buffer_data = secure_pickle_loads(serialized)
 
             self.buffer = deque(buffer_data["buffer"], maxlen=self.capacity)
             self.priorities = deque(buffer_data["priorities"], maxlen=self.capacity)
