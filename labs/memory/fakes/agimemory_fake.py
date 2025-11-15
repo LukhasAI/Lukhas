@@ -54,3 +54,6 @@ class AGIMemoryFake(AGIMemoryProtocol):
 
     async def optimize_storage(self, **kwargs) -> dict:
         return {"status": "ok", "optimized": len(self.folds)}
+
+
+__all__ = ["AGIMemoryFake"]

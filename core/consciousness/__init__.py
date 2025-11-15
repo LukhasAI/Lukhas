@@ -20,3 +20,13 @@ for candidate in ("labs.core.consciousness", "core_core.consciousness"):
                 globals()[attr] = getattr(module, attr)
                 __all__.append(attr)
         break
+
+# Export drift_detector submodule directly
+try:
+    from core.consciousness import drift_detector
+
+    globals()["drift_detector"] = drift_detector
+    if "drift_detector" not in __all__:
+        __all__.append("drift_detector")
+except ImportError:
+    pass
