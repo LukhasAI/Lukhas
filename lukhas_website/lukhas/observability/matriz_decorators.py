@@ -1,8 +1,7 @@
-from typing import Optional
-
 from __future__ import annotations
 
 from functools import wraps
+from typing import Optional
 
 from .matriz_emit import emit, make_node
 
