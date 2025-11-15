@@ -10,10 +10,10 @@ Version: 1.0.0
 
 # Import from core implementation
 from core.governance.identity.auth.qrg_generators import (
-    LUKHASQRGManager,
-    QRGType,
     ConsciousnessQRPattern,
     CulturalQRTheme,
+    LUKHASQRGManager,
+    QRGType,
 )
 
-__all__ = ["LUKHASQRGManager", "QRGType", "ConsciousnessQRPattern", "CulturalQRTheme"]
+__all__ = ["ConsciousnessQRPattern", "CulturalQRTheme", "LUKHASQRGManager", "QRGType"]

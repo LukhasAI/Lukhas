@@ -9,6 +9,6 @@ Version: 1.0.0
 """
 
 # Import from the orb module in the same directory
-from .orb import LUKHASOrb, OrbState, OrbPattern, OrbVisualization
+from .orb import LUKHASOrb, OrbPattern, OrbState, OrbVisualization
 
-__all__ = ["LUKHASOrb", "OrbState", "OrbPattern", "OrbVisualization"]
+__all__ = ["LUKHASOrb", "OrbPattern", "OrbState", "OrbVisualization"]

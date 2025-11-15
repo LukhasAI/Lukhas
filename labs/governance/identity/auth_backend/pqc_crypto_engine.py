@@ -12,7 +12,6 @@ Recommended algorithms:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-import base64
 import hashlib
 import secrets
 from dataclasses import dataclass
