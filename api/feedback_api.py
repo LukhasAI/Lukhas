@@ -19,7 +19,7 @@ from feedback.user_feedback_system import (
     FeedbackType,
     UserFeedbackSystem,
 )
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 logger = get_logger(__name__)
 
@@ -99,7 +99,8 @@ class EmojiFeedbackRequest(BaseModel):
     emoji: str
     context: Optional[dict[str, Any]] = None
 
-    @validator("emoji")
+    @field_validator("emoji")
+    @classmethod
     def validate_emoji(cls, v):
         valid_emojis = [e.value for e in EmotionEmoji]
         if v not in valid_emojis:
