@@ -13,7 +13,6 @@ Output: reports/analysis/file_index.json
 
 import ast
 import json
-import os
 import re
 import subprocess
 from pathlib import Path
