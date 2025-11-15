@@ -1,0 +1,102 @@
+version: "3.8"
+
+services:
+  # OPA server with ABAS policies loaded
+  opa:
+    image: openpolicyagent/opa:latest-rootless
+    container_name: lukhas-opa
+    command: ["run", "--server", "--addr", "0.0.0.0:8181", "/policies"]
+    volumes:
+      - ./enforcement/abas:/policies:ro
+    ports:
+      - "8181:8181"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8181/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - abas-network
+
+  # LUKHAS API with ABAS middleware enabled
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lukhas-api
+    command: uvicorn serve.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      # Enable ABAS middleware
+      - ABAS_ENABLED=true
+      - ABAS_FAILCLOSED=true
+      - ABAS_SENSITIVE_PREFIXES=/admin,/v1/responses,/nias
+      - ABAS_CACHE_TTL=5
+      - ABAS_TIMEOUT=2.0
+
+      # OPA endpoints (using service name)
+      - OPA_URL=http://opa:8181/v1/data/abas/authz/allow
+      - OPA_REASON_URL=http://opa:8181/v1/data/abas/authz/reason
+
+      # Development settings
+      - LUKHAS_POLICY_MODE=permissive
+      - FRONTEND_ORIGIN=http://localhost:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      opa:
+        condition: service_healthy
+    volumes:
+      # Mount source for hot reload
+      - ./serve:/app/serve:ro
+      - ./enforcement:/app/enforcement:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - abas-network
+
+  # Optional: OPA bundle server (for production-like policy distribution)
+  opa-bundle-server:
+    image: nginx:alpine
+    container_name: lukhas-opa-bundles
+    volumes:
+      - ./enforcement/abas:/usr/share/nginx/html/bundles/abas:ro
+    ports:
+      - "8080:80"
+    networks:
+      - abas-network
+    profiles:
+      - bundle-server  # Only start with --profile bundle-server
+
+networks:
+  abas-network:
+    driver: bridge
+
+# Usage:
+#
+# 1. Start OPA + API:
+#    docker compose -f docker-compose.abas.yml up
+#
+# 2. Run OPA tests:
+#    docker compose -f docker-compose.abas.yml exec opa opa test /policies -v
+#
+# 3. Test API endpoint:
+#    curl -X POST http://localhost:8000/v1/responses \
+#      -H 'Content-Type: application/json' \
+#      -H 'X-Region: EU' \
+#      -d '{"text": "I am gay and need support"}' -v
+#
+#    Expected: 403 {"error": {"message": "blocked: pii detected in request body", ...}}
+#
+# 4. View OPA logs:
+#    docker compose -f docker-compose.abas.yml logs opa -f
+#
+# 5. Start with bundle server (production-like):
+#    docker compose -f docker-compose.abas.yml --profile bundle-server up
+#
+# 6. Stop all services:
+#    docker compose -f docker-compose.abas.yml down

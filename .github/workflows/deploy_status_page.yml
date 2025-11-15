@@ -181,7 +181,7 @@ jobs:
       url: https://staging-status.lukhas.ai
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4.0.0
+        uses: actions/download-artifact@v4.1.8  # Security: CVE fix (Dependabot #84)
         with:
           name: status-page-build
           path: build/
@@ -211,7 +211,7 @@ jobs:
       url: https://status.lukhas.ai
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4.0.0
+        uses: actions/download-artifact@v4.1.8  # Security: CVE fix (Dependabot #84)
         with:
           name: status-page-build
           path: build/
@@ -260,7 +260,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v4.0.0
+        uses: actions/download-artifact@v4.1.8  # Security: CVE fix (Dependabot #84)
         with:
           name: status-page-build
           path: build/
