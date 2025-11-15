@@ -21,8 +21,15 @@ except ImportError:
         """Security-related error"""
 
     def safe_eval(expression, globals_dict=None, locals_dict=None):
-        """Safe evaluation (simplified)"""
-        return eval(expression, globals_dict or {}, locals_dict or {})
+        """Safe evaluation using AST-based evaluator"""
+        from lukhas.security import safe_evaluate_expression
+        # Merge globals and locals
+        context = {}
+        if globals_dict:
+            context.update(globals_dict)
+        if locals_dict:
+            context.update(locals_dict)
+        return safe_evaluate_expression(expression, context)
 
     def safe_subprocess_run(*args, **kwargs):
         """Safe subprocess run (simplified)"""

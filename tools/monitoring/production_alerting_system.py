@@ -554,15 +554,30 @@ class ProductionAlertingSystem:
 
         # Evaluate the condition
         try:
+            from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+
             # Create evaluation context
             context = {
                 "metrics": metrics,
                 "threshold": rule.threshold_value
             }
 
-            result = eval(rule.condition, {"__builtins__": {}}, context)
+            # Allow attribute access for metrics object
+            allowed_attrs = {
+                "cpu_usage", "memory_usage", "disk_usage", "error_rate",
+                "response_time", "active_connections", "queue_depth"
+            }
+            result = safe_evaluate_expression(
+                rule.condition,
+                context,
+                allow_attribute_access=True,
+                allowed_attributes=allowed_attrs
+            )
             return bool(result)
 
+        except (SecurityError, EvaluationError) as e:
+            logger.error(f"Security/evaluation error for rule {rule.name}: {e}")
+            return False
         except Exception as e:
             logger.error(f"Error evaluating rule {rule.name}: {e}")
             return False

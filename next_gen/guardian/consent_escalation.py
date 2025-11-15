@@ -15,6 +15,8 @@ from enum import Enum
 from pathlib import Path
 from typing import ClassVar, Optional
 
+from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -554,8 +556,20 @@ class ConsentEscalationResolver:
         # Apply rules in priority order
         for rule in sorted_rules:
             try:
-                # Evaluate rule condition
-                if eval(rule.condition, {"__builtins__": {}}, eval_context):
+                # Evaluate rule condition using safe evaluator
+                # Allow attribute access for request object fields
+                allowed_attrs = {
+                    "requester", "target_resource", "status", "requested_at",
+                    "id", "value", "name", "GRANTED", "DENIED", "PENDING",
+                    "ESCALATED", "EXPIRED", "REVOKED"
+                }
+                result = safe_evaluate_expression(
+                    rule.condition,
+                    eval_context,
+                    allow_attribute_access=True,
+                    allowed_attributes=allowed_attrs
+                )
+                if result:
                     logger.info(f"Escalation rule '{rule.rule_id}' triggered for request {request.id}")
 
                     return {
@@ -566,8 +580,11 @@ class ConsentEscalationResolver:
                         "symbolic_response": rule.symbolic_response,
                     }
 
-            except Exception as e:
+            except (SecurityError, EvaluationError) as e:
                 logger.error(f"Error evaluating rule '{rule.rule_id}': {e}")
+                continue
+            except Exception as e:
+                logger.error(f"Unexpected error evaluating rule '{rule.rule_id}': {e}")
                 continue
 
         return None  # No escalation needed

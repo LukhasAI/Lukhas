@@ -445,15 +445,14 @@ class SecurityPolicyFramework:
                 else:
                     condition = condition.replace(key, str(value))
 
-            # Safe evaluation of basic conditions
-            if "==" in condition or "!=" in condition or "<" in condition or ">" in condition:
-                # Basic comparisons are safe
-                return eval(condition)
-            elif " in " in condition:
-                # List membership checks
-                return eval(condition)
-
-            return False
+            # Safe evaluation of conditions using the safe evaluator
+            from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+            try:
+                # Use the safe evaluator with the context variables
+                return safe_evaluate_expression(condition, context)
+            except (SecurityError, EvaluationError) as e:
+                logger.error(f"Security error evaluating condition '{condition}': {e}")
+                return False
 
         except Exception as e:
             logger.error(f"Error evaluating condition '{condition}': {e}")

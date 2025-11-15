@@ -265,7 +265,8 @@ class MathReasoningNode(CognitiveNode):
             # Create safe environment with only math operations
             safe_dict = {"__builtins__": {}, "__name__": "__main__", "__doc__": None}
 
-            result = eval(expression, safe_dict)
+            from lukhas.security import safe_evaluate_expression
+            result = safe_evaluate_expression(expression, safe_dict)
 
             # Ensure result is a number
             if not isinstance(result, (int, float)):

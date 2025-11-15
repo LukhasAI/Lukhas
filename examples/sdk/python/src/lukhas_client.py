@@ -242,7 +242,8 @@ class AsyncLukhasClient:
                     if data == "[DONE]":
                         break
                     try:
-                        yield eval(data)  # Parse JSON
+                        import json
+                        yield json.loads(data)  # Parse JSON safely
                     except Exception:
                         continue
 

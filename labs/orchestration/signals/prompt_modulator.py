@@ -182,12 +182,16 @@ class PromptModulator:
             safe_namespace.update(ctx)
 
         try:
-            # Evaluate expression
-            result = eval(expr, {"__builtins__": {}, safe_namespace)
+            # Evaluate expression using safe evaluator
+            from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+            result = safe_evaluate_expression(expr, safe_namespace)
             self._eval_cache[cache_key] = result
             return result
-        except Exception as e:
+        except (SecurityError, EvaluationError) as e:
             logger.error(f"Error evaluating expression '{expr}': {e}")
+            return current if current is not None else 0.5
+        except Exception as e:
+            logger.error(f"Unexpected error evaluating expression '{expr}': {e}")
             return current if current is not None else 0.5
 
     def combine_signals(self, signals: list[Signal]) -> dict[str, Any]:

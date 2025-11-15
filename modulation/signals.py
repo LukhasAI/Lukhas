@@ -18,6 +18,8 @@ from typing import Any, Literal
 
 import yaml
 
+from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+
 
 @dataclass
 class Signal:
@@ -162,16 +164,18 @@ class SignalModulator:
             if hasattr(params, param_name):
                 try:
                     # Safe evaluation of expressions like "0.7 - (level * 0.4)"
-                    # Create safe evaluation context
+                    # Create safe evaluation context with math functions
                     eval_context = {
                         "level": level,
                         "max": max,
                         "min": min,
-                        "math": math,
                         "abs": abs,
                         "round": round,
+                        "ceil": math.ceil,
+                        "floor": math.floor,
+                        "sqrt": math.sqrt,
                     }
-                    result = eval(expression, {"__builtins__": {}, **eval_context})
+                    result = safe_evaluate_expression(expression, eval_context)
 
                     # Convert to appropriate type
                     current_val = getattr(params, param_name)
@@ -182,8 +186,10 @@ class SignalModulator:
 
                     setattr(params, param_name, result)
 
-                except Exception as e:
+                except (SecurityError, EvaluationError, SyntaxError) as e:
                     print(f"⚠️ Error evaluating {expression} for {param_name}: {e}")
+                except Exception as e:
+                    print(f"⚠️ Unexpected error evaluating {expression} for {param_name}: {e}")
 
         return params
 
