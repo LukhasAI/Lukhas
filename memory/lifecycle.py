@@ -37,10 +37,10 @@ class RetentionPolicy:
     days: int = 30
 
 
-class Lifecycle:
-    """Minimal lifecycle stub retained for import compatibility."""
 from typing import Optional
 
+class Lifecycle:
+    """Minimal lifecycle stub retained for import compatibility."""
 
     def __init__(self, policy: Optional[RetentionPolicy] = None):
         self.policy = policy or RetentionPolicy()
