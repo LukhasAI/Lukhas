@@ -11,6 +11,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 class BotCustomizer:
     """Interactive customizer for LUKHAS AI ΛBot status bar."""

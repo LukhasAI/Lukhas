@@ -10,6 +10,8 @@ import re
 import subprocess
 from typing import Optional
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 class RapidCascadeChaser:
     """Chase the cascade and fix blockers in real-time"""
@@ -130,7 +132,7 @@ class RapidCascadeChaser:
             if not blocker:
                 print("🎉 NO MORE BLOCKERS FOUND!")
                 print("Running final functional test...")
-                os.system("python3 functional_test_suite.py")
+                safe_run_command(["python3", "functional_test_suite.py"], check=False)
                 return True
 
             filename, line_num, error_type = blocker
@@ -174,7 +176,7 @@ class RapidCascadeChaser:
 
         if self.fixes_applied > 0:
             print("\n🧪 Running functional test to check progress...")
-            os.system("python3 functional_test_suite.py")
+            safe_run_command(["python3", "functional_test_suite.py"], check=False)
 
         return self.fixes_applied > 0
 

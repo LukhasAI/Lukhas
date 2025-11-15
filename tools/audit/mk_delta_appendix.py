@@ -14,6 +14,8 @@ import subprocess
 from collections import Counter
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 KEY_JSONS = [
     "LUKHAS_ARCHITECTURE_MASTER.json",
     "DEPENDENCY_MATRIX.json",

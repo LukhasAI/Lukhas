@@ -10,6 +10,8 @@ from contextlib import suppress
 from fnmatch import fnmatch
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 try:
     import yaml  # type: ignore
 except Exception:
@@ -109,12 +111,16 @@ Constraints:
 """
 
 def sh(cmd: str) -> str:
-  return subprocess.check_output(cmd, shell=True, text=True, cwd=ROOT).strip()
+  result = safe_run_command(cmd, cwd=ROOT, capture_output=True, check=True)
+  return result.stdout.strip()
 
 def blame_lines(pyfile: str) -> int:
   try:
-      out = sh(f"git blame --line-porcelain -- {pyfile} | grep '^author ' | wc -l")
-      return int(out or "0")
+      # Get git blame output
+      result = safe_run_command(["git", "blame", "--line-porcelain", "--", pyfile], cwd=ROOT, check=True)
+      # Count lines starting with 'author '
+      count = sum(1 for line in result.stdout.splitlines() if line.startswith("author "))
+      return count
   except Exception:
       return 0
 
@@ -129,7 +135,10 @@ def cov_map() -> dict[str, float]:
   xml = REPORTS / "coverage.xml"
   if not xml.exists():
       # attempt to generate minimal coverage xml
-      os.system("pytest --cov=. --cov-report=xml:reports/coverage.xml -q")
+      try:
+          safe_run_command(["pytest", "--cov=.", "--cov-report=xml:reports/coverage.xml", "-q"], check=False)
+      except Exception:
+          pass
   try:
       from xml.etree import ElementTree as ET
       root = ET.parse(str(xml)).getroot()
@@ -159,8 +168,8 @@ def score(path: str, cov: float, hot: int, tier: int, w: dict[str,float]) -> flo
   return (w["low_coverage"]*low_cov) + (w["hotness"]*min(hot, 500)/500.0*100.0) + (w["tier_bias"]*tier_score*33.3)
 
 def list_py_files() -> list[str]:
-  out = sh("git ls-files '*.py'")
-  return [s for s in out.splitlines() if not s.startswith("tests/")]
+  result = safe_run_command(["git", "ls-files", "*.py"], cwd=ROOT, check=True)
+  return [s for s in result.stdout.splitlines() if not s.startswith("tests/")]
 
 def excluded(path: str, globs: list[str]) -> bool:
   return any(fnmatch(path, g) for g in globs)
@@ -225,9 +234,9 @@ def open_pr_shell(slug: str, *, dry_run: bool = False, assume_yes: bool = False)
   changes.parent.mkdir(parents=True, exist_ok=True)
   changes.write_text("# Test Request (ΛBot)\n\nSee prompts/ and PR body.\n", encoding="utf-8")
   branch = f"labot/tests/{slug}"
-  os.system(f"git checkout -b {branch}")
-  os.system(f"git add {changes} {pr_file} prompts/labot/{slug}.md")
-  os.system(f"git commit -m 'chore(labot): request tests for {slug}'")
+  safe_run_command(["git", "checkout", "-b", branch], check=False)
+  safe_run_command(["git", "add", str(changes), str(pr_file), f"prompts/labot/{slug}.md"], check=False)
+  safe_run_command(["git", "commit", "-m", f"chore(labot): request tests for {slug}"], check=False)
   # requires gh CLI
   title = None
   for line in data.splitlines():

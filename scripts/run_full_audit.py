@@ -12,6 +12,8 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def run_command(cmd, description="", check=True, capture_output=True):
     """Run a command with error handling."""

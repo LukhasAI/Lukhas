@@ -5,11 +5,16 @@ import json
 import pathlib
 import subprocess
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def _cov():
     p = pathlib.Path("reports/coverage.xml")
     if not p.exists():
-        subprocess.run("pytest --cov=. --cov-report=xml:reports/coverage.xml -q", shell=True, check=False)
+        try:
+            safe_run_command(["pytest", "--cov=.", "--cov-report=xml:reports/coverage.xml", "-q"], check=False)
+        except Exception:
+            pass
     from xml.etree import ElementTree as ET
     root = ET.parse("reports/coverage.xml").getroot()
     byfile = {}
@@ -23,12 +28,14 @@ def _cov():
 def main():
     cov = _cov()
     # naive "hotness" with git blame line counts
-    files = subprocess.check_output("git ls-files '*.py'", shell=True, text=True).splitlines()
+    result = safe_run_command(["git", "ls-files", "*.py"], check=True)
+    files = result.stdout.splitlines()
     hot = []
     for f in files:
         try:
-            bl = subprocess.check_output(f"git blame --line-porcelain -- {f} | grep '^author ' | wc -l", shell=True, text=True)
-            lines = int(bl.strip() or "0")
+            # Get git blame output and count author lines
+            blame_result = safe_run_command(["git", "blame", "--line-porcelain", "--", f], check=True)
+            lines = sum(1 for line in blame_result.stdout.splitlines() if line.startswith("author "))
         except Exception:
             lines = 0
         hot.append((f, cov.get(f, 0), lines))

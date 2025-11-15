@@ -20,6 +20,8 @@ from typing import Any, Optional
 
 from core.common import LukhasError, get_logger
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 logger = get_logger(__name__)
 
 

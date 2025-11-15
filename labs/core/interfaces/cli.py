@@ -13,6 +13,8 @@ import os
 import sys
 from datetime import datetime, timezone
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 # Initialize logger
 logger = logging.getLogger(__name__)
 
@@ -42,7 +44,10 @@ def display_system_status():
 
 
 def voice_welcome():
-    os.system('say "Welcome back, Commander. LUKHAS is online."')
+    try:
+        safe_run_command(["say", "Welcome back, Commander. LUKHAS is online."], check=False)
+    except Exception as e:
+        logger.warning(f"Voice welcome failed: {e}")
 
 
 def launch():
@@ -52,7 +57,10 @@ def launch():
     display_system_status()
     logger.info("Auto-triggering visual prompt generation")
     print("\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback...")  # Keep UI output
-    os.system("python3 visualizer.py")
+    try:
+        safe_run_command(["python3", "visualizer.py"], check=False)
+    except Exception as e:
+        logger.warning(f"Visualizer failed: {e}")
     display_flashback_preview()
     voice_welcome()
     print("────────────────────────────────────\n")  # Keep UI output
@@ -75,16 +83,32 @@ def launch():
             print("👋 Exiting LUKHAS interface.")  # Keep UI output
             sys.exit(0)
         elif command in ("dream", "flashback"):
-            os.system("python3 dream_engine.py --trigger_flashback")
+            try:
+                safe_run_command(["python3", "dream_engine.py", "--trigger_flashback"], check=False)
+            except Exception as e:
+                logger.error(f"Dream engine failed: {e}")
+                print(f"❌ Dream engine failed: {e}")  # Keep UI output
         elif command == "visual":
-            os.system("python3 visualizer.py")
+            try:
+                safe_run_command(["python3", "visualizer.py"], check=False)
+            except Exception as e:
+                logger.error(f"Visualizer failed: {e}")
+                print(f"❌ Visualizer failed: {e}")  # Keep UI output
         elif command == "mutate":
-            os.system("python3 dream_mutator.py")
+            try:
+                safe_run_command(["python3", "dream_mutator.py"], check=False)
+            except Exception as e:
+                logger.error(f"Dream mutator failed: {e}")
+                print(f"❌ Dream mutator failed: {e}")  # Keep UI output
         elif command in ("genaudit", "audit", "trace"):
             logger.info("Generating alignment trace report")
             print("📊 Generating alignment trace report (placeholder)")  # Keep UI output
         elif command == "express":
-            os.system("python3 lukhas_expression.py")
+            try:
+                safe_run_command(["python3", "lukhas_expression.py"], check=False)
+            except Exception as e:
+                logger.error(f"Expression failed: {e}")
+                print(f"❌ Expression failed: {e}")  # Keep UI output
         elif command in ("help", "?"):
             print(
                 """

@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Dict, List, Any
 import re
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 class HighRiskScanner:
     """Scans for high-risk semantic patterns"""

@@ -13,10 +13,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
     """Run shell command quietly"""
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    result = safe_run_command(cmd, capture_output=True, text=True)
     if check and result.returncode != 0:
         print(f"❌ Command failed: {cmd}")
         print(f"Error: {result.stderr}")

@@ -7,6 +7,8 @@ import json
 import subprocess
 from collections import defaultdict
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def run_command(cmd):
     """Run shell command and return output"""
