@@ -38,7 +38,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable, ClassVar
+from typing import Any, Callable, ClassVar, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -82,7 +82,7 @@ class ModuleInfo:
     dependencies: list[str] = field(default_factory=list)
     health_status: str = "unknown"
     registered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_accessed: datetime | None = None
+    last_accessed: Optional[datetime] = None
     access_count: int = 0
 
 
@@ -132,9 +132,9 @@ class ModuleRegistry:
         name: str,
         version: str,
         path: str,
-        min_tier: int | None = None,
-        permissions: set[str] | None = None,
-        dependencies: list[str] | None = None,
+        min_tier: Optional[int] = None,
+        permissions: Optional[set[str]] = None,
+        dependencies: Optional[list[str]] = None,
     ) -> bool:
         """
         Register a new module in the registry.
@@ -199,7 +199,7 @@ class ModuleRegistry:
             logger.error(f"Failed to register module {module_id}: {e}")
             return False
 
-    def get_module(self, module_id: str, user_id: str) -> Any | None:
+    def get_module(self, module_id: str, user_id: str) -> Optional[Any]:
         """
         Get a module instance with tier validation.
 
@@ -237,7 +237,7 @@ class ModuleRegistry:
 
         return module_info.instance
 
-    def require_module_tier(self, module_id: str, min_tier: int | None = None):
+    def require_module_tier(self, module_id: str, min_tier: Optional[int] = None):
         """
         Decorator to enforce tier requirements for module methods.
 
@@ -298,7 +298,7 @@ class ModuleRegistry:
                 metadata=kwargs,
             )
 
-    def list_modules(self, user_id: str | None = None) -> list[dict[str, Any]]:
+    def list_modules(self, user_id: Optional[str] = None) -> list[dict[str, Any]]:
         """
         List all modules accessible to a user.
 
@@ -463,7 +463,7 @@ module_registry = ModuleRegistry()
 # Convenience decorator for module methods
 
 
-def require_tier(module_id: str, min_tier: int | None = None):
+def require_tier(module_id: str, min_tier: Optional[int] = None):
     """
     Convenience decorator to enforce tier requirements on module methods.
 

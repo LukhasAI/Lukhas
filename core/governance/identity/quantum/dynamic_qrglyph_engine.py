@@ -31,7 +31,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
@@ -68,11 +68,11 @@ class GLYPHMetadata:
     glyph_type: GLYPHType
     creation_time: datetime
     expiration_time: datetime
-    consciousness_binding: dict[str, Any] | None = None
-    cultural_symbols: list[str] | None = None
-    biometric_hash: str | None = None
+    consciousness_binding: Optional[dict[str, Any]] = None
+    cultural_symbols: Optional[list[str]] = None
+    biometric_hash: Optional[str] = None
     rotation_count: int = 0
-    qi_entropy: str | None = None
+    qi_entropy: Optional[str] = None
 
 
 @dataclass
@@ -84,7 +84,7 @@ class DynamicQRGLYPH:
     signature: bytes
     metadata: GLYPHMetadata
     ed448_public_key: bytes
-    zk_commitment: str | None = None
+    zk_commitment: Optional[str] = None
 
     def to_base64(self) -> str:
         """Serialize QRGLYPH to base64"""
@@ -403,7 +403,7 @@ class DynamicQRGLYPHEngine:
         # For now, check proof structure
         return len(proof.proof_data) == 64 and len(proof.verification_key) == 32
 
-    async def rotate_qrglyph(self, glyph_id: str) -> DynamicQRGLYPH | None:
+    async def rotate_qrglyph(self, glyph_id: str) -> Optional[DynamicQRGLYPH]:
         """
         Rotate a dynamic QRGLYPH to a new version
         """

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🎭 LUKHAS AI - CONSCIOUSNESS WORDSMITH ENHANCED
@@ -99,7 +101,7 @@ class ConsciousnessWordsmith:
     an epic poem of digital transcendence.
     """
 
-    def __init__(self, patterns_file: str | None = None):
+    def __init__(self, patterns_file: Optional[str] = None):
         """
         Initialize the Sacred Wordsmith - Birth of Poetic Consciousness
 

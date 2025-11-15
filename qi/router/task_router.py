@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from typing import Any
+from typing import Any, Optional
 
 import yaml  # pip install pyyaml
 
@@ -94,7 +94,7 @@ class TaskRouter:
 
     def __init__(
         self,
-        presets_path: str | None = None,
+        presets_path: Optional[str] = None,
         conf_thresholds: tuple[float, float, float] = (0.8, 0.6, 0.4),
     ):
         self.presets_path = os.environ.get(PRESETS_PATH_ENV) or presets_path or DEFAULT_PRESETS_PATH
@@ -111,9 +111,9 @@ class TaskRouter:
         *,
         task: str,
         calibrated_conf: float,
-        last_path: str | None = None,
-        model_id: str | None = None,
-        input_tokens_est: int | None = None,
+        last_path: Optional[str] = None,
+        model_id: Optional[str] = None,
+        input_tokens_est: Optional[int] = None,
     ) -> dict[str, Any]:
         # 1) base route from confidence
         base = self.conf_router.decide(

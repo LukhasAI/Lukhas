@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from _bridgeutils import bridge
 
-_mod: object | None = None
+_mod: Optional[object] = None
 _exports: dict[str, object] = {}
 
 try:
@@ -24,6 +24,8 @@ if not isinstance(__all__, list):
 
 class _Stub:
     """Generic container used when inference adapters are not wired."""
+from typing import Optional
+
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         self.args = args

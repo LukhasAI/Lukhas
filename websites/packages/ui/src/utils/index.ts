@@ -3,6 +3,11 @@
  */
 
 export { cn } from './cn'
-
-// Morphing system will be added in next task
-// export { MorphingSystem } from './morphing-system'
+export { MorphingEngine } from './morphing-system'
+export type {
+  Vector3,
+  VoiceData,
+  VertexModifierFn,
+  ShapeDefinition,
+  MorphingEngineConfig,
+} from './morphing-system'

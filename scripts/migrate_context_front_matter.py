@@ -20,7 +20,7 @@ import json
 import pathlib
 import re
 import sys
-from typing import Dict
+from typing import Dict, Optional
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 FM_BOUNDARY = re.compile(r"^\s*---\s*$")
@@ -55,7 +55,7 @@ def has_front_matter(text: str) -> bool:
     return any(FM_BOUNDARY.match(lines[i]) for i in range(1, min(len(lines), 200)))
 
 
-def read_manifest(md_path: pathlib.Path) -> Dict | None:
+def read_manifest(md_path: pathlib.Path) -> Optional[Dict]:
     """Read and parse the sibling module.manifest.json file.
 
     Looks for module.manifest.json in the same directory as the given markdown
@@ -125,7 +125,7 @@ def parse_legacy_header(text: str) -> dict[str, str | None]:
     return fields
 
 
-def sanitize_nodes(nodes_str: str | None) -> list[str]:
+def sanitize_nodes(nodes_str: Optional[str]) -> list[str]:
     """Parse and normalize MATRIZ node string to list of node codes.
 
     Splits a comma or whitespace-separated string of MATRIZ node codes into
@@ -241,7 +241,7 @@ def remove_legacy_header(text: str) -> str:
     return "\n".join(keep).lstrip("\n") + ("\n" if keep else "")
 
 
-def migrate_one(md_path: pathlib.Path) -> str | None:
+def migrate_one(md_path: pathlib.Path) -> Optional[str]:
     """Migrate a single context file to YAML front-matter format.
 
     Orchestrates the migration of one lukhas_context.md file by combining

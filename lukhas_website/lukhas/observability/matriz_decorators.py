@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 from functools import wraps
@@ -8,7 +10,7 @@ from .matriz_emit import emit, make_node
 def instrument(
     ntype: str,
     *,
-    label: str | None = None,
+    label: Optional[str] = None,
     capability: str = "core:op",
     tenant: str = "default",
     salience: float = 0.4,

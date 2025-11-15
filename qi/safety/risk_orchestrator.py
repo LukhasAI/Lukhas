@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
@@ -42,10 +42,10 @@ class RoutePlan:
 
 
 class RiskOrchestrator:
-    def __init__(self, cfg_path: str | None = None):
+    def __init__(self, cfg_path: Optional[str] = None):
         self.cfg = self._load_cfg(cfg_path)
 
-    def _load_cfg(self, path: str | None) -> dict[str, Any]:
+    def _load_cfg(self, path: Optional[str]) -> dict[str, Any]:
         if path and os.path.exists(path):
             return yaml.safe_load(open(path, encoding="utf-8"))
         # allow jurisdictional override under policy packs

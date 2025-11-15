@@ -8,7 +8,7 @@ from __future__ import annotations
 import logging
 import uuid
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -64,7 +64,7 @@ class BrainIdentityIntegration:
     Provides a simplified interface for the identity hub.
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the brain identity integration"""
         self.config = config or {
             "enable_access_logging": True,
@@ -269,9 +269,9 @@ class BrainIdentityIntegration:
         user_id: str,
         operation: str,
         memory_key: str,
-        memory_type: str | None = None,
-        memory_owner: str | None = None,
-        access_policy: str | None = None,
+        memory_type: Optional[str] = None,
+        memory_owner: Optional[str] = None,
+        access_policy: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Authorize a memory operation for a user
@@ -387,8 +387,8 @@ class BrainIdentityIntegration:
         user_id: str,
         operation: str,
         memory_key: str,
-        memory_type: str | None,
-        memory_owner: str | None,
+        memory_type: Optional[str],
+        memory_owner: Optional[str],
     ) -> bool:
         """Fallback authorization logic when main connector is not available"""
         logger.info("Using fallback authorization logic")
@@ -664,7 +664,7 @@ class BrainIdentityIntegration:
 
 # Factory function for creating the integration
 def create_brain_identity_integration(
-    config: dict[str, Any] | None = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> BrainIdentityIntegration:
     """Create and return a brain identity integration instance"""
     return BrainIdentityIntegration(config)

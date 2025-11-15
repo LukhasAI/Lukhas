@@ -6,7 +6,7 @@ import os
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import BackgroundTasks, Body, FastAPI, HTTPException, Query
 from pydantic import ValidationError
@@ -29,9 +29,9 @@ async def ingest_feedback(
     jurisdiction: str = Body("global", description="Jurisdiction"),
     satisfaction: float = Body(..., ge=0.0, le=1.0, description="Satisfaction score"),
     issues: list[str] = Body(default=[], description="Issue types"),
-    note: str | None = Body(None, description="User note (will be HMACed)"),
-    style: str | None = Body(None, description="Proposed style"),
-    threshold_delta: float | None = Body(None, description="Proposed threshold adjustment"),
+    note: Optional[str] = Body(None, description="User note (will be HMACed)"),
+    style: Optional[str] = Body(None, description="Proposed style"),
+    threshold_delta: Optional[float] = Body(None, description="Proposed threshold adjustment"),
 ) -> dict[str, Any]:
     """Ingest a feedback card with HMAC redaction and validation."""
     try:
@@ -90,8 +90,8 @@ async def ingest_feedback(
 
 @app.get("/feedback/list")
 async def list_feedback(
-    task: str | None = Query(None, description="Filter by task"),
-    jurisdiction: str | None = Query(None, description="Filter by jurisdiction"),
+    task: Optional[str] = Query(None, description="Filter by task"),
+    jurisdiction: Optional[str] = Query(None, description="Filter by jurisdiction"),
     limit: int = Query(100, le=1000, description="Maximum results"),
 ) -> dict[str, Any]:
     """List recent feedback cards with optional filters."""
@@ -151,7 +151,7 @@ async def run_clustering(
 
 @app.get("/feedback/clusters")
 async def get_clusters(
-    task: str | None = Query(None, description="Filter by task"),
+    task: Optional[str] = Query(None, description="Filter by task"),
 ) -> dict[str, Any]:
     """Get computed clusters."""
     try:
@@ -172,8 +172,8 @@ async def get_clusters(
 
 @app.post("/feedback/promote")
 async def promote_to_proposal(
-    fc_id: str | None = Query(None, description="Feedback card ID"),
-    cluster_id: str | None = Query(None, description="Cluster ID"),
+    fc_id: Optional[str] = Query(None, description="Feedback card ID"),
+    cluster_id: Optional[str] = Query(None, description="Cluster ID"),
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
 ) -> dict[str, Any]:
     """Promote a feedback card or cluster to a change proposal."""

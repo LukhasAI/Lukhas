@@ -6,8 +6,12 @@ import uuid
 from typing import Optional
 from unittest.mock import AsyncMock, patch
 
-import fakeredis.aioredis
 import pytest
+
+# Skip if fakeredis not available (optional test dependency)
+pytest.importorskip("fakeredis")
+
+import fakeredis.aioredis
 from bridge.queue.redis_queue import RedisTaskQueue, Task, TaskPriority, TaskType
 
 

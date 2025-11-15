@@ -22,7 +22,7 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 
 
 class CheckResult(NamedTuple):
@@ -32,7 +32,7 @@ class CheckResult(NamedTuple):
     message: str
 
 
-def run_check(name: str, cmd: list[str], cwd: Path | None = None) -> CheckResult:
+def run_check(name: str, cmd: list[str], cwd: Optional[Path] = None) -> CheckResult:
     """Run a validation check command."""
     print(f"\n🔍 {name}")
     print(f"   Command: {' '.join(cmd)}")

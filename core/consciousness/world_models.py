@@ -27,7 +27,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 from core.common import get_logger
@@ -282,7 +282,7 @@ class TemporalDynamicsModel:
 
         return trends
 
-    def _calculate_linear_trend(self, states: list[WorldState], entity_id: str) -> dict[str, Any] | None:
+    def _calculate_linear_trend(self, states: list[WorldState], entity_id: str) -> Optional[dict[str, Any]]:
         """Calculate linear trend for entity"""
         try:
             entity_data = [state.entities[entity_id] for state in states]
@@ -404,8 +404,8 @@ class WorldModels:
     async def create_world_state(
         self,
         entities: dict[str, Any],
-        relationships: list[dict[str, Any]] | None = None,
-        physics_properties: dict[str, float] | None = None,
+        relationships: Optional[list[dict[str, Any]]] = None,
+        physics_properties: Optional[dict[str, float]] = None,
     ) -> WorldState:
         """Create a new world state"""
         try:
@@ -436,7 +436,7 @@ class WorldModels:
         self,
         current_state: WorldState,
         duration: timedelta,
-        accuracy: SimulationAccuracy | None = None,
+        accuracy: Optional[SimulationAccuracy] = None,
     ) -> PredictionResult:
         """Simulate world state forward in time"""
         try:
@@ -534,8 +534,8 @@ class WorldModels:
         return min(0.95, final_confidence)
 
     async def get_prediction(
-        self, prediction_horizon: timedelta, context: dict[str, Any] | None = None
-    ) -> PredictionResult | None:
+        self, prediction_horizon: timedelta, context: Optional[dict[str, Any]] = None
+    ) -> Optional[PredictionResult]:
         """Get prediction for specified time horizon"""
         try:
             if not self.world_states:
@@ -563,7 +563,7 @@ class WorldModels:
             return None
 
     async def update_world_state(
-        self, observations: dict[str, Any], context: dict[str, Any] | None = None
+        self, observations: dict[str, Any], context: Optional[dict[str, Any]] = None
     ) -> WorldState:
         """Update world model with new observations"""
         try:

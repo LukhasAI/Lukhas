@@ -42,12 +42,14 @@ dream experiences. This system provides:
 - Entertainment DreamSeeds: Game and story-driven dream content
 - Research DreamSeeds: Scientific and research collaboration dreams
 
-ΛTAG: dream_commerce, seedra_protocol, consent_driven_marketing
-ΛTODO: Add blockchain integration for decentralized dream commerce
+ΛTAG: dream_commerce, seedra_protocol, consent_driven_marketing, blockchain_integration
 AIDEA: Implement dream content NFT marketplace with royalty distribution
 """
+import hashlib
+import json
 import logging
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -56,6 +58,27 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
+
+# Blockchain dependencies (optional - graceful degradation)
+try:
+    from web3 import Web3
+    from web3.contract import Contract
+    from web3.middleware import ExtraDataToPOAMiddleware
+    from web3.providers import HTTPProvider
+
+    WEB3_AVAILABLE = True
+except ImportError:
+    WEB3_AVAILABLE = False
+    Web3 = None  # type: ignore
+    Contract = None  # type: ignore
+
+try:
+    import ipfshttpclient
+
+    IPFS_AVAILABLE = True
+except ImportError:
+    IPFS_AVAILABLE = False
+    ipfshttpclient = None  # type: ignore
 
 # Import core components
 try:
@@ -229,6 +252,658 @@ class DreamExperience:
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
+@dataclass
+class DreamContentNFT:
+    """
+    Represents a dream content NFT minted on blockchain.
+
+    This dataclass encapsulates all metadata and identifiers for a
+    tokenized dream experience, including IPFS hashes, royalty terms,
+    and blockchain transaction details.
+    """
+
+    token_id: int
+    dream_seed_id: str
+    creator_address: str
+    content_hash: str  # IPFS hash of dream content
+    metadata_uri: str  # IPFS URI for NFT metadata
+    mint_timestamp: datetime
+    royalty_percentage: Decimal  # 0-100 percentage for secondary sales
+    license_terms: dict[str, Any] = field(default_factory=dict)
+    blockchain_network: str = "ethereum"
+    transaction_hash: Optional[str] = None
+    owner_address: Optional[str] = None
+
+
+@dataclass
+class ConsentRecord:
+    """
+    Blockchain-backed immutable consent record.
+
+    Provides cryptographic proof of user consent for dream commerce
+    activities, stored permanently on blockchain for audit trail.
+    """
+
+    user_address: str
+    dream_seed_id: str
+    consent_given: bool
+    timestamp: datetime
+    transaction_hash: str
+    ipfs_proof_hash: Optional[str] = None
+    consent_type: str = "dream_experience"
+    revocable: bool = True
+
+
+class DreamCommerceBlockchain:
+    """
+    Blockchain integration for decentralized dream commerce.
+
+    Manages NFT minting, IPFS content storage, royalty distribution,
+    and immutable consent ledger on Ethereum-compatible blockchains.
+
+    This class provides the bridge between LUKHAS dream commerce
+    and Web3 infrastructure, enabling trustless, decentralized
+    transactions for dream content.
+
+    Key capabilities:
+    1. NFT minting for dream content (ERC-721)
+    2. IPFS content and metadata upload
+    3. On-chain consent recording
+    4. Consent verification from blockchain
+    5. Royalty calculation for secondary sales
+    6. Gas optimization strategies
+
+    Example:
+        >>> blockchain = DreamCommerceBlockchain(
+        ...     blockchain_rpc_url="https://mainnet.infura.io/v3/YOUR-KEY",
+        ...     dream_nft_contract_address="0x123...",
+        ...     private_key="0xabc..."
+        ... )
+        >>> nft = blockchain.mint_dream_nft(
+        ...     dream_seed_id="dream_123",
+        ...     content=b"dream_data",
+        ...     creator_address="0x456...",
+        ...     royalty_percentage=Decimal("10")
+        ... )
+    """
+
+    # Smart contract ABIs (simplified for core functionality)
+    DREAM_NFT_ABI = json.loads(
+        """[
+        {
+            "inputs": [
+                {"type": "string", "name": "contentHash"},
+                {"type": "uint256", "name": "royalty"}
+            ],
+            "name": "mintDreamNFT",
+            "outputs": [{"type": "uint256"}],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [{"type": "uint256", "name": "tokenId"}],
+            "name": "tokenURI",
+            "outputs": [{"type": "string"}],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [{"type": "uint256", "name": "tokenId"}],
+            "name": "ownerOf",
+            "outputs": [{"type": "address"}],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]"""
+    )
+
+    CONSENT_LEDGER_ABI = json.loads(
+        """[
+        {
+            "inputs": [
+                {"type": "string", "name": "dreamSeedId"},
+                {"type": "bool", "name": "consent"}
+            ],
+            "name": "recordConsent",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {"type": "address", "name": "user"},
+                {"type": "string", "name": "dreamSeedId"}
+            ],
+            "name": "getConsent",
+            "outputs": [{"type": "bool"}],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]"""
+    )
+
+    def __init__(
+        self,
+        *,
+        blockchain_rpc_url: str = "http://localhost:8545",
+        dream_nft_contract_address: Optional[str] = None,
+        consent_ledger_address: Optional[str] = None,
+        ipfs_api: str = "/ip4/127.0.0.1/tcp/5001",
+        private_key: Optional[str] = None,
+        gas_price_multiplier: float = 1.1,
+        network_id: str = "ethereum",
+    ):
+        """
+        Initialize blockchain integration.
+
+        Args:
+            blockchain_rpc_url: Ethereum RPC endpoint (Infura, Alchemy, local)
+            dream_nft_contract_address: Deployed NFT contract address
+            consent_ledger_address: Deployed consent ledger contract address
+            ipfs_api: IPFS API endpoint (multiaddr format)
+            private_key: Private key for signing transactions (keep secure!)
+            gas_price_multiplier: Multiplier for gas price estimation
+            network_id: Network identifier (ethereum, polygon, etc.)
+
+        Raises:
+            ImportError: If web3 not installed
+            ConnectionError: If cannot connect to blockchain or IPFS
+        """
+        if not WEB3_AVAILABLE:
+            raise ImportError(
+                "Blockchain features require web3: pip install web3>=6.0.0"
+            )
+
+        # Initialize Web3
+        self.w3 = Web3(HTTPProvider(blockchain_rpc_url))
+
+        # Add PoA middleware for networks like Polygon
+        if network_id in ["polygon", "bsc"]:
+            self.w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
+
+        if not self.w3.is_connected():
+            raise ConnectionError(
+                f"Cannot connect to blockchain at {blockchain_rpc_url}"
+            )
+
+        # Store configuration
+        self.network_id = network_id
+        self.dream_nft_address = dream_nft_contract_address
+        self.consent_ledger_address = consent_ledger_address
+        self._private_key = private_key
+        self._gas_price_multiplier = gas_price_multiplier
+
+        # Initialize contracts
+        self.dream_nft_contract: Optional[Contract] = None
+        self.consent_ledger_contract: Optional[Contract] = None
+
+        if dream_nft_contract_address:
+            self.dream_nft_contract = self.w3.eth.contract(
+                address=Web3.to_checksum_address(dream_nft_contract_address),
+                abi=self.DREAM_NFT_ABI,
+            )
+
+        if consent_ledger_address:
+            self.consent_ledger_contract = self.w3.eth.contract(
+                address=Web3.to_checksum_address(consent_ledger_address),
+                abi=self.CONSENT_LEDGER_ABI,
+            )
+
+        # IPFS client
+        self._ipfs_client = None
+        if IPFS_AVAILABLE:
+            try:
+                self._ipfs_client = ipfshttpclient.connect(ipfs_api)
+                # Test connection
+                self._ipfs_client.version()
+            except Exception as e:
+                logging.warning(f"Could not connect to IPFS at {ipfs_api}: {e}")
+                self._ipfs_client = None
+
+        self._logger = logging.getLogger(__name__)
+        self._logger.info(
+            f"Blockchain integration initialized",
+            extra={
+                "network": network_id,
+                "rpc_url": blockchain_rpc_url,
+                "nft_contract": dream_nft_contract_address,
+                "consent_ledger": consent_ledger_address,
+                "ipfs_available": self._ipfs_client is not None,
+            },
+        )
+
+    def upload_to_ipfs(self, content: bytes) -> str:
+        """
+        Upload content to IPFS and return CID.
+
+        Args:
+            content: Raw content bytes to upload
+
+        Returns:
+            IPFS Content Identifier (CID) as string
+
+        Raises:
+            RuntimeError: If IPFS client not available
+        """
+        if not self._ipfs_client:
+            raise RuntimeError(
+                "IPFS client not available. Install ipfshttpclient and ensure IPFS daemon is running."
+            )
+
+        try:
+            result = self._ipfs_client.add_bytes(content)
+            ipfs_hash = result
+
+            self._logger.info(
+                f"Content uploaded to IPFS",
+                extra={"ipfs_hash": ipfs_hash, "size_bytes": len(content)},
+            )
+
+            return ipfs_hash
+
+        except Exception as e:
+            self._logger.error(f"IPFS upload failed: {e}")
+            raise RuntimeError(f"Failed to upload to IPFS: {e}") from e
+
+    def mint_dream_nft(
+        self,
+        dream_seed_id: str,
+        content: bytes,
+        creator_address: str,
+        royalty_percentage: Decimal,
+        metadata: dict[str, Any],
+    ) -> DreamContentNFT:
+        """
+        Mint a dream content NFT on blockchain.
+
+        This method:
+        1. Uploads dream content to IPFS
+        2. Creates NFT metadata with content reference
+        3. Uploads metadata to IPFS
+        4. Mints NFT on blockchain with royalty information
+        5. Returns complete NFT record
+
+        Args:
+            dream_seed_id: Dream seed identifier
+            content: Dream content bytes (imagery, audio, etc.)
+            creator_address: Creator's blockchain address (0x...)
+            royalty_percentage: Royalty for secondary sales (0-100)
+            metadata: NFT metadata (name, description, attributes, etc.)
+
+        Returns:
+            DreamContentNFT with token ID and IPFS hashes
+
+        Raises:
+            RuntimeError: If NFT contract not initialized or minting fails
+        """
+        if not self.dream_nft_contract:
+            raise RuntimeError("Dream NFT contract not initialized")
+
+        if not self._private_key:
+            raise RuntimeError("Private key required for minting")
+
+        try:
+            # Step 1: Upload content to IPFS
+            content_hash = self.upload_to_ipfs(content)
+            self._logger.info(f"Dream content uploaded: {content_hash}")
+
+            # Step 2: Create comprehensive NFT metadata
+            nft_metadata = {
+                "name": metadata.get("name", f"Dream {dream_seed_id}"),
+                "description": metadata.get(
+                    "description", "A unique dream experience from LUKHAS"
+                ),
+                "image": f"ipfs://{content_hash}",
+                "dream_seed_id": dream_seed_id,
+                "creator": creator_address,
+                "royalty": float(royalty_percentage),
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "attributes": metadata.get("attributes", []),
+                "external_url": metadata.get("external_url"),
+                "animation_url": metadata.get("animation_url"),
+                **{
+                    k: v
+                    for k, v in metadata.items()
+                    if k
+                    not in [
+                        "name",
+                        "description",
+                        "attributes",
+                        "external_url",
+                        "animation_url",
+                    ]
+                },
+            }
+
+            # Step 3: Upload metadata to IPFS
+            metadata_bytes = json.dumps(nft_metadata, indent=2).encode()
+            metadata_hash = self.upload_to_ipfs(metadata_bytes)
+            metadata_uri = f"ipfs://{metadata_hash}"
+            self._logger.info(f"NFT metadata uploaded: {metadata_hash}")
+
+            # Step 4: Prepare blockchain transaction
+            account = self.w3.eth.account.from_key(self._private_key)
+
+            # Build mint transaction
+            tx = self.dream_nft_contract.functions.mintDreamNFT(
+                content_hash, int(royalty_percentage)
+            ).build_transaction(
+                {
+                    "from": account.address,
+                    "nonce": self.w3.eth.get_transaction_count(account.address),
+                    "gas": 250000,  # Estimate with buffer
+                    "gasPrice": int(
+                        self.w3.eth.gas_price * self._gas_price_multiplier
+                    ),
+                }
+            )
+
+            # Step 5: Sign and send transaction
+            signed_tx = account.sign_transaction(tx)
+            tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+
+            self._logger.info(
+                f"NFT mint transaction sent",
+                extra={"tx_hash": tx_hash.hex(), "creator": creator_address},
+            )
+
+            # Step 6: Wait for transaction confirmation
+            receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=300)
+
+            if receipt["status"] != 1:
+                raise RuntimeError(f"Minting transaction failed: {tx_hash.hex()}")
+
+            # Step 7: Extract token ID from logs
+            # Assuming first log contains token ID in second topic
+            token_id = int.from_bytes(receipt["logs"][0]["topics"][1], "big")
+
+            # Step 8: Create NFT record
+            nft = DreamContentNFT(
+                token_id=token_id,
+                dream_seed_id=dream_seed_id,
+                creator_address=creator_address,
+                content_hash=content_hash,
+                metadata_uri=metadata_uri,
+                mint_timestamp=datetime.now(timezone.utc),
+                royalty_percentage=royalty_percentage,
+                license_terms=metadata.get("license", {}),
+                blockchain_network=self.network_id,
+                transaction_hash=tx_hash.hex(),
+                owner_address=creator_address,
+            )
+
+            self._logger.info(
+                f"Dream NFT #{token_id} minted successfully",
+                extra={
+                    "token_id": token_id,
+                    "dream_seed_id": dream_seed_id,
+                    "creator": creator_address,
+                    "tx_hash": tx_hash.hex(),
+                    "content_hash": content_hash,
+                    "royalty": float(royalty_percentage),
+                },
+            )
+
+            return nft
+
+        except Exception as e:
+            self._logger.error(f"Failed to mint dream NFT: {e}")
+            raise RuntimeError(f"NFT minting failed: {e}") from e
+
+    def record_consent_on_chain(
+        self, user_address: str, dream_seed_id: str, consent_given: bool
+    ) -> ConsentRecord:
+        """
+        Record user consent on blockchain for immutable audit trail.
+
+        Creates a permanent, cryptographically-verified record of user
+        consent for dream commerce activities.
+
+        Args:
+            user_address: User's blockchain address
+            dream_seed_id: Dream seed identifier
+            consent_given: Whether consent was given (True/False)
+
+        Returns:
+            ConsentRecord with transaction hash
+
+        Raises:
+            RuntimeError: If consent ledger not initialized or recording fails
+        """
+        if not self.consent_ledger_contract:
+            raise RuntimeError("Consent ledger contract not initialized")
+
+        if not self._private_key:
+            raise RuntimeError("Private key required for consent recording")
+
+        try:
+            account = self.w3.eth.account.from_key(self._private_key)
+
+            # Build consent recording transaction
+            tx = self.consent_ledger_contract.functions.recordConsent(
+                dream_seed_id, consent_given
+            ).build_transaction(
+                {
+                    "from": account.address,
+                    "nonce": self.w3.eth.get_transaction_count(account.address),
+                    "gas": 100000,
+                    "gasPrice": int(
+                        self.w3.eth.gas_price * self._gas_price_multiplier
+                    ),
+                }
+            )
+
+            # Sign and send transaction
+            signed_tx = account.sign_transaction(tx)
+            tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+
+            self._logger.info(
+                f"Consent recording transaction sent",
+                extra={
+                    "tx_hash": tx_hash.hex(),
+                    "user": user_address,
+                    "dream_seed": dream_seed_id,
+                    "consent": consent_given,
+                },
+            )
+
+            # Wait for confirmation
+            receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=300)
+
+            if receipt["status"] != 1:
+                raise RuntimeError(
+                    f"Consent recording transaction failed: {tx_hash.hex()}"
+                )
+
+            # Create consent record with IPFS proof (optional)
+            ipfs_proof_hash = None
+            if self._ipfs_client:
+                try:
+                    proof_data = {
+                        "user_address": user_address,
+                        "dream_seed_id": dream_seed_id,
+                        "consent_given": consent_given,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "transaction_hash": tx_hash.hex(),
+                        "network": self.network_id,
+                    }
+                    proof_bytes = json.dumps(proof_data, indent=2).encode()
+                    ipfs_proof_hash = self.upload_to_ipfs(proof_bytes)
+                    self._logger.info(f"Consent proof uploaded to IPFS: {ipfs_proof_hash}")
+                except Exception as e:
+                    self._logger.warning(f"Failed to upload consent proof to IPFS: {e}")
+
+            record = ConsentRecord(
+                user_address=user_address,
+                dream_seed_id=dream_seed_id,
+                consent_given=consent_given,
+                timestamp=datetime.now(timezone.utc),
+                transaction_hash=tx_hash.hex(),
+                ipfs_proof_hash=ipfs_proof_hash,
+            )
+
+            self._logger.info(
+                f"Consent recorded on-chain",
+                extra={
+                    "user": user_address,
+                    "dream_seed": dream_seed_id,
+                    "consent": consent_given,
+                    "tx_hash": tx_hash.hex(),
+                    "ipfs_proof": ipfs_proof_hash,
+                },
+            )
+
+            return record
+
+        except Exception as e:
+            self._logger.error(f"Failed to record consent on chain: {e}")
+            raise RuntimeError(f"Consent recording failed: {e}") from e
+
+    def verify_consent_on_chain(self, user_address: str, dream_seed_id: str) -> bool:
+        """
+        Verify consent from blockchain ledger.
+
+        Queries the immutable consent ledger to check if user
+        has given consent for a specific dream seed.
+
+        Args:
+            user_address: User's blockchain address
+            dream_seed_id: Dream seed identifier
+
+        Returns:
+            True if consent was given, False otherwise
+
+        Raises:
+            RuntimeError: If consent ledger not initialized
+        """
+        if not self.consent_ledger_contract:
+            raise RuntimeError("Consent ledger contract not initialized")
+
+        try:
+            consent = self.consent_ledger_contract.functions.getConsent(
+                Web3.to_checksum_address(user_address), dream_seed_id
+            ).call()
+
+            self._logger.debug(
+                f"Consent verification",
+                extra={
+                    "user": user_address,
+                    "dream_seed": dream_seed_id,
+                    "consent": bool(consent),
+                },
+            )
+
+            return bool(consent)
+
+        except Exception as e:
+            self._logger.error(f"Failed to verify consent on chain: {e}")
+            raise RuntimeError(f"Consent verification failed: {e}") from e
+
+    def calculate_royalty_distribution(
+        self, token_id: int, sale_amount: Decimal
+    ) -> dict[str, Decimal]:
+        """
+        Calculate royalty distribution for secondary sale.
+
+        Determines how sale proceeds should be split between
+        original creator (royalty) and current seller.
+
+        Args:
+            token_id: NFT token ID
+            sale_amount: Sale price in wei or smallest unit
+
+        Returns:
+            Dict mapping recipient types to amounts:
+            - "creator": Amount for original creator (royalty)
+            - "seller": Amount for current seller
+            - "platform": Amount for platform fee (if applicable)
+
+        Raises:
+            RuntimeError: If NFT contract not initialized
+        """
+        if not self.dream_nft_contract:
+            raise RuntimeError("Dream NFT contract not initialized")
+
+        try:
+            # In production, would fetch royalty from contract/metadata
+            # For now, using fixed 10% royalty
+            royalty_percentage = Decimal("10")  # 10%
+            platform_fee = Decimal("2.5")  # 2.5% platform fee
+
+            creator_amount = (sale_amount * royalty_percentage) / Decimal("100")
+            platform_amount = (sale_amount * platform_fee) / Decimal("100")
+            seller_amount = sale_amount - creator_amount - platform_amount
+
+            distribution = {
+                "creator": creator_amount,
+                "seller": seller_amount,
+                "platform": platform_amount,
+            }
+
+            self._logger.info(
+                f"Royalty distribution calculated",
+                extra={
+                    "token_id": token_id,
+                    "sale_amount": float(sale_amount),
+                    "creator_royalty": float(creator_amount),
+                    "platform_fee": float(platform_amount),
+                    "seller_proceeds": float(seller_amount),
+                },
+            )
+
+            return distribution
+
+        except Exception as e:
+            self._logger.error(f"Failed to calculate royalty distribution: {e}")
+            raise RuntimeError(f"Royalty calculation failed: {e}") from e
+
+    def get_nft_owner(self, token_id: int) -> str:
+        """
+        Get current owner of NFT.
+
+        Args:
+            token_id: NFT token ID
+
+        Returns:
+            Owner's blockchain address
+
+        Raises:
+            RuntimeError: If NFT contract not initialized or token doesn't exist
+        """
+        if not self.dream_nft_contract:
+            raise RuntimeError("Dream NFT contract not initialized")
+
+        try:
+            owner = self.dream_nft_contract.functions.ownerOf(token_id).call()
+            return owner
+
+        except Exception as e:
+            self._logger.error(f"Failed to get NFT owner: {e}")
+            raise RuntimeError(f"Failed to get owner for token {token_id}: {e}") from e
+
+    def get_connection_info(self) -> dict[str, Any]:
+        """
+        Get blockchain connection status and configuration.
+
+        Returns:
+            Dict with connection details and capabilities
+        """
+        return {
+            "connected": self.w3.is_connected(),
+            "network_id": self.network_id,
+            "chain_id": self.w3.eth.chain_id if self.w3.is_connected() else None,
+            "latest_block": (
+                self.w3.eth.block_number if self.w3.is_connected() else None
+            ),
+            "nft_contract_address": self.dream_nft_address,
+            "consent_ledger_address": self.consent_ledger_address,
+            "ipfs_available": self._ipfs_client is not None,
+            "gas_price_wei": (
+                self.w3.eth.gas_price if self.w3.is_connected() else None
+            ),
+        }
+
+
 class DreamCommerceEngine:
     """
     Dream Commerce Engine
@@ -246,8 +921,25 @@ class DreamCommerceEngine:
     7. SEEDRA protocol compliance
     """
 
-    def __init__(self):
-        """Initialize the dream commerce engine"""
+    def __init__(
+        self,
+        *,
+        enable_blockchain: bool = False,
+        blockchain_config: Optional[dict[str, Any]] = None,
+    ):
+        """
+        Initialize the dream commerce engine.
+
+        Args:
+            enable_blockchain: Enable blockchain features for NFTs and consent ledger
+            blockchain_config: Blockchain configuration dict with keys:
+                - blockchain_rpc_url: RPC endpoint URL
+                - dream_nft_contract_address: NFT contract address
+                - consent_ledger_address: Consent ledger contract address
+                - ipfs_api: IPFS API endpoint
+                - private_key: Private key for signing (keep secure!)
+                - network_id: Network identifier (ethereum, polygon, etc.)
+        """
         self.logger = logging.getLogger("dream_commerce_engine")
 
         # Data storage (in production, would use proper database)
@@ -256,11 +948,27 @@ class DreamCommerceEngine:
         self.user_consents: dict[str, dict[str, Any]] = {}
         self.creator_profiles: dict[str, dict[str, Any]] = {}
         self.revenue_transactions: list[dict[str, Any]] = []
+        self.minted_nfts: dict[str, DreamContentNFT] = {}  # dream_seed_id -> NFT
 
         # System integrations
         self.identity_client = IdentityClient() if IDENTITY_AVAILABLE else None
         self.zkp_validator = ZKPDreamValidator() if ZKP_AVAILABLE else None
         self.event_bus = None
+
+        # Blockchain integration
+        self._enable_blockchain = enable_blockchain and WEB3_AVAILABLE
+        self._blockchain: Optional[DreamCommerceBlockchain] = None
+
+        if self._enable_blockchain:
+            try:
+                self._blockchain = DreamCommerceBlockchain(
+                    **(blockchain_config or {})
+                )
+                self.logger.info("Blockchain integration enabled")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize blockchain: {e}")
+                self._enable_blockchain = False
+                self._blockchain = None
 
         # Commerce configuration
         self.platform_revenue_share = 0.3  # 30% platform fee
@@ -272,8 +980,12 @@ class DreamCommerceEngine:
         self.total_seeds_created = 0
         self.total_experiences_generated = 0
         self.total_revenue_processed = Decimal("0.00")
+        self.total_nfts_minted = 0
 
-        self.logger.info("Dream commerce engine initialized")
+        self.logger.info(
+            "Dream commerce engine initialized",
+            extra={"blockchain_enabled": self._enable_blockchain},
+        )
 
     async def initialize(self) -> bool:
         """Initialize the commerce engine"""
@@ -541,6 +1253,254 @@ class DreamCommerceEngine:
         except Exception as e:
             self.logger.error(f"Failed to get marketplace dreams: {e}")
             raise
+
+    async def publish_dream_seed_as_nft(
+        self,
+        dream_seed_id: str,
+        content: bytes,
+        creator_blockchain_address: str,
+        royalty_percentage: Decimal = Decimal("10"),
+    ) -> DreamContentNFT:
+        """
+        Publish dream seed as blockchain NFT (requires blockchain enabled).
+
+        This method mints the dream seed content as an NFT, uploading
+        content to IPFS and recording the NFT on blockchain.
+
+        Args:
+            dream_seed_id: Dream seed to publish
+            content: Dream content bytes for IPFS
+            creator_blockchain_address: Creator's blockchain wallet address
+            royalty_percentage: Royalty percentage for secondary sales (0-100)
+
+        Returns:
+            DreamContentNFT with token ID and blockchain details
+
+        Raises:
+            RuntimeError: If blockchain not enabled or dream seed not found
+        """
+        if not self._enable_blockchain or not self._blockchain:
+            raise RuntimeError(
+                "Blockchain features not enabled. Initialize with enable_blockchain=True"
+            )
+
+        # Verify dream seed exists
+        if dream_seed_id not in self.dream_seeds:
+            raise ValueError(f"Dream seed not found: {dream_seed_id}")
+
+        dream_seed = self.dream_seeds[dream_seed_id]
+
+        try:
+            # Prepare NFT metadata from dream seed
+            nft_metadata = {
+                "name": dream_seed.title,
+                "description": dream_seed.description,
+                "attributes": [
+                    {"trait_type": "Dream Type", "value": dream_seed.seed_type.value},
+                    {
+                        "trait_type": "Consent Level",
+                        "value": dream_seed.consent_requirements.value,
+                    },
+                    {
+                        "trait_type": "Revenue Model",
+                        "value": dream_seed.revenue_model.value,
+                    },
+                    {"trait_type": "Usage Count", "value": dream_seed.usage_count},
+                    {"trait_type": "Rating", "value": dream_seed.rating},
+                ],
+                "external_url": f"https://lukhas.ai/dreams/{dream_seed_id}",
+                "license": dream_seed.metadata.get("license", {}),
+            }
+
+            # Mint NFT on blockchain
+            nft = self._blockchain.mint_dream_nft(
+                dream_seed_id=dream_seed_id,
+                content=content,
+                creator_address=creator_blockchain_address,
+                royalty_percentage=royalty_percentage,
+                metadata=nft_metadata,
+            )
+
+            # Store NFT record
+            self.minted_nfts[dream_seed_id] = nft
+            self.total_nfts_minted += 1
+
+            # Update dream seed metadata
+            dream_seed.metadata["nft_token_id"] = nft.token_id
+            dream_seed.metadata["nft_contract_address"] = (
+                self._blockchain.dream_nft_address
+            )
+            dream_seed.metadata["blockchain_network"] = nft.blockchain_network
+
+            # Publish event
+            if self.event_bus:
+                await self.event_bus.publish(
+                    "dream_seed_nft_minted",
+                    {
+                        "dream_seed_id": dream_seed_id,
+                        "token_id": nft.token_id,
+                        "creator_address": creator_blockchain_address,
+                        "content_hash": nft.content_hash,
+                        "metadata_uri": nft.metadata_uri,
+                        "royalty": float(royalty_percentage),
+                    },
+                    source="dream_commerce_engine",
+                )
+
+            self.logger.info(
+                f"Dream seed published as NFT #{nft.token_id}",
+                extra={
+                    "dream_seed_id": dream_seed_id,
+                    "token_id": nft.token_id,
+                    "creator": creator_blockchain_address,
+                },
+            )
+
+            return nft
+
+        except Exception as e:
+            self.logger.error(f"Failed to publish dream seed as NFT: {e}")
+            raise
+
+    async def record_consent_on_blockchain(
+        self,
+        user_blockchain_address: str,
+        dream_seed_id: str,
+        consent_given: bool = True,
+    ) -> ConsentRecord:
+        """
+        Record user consent on blockchain (requires blockchain enabled).
+
+        Creates an immutable on-chain record of user consent for
+        dream commerce activities.
+
+        Args:
+            user_blockchain_address: User's blockchain wallet address
+            dream_seed_id: Dream seed for which consent is given
+            consent_given: Whether consent was granted (default True)
+
+        Returns:
+            ConsentRecord with transaction hash
+
+        Raises:
+            RuntimeError: If blockchain not enabled
+        """
+        if not self._enable_blockchain or not self._blockchain:
+            raise RuntimeError(
+                "Blockchain features not enabled. Initialize with enable_blockchain=True"
+            )
+
+        try:
+            # Record consent on blockchain
+            consent_record = self._blockchain.record_consent_on_chain(
+                user_address=user_blockchain_address,
+                dream_seed_id=dream_seed_id,
+                consent_given=consent_given,
+            )
+
+            # Publish event
+            if self.event_bus:
+                await self.event_bus.publish(
+                    "consent_recorded_on_chain",
+                    {
+                        "user_address": user_blockchain_address,
+                        "dream_seed_id": dream_seed_id,
+                        "consent_given": consent_given,
+                        "transaction_hash": consent_record.transaction_hash,
+                        "ipfs_proof": consent_record.ipfs_proof_hash,
+                    },
+                    source="dream_commerce_engine",
+                )
+
+            self.logger.info(
+                f"Consent recorded on blockchain",
+                extra={
+                    "user": user_blockchain_address,
+                    "dream_seed": dream_seed_id,
+                    "consent": consent_given,
+                    "tx_hash": consent_record.transaction_hash,
+                },
+            )
+
+            return consent_record
+
+        except Exception as e:
+            self.logger.error(f"Failed to record consent on blockchain: {e}")
+            raise
+
+    async def verify_blockchain_consent(
+        self, user_blockchain_address: str, dream_seed_id: str
+    ) -> bool:
+        """
+        Verify user consent from blockchain (requires blockchain enabled).
+
+        Args:
+            user_blockchain_address: User's blockchain wallet address
+            dream_seed_id: Dream seed identifier
+
+        Returns:
+            True if consent was given on-chain, False otherwise
+
+        Raises:
+            RuntimeError: If blockchain not enabled
+        """
+        if not self._enable_blockchain or not self._blockchain:
+            raise RuntimeError(
+                "Blockchain features not enabled. Initialize with enable_blockchain=True"
+            )
+
+        try:
+            consent = self._blockchain.verify_consent_on_chain(
+                user_address=user_blockchain_address, dream_seed_id=dream_seed_id
+            )
+
+            self.logger.debug(
+                f"Blockchain consent verification",
+                extra={
+                    "user": user_blockchain_address,
+                    "dream_seed": dream_seed_id,
+                    "consent": consent,
+                },
+            )
+
+            return consent
+
+        except Exception as e:
+            self.logger.error(f"Failed to verify blockchain consent: {e}")
+            raise
+
+    def get_nft_for_dream_seed(self, dream_seed_id: str) -> Optional[DreamContentNFT]:
+        """
+        Get NFT record for a dream seed if it was minted.
+
+        Args:
+            dream_seed_id: Dream seed identifier
+
+        Returns:
+            DreamContentNFT if minted, None otherwise
+        """
+        return self.minted_nfts.get(dream_seed_id)
+
+    def get_blockchain_status(self) -> dict[str, Any]:
+        """
+        Get blockchain integration status.
+
+        Returns:
+            Dict with blockchain connection status and capabilities
+        """
+        if not self._enable_blockchain or not self._blockchain:
+            return {
+                "enabled": False,
+                "reason": "Blockchain integration not enabled or unavailable",
+            }
+
+        try:
+            return {
+                "enabled": True,
+                **self._blockchain.get_connection_info(),
+            }
+        except Exception as e:
+            return {"enabled": False, "error": str(e)}
 
     # Private helper methods
 
@@ -811,27 +1771,48 @@ class DreamCommerceEngine:
 
     def get_commerce_stats(self) -> dict[str, Any]:
         """Get comprehensive commerce engine statistics"""
-        return {
+        stats = {
             "total_seeds_created": self.total_seeds_created,
             "total_experiences_generated": self.total_experiences_generated,
             "total_revenue_processed": float(self.total_revenue_processed),
             "active_creators": len(self.creator_profiles),
             "marketplace_seeds": len(self.dream_seeds),
             "revenue_models_used": {
-                model.value: len([s for s in self.dream_seeds.values() if s.revenue_model == model])
+                model.value: len(
+                    [s for s in self.dream_seeds.values() if s.revenue_model == model]
+                )
                 for model in RevenueModel
             },
             "seed_types_distribution": {
-                seed_type.value: len([s for s in self.dream_seeds.values() if s.seed_type == seed_type])
+                seed_type.value: len(
+                    [s for s in self.dream_seeds.values() if s.seed_type == seed_type]
+                )
                 for seed_type in DreamSeedType
             },
             "average_seed_price": float(
-                sum(s.price for s in self.dream_seeds.values()) / max(1, len(self.dream_seeds))
+                sum(s.price for s in self.dream_seeds.values())
+                / max(1, len(self.dream_seeds))
             ),
             "platform_revenue_share": self.platform_revenue_share,
             "ethical_validation_enabled": self.ethical_validation_enabled,
             "privacy_validation_required": self.privacy_validation_required,
         }
+
+        # Add blockchain metrics if enabled
+        if self._enable_blockchain:
+            stats["blockchain"] = {
+                "enabled": True,
+                "total_nfts_minted": self.total_nfts_minted,
+                "nft_contracts": len(self.minted_nfts),
+                **self.get_blockchain_status(),
+            }
+        else:
+            stats["blockchain"] = {
+                "enabled": False,
+                "reason": "Blockchain integration not enabled",
+            }
+
+        return stats
 
 
 # Initialize commerce engine
@@ -1025,10 +2006,15 @@ async def startup_commerce_engine():
 # Export main classes
 __all__ = [
     "ConsentLevel",
+    "ConsentRecord",
+    "DreamCommerceBlockchain",
     "DreamCommerceEngine",
+    "DreamContentNFT",
     "DreamExperience",
     "DreamSeed",
     "DreamSeedType",
     "RevenueModel",
+    "WEB3_AVAILABLE",
+    "IPFS_AVAILABLE",
     "router",
 ]

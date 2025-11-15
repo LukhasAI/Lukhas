@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 # Assuming a psycopg2-like connection object is used.
 # The actual client is injected, so this is for type hinting.
@@ -86,7 +86,7 @@ class PgVectorStore:
         self,
         embedding: list[float],
         k: int = 10,
-        filters: dict[str, Any] | None = None,
+        filters: Optional[dict[str, Any]] = None,
     ) -> list[tuple[str, float]]:
         """Return [(id, score)] by cosine distance with optional filters."""
         params = [embedding, k]
@@ -107,7 +107,7 @@ class PgVectorStore:
             return [(row[0], row[1]) for row in cur.fetchall()]
 
     def delete(
-        self, *, id: str | None = None, where: dict[str, Any] | None = None
+        self, *, id: Optional[str] = None, where: Optional[dict[str, Any]] = None
     ) -> int:
         """Delete by id or filter. Return rows affected."""
         if not id and not where:

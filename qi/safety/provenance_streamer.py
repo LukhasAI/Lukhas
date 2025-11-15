@@ -1,4 +1,6 @@
 # path: qi/safety/provenance_streamer.py
+from typing import Optional
+
 from __future__ import annotations
 
 import os
@@ -69,7 +71,7 @@ def healthz():
 def stream_artifact(
     sha: str,
     request: Request,
-    filename: str | None = None,
+    filename: Optional[str] = None,
     chunk_bytes: int = 1024 * 256,
 ):
     """

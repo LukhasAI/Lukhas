@@ -19,7 +19,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -128,7 +128,7 @@ class MemoryNode:
     # Connections
     links: list[MemoryLink] = field(default_factory=list)
     evolves_to: list[str] = field(default_factory=list)  # Future versions
-    evolved_from: str | None = None  # Previous version
+    evolved_from: Optional[str] = None  # Previous version
 
     # Triggers and reflections
     triggers: list[dict[str, Any]] = field(default_factory=list)
@@ -216,7 +216,7 @@ class DNAHelixMemory:
         self.temporal_strand: dict[str, list[str]] = {}  # Evolution chains
 
         # Privacy and security
-        self.encryption_key: bytes | None = None
+        self.encryption_key: Optional[bytes] = None
         self.access_log: list[dict[str, Any]] = []
 
     def add_node(self, node: MemoryNode) -> str:
@@ -375,7 +375,7 @@ class DNAHelixMemory:
 
 
 # Singleton instance
-_dna_memory_instance: DNAHelixMemory | None = None
+_dna_memory_instance: Optional[DNAHelixMemory] = None
 
 
 def get_dna_memory() -> DNAHelixMemory:

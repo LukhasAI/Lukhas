@@ -3,6 +3,8 @@ Normalize PyTest JUnit XML into NDJSON events for Memory Healix.
 Usage:
   python tools/normalize_junit.py --in reports/junit.xml --out reports/events.ndjson
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import argparse
@@ -11,7 +13,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 
-def _coerce_short(s: str | None, n: int = 512) -> str:
+def _coerce_short(s: Optional[str], n: int = 512) -> str:
     return (s or "")[:n]
 
 def main():

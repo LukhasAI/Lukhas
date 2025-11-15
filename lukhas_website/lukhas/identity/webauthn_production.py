@@ -20,7 +20,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -84,7 +84,7 @@ except ImportError:
 # Resolves: #591, #592, #593, #594, #595, #596
 
 
-def _decode_credential_id(credential_id: str) -> bytes | None:
+def _decode_credential_id(credential_id: str) -> Optional[bytes]:
     """Decode a credential ID stored as URL-safe base64."""
     padding = "=" * (-len(credential_id) % 4)
     try:
@@ -131,9 +131,9 @@ class WebAuthnCredential:
     tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG
     status: CredentialStatus = CredentialStatus.ACTIVE
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_used: datetime | None = None
-    device_name: str | None = None
-    aaguid: str | None = None  # Authenticator Attestation GUID
+    last_used: Optional[datetime] = None
+    device_name: Optional[str] = None
+    aaguid: Optional[str] = None  # Authenticator Attestation GUID
     attestation_data: dict[str, Any] = field(default_factory=dict)
     biometric_enrolled: bool = False
     backup_eligible: bool = False
@@ -228,7 +228,7 @@ class WebAuthnCredentialStore:
         """Get all credentials for a user"""
         return self._credentials.get(user_id, [])
 
-    async def get_credential(self, credential_id: str) -> WebAuthnCredential | None:
+    async def get_credential(self, credential_id: str) -> Optional[WebAuthnCredential]:
         """Get specific credential by ID"""
         for credentials in self._credentials.values():
             for credential in credentials:
@@ -264,7 +264,7 @@ class WebAuthnCredentialStore:
         """Store a WebAuthn challenge"""
         self._challenges[challenge.challenge_id] = challenge
 
-    async def get_challenge(self, challenge_id: str) -> WebAuthnChallenge | None:
+    async def get_challenge(self, challenge_id: str) -> Optional[WebAuthnChallenge]:
         """Get a challenge by ID"""
         challenge = self._challenges.get(challenge_id)
         if challenge and challenge.is_expired():
@@ -285,7 +285,7 @@ class WebAuthnManager:
                  rp_id: str,
                  rp_name: str,
                  origin: str,
-                 credential_store: WebAuthnCredentialStore | None = None):
+                 credential_store: Optional[WebAuthnCredentialStore] = None):
         self.rp_id = rp_id
         self.rp_name = rp_name
         self.origin = origin
@@ -326,7 +326,7 @@ class WebAuthnManager:
                                username: str,
                                display_name: str,
                                tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
-                               authenticator_attachment: str | None = None,
+                               authenticator_attachment: Optional[str] = None,
                                resident_key: bool = True) -> dict[str, Any]:
         """Begin WebAuthn credential registration"""
 
@@ -460,7 +460,7 @@ class WebAuthnManager:
     async def finish_registration(self,
                                 challenge_id: str,
                                 credential_data: dict[str, Any],
-                                device_name: str | None = None) -> WebAuthnCredential:
+                                device_name: Optional[str] = None) -> WebAuthnCredential:
         """Complete WebAuthn credential registration"""
 
         with tracer.start_span("webauthn.finish_registration") as span:
@@ -581,7 +581,7 @@ class WebAuthnManager:
                 raise
 
     async def begin_authentication(self,
-                                 user_id: str | None = None,
+                                 user_id: Optional[str] = None,
                                  tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
                                  timeout: int = 300000) -> dict[str, Any]:
         """Begin WebAuthn authentication"""
@@ -908,7 +908,7 @@ class WebAuthnManager:
 
 
 # Global WebAuthn manager instance
-_global_webauthn_manager: WebAuthnManager | None = None
+_global_webauthn_manager: Optional[WebAuthnManager] = None
 
 def get_webauthn_manager(rp_id: str = "ai",
                         rp_name: str = "LUKHAS AI",

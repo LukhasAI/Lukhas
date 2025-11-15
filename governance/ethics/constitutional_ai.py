@@ -2,25 +2,36 @@
 
 from __future__ import annotations
 
-from importlib import import_module
+from _bridgeutils import bridge_from_candidates, safe_guard
 
-__all__: list[str] = []
-
-_CANDIDATES = [
+_CANDIDATES = (
+    "lukhas_website.lukhas.governance.ethics.constitutional_ai",
     "lukhas_website.governance.ethics.constitutional_ai",
-    "governance.ethics.constitutional_ai",
+    "candidate.governance.ethics.constitutional_ai",
     "labs.governance.ethics.constitutional_ai",
-]
+    "labs.core.governance.constitutional_ai",
+)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)
 
-for _name in _CANDIDATES:
-    try:
-        _module = import_module(_name)
-    except Exception:
-        continue
-    for attr in dir(_module):
-        if attr.startswith("_"):
-            continue
-        globals()[attr] = getattr(_module, attr)
-        if attr not in __all__:
-            __all__.append(attr)
-    break
+# Ensure ConstitutionalFramework is always available
+if "ConstitutionalFramework" not in globals():
+    class ConstitutionalFramework:
+        """Stub ConstitutionalFramework class."""
+        def __init__(self, *args, **kwargs):
+            pass
+    globals()["ConstitutionalFramework"] = ConstitutionalFramework
+    if "ConstitutionalFramework" not in __all__:
+        __all__.append("ConstitutionalFramework")
+
+# Ensure ConstitutionalAI is available
+if "ConstitutionalAI" not in globals():
+    class ConstitutionalAI:
+        """Stub ConstitutionalAI class."""
+        def __init__(self, *args, **kwargs):
+            pass
+    globals()["ConstitutionalAI"] = ConstitutionalAI
+    if "ConstitutionalAI" not in __all__:
+        __all__.append("ConstitutionalAI")
+
+safe_guard(__name__, __all__)

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import Any
+from typing import Any, Optional
 from collections.abc import Iterable
 
 __all__ = [
@@ -22,7 +22,7 @@ _CANDIDATES: tuple[str, ...] = (
 )
 
 
-def _maybe(module: str, name: str) -> Any | None:
+def _maybe(module: str, name: str) -> Optional[Any]:
     try:
         mod = import_module(module)
     except Exception:
@@ -30,7 +30,7 @@ def _maybe(module: str, name: str) -> Any | None:
     return getattr(mod, name, None)
 
 
-def _first_available(symbol: str, sources: Iterable[str]) -> Any | None:
+def _first_available(symbol: str, sources: Iterable[str]) -> Optional[Any]:
     for mod in sources:
         value = _maybe(mod, symbol)
         if value is not None:
@@ -82,7 +82,7 @@ except Exception:
 
     if "AuthContext" not in globals():
         class AuthContext:  # type: ignore[misc]
-            def __init__(self, user: Any | None = None) -> None:
+            def __init__(self, user: Optional[Any] = None) -> None:
                 self.user = user
 
     if "get_current_user" not in globals():

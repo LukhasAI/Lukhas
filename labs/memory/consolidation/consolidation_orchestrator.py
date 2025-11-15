@@ -42,7 +42,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Protocol
+from typing import Any, Protocol, Optional
 
 # -------------------- Enums -------------------- #
 
@@ -90,12 +90,12 @@ class InMemoryStore:
     """Demo store for local validation and tests.
     Replace with your production stores (e.g., hippocampal-cache + cortex DB).
     """
-    def __init__(self, short_term: list[MemoryTrace] | None = None):
+    def __init__(self, short_term: Optional[list[MemoryTrace]] = None):
         self.short_term = short_term or []
         self.long_term: list[MemoryFold] = []
 
     @classmethod
-    def seed_demo(cls, n: int = 32, seed: int | None = None) -> "InMemoryStore":
+    def seed_demo(cls, n: int = 32, seed: Optional[int] = None) -> "InMemoryStore":
         rng = random.Random(seed)
         traces = [
             MemoryTrace(

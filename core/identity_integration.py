@@ -25,7 +25,7 @@ import functools
 import logging
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, ClassVar
+from typing import Any, Callable, ClassVar, Optional
 
 import structlog
 
@@ -45,7 +45,7 @@ except ImportError:
     logger.warning("Identity system not available - running without identity validation")
 
 # Global identity client instance
-_identity_client: IdentityClient | None = None
+_identity_client: Optional[IdentityClient] = None
 
 # Lambda Tier Definitions
 LAMBDA_TIERS = [
@@ -134,7 +134,7 @@ class TierMappingConfig:
             return 0  # Default to base tier
 
 
-def get_identity_client() -> IdentityClient | None:
+def get_identity_client() -> Optional[IdentityClient]:
     """Get or create the global identity client instance."""
     global _identity_client
 
@@ -154,7 +154,7 @@ def get_identity_client() -> IdentityClient | None:
 
 def require_identity(
     required_tier: str | int = "LAMBDA_TIER_1",
-    check_consent: str | None = None,
+    check_consent: Optional[str] = None,
 ):
     """
     Decorator that enforces identity validation and tier requirements.
@@ -285,7 +285,7 @@ class IdentityContext:
             )
 
 
-def validate_and_log(user_id: str, activity: str, metadata: dict[str, Any] | None = None) -> bool:
+def validate_and_log(user_id: str, activity: str, metadata: Optional[dict[str, Any]] = None) -> bool:
     """
     Quick validation and logging helper.
 

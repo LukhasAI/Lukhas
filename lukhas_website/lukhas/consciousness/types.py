@@ -13,7 +13,7 @@ from __future__ import annotations
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Literal, Union
+from typing import Any, Literal, Union, Optional
 
 # Core state phases for consciousness lifecycle
 StatePhase = Literal["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]
@@ -51,12 +51,12 @@ class ThoughtLoopContext:
 class ThoughtLoopResult:
     """Result of complete thought loop processing."""
     success: bool
-    thought_synthesis: Any | None
+    thought_synthesis: Optional[Any]
     inference_results: list[Any]
-    contradiction_analysis: Any | None
-    memory_validation: Any | None
-    awareness_snapshot: Any | None
-    meta_assessment: Any | None
+    contradiction_analysis: Optional[Any]
+    memory_validation: Optional[Any]
+    awareness_snapshot: Optional[Any]
+    meta_assessment: Optional[Any]
     overall_quality_score: float
     reasoning_confidence: float
     contradiction_score: float
@@ -223,9 +223,9 @@ class DecisionContext:
     correlation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     # Input context
-    consciousness_state: ConsciousnessState | None = None
-    awareness_snapshot: AwarenessSnapshot | None = None
-    reflection_report: ReflectionReport | None = None
+    consciousness_state: Optional[ConsciousnessState] = None
+    awareness_snapshot: Optional[AwarenessSnapshot] = None
+    reflection_report: Optional[ReflectionReport] = None
 
     # Proposed actions
     proposed_actions: list[dict[str, Any]] = field(default_factory=list)
@@ -233,7 +233,7 @@ class DecisionContext:
 
     # Guardian validation
     guardian_approved: bool = False
-    guardian_response: dict[str, Any] | None = None
+    guardian_response: Optional[dict[str, Any]] = None
 
     def add_proposed_action(self, action_type: str, parameters: dict[str, Any], priority: str = "medium"):
         """Add a proposed action to the decision context"""
@@ -399,7 +399,7 @@ class CreativeTask:
     constraints: list[str] = field(default_factory=list)
 
     # Processing preferences
-    preferred_process: CreativeProcessType | None = None
+    preferred_process: Optional[CreativeProcessType] = None
     imagination_mode: ImaginationMode = "conceptual"
     target_novelty: float = 0.7
     target_coherence: float = 0.8

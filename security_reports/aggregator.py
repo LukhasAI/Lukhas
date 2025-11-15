@@ -10,6 +10,8 @@ from pathlib import Path
 
 class SecurityReportError(RuntimeError):
     """Raised when security report data cannot be processed."""
+from typing import Optional
+
 
 
 _SEVERITY_ORDER: Mapping[str, int] = {
@@ -27,10 +29,10 @@ class VulnerabilityRecord:
     """Normalized representation of a single vulnerability finding."""
 
     identifier: str
-    package: str | None = None
-    installed_version: str | None = None
-    severity: str | None = None
-    description: str | None = None
+    package: Optional[str] = None
+    installed_version: Optional[str] = None
+    severity: Optional[str] = None
+    description: Optional[str] = None
     fix_versions: tuple[str, ...] = ()
     sources: tuple[str, ...] = ()
 
@@ -70,7 +72,7 @@ class SecuritySummary:
         return len(self.vulnerabilities)
 
 
-def _pick_severity(first: str | None, second: str | None) -> str | None:
+def _pick_severity(first: Optional[str], second: Optional[str]) -> Optional[str]:
     """Return the most severe option between ``first`` and ``second``."""
 
     if first is None:
@@ -87,7 +89,7 @@ def _pick_severity(first: str | None, second: str | None) -> str | None:
     return first_norm if _SEVERITY_ORDER.get(first_norm, -1) >= _SEVERITY_ORDER.get(second_norm, -1) else second_norm
 
 
-def _normalize_severity(value: str | None) -> str | None:
+def _normalize_severity(value: Optional[str]) -> Optional[str]:
     if value is None:
         return None
     normalized = str(value).strip().upper()
@@ -144,7 +146,7 @@ class SecurityReportAggregator:
             missing_reports=tuple(sorted(missing)),
         )
 
-    def _load_json_report(self, name: str, missing: list[str]) -> object | None:
+    def _load_json_report(self, name: str, missing: list[str]) -> Optional[object]:
         filenames = self.REPORT_FILES.get(name, ())
         for filename in filenames:
             path = self.reports_dir / filename
@@ -220,7 +222,7 @@ class SecurityReportAggregator:
             )
 
 
-def _to_optional_str(value: object) -> str | None:
+def _to_optional_str(value: object) -> Optional[str]:
     if value is None:
         return None
     text = str(value).strip()

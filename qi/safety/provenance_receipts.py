@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import os
 import time
-from typing import Any
+from typing import Any, Optional
 
 # We reuse your Merkle + ed25519 attestation
 from qi.ops.provenance import attest, merkle_chain  # requires pynacl
@@ -19,12 +19,12 @@ def write_receipt(
     *,
     artifact_sha: str,
     event: str,  # "link_issued" | "download_redirect" | "view_ack"
-    user_id: str | None,
-    url: str | None,
-    client_ip: str | None,
-    user_agent: str | None,
-    purpose: str | None = None,
-    extras: dict[str, Any] | None = None,
+    user_id: Optional[str],
+    url: Optional[str],
+    client_ip: Optional[str],
+    user_agent: Optional[str],
+    purpose: Optional[str] = None,
+    extras: Optional[dict[str, Any]] = None,
     tag: str = "receipt",
 ) -> dict[str, Any]:
     """

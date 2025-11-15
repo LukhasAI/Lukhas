@@ -6,7 +6,7 @@ import json
 import os
 import re
 import urllib.parse
-from typing import Any
+from typing import Any, Optional
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 
@@ -44,8 +44,8 @@ def _s3_presign(
     key: str,
     expires: int,
     *,
-    filename: str | None,
-    content_type: str | None,
+    filename: Optional[str],
+    content_type: Optional[str],
 ) -> str:
     try:
         import boto3  # type: ignore
@@ -70,8 +70,8 @@ def _gcs_presign(
     key: str,
     expires: int,
     *,
-    filename: str | None,
-    content_type: str | None,
+    filename: Optional[str],
+    content_type: Optional[str],
 ) -> str:
     try:
         from google.cloud import storage  # type: ignore
@@ -102,8 +102,8 @@ def presign_url(
     storage_url: str,
     *,
     expires: int = 900,
-    filename: str | None = None,
-    content_type: str | None = None,
+    filename: Optional[str] = None,
+    content_type: Optional[str] = None,
 ) -> dict[str, Any]:
     """
     Return a dict: {"url": ..., "expires_in": seconds, "backend": "s3|gcs|file", "note": "..."}.
@@ -142,7 +142,7 @@ def presign_for_record(
     record_or_sha: dict[str, Any] | str,
     *,
     expires: int = 900,
-    filename: str | None = None,
+    filename: Optional[str] = None,
 ) -> dict[str, Any]:
     """
     Accepts:

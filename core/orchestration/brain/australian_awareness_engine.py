@@ -42,7 +42,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from labs.core.orchestration.brain.GlobalInstitutionalFramework import (
     GlobalConsentData,
@@ -81,8 +81,8 @@ except Exception:  # pragma: no cover - fallback for import-time safety
         LEGITIMATE_INTERESTS = "legitimate_interests"
 
     class GlobalInstitutionalInput(_BaseModel):  # minimal surface
-        consent: Any | None = None
-        processing_record: Any | None = None
+        consent: Optional[Any] = None
+        processing_record: Optional[Any] = None
         user_context: dict[str, Any] = {}
 
     class GlobalInstitutionalOutput(_BaseModel):  # minimal surface
@@ -208,7 +208,7 @@ class AustralianInput(GlobalInstitutionalInput):
     # Cross-border transfers (APP 8)
     involves_overseas_disclosure: bool = Field(default=False)
     overseas_countries: list[str] = Field(default_factory=list)
-    cross_border_approval: CrossBorderApproval | None = None
+    cross_border_approval: Optional[CrossBorderApproval] = None
 
     # Consumer Data Right
     is_cdr_data: bool = Field(default=False)
@@ -549,7 +549,7 @@ class AustralianAwarenessEngine:
     - Indigenous data sovereignty protocols
     """
 
-    def __init__(self, config: AustralianComplianceConfig | None = None):
+    def __init__(self, config: Optional[AustralianComplianceConfig] = None):
         self.config = config or AustralianComplianceConfig()
         self.modules = {"privacy": AustralianPrivacyModule(self.config)}
 

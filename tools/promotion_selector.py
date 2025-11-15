@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 promotion_selector.py - 0.01% surgical picker for promoting files from legacy lanes
 to canonical flat root under `Lukhas/`.
@@ -135,14 +137,14 @@ class FileCandidate:
     target: str = ""              # Lukhas/<module>/<rel_from_module>
 
 
-def _read_json(path: pathlib.Path) -> dict | None:
+def _read_json(path: pathlib.Path) -> Optional[dict]:
     try:
         return json.loads(path.read_text())
     except Exception:
         return None
 
 
-def _discover_legacy_files(modules_filter: set | None) -> list[FileCandidate]:
+def _discover_legacy_files(modules_filter: Optional[set]) -> list[FileCandidate]:
     out: list[FileCandidate] = []
     for lane in LEGACY_LANES:
         lane_path = ROOT / lane
@@ -274,7 +276,7 @@ def _normalize(values: list[float]) -> list[float]:
 
 
 def select_candidates(top: int,
-                      modules_filter: set | None,
+                      modules_filter: Optional[set],
                       w_freq: float,
                       w_recency: float,
                       w_critical: float,
@@ -365,7 +367,7 @@ def _write_plan_csv(rows: list[FileCandidate], path: pathlib.Path) -> None:
             w.writerow([i, f"{r.score:.6f}", r.source, r.lane, r.module, r.rel_from_module, r.target, int(r.import_freq), int(r.mtime), int(r.critical)])
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: Optional[list[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Select top-N legacy files to promote into Lukhas/ flat root.")
     ap.add_argument("--top", type=int, default=DEFAULT_TOP, help=f"How many files to select (default {DEFAULT_TOP})")
     ap.add_argument("--modules", type=str, default="", help="Comma-separated allowlist of modules to consider (e.g., core,identity,api)")

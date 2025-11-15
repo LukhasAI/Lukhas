@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* lukhas.ai color system */
+    --consciousness-deep: #1a1a2e;
+    --awareness-silver: #e8e8f0;
+    --dream-ethereal: #8b7cf6;
+    --dream-ethereal-dark: #6366f1;
+    --lambda-gold: #ffb347;
+
+    --consciousness-neural: #00b894;
+    --guardian-shield: #e17055;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--consciousness-deep);
+    color: var(--awareness-silver);
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}

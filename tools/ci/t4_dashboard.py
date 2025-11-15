@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 T4 Dashboard Generator - Production Lane Visibility
 
@@ -84,7 +86,7 @@ def save_history(history_path: Path, current_metrics: dict, history: list[dict])
     history_path.write_text(json.dumps(history, indent=2), encoding="utf-8")
 
 
-def compute_eta(history: list[dict]) -> dict | None:
+def compute_eta(history: list[dict]) -> Optional[dict]:
     """Compute ETA to <100 violations using linear regression."""
     if len(history) < 2:
         return None
@@ -136,7 +138,7 @@ def compute_eta(history: list[dict]) -> dict | None:
     }
 
 
-def generate_zero_state_html(timestamp: str, refresh_seconds: int | None) -> str:
+def generate_zero_state_html(timestamp: str, refresh_seconds: Optional[int]) -> str:
     """Generate HTML for zero-state (no violations found)."""
     refresh_meta = (
         f'<meta http-equiv="refresh" content="{refresh_seconds}">' if refresh_seconds else ""
@@ -207,7 +209,7 @@ def generate_zero_state_html(timestamp: str, refresh_seconds: int | None) -> str
 
 
 def generate_html(
-    metrics: dict, history: list[dict], eta: dict | None, refresh_seconds: int | None
+    metrics: dict, history: list[dict], eta: Optional[dict], refresh_seconds: Optional[int]
 ) -> str:
     """Generate HTML dashboard with Chart.js."""
     timestamp = datetime.fromisoformat(metrics["timestamp"]).strftime("%Y-%m-%d %H:%M UTC")

@@ -6,7 +6,7 @@ import math
 import random
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 from .measurement_history import MeasurementHistory
 from .superposition_engine import SuperpositionState
@@ -32,7 +32,7 @@ class QuantumMeasurement:
         self,
         *,
         rng: random.Random | None = None,
-        history: MeasurementHistory | None = None,
+        history: Optional[MeasurementHistory] = None,
     ) -> None:
         self._rng = rng or random.Random()
         self._history = history or MeasurementHistory()
@@ -40,7 +40,7 @@ class QuantumMeasurement:
     def collapse(
         self,
         state: SuperpositionState,
-        context: Mapping[str, Any] | None = None,
+        context: Optional[Mapping[str, Any]] = None,
     ) -> MeasurementResult:
         """Collapse a superposition into a single option."""
         if not state.options:

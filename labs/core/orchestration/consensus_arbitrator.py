@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 import time
 from dataclasses import dataclass
-from typing import Iterable
+from typing import Iterable, Optional
 
 
 @dataclass
@@ -23,7 +23,7 @@ class Proposal:
     rationale: str = ""
 
 
-def score(p: Proposal, now: float | None = None) -> float:
+def score(p: Proposal, now: Optional[float] = None) -> float:
     now = now or time.time()
     if p.ethics_risk >= 0.8:
         return -math.inf

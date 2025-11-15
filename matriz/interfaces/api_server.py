@@ -107,7 +107,7 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
 # Import MATRIZ components
@@ -142,13 +142,15 @@ class NodeCreationRequest(BaseModel):
     node_type: str = Field(..., max_length=100, pattern="^[a-zA-Z0-9_]+$")
     config: dict = Field(..., max_items=50)
 
-    @validator("node_type")
+    @field_validator("node_type")
+    @classmethod
     def validate_node_type(cls, v):
         if v not in ALLOWED_NODE_TYPES:
             raise ValueError(f"Invalid node type: {v}")
         return v
 
-    @validator("config")
+    @field_validator("config")
+    @classmethod
     def validate_config(cls, v):
         if get_depth(v) > 10:
             raise ValueError("Config too deeply nested")
@@ -187,13 +189,15 @@ class QueryRequest(BaseModel):
     include_trace: bool = Field(default=True, description="Include detailed execution trace")
     include_nodes: bool = Field(default=True, description="Include MATRIZ nodes in response")
 
-    @validator("query")
+    @field_validator("query")
+    @classmethod
     def validate_query(cls, v):
         if not v or not v.strip():
             raise ValueError("Query cannot be empty")
         return v.strip()
 
-    @validator("trace_id")
+    @field_validator("trace_id")
+    @classmethod
     def validate_trace_id(cls, v):
         if v and len(v) < 8:
             raise ValueError("Trace ID must be at least 8 characters")

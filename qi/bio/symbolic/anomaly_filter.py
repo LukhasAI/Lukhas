@@ -16,7 +16,7 @@ import logging
 from collections import defaultdict, deque
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 from core.colonies.base_colony import BaseColony
@@ -955,7 +955,7 @@ class AnomalyFilterColony(BaseColony):
 
 # Colony instance factory
 def create_anomaly_filter_colony(
-    colony_id: str | None = None,
+    colony_id: Optional[str] = None,
 ) -> AnomalyFilterColony:
     """Create a new anomaly filter colony instance."""
     return AnomalyFilterColony(colony_id or "anomaly_filter_default")

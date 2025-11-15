@@ -23,12 +23,14 @@ except Exception:
 @dataclass
 class EmbeddingIndex:
     """Approximate nearest neighbour index with symbolic tracing."""
+from typing import Optional
+
 
     metric: str = "angular"
     trees: int = 10
-    dimension: int | None = None
+    dimension: Optional[int] = None
     _vectors: dict[str, list[float]] = field(default_factory=dict)
-    _annoy_index: AnnoyIndex | None = None
+    _annoy_index: Optional[AnnoyIndex] = None
     _annoy_id_map: dict[int, str] = field(default_factory=dict)
     _dirty: bool = True
 

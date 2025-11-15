@@ -141,13 +141,13 @@ _ensure_identity_module(
 _ensure_identity_module("token_storage", TokenStorage=_StubTokenStorage)
 _ensure_identity_module("webauthn", WebAuthnService=_StubWebAuthnService)
 class _StubAuthorizationRequest(BaseModel):  # pragma: no cover - simple stub
-    client_id: str | None = None
-    redirect_uri: str | None = None
+    client_id: Optional[str] = None
+    redirect_uri: Optional[str] = None
 
 
 class _StubErrorResponse(BaseModel):  # pragma: no cover - simple stub
-    error: str | None = None
-    error_description: str | None = None
+    error: Optional[str] = None
+    error_description: Optional[str] = None
 
 
 _ensure_identity_module(
@@ -263,6 +263,8 @@ pytestmark = pytest.mark.asyncio
 
 async def test_get_tiered_auth_system_returns_cached_instance(monkeypatch):
     """Tiered auth system should initialize once and cache the instance."""
+from typing import Optional
+
     class _DummyGuardian:
         pass
 

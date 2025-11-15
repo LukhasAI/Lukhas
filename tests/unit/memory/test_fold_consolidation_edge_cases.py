@@ -197,7 +197,11 @@ class TestTagNormalization:
         # Note: Current implementation might not skip empty tags - this tests actual behavior
         tag_names = {
             system.tag_registry[tid].tag_name
+<<<<<<< HEAD
             for tid in system.tag_registry
+=======
+            for tid in system.tag_registry.keys()
+>>>>>>> test/memory-fold-edge-cases
         }
 
         # Should not have empty string as tag (or should handle gracefully)
@@ -531,7 +535,11 @@ class TestImportExport:
         tmp_path = Path("/tmp/test_filtered_export.lkf")
 
         # Export only public items
+<<<<<<< HEAD
         await system.export_archive(tmp_path, filter_tags=["public"], timezone=timezone.utc)
+=======
+        stats = await system.export_archive(tmp_path, filter_tags=["public"], timezone=timezone.utc)
+>>>>>>> test/memory-fold-edge-cases
 
         # Verify export includes only filtered items
         # (Would need to actually parse the LKF file to verify completely)
@@ -546,7 +554,11 @@ class TestImportExport:
         system = MemoryFoldSystem(enable_auto_tagging=False)
 
         # Create original item
+<<<<<<< HEAD
         await system.fold_in(
+=======
+        original_id = await system.fold_in(
+>>>>>>> test/memory-fold-edge-cases
             data={"message": "original"},
             tags=["original"],
         )
@@ -579,11 +591,19 @@ class TestImportExport:
         await system.export_archive(tmp_path, timezone=timezone.utc)
 
         # Manually add tags to existing item
+<<<<<<< HEAD
         item_id = next(iter(system.items.keys()))
         await system._add_tags_to_item(item_id, ["tag2"])
 
         # Import with tag merging
         await system.import_archive(tmp_path, overwrite=False, merge_tags=True)
+=======
+        item_id = list(system.items.keys())[0]
+        await system._add_tags_to_item(item_id, ["tag2"])
+
+        # Import with tag merging
+        stats = await system.import_archive(tmp_path, overwrite=False, merge_tags=True)
+>>>>>>> test/memory-fold-edge-cases
 
         # Original tags should remain
         item_tags = {

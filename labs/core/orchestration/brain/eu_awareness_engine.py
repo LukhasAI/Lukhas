@@ -31,7 +31,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Protocol
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 # --- EU Regulatory Compliance Framework ----------------------- #
 
@@ -185,7 +185,8 @@ class ConsentData(BaseModel):
     withdrawal_possible: bool = True
     consent_version: str = "1.0"
 
-    @validator("legal_basis")
+    @field_validator("legal_basis")
+    @classmethod
     def validate_consent_basis(cls, v):
         if v == GDPRLegalBasis.CONSENT:
             return v

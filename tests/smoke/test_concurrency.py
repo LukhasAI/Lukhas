@@ -18,8 +18,9 @@ from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
 @pytest.fixture
-def client():
-    """Create test client."""
+def client(monkeypatch):
+    """Create test client with strict auth mode enabled."""
+    monkeypatch.setenv("LUKHAS_POLICY_MODE", "strict")
     return TestClient(app)
 
 

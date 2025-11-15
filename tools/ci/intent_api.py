@@ -8,7 +8,7 @@ import sqlite3
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.security import APIKeyHeader
@@ -233,27 +233,27 @@ async def audit_middleware(request: Request, call_next):
 class IntentIn(BaseModel):
     id: str = Field(..., example="T4-abc123")
     code: str
-    type: str | None = "lint"
-    file: str | None
-    line: int | None
-    import_text: str | None
-    reason_category: str | None
-    reason: str | None
-    suggestion: str | None
-    owner: str | None
-    ticket: str | None
-    eta: str | None
-    status: str | None = "reserved"
-    created_at: str | None = None
-    raw: Dict | None = None
+    type: Optional[str] = "lint"
+    file: Optional[str]
+    line: Optional[int]
+    import_text: Optional[str]
+    reason_category: Optional[str]
+    reason: Optional[str]
+    suggestion: Optional[str]
+    owner: Optional[str]
+    ticket: Optional[str]
+    eta: Optional[str]
+    status: Optional[str] = "reserved"
+    created_at: Optional[str] = None
+    raw: Optional[Dict] = None
 
 
 class AdminCreateKey(BaseModel):
     agent_id: str
-    owner: str | None = None
-    scopes: str | None = None
-    expires_in_days: int | None = None
-    daily_limit: float | None = 100.0
+    owner: Optional[str] = None
+    scopes: Optional[str] = None
+    expires_in_days: Optional[int] = None
+    daily_limit: Optional[float] = 100.0
 
 
 # --- DB helpers ---
@@ -367,7 +367,7 @@ async def patch_intent(intent_id: str, patch: dict, keyinfo: dict = Depends(requ
 
 
 @APP.delete("/intents/{intent_id}")
-async def delete_intent(intent_id: str, admin_token: str | None = None):
+async def delete_intent(intent_id: str, admin_token: Optional[str] = None):
     if admin_token != ADMIN_TOKEN:
         raise HTTPException(status_code=403, detail="Admin token required")
     conn = get_conn()
@@ -412,13 +412,13 @@ async def metrics_summary(keyinfo: dict = Depends(require_api_key)):
 
 
 # --- Admin: API key management ---
-def require_admin_token(token: str | None):
+def require_admin_token(token: Optional[str]):
     if token != ADMIN_TOKEN:
         raise HTTPException(status_code=403, detail="Invalid admin token")
 
 
 @APP.post("/admin/api_keys")
-def admin_create_key(payload: AdminCreateKey, admin_token: str | None = None):
+def admin_create_key(payload: AdminCreateKey, admin_token: Optional[str] = None):
     require_admin_token(admin_token)
     key = secrets.token_urlsafe(32)
     agent_id = payload.agent_id
@@ -439,7 +439,7 @@ def admin_create_key(payload: AdminCreateKey, admin_token: str | None = None):
 
 
 @APP.delete("/admin/api_keys/{key}")
-def admin_revoke_key(key: str, admin_token: str | None = None):
+def admin_revoke_key(key: str, admin_token: Optional[str] = None):
     require_admin_token(admin_token)
     conn = get_conn()
     conn.execute("UPDATE api_keys SET revoked=1 WHERE key=?", (key,))
@@ -449,7 +449,7 @@ def admin_revoke_key(key: str, admin_token: str | None = None):
 
 
 @APP.get("/admin/api_keys")
-def admin_list_keys(admin_token: str | None = None):
+def admin_list_keys(admin_token: Optional[str] = None):
     require_admin_token(admin_token)
     conn = get_conn()
     rows = conn.execute(
