@@ -20,11 +20,24 @@ import re
 import warnings
 from dataclasses import dataclass, field
 from datetime import datetime
+from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 
 logger = logging.getLogger(__name__)
+
+
+# ============================================================================
+# Enums
+# ============================================================================
+
+
+class CircuitBreakerState(Enum):
+    """Circuit breaker states for fault tolerance."""
+    CLOSED = "closed"  # Normal operation
+    OPEN = "open"  # Failing, reject requests
+    HALF_OPEN = "half_open"  # Testing recovery
 
 
 # ============================================================================

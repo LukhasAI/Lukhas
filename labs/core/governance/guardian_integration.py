@@ -353,6 +353,7 @@ class GuardianIntegrationMiddleware:
 
                 compliance_metadata: dict[str, Any] = {
                     "required_actions": list(compliance_outcome.get("required_actions") or []),
+                }
                 for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
                     value = compliance_outcome.get(field)
                     if value is not None:

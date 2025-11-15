@@ -25,6 +25,11 @@ from enum import Enum
 from typing import Any, Optional
 
 
+class EncryptionError(Exception):
+    """Base exception for encryption-related errors."""
+    pass
+
+
 class EncryptionAlgorithm(str, Enum):
     """Algorithms supported by the lightweight encryption manager."""
 

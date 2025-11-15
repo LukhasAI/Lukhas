@@ -7,15 +7,13 @@ Falls back to HMAC in development environments where liboqs is unavailable.
 MATRIZ-007: PQC Migration
 Status: Week 1 - Initial Implementation
 """
-from typing import Optional
-
-
 from __future__ import annotations
 
 import hashlib
 import hmac
 import os
 from pathlib import Path
+from typing import Optional
 
 # Try to import liboqs for PQC support
 PQC_AVAILABLE = False

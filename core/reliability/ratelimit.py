@@ -19,8 +19,18 @@ import math
 import os
 import time
 from collections import defaultdict
+from dataclasses import dataclass, field
 from threading import Lock
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+
+@dataclass
+class QuotaConfig:
+    """Configuration for rate limiting quotas."""
+    defaults: Dict[str, Any] = field(default_factory=lambda: {"rate_per_sec": 100, "burst": 200})
+    orgs: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    tokens: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    routes: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
 
 class TokenBucket:

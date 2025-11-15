@@ -6,6 +6,7 @@ import difflib
 import re
 from collections import Counter
 from collections.abc import Mapping
+from typing import Optional
 
 # ΛTAG: text_tokenization
 _TOKEN_PATTERN = re.compile(r"\b[\w\-']+\b")
@@ -24,8 +25,6 @@ def render_frequency_line(
     label: Optional[str] = None,
 ) -> str:
     """Render a formatted frequency line with severity indicators."""
-from typing import Optional
-
     if scale <= 0:
         raise ValueError("scale must be positive")
     if count < 0:
