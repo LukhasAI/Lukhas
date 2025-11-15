@@ -1,585 +1,597 @@
 """
-Comprehensive unit tests for serve/consciousness_api.py
+Comprehensive unit tests for Consciousness API
 
-Tests consciousness API endpoints including:
-- Query endpoint (awareness level)
-- Dream endpoint (dream sequence initiation)
-- Memory endpoint (memory state retrieval)
-- Response format validation
-- Async behavior and timing
+Tests all endpoints, authorization, error handling, and integration points.
 """
 
-import asyncio
-from unittest.mock import AsyncMock, patch
-
 import pytest
+from datetime import datetime, timezone
+from unittest.mock import Mock, patch, MagicMock
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
-from serve.consciousness_api import dream, memory, query, router
+
+# Import the router and components
+from serve.consciousness_api import (
+    router,
+    require_admin,
+    get_drift_detector,
+    get_consciousness_engine,
+    get_guardian,
+    ConsciousnessStatus,
+    AwarenessUpdate,
+    DriftDetectionRequest,
+    DriftDetectionResponse,
+    MetricsResponse,
+    _MockDriftDetector,
+    _MockConsciousnessEngine,
+    _MockGuardian,
+)
 
 
-# Create a test client for the router
+# --- Fixtures ---
 @pytest.fixture
-def client():
-    """Fixture providing a FastAPI test client."""
-    from fastapi import FastAPI
+def mock_admin_user():
+    """Mock admin user for testing."""
+    return {
+        "username": "admin_user",
+        "role": "admin",
+    }
 
+
+@pytest.fixture
+def mock_regular_user():
+    """Mock regular user for testing."""
+    return {
+        "username": "regular_user",
+        "role": "user",
+    }
+
+
+@pytest.fixture
+def mock_guest_user():
+    """Mock guest user for testing."""
+    return {
+        "username": "guest_user",
+        "role": "guest",
+    }
+
+
+@pytest.fixture
+def drift_detector():
+    """Fixture for drift detector."""
+    return _MockDriftDetector()
+
+
+@pytest.fixture
+def consciousness_engine():
+    """Fixture for consciousness engine."""
+    return _MockConsciousnessEngine()
+
+
+@pytest.fixture
+def guardian():
+    """Fixture for guardian."""
+    return _MockGuardian()
+
+
+@pytest.fixture
+def app():
+    """Create test FastAPI app."""
+    from fastapi import FastAPI
     app = FastAPI()
     app.include_router(router)
+    return app
+
+
+@pytest.fixture
+def client(app):
+    """Create test client."""
     return TestClient(app)
 
 
-class TestQueryEndpoint:
-    """Test consciousness query endpoint."""
+# --- Test Authorization ---
+class TestAuthorization:
+    """Test admin authorization dependency."""
 
-    @pytest.mark.asyncio
-    async def test_query_returns_awareness_level(self):
-        """Test that query endpoint returns awareness level."""
-        result = await query()
+    def test_require_admin_with_admin_role(self, mock_admin_user):
+        """Test that admin users pass authorization."""
+        result = require_admin(current_user=mock_admin_user)
+        assert result == mock_admin_user
 
-        assert "response" in result
-        assert isinstance(result["response"], str)
-        assert "awareness level" in result["response"].lower()
+    def test_require_admin_with_user_role(self, mock_regular_user):
+        """Test that regular users are rejected."""
+        with pytest.raises(HTTPException) as exc_info:
+            require_admin(current_user=mock_regular_user)
 
-    @pytest.mark.asyncio
-    async def test_query_response_format(self):
-        """Test query response has correct format."""
-        result = await query()
+        assert exc_info.value.status_code == 403
+        assert "Admin role required" in exc_info.value.detail
 
-        # Should have exactly one key
-        assert len(result) == 1
-        assert "response" in result
+    def test_require_admin_with_guest_role(self, mock_guest_user):
+        """Test that guests are rejected."""
+        with pytest.raises(HTTPException) as exc_info:
+            require_admin(current_user=mock_guest_user)
 
-    @pytest.mark.asyncio
-    async def test_query_response_content(self):
-        """Test query response contains expected content."""
-        result = await query()
+        assert exc_info.value.status_code == 403
 
-        response_text = result["response"]
-        assert response_text == "The current awareness level is high."
+    def test_require_admin_with_no_role(self):
+        """Test that users without role are rejected."""
+        user_without_role = {"username": "no_role_user"}
+        with pytest.raises(HTTPException) as exc_info:
+            require_admin(current_user=user_without_role)
 
-    @pytest.mark.asyncio
-    async def test_query_executes_with_delay(self):
-        """Test that query includes processing delay."""
-        import time
+        assert exc_info.value.status_code == 403
 
-        start = time.time()
-        await query()
-        duration = time.time() - start
 
-        # Should take at least 8ms (0.008s)
-        # Allow some tolerance for system overhead
-        assert duration >= 0.005  # 5ms minimum to account for variance
+# --- Test Pydantic Models ---
+class TestPydanticModels:
+    """Test Pydantic model validation."""
 
-    @pytest.mark.asyncio
-    async def test_query_via_api(self, client):
-        """Test query endpoint via API."""
-        response = client.post("/api/v1/consciousness/query")
+    def test_awareness_update_valid(self):
+        """Test valid awareness update."""
+        update = AwarenessUpdate(
+            new_level=0.8,
+            reason="Testing awareness",
+            metadata={"test": "data"}
+        )
+        assert update.new_level == 0.8
+        assert update.reason == "Testing awareness"
 
+    def test_awareness_update_invalid_level_high(self):
+        """Test awareness update with level > 1.0."""
+        with pytest.raises(ValueError):
+            AwarenessUpdate(
+                new_level=1.5,
+                reason="Invalid level",
+            )
+
+    def test_awareness_update_invalid_level_low(self):
+        """Test awareness update with level < 0.0."""
+        with pytest.raises(ValueError):
+            AwarenessUpdate(
+                new_level=-0.5,
+                reason="Invalid level",
+            )
+
+    def test_awareness_update_boundary_values(self):
+        """Test awareness update with boundary values."""
+        # Test 0.0
+        update1 = AwarenessUpdate(new_level=0.0, reason="Minimum")
+        assert update1.new_level == 0.0
+
+        # Test 1.0
+        update2 = AwarenessUpdate(new_level=1.0, reason="Maximum")
+        assert update2.new_level == 1.0
+
+    def test_drift_detection_request_valid(self):
+        """Test valid drift detection request."""
+        request = DriftDetectionRequest(
+            baseline_state={"metric1": 100, "metric2": 200},
+            current_state={"metric1": 110, "metric2": 190},
+        )
+        assert request.baseline_state["metric1"] == 100
+        assert request.current_state["metric2"] == 190
+
+    def test_drift_detection_request_empty_states(self):
+        """Test drift detection with empty states."""
+        request = DriftDetectionRequest(
+            baseline_state={},
+            current_state={},
+        )
+        assert request.baseline_state == {}
+        assert request.current_state == {}
+
+
+# --- Test Mock Implementations ---
+class TestMockImplementations:
+    """Test fallback mock implementations."""
+
+    def test_mock_drift_detector_summarize(self, drift_detector):
+        """Test mock drift detector summarize."""
+        summary = drift_detector.summarize_layers()
+        assert "layers" in summary
+        assert "timestamp" in summary
+        assert "reasoning" in summary["layers"]
+        assert "memory" in summary["layers"]
+
+    def test_mock_drift_detector_query(self, drift_detector):
+        """Test mock drift detector query."""
+        results = drift_detector.query_archived_snapshots()
+        assert isinstance(results, list)
+        assert len(results) == 0
+
+    def test_mock_drift_detector_record(self, drift_detector):
+        """Test mock drift detector record (no-op)."""
+        # Should not raise any exception
+        drift_detector.record_snapshot(
+            layer_id="test",
+            driftScore=0.1,
+            affect_delta=0.05,
+        )
+
+    def test_mock_consciousness_engine_status(self, consciousness_engine):
+        """Test mock consciousness engine status."""
+        status = consciousness_engine.get_status()
+        assert status["active"] is True
+        assert "threads" in status
+        assert "subsystems" in status
+        assert status["threads"] == 3
+
+    def test_mock_consciousness_engine_metrics(self, consciousness_engine):
+        """Test mock consciousness engine metrics."""
+        metrics = consciousness_engine.get_metrics()
+        assert "processing_time_ms" in metrics
+        assert "memory_usage_mb" in metrics
+        assert "active_threads" in metrics
+        assert metrics["processing_time_ms"] == 150
+
+    def test_mock_guardian_is_active(self, guardian):
+        """Test mock guardian is_active."""
+        assert guardian.is_active() is True
+
+    def test_mock_guardian_check_policy(self, guardian):
+        """Test mock guardian check_policy."""
+        result = guardian.check_policy("test_action")
+        assert result["allowed"] is True
+        assert "reason" in result
+
+
+# --- Test Endpoints ---
+class TestHealthEndpoint:
+    """Test health check endpoint."""
+
+    def test_health_check(self, client):
+        """Test health check endpoint."""
+        response = client.get("/consciousness/health")
         assert response.status_code == 200
         data = response.json()
-        assert "response" in data
-        assert "awareness level" in data["response"].lower()
+        assert data["status"] == "healthy"
+        assert "timestamp" in data
+        assert "components" in data
 
-    @pytest.mark.asyncio
-    async def test_query_endpoint_documentation(self):
-        """Test that query endpoint has proper documentation."""
-        # The endpoint should have summary and description
-        # This is verified by checking the route definition exists
-        assert query.__name__ == "query"
-
-
-class TestDreamEndpoint:
-    """Test consciousness dream endpoint."""
-
-    @pytest.mark.asyncio
-    async def test_dream_returns_dream_id(self):
-        """Test that dream endpoint returns dream_id."""
-        result = await dream()
-
-        assert "dream_id" in result
-        assert isinstance(result["dream_id"], str)
-
-    @pytest.mark.asyncio
-    async def test_dream_returns_status(self):
-        """Test that dream endpoint returns status."""
-        result = await dream()
-
-        assert "status" in result
-        assert isinstance(result["status"], str)
-
-    @pytest.mark.asyncio
-    async def test_dream_response_format(self):
-        """Test dream response has correct format."""
-        result = await dream()
-
-        # Should have exactly two keys
-        assert len(result) == 2
-        assert "dream_id" in result
-        assert "status" in result
-
-    @pytest.mark.asyncio
-    async def test_dream_response_content(self):
-        """Test dream response contains expected values."""
-        result = await dream()
-
-        assert result["dream_id"] == "dream-123"
-        assert result["status"] == "generating"
-
-    @pytest.mark.asyncio
-    async def test_dream_executes_with_delay(self):
-        """Test that dream includes processing delay."""
-        import time
-
-        start = time.time()
-        await dream()
-        duration = time.time() - start
-
-        # Should take at least 20ms (0.02s)
-        # Allow some tolerance for system overhead
-        assert duration >= 0.015  # 15ms minimum to account for variance
-
-    @pytest.mark.asyncio
-    async def test_dream_via_api(self, client):
-        """Test dream endpoint via API."""
-        response = client.post("/api/v1/consciousness/dream")
-
-        assert response.status_code == 200
+    def test_health_check_components(self, client):
+        """Test health check includes component status."""
+        response = client.get("/consciousness/health")
         data = response.json()
-        assert "dream_id" in data
-        assert "status" in data
-        assert data["dream_id"] == "dream-123"
-        assert data["status"] == "generating"
-
-    @pytest.mark.asyncio
-    async def test_dream_id_format(self):
-        """Test dream_id has expected format."""
-        result = await dream()
-
-        dream_id = result["dream_id"]
-        assert dream_id.startswith("dream-")
-        assert len(dream_id) > 6  # More than just "dream-"
-
-    @pytest.mark.asyncio
-    async def test_dream_status_value(self):
-        """Test dream status has expected value."""
-        result = await dream()
-
-        status = result["status"]
-        assert status == "generating"
+        components = data["components"]
+        assert "drift_detector" in components
+        assert "consciousness_engine" in components
+        assert "guardian" in components
+        assert isinstance(components["drift_detector"], bool)
 
 
-class TestMemoryEndpoint:
-    """Test consciousness memory endpoint."""
+class TestStatusEndpoint:
+    """Test consciousness status endpoint."""
 
-    @pytest.mark.asyncio
-    async def test_memory_returns_memory_folds(self):
-        """Test that memory endpoint returns memory_folds."""
-        result = await memory()
+    @patch("serve.consciousness_api.get_drift_detector")
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_get_status_endpoint(self, mock_engine, mock_drift, client):
+        """Test GET /status endpoint."""
+        # Setup mocks
+        mock_engine.return_value = _MockConsciousnessEngine()
+        mock_drift.return_value = _MockDriftDetector()
 
-        assert "memory_folds" in result
-        assert isinstance(result["memory_folds"], int)
-
-    @pytest.mark.asyncio
-    async def test_memory_returns_recall_accuracy(self):
-        """Test that memory endpoint returns recall_accuracy."""
-        result = await memory()
-
-        assert "recall_accuracy" in result
-        assert isinstance(result["recall_accuracy"], float)
-
-    @pytest.mark.asyncio
-    async def test_memory_response_format(self):
-        """Test memory response has correct format."""
-        result = await memory()
-
-        # Should have exactly two keys
-        assert len(result) == 2
-        assert "memory_folds" in result
-        assert "recall_accuracy" in result
-
-    @pytest.mark.asyncio
-    async def test_memory_response_content(self):
-        """Test memory response contains expected values."""
-        result = await memory()
-
-        assert result["memory_folds"] == 1024
-        assert result["recall_accuracy"] == 0.98
-
-    @pytest.mark.asyncio
-    async def test_memory_executes_with_delay(self):
-        """Test that memory includes processing delay."""
-        import time
-
-        start = time.time()
-        await memory()
-        duration = time.time() - start
-
-        # Should take at least 4ms (0.004s)
-        # Allow some tolerance for system overhead
-        assert duration >= 0.002  # 2ms minimum to account for variance
-
-    @pytest.mark.asyncio
-    async def test_memory_via_api(self, client):
-        """Test memory endpoint via API."""
-        response = client.get("/api/v1/consciousness/memory")
-
-        assert response.status_code == 200
-        data = response.json()
-        assert "memory_folds" in data
-        assert "recall_accuracy" in data
-        assert data["memory_folds"] == 1024
-        assert data["recall_accuracy"] == 0.98
-
-    @pytest.mark.asyncio
-    async def test_memory_folds_is_positive(self):
-        """Test that memory_folds is a positive number."""
-        result = await memory()
-
-        assert result["memory_folds"] > 0
-
-    @pytest.mark.asyncio
-    async def test_recall_accuracy_in_valid_range(self):
-        """Test that recall_accuracy is in valid range [0, 1]."""
-        result = await memory()
-
-        recall = result["recall_accuracy"]
-        assert 0.0 <= recall <= 1.0
-
-
-class TestEndpointHTTPMethods:
-    """Test HTTP method handling for endpoints."""
-
-    def test_query_is_post_only(self, client):
-        """Test that query endpoint only accepts POST."""
-        # GET should not be allowed
-        response = client.get("/api/v1/consciousness/query")
-        assert response.status_code == 405  # Method Not Allowed
-
-        # POST should work
-        response = client.post("/api/v1/consciousness/query")
+        response = client.get("/consciousness/status")
         assert response.status_code == 200
 
-    def test_dream_is_post_only(self, client):
-        """Test that dream endpoint only accepts POST."""
-        # GET should not be allowed
-        response = client.get("/api/v1/consciousness/dream")
-        assert response.status_code == 405  # Method Not Allowed
+        data = response.json()
+        assert data["status"] in ["active", "idle", "degraded"]
+        assert 0.0 <= data["awareness_level"] <= 1.0
+        assert data["active_threads"] >= 0
+        assert "subsystems" in data
+        assert "drift_score" in data
+        assert "last_update" in data
 
-        # POST should work
-        response = client.post("/api/v1/consciousness/dream")
+    @patch("serve.consciousness_api.get_drift_detector")
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_get_status_subsystems(self, mock_engine, mock_drift, client):
+        """Test status endpoint returns subsystem information."""
+        mock_engine.return_value = _MockConsciousnessEngine()
+        mock_drift.return_value = _MockDriftDetector()
+
+        response = client.get("/consciousness/status")
+        data = response.json()
+
+        subsystems = data["subsystems"]
+        assert "reasoning" in subsystems
+        assert "memory" in subsystems
+        assert "learning" in subsystems
+
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_status_error_handling(self, mock_engine, client):
+        """Test status endpoint error handling."""
+        mock_engine.side_effect = Exception("Engine failure")
+
+        response = client.get("/consciousness/status")
+        assert response.status_code == 500
+        assert "Failed to get consciousness status" in response.json()["detail"]
+
+
+class TestMetricsEndpoint:
+    """Test metrics endpoint."""
+
+    @patch("serve.consciousness_api.get_drift_detector")
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_get_metrics_endpoint(self, mock_engine, mock_drift, client):
+        """Test GET /metrics endpoint."""
+        mock_engine.return_value = _MockConsciousnessEngine()
+        mock_drift.return_value = _MockDriftDetector()
+
+        response = client.get("/consciousness/metrics")
         assert response.status_code == 200
 
-    def test_memory_is_get_only(self, client):
-        """Test that memory endpoint only accepts GET."""
-        # POST should not be allowed
-        response = client.post("/api/v1/consciousness/memory")
-        assert response.status_code == 405  # Method Not Allowed
+        data = response.json()
+        assert "processing_time_avg_ms" in data
+        assert "memory_usage_mb" in data
+        assert "active_threads" in data
+        assert "drift_history" in data
+        assert isinstance(data["drift_history"], list)
 
-        # GET should work
-        response = client.get("/api/v1/consciousness/memory")
+    @patch("serve.consciousness_api.get_drift_detector")
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_metrics_drift_history(self, mock_engine, mock_drift, client):
+        """Test metrics endpoint includes drift history."""
+        mock_engine.return_value = _MockConsciousnessEngine()
+        mock_drift.return_value = _MockDriftDetector()
+
+        response = client.get("/consciousness/metrics")
+        data = response.json()
+
+        drift_history = data["drift_history"]
+        assert len(drift_history) >= 0
+        if len(drift_history) > 0:
+            item = drift_history[0]
+            assert "layer_id" in item
+            assert "drift_score" in item
+            assert "affect_delta" in item
+
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_metrics_error_handling(self, mock_engine, client):
+        """Test metrics endpoint error handling."""
+        mock_engine.side_effect = Exception("Metrics failure")
+
+        response = client.get("/consciousness/metrics")
+        assert response.status_code == 500
+
+
+class TestDriftDetectEndpoint:
+    """Test drift detection endpoint."""
+
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_endpoint(self, mock_drift, client):
+        """Test POST /drift/detect endpoint."""
+        mock_drift.return_value = _MockDriftDetector()
+
+        request_data = {
+            "baseline_state": {"metric1": 100, "metric2": 200},
+            "current_state": {"metric1": 110, "metric2": 190},
+        }
+
+        response = client.post("/consciousness/drift/detect", json=request_data)
         assert response.status_code == 200
 
+        data = response.json()
+        assert "drift_score" in data
+        assert "drift_details" in data
+        assert "threshold_exceeded" in data
+        assert "recommendation" in data
+        assert isinstance(data["drift_score"], float)
+        assert data["drift_score"] >= 0.0
 
-class TestEndpointDocumentation:
-    """Test endpoint documentation and metadata."""
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_no_drift(self, mock_drift, client):
+        """Test drift detection with identical states."""
+        mock_drift.return_value = _MockDriftDetector()
 
-    def test_query_has_documentation(self, client):
-        """Test that query endpoint has proper documentation."""
-        from fastapi import FastAPI
+        request_data = {
+            "baseline_state": {"metric1": 100},
+            "current_state": {"metric1": 100},
+        }
 
-        app = FastAPI()
-        app.include_router(router)
-
-        # Get OpenAPI schema
-        openapi_schema = app.openapi()
-        query_path = openapi_schema["paths"]["/api/v1/consciousness/query"]["post"]
-
-        assert "summary" in query_path
-        assert "Query Consciousness State" in query_path["summary"]
-        assert "description" in query_path
-        assert "responses" in query_path
-
-    def test_dream_has_documentation(self, client):
-        """Test that dream endpoint has proper documentation."""
-        from fastapi import FastAPI
-
-        app = FastAPI()
-        app.include_router(router)
-
-        openapi_schema = app.openapi()
-        dream_path = openapi_schema["paths"]["/api/v1/consciousness/dream"]["post"]
-
-        assert "summary" in dream_path
-        assert "Dream Sequence" in dream_path["summary"]
-        assert "description" in dream_path
-
-    def test_memory_has_documentation(self, client):
-        """Test that memory endpoint has proper documentation."""
-        from fastapi import FastAPI
-
-        app = FastAPI()
-        app.include_router(router)
-
-        openapi_schema = app.openapi()
-        memory_path = openapi_schema["paths"]["/api/v1/consciousness/memory"]["get"]
-
-        assert "summary" in memory_path
-        assert "Memory State" in memory_path["summary"]
-        assert "description" in memory_path
-
-    def test_all_endpoints_have_200_response(self, client):
-        """Test that all endpoints document 200 response."""
-        from fastapi import FastAPI
-
-        app = FastAPI()
-        app.include_router(router)
-
-        openapi_schema = app.openapi()
-
-        # Check query
-        query_responses = openapi_schema["paths"]["/api/v1/consciousness/query"]["post"]["responses"]
-        assert "200" in query_responses
-
-        # Check dream
-        dream_responses = openapi_schema["paths"]["/api/v1/consciousness/dream"]["post"]["responses"]
-        assert "200" in dream_responses
-
-        # Check memory
-        memory_responses = openapi_schema["paths"]["/api/v1/consciousness/memory"]["get"]["responses"]
-        assert "200" in memory_responses
-
-
-class TestConcurrentRequests:
-    """Test handling of concurrent requests."""
-
-    @pytest.mark.asyncio
-    async def test_multiple_query_requests_concurrent(self):
-        """Test multiple query requests can run concurrently."""
-        tasks = [query() for _ in range(5)]
-        results = await asyncio.gather(*tasks)
-
-        assert len(results) == 5
-        for result in results:
-            assert "response" in result
-            assert "awareness level" in result["response"].lower()
-
-    @pytest.mark.asyncio
-    async def test_multiple_dream_requests_concurrent(self):
-        """Test multiple dream requests can run concurrently."""
-        tasks = [dream() for _ in range(5)]
-        results = await asyncio.gather(*tasks)
-
-        assert len(results) == 5
-        for result in results:
-            assert "dream_id" in result
-            assert "status" in result
-
-    @pytest.mark.asyncio
-    async def test_multiple_memory_requests_concurrent(self):
-        """Test multiple memory requests can run concurrently."""
-        tasks = [memory() for _ in range(5)]
-        results = await asyncio.gather(*tasks)
-
-        assert len(results) == 5
-        for result in results:
-            assert "memory_folds" in result
-            assert "recall_accuracy" in result
-
-    @pytest.mark.asyncio
-    async def test_mixed_endpoint_requests_concurrent(self):
-        """Test mixed endpoint requests can run concurrently."""
-        tasks = [query(), dream(), memory()]
-        results = await asyncio.gather(*tasks)
-
-        assert len(results) == 3
-        # Query result
-        assert "response" in results[0]
-        # Dream result
-        assert "dream_id" in results[1]
-        # Memory result
-        assert "memory_folds" in results[2]
-
-
-class TestResponseExamples:
-    """Test that response examples match actual responses."""
-
-    def test_query_response_matches_example(self, client):
-        """Test query response matches documented example."""
-        response = client.post("/api/v1/consciousness/query")
+        response = client.post("/consciousness/drift/detect", json=request_data)
         data = response.json()
 
-        # Check against documented example
-        assert data["response"] == "The current awareness level is high."
+        # Drift should be 0 for identical states
+        assert data["drift_score"] == 0.0
+        assert data["threshold_exceeded"] is False
 
-    def test_dream_response_matches_example(self, client):
-        """Test dream response matches documented example."""
-        response = client.post("/api/v1/consciousness/dream")
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_high_drift(self, mock_drift, client):
+        """Test drift detection with high drift."""
+        mock_drift.return_value = _MockDriftDetector()
+
+        request_data = {
+            "baseline_state": {"metric1": 100},
+            "current_state": {"metric1": 200},
+        }
+
+        response = client.post("/consciousness/drift/detect", json=request_data)
         data = response.json()
 
-        # Check against documented example
-        assert data["dream_id"] == "dream-123"
-        assert data["status"] == "generating"
+        # High drift should be detected
+        assert data["drift_score"] > 0.0
+        assert "recommendation" in data
 
-    def test_memory_response_matches_example(self, client):
-        """Test memory response matches documented example."""
-        response = client.get("/api/v1/consciousness/memory")
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_details(self, mock_drift, client):
+        """Test drift detection includes detailed analysis."""
+        mock_drift.return_value = _MockDriftDetector()
+
+        request_data = {
+            "baseline_state": {"metric1": 100, "metric2": 50},
+            "current_state": {"metric1": 120, "metric2": 45},
+        }
+
+        response = client.post("/consciousness/drift/detect", json=request_data)
         data = response.json()
 
-        # Check against documented example
-        assert data["memory_folds"] == 1024
-        assert data["recall_accuracy"] == 0.98
+        details = data["drift_details"]
+        assert "components" in details
+        assert "num_components" in details
+        assert "thresholds" in details
+
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_error_handling(self, mock_drift, client):
+        """Test drift detection error handling."""
+        mock_drift.side_effect = Exception("Drift detector failure")
+
+        request_data = {
+            "baseline_state": {"metric1": 100},
+            "current_state": {"metric1": 110},
+        }
+
+        response = client.post("/consciousness/drift/detect", json=request_data)
+        assert response.status_code == 500
 
 
-class TestAsyncBehavior:
-    """Test async behavior and timing characteristics."""
+class TestAwarenessUpdateEndpoint:
+    """Test awareness update endpoint (requires admin)."""
 
-    @pytest.mark.asyncio
-    async def test_endpoints_are_truly_async(self):
-        """Test that endpoints don't block the event loop."""
-        # All three endpoints should be able to run concurrently
-        # If they were blocking, total time would be 8ms + 20ms + 4ms = 32ms
-        # If async, total time should be ~20ms (max of the three)
-        import time
+    @patch("serve.consciousness_api.require_admin")
+    @patch("serve.consciousness_api.get_consciousness_engine")
+    def test_update_awareness_success(self, mock_engine, mock_admin, client, mock_admin_user):
+        """Test successful awareness update."""
+        mock_admin.return_value = mock_admin_user
+        mock_engine.return_value = _MockConsciousnessEngine()
 
-        start = time.time()
-        await asyncio.gather(query(), dream(), memory())
-        duration = time.time() - start
+        # Mock the dependency
+        from serve.consciousness_api import update_awareness
+        with patch("serve.consciousness_api.Depends"):
+            request_data = {
+                "new_level": 0.9,
+                "reason": "System optimization",
+                "metadata": {"source": "test"}
+            }
 
-        # Should take roughly the time of the longest operation (20ms)
-        # Allow overhead but should be significantly less than sum (32ms)
-        assert duration < 0.030  # 30ms max (less than sum)
+            # Direct function call (bypassing auth for unit test)
+            import asyncio
+            result = asyncio.run(update_awareness(
+                data=AwarenessUpdate(**request_data),
+                user=mock_admin_user
+            ))
 
-    @pytest.mark.asyncio
-    async def test_query_uses_asyncio_sleep(self):
-        """Test that query uses asyncio.sleep (not time.sleep)."""
-        # If using time.sleep, this would block
-        # If using asyncio.sleep, can run concurrently
-        start = asyncio.get_event_loop().time()
-        await asyncio.gather(query(), query(), query())
-        duration = asyncio.get_event_loop().time() - start
+            assert result["success"] is True
+            assert result["new_level"] == 0.9
+            assert result["reason"] == "System optimization"
 
-        # Three concurrent 8ms operations should take ~8ms, not 24ms
-        assert duration < 0.015  # Should be close to 8ms, not 24ms
+    def test_update_awareness_invalid_level(self, client):
+        """Test awareness update with invalid level."""
+        request_data = {
+            "new_level": 1.5,  # Invalid: > 1.0
+            "reason": "Test",
+        }
 
-    @pytest.mark.asyncio
-    async def test_dream_uses_asyncio_sleep(self):
-        """Test that dream uses asyncio.sleep (not time.sleep)."""
-        start = asyncio.get_event_loop().time()
-        await asyncio.gather(dream(), dream())
-        duration = asyncio.get_event_loop().time() - start
-
-        # Two concurrent 20ms operations should take ~20ms, not 40ms
-        assert duration < 0.030  # Should be close to 20ms, not 40ms
-
-    @pytest.mark.asyncio
-    async def test_memory_uses_asyncio_sleep(self):
-        """Test that memory uses asyncio.sleep (not time.sleep)."""
-        start = asyncio.get_event_loop().time()
-        await asyncio.gather(memory(), memory(), memory(), memory())
-        duration = asyncio.get_event_loop().time() - start
-
-        # Four concurrent 4ms operations should take ~4ms, not 16ms
-        assert duration < 0.010  # Should be close to 4ms, not 16ms
+        response = client.post("/consciousness/awareness/update", json=request_data)
+        # Will fail validation
+        assert response.status_code == 422  # Validation error
 
 
+class TestAwarenessHistoryEndpoint:
+    """Test awareness history endpoint."""
+
+    @patch("serve.consciousness_api.require_admin")
+    def test_get_awareness_history(self, mock_admin, client, mock_admin_user):
+        """Test GET /awareness/history endpoint."""
+        mock_admin.return_value = mock_admin_user
+
+        # Direct function call to test logic
+        from serve.consciousness_api import get_awareness_history
+        import asyncio
+
+        result = asyncio.run(get_awareness_history(limit=5, user=mock_admin_user))
+
+        assert "total_updates" in result
+        assert "updates" in result
+        assert "current_level" in result
+        assert isinstance(result["updates"], list)
+
+
+# --- Test Drift Detection Logic ---
+class TestDriftCalculation:
+    """Test drift calculation logic."""
+
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_calculation_identical_states(self, mock_drift, client):
+        """Test drift calculation with identical states returns 0."""
+        mock_drift.return_value = _MockDriftDetector()
+
+        request_data = {
+            "baseline_state": {"metric1": 100, "metric2": 200, "metric3": 50},
+            "current_state": {"metric1": 100, "metric2": 200, "metric3": 50},
+        }
+
+        response = client.post("/consciousness/drift/detect", json=request_data)
+        data = response.json()
+
+        assert data["drift_score"] == 0.0
+
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_calculation_different_keys(self, mock_drift, client):
+        """Test drift handles different keys between states."""
+        mock_drift.return_value = _MockDriftDetector()
+
+        request_data = {
+            "baseline_state": {"metric1": 100, "metric2": 200},
+            "current_state": {"metric1": 110, "metric3": 50},
+        }
+
+        response = client.post("/consciousness/drift/detect", json=request_data)
+        data = response.json()
+
+        # Should handle gracefully
+        assert "drift_score" in data
+        assert data["drift_score"] >= 0.0
+
+
+# --- Test Router Configuration ---
 class TestRouterConfiguration:
-    """Test router configuration and registration."""
+    """Test router configuration."""
 
     def test_router_exists(self):
         """Test that router is properly configured."""
         assert router is not None
 
-    def test_all_endpoints_registered(self, client):
-        """Test that all endpoints are registered."""
-        # Query endpoint
-        response = client.post("/api/v1/consciousness/query")
-        assert response.status_code == 200
+    def test_router_prefix(self):
+        """Test router has correct prefix."""
+        assert router.prefix == "/consciousness"
 
-        # Dream endpoint
-        response = client.post("/api/v1/consciousness/dream")
-        assert response.status_code == 200
-
-        # Memory endpoint
-        response = client.get("/api/v1/consciousness/memory")
-        assert response.status_code == 200
-
-    def test_endpoint_paths_correct(self, client):
-        """Test that endpoint paths are correct."""
-        from fastapi import FastAPI
-
-        app = FastAPI()
-        app.include_router(router)
-
-        openapi_schema = app.openapi()
-        paths = openapi_schema["paths"]
-
-        assert "/api/v1/consciousness/query" in paths
-        assert "/api/v1/consciousness/dream" in paths
-        assert "/api/v1/consciousness/memory" in paths
+    def test_router_tags(self):
+        """Test router has correct tags."""
+        assert "consciousness" in router.tags
 
 
+# --- Test Edge Cases ---
 class TestEdgeCases:
     """Test edge cases and boundary conditions."""
 
-    @pytest.mark.asyncio
-    async def test_rapid_sequential_requests(self):
-        """Test rapid sequential requests to same endpoint."""
-        results = []
-        for _ in range(10):
-            result = await query()
-            results.append(result)
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_empty_states(self, mock_drift, client):
+        """Test drift detection with empty states."""
+        mock_drift.return_value = _MockDriftDetector()
 
-        # All should succeed
-        assert len(results) == 10
-        for result in results:
-            assert "response" in result
+        request_data = {
+            "baseline_state": {},
+            "current_state": {},
+        }
 
-    @pytest.mark.asyncio
-    async def test_query_result_is_dict(self):
-        """Test that query returns a dict, not other type."""
-        result = await query()
-        assert isinstance(result, dict)
-
-    @pytest.mark.asyncio
-    async def test_dream_result_is_dict(self):
-        """Test that dream returns a dict, not other type."""
-        result = await dream()
-        assert isinstance(result, dict)
-
-    @pytest.mark.asyncio
-    async def test_memory_result_is_dict(self):
-        """Test that memory returns a dict, not other type."""
-        result = await memory()
-        assert isinstance(result, dict)
-
-    @pytest.mark.asyncio
-    async def test_endpoints_with_no_parameters(self):
-        """Test that endpoints work with no parameters."""
-        # All endpoints should work without any arguments
-        query_result = await query()
-        dream_result = await dream()
-        memory_result = await memory()
-
-        assert query_result is not None
-        assert dream_result is not None
-        assert memory_result is not None
-
-    def test_api_accepts_empty_json_body(self, client):
-        """Test that POST endpoints accept empty JSON body."""
-        # Query with empty body
-        response = client.post("/api/v1/consciousness/query", json={})
+        response = client.post("/consciousness/drift/detect", json=request_data)
         assert response.status_code == 200
+        data = response.json()
+        assert data["drift_score"] == 0.0
 
-        # Dream with empty body
-        response = client.post("/api/v1/consciousness/dream", json={})
-        assert response.status_code == 200
+    @patch("serve.consciousness_api.get_drift_detector")
+    def test_drift_detect_non_numeric_values(self, mock_drift, client):
+        """Test drift detection handles non-numeric values."""
+        mock_drift.return_value = _MockDriftDetector()
 
-    def test_api_accepts_no_body(self, client):
-        """Test that POST endpoints work with no body."""
-        # Query without body
-        response = client.post("/api/v1/consciousness/query")
-        assert response.status_code == 200
+        request_data = {
+            "baseline_state": {"metric1": "text", "metric2": 100},
+            "current_state": {"metric1": "other", "metric2": 110},
+        }
 
-        # Dream without body
-        response = client.post("/api/v1/consciousness/dream")
+        response = client.post("/consciousness/drift/detect", json=request_data)
         assert response.status_code == 200
+        # Should only calculate for numeric values
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "--tb=short"])
