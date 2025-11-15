@@ -84,10 +84,14 @@ class TestAdaptiveCircuitBreaker:
     @pytest.mark.asyncio
     async def test_circuit_fails_fast_when_open(self, circuit_breaker):
         """Test that circuit fails fast when open."""
+        # Helper function to raise an error (replaces exec usage)
+        def raise_failure():
+            raise ValueError("failure")
+
         # Force circuit to open
         for _ in range(10):
             try:
-                await circuit_breaker.call(lambda: exec('raise ValueError("failure")'))
+                await circuit_breaker.call(lambda: raise_failure())
             except Exception as e:
                 logger.debug(f"Expected optional failure: {e}")
                 pass

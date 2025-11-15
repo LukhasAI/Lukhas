@@ -12,6 +12,12 @@ Validates Phase 3 consolidation:
 """
 import sys
 import warnings
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from lukhas.security.safe_import import safe_import_class, safe_import_from
 
 
 def test_legacy_imports_trigger_warnings():
@@ -38,8 +44,8 @@ def test_legacy_imports_trigger_warnings():
             warnings.simplefilter("always")
 
             try:
-                # Import the module
-                exec(f"from {module_name} import {class_name}")
+                # Import the module (using safe import instead of exec)
+                safe_import_class(module_name, class_name)
 
                 # Check if DeprecationWarning was raised
                 deprecation_warnings = [warning for warning in w if issubclass(warning.category, DeprecationWarning)]
@@ -84,7 +90,12 @@ def test_canonical_imports_no_warnings():
             warnings.simplefilter("always")
 
             try:
-                exec(import_stmt)
+                # Parse the import statement and use safe import
+                # Format: "from module import item1, item2, ..."
+                import_stmt_parts = import_stmt.replace("from ", "").replace("import ", " ").split()
+                module_name = import_stmt_parts[0]
+                items = [item.strip() for item in " ".join(import_stmt_parts[1:]).split(",")]
+                safe_import_from(module_name, *items)
 
                 deprecation_warnings = [warning for warning in w if issubclass(warning.category, DeprecationWarning)]
 
@@ -163,9 +174,9 @@ def test_backward_compatibility():
             warnings.simplefilter("ignore", DeprecationWarning)
 
             try:
-                # Import and instantiate
-                exec(f"from {module_name} import {class_name}")
-                exec(f"instance = {class_name}() if callable({class_name}) else None")
+                # Import and instantiate (using safe import instead of exec)
+                cls = safe_import_class(module_name, class_name)
+                instance = cls() if callable(cls) else None
 
                 print("  ✅ Import successful, functionality preserved")
                 print(f"     Type: {expected}")
@@ -206,7 +217,12 @@ def test_bridge_imports():
             warnings.simplefilter("always")
 
             try:
-                exec(import_stmt)
+                # Parse the import statement and use safe import
+                # Format: "from module import item1, item2, ..."
+                import_stmt_parts = import_stmt.replace("from ", "").replace("import ", " ").split()
+                module_name = import_stmt_parts[0]
+                items = [item.strip() for item in " ".join(import_stmt_parts[1:]).split(",")]
+                safe_import_from(module_name, *items)
 
                 # Bridge imports should NOT trigger warnings
                 deprecation_warnings = [warning for warning in w if issubclass(warning.category, DeprecationWarning)]
