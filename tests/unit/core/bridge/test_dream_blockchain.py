@@ -297,7 +297,7 @@ class TestDreamCommerceBlockchain:
                     with patch.object(
                         blockchain.w3.eth,
                         "send_raw_transaction",
-                        return_value=b"\xij\kl",
+                        return_value=b"\x00\x01",  # Mock transaction hash
                     ):
                         mock_receipt = {"status": 1}
                         with patch.object(
