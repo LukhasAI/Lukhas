@@ -14,19 +14,19 @@ This document contains ready-to-use prompts for Claude Code Web to implement all
 
 | # | Issue | Priority | Effort | GitHub Issue |
 |---|-------|----------|--------|--------------|
-| 1 | Eliminate All eval() Calls | P0 CRITICAL | 12 days | [To be created] |
-| 2 | Eliminate All exec() Calls | P0 CRITICAL | 10 days | [To be created] |
-| 3 | Fix Shell Injection | P1 HIGH | 20 days | [To be created] |
-| 4 | Fix Pickle Deserialization | P1 HIGH | 8 days | [To be created] |
-| 5 | Fix SQL Injection | P1 HIGH | 10 days | [To be created] |
-| 6 | Fix YAML Unsafe Loading | P1 HIGH | 2 days | [To be created] |
-| 7 | Right to Access API (GDPR Art. 15) | P0 | 15 days | [To be created] |
-| 8 | Right to Erasure API (GDPR Art. 17) | P0 | 15 days | [To be created] |
-| 9 | Right to Data Portability API (GDPR Art. 20) | P0 | 10 days | [To be created] |
-| 10 | Right to Rectification API (GDPR Art. 16) | P0 | 10 days | [To be created] |
-| 11 | Automated Data Retention Policy | P0 | 10 days | [To be created] |
-| 12 | Privacy Policy Documentation | P0 | 10 days | [To be created] |
-| 13 | Type Annotations for Critical Modules | P1 | 10 days | [To be created] |
+| 1 | Eliminate All eval() Calls | P0 CRITICAL | 12 days | [#1582](https://github.com/LukhasAI/Lukhas/issues/1582) |
+| 2 | Eliminate All exec() Calls | P0 CRITICAL | 10 days | [#1583](https://github.com/LukhasAI/Lukhas/issues/1583) |
+| 3 | Fix Shell Injection | P1 HIGH | 20 days | [#1584](https://github.com/LukhasAI/Lukhas/issues/1584) |
+| 4 | Fix Pickle Deserialization | P1 HIGH | 8 days | [#1585](https://github.com/LukhasAI/Lukhas/issues/1585) |
+| 5 | Fix SQL Injection | P1 HIGH | 10 days | [#1586](https://github.com/LukhasAI/Lukhas/issues/1586) |
+| 6 | Fix YAML Unsafe Loading | P1 HIGH | 2 days | [#1587](https://github.com/LukhasAI/Lukhas/issues/1587) |
+| 7 | Right to Access API (GDPR Art. 15) | P0 | 15 days | [#1588](https://github.com/LukhasAI/Lukhas/issues/1588) |
+| 8 | Right to Erasure API (GDPR Art. 17) | P0 | 15 days | [#1589](https://github.com/LukhasAI/Lukhas/issues/1589) |
+| 9 | Right to Data Portability API (GDPR Art. 20) | P0 | 10 days | [#1590](https://github.com/LukhasAI/Lukhas/issues/1590) |
+| 10 | Right to Rectification API (GDPR Art. 16) | P0 | 10 days | [#1591](https://github.com/LukhasAI/Lukhas/issues/1591) |
+| 11 | Automated Data Retention Policy | P0 | 10 days | [#1592](https://github.com/LukhasAI/Lukhas/issues/1592) |
+| 12 | Privacy Policy Documentation | P0 | 10 days | [#1593](https://github.com/LukhasAI/Lukhas/issues/1593) |
+| 13 | Type Annotations for Critical Modules | P1 | 10 days | [#1594](https://github.com/LukhasAI/Lukhas/issues/1594) |
 
 **Total Estimated Effort**: 142 days
 **Target Outcome**: 
@@ -38,7 +38,7 @@ This document contains ready-to-use prompts for Claude Code Web to implement all
 
 ## Prompt 1: Eliminate All eval() Calls (CRITICAL)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1582
 
 **Prompt for Claude Code Web**:
 
@@ -46,7 +46,7 @@ This document contains ready-to-use prompts for Claude Code Web to implement all
 **Task**: Eliminate All eval() Calls from LUKHAS Codebase (CRITICAL Security Issue)
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1582
 **Priority**: P0 - CRITICAL
 **Estimated Time**: 12 days
 
@@ -158,7 +158,7 @@ pytest tests/security/ -v
 
 ## Prompt 2: Eliminate All exec() Calls (CRITICAL)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1583
 
 **Prompt for Claude Code Web**:
 
@@ -166,7 +166,7 @@ pytest tests/security/ -v
 **Task**: Eliminate All exec() Calls from LUKHAS Codebase (CRITICAL Security Issue)
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1583
 **Priority**: P0 - CRITICAL
 **Estimated Time**: 10 days
 
@@ -236,7 +236,7 @@ generated_code = template.render(**context)
 
 ## Prompt 3: Fix Shell Injection Vulnerabilities (HIGH)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1584
 
 **Prompt for Claude Code Web**:
 
@@ -244,7 +244,7 @@ generated_code = template.render(**context)
 **Task**: Fix All Shell Injection Vulnerabilities
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1584
 **Priority**: P1 - HIGH
 **Estimated Time**: 20 days
 
@@ -326,7 +326,7 @@ def test_shell_injection_prevented():
 
 ## Prompt 4: Fix Pickle Deserialization Vulnerabilities (HIGH)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1585
 
 **Prompt for Claude Code Web**:
 
@@ -334,7 +334,7 @@ def test_shell_injection_prevented():
 **Task**: Fix All Pickle Deserialization Vulnerabilities
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1585
 **Priority**: P1 - HIGH
 **Estimated Time**: 8 days
 
@@ -390,7 +390,7 @@ def secure_pickle_loads(data: bytes) -> Any:
 
 ## Prompt 5: Fix SQL Injection Vulnerabilities (HIGH)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1586
 
 **Prompt for Claude Code Web**:
 
@@ -398,7 +398,7 @@ def secure_pickle_loads(data: bytes) -> Any:
 **Task**: Fix All SQL Injection Vulnerabilities
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1586
 **Priority**: P1 - HIGH
 **Estimated Time**: 10 days
 
@@ -444,7 +444,7 @@ def safe_query_user_orm(session: Session, user_id: int):
 
 ## Prompt 6: Fix YAML Unsafe Loading (HIGH)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1587
 
 **Prompt for Claude Code Web**:
 
@@ -452,7 +452,7 @@ def safe_query_user_orm(session: Session, user_id: int):
 **Task**: Fix YAML Unsafe Loading Vulnerabilities
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1587
 **Priority**: P1 - HIGH
 **Estimated Time**: 2 days
 
@@ -500,7 +500,7 @@ def test_yaml_code_execution_prevented():
 
 ## Prompt 7: Implement Right to Access API (GDPR Art. 15)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1588
 
 **Prompt for Claude Code Web**:
 
@@ -508,7 +508,7 @@ def test_yaml_code_execution_prevented():
 **Task**: Implement GDPR Right to Access API
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1588
 **Priority**: P0 - GDPR Compliance
 **Estimated Time**: 15 days
 
@@ -573,7 +573,7 @@ async def test_user_can_access_own_data():
 
 ## Prompt 8: Implement Right to Erasure API (GDPR Art. 17)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1589
 
 **Prompt for Claude Code Web**:
 
@@ -581,7 +581,7 @@ async def test_user_can_access_own_data():
 **Task**: Implement GDPR Right to Erasure API
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1589
 **Priority**: P0 - GDPR Compliance
 **Estimated Time**: 15 days
 
@@ -631,7 +631,7 @@ async def erase_user_data(
 
 ## Prompt 9: Implement Right to Data Portability API (GDPR Art. 20)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1590
 
 **Prompt for Claude Code Web**:
 
@@ -639,7 +639,7 @@ async def erase_user_data(
 **Task**: Implement GDPR Right to Data Portability API
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1590
 **Priority**: P0 - GDPR Compliance
 **Estimated Time**: 10 days
 
@@ -691,7 +691,7 @@ async def export_user_data(
 
 ## Prompt 10: Implement Right to Rectification API (GDPR Art. 16)
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1591
 
 **Prompt for Claude Code Web**:
 
@@ -699,7 +699,7 @@ async def export_user_data(
 **Task**: Implement GDPR Right to Rectification API
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1591
 **Priority**: P0 - GDPR Compliance
 **Estimated Time**: 10 days
 
@@ -739,7 +739,7 @@ async def rectify_user_data(
 
 ## Prompt 11: Implement Automated Data Retention Policy
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1592
 
 **Prompt for Claude Code Web**:
 
@@ -747,7 +747,7 @@ async def rectify_user_data(
 **Task**: Implement Automated Data Retention Policy
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1592
 **Priority**: P0 - GDPR Compliance
 **Estimated Time**: 10 days
 
@@ -805,7 +805,7 @@ spec:
 
 ## Prompt 12: Create Privacy Policy and GDPR Documentation
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1593
 
 **Prompt for Claude Code Web**:
 
@@ -813,7 +813,7 @@ spec:
 **Task**: Create Privacy Policy and GDPR Documentation
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1593
 **Priority**: P0 - GDPR Compliance
 **Estimated Time**: 10 days
 
@@ -856,7 +856,7 @@ Must include:
 
 ## Prompt 13: Add Type Annotations to Critical Modules
 
-**GitHub Issue**: [Insert link after issue creation]
+**GitHub Issue**: https://github.com/LukhasAI/Lukhas/issues/1594
 
 **Prompt for Claude Code Web**:
 
@@ -864,7 +864,7 @@ Must include:
 **Task**: Add Type Annotations to Critical Modules
 
 **Repository**: https://github.com/LukhasAI/Lukhas
-**Issue Reference**: [Insert GitHub issue link]
+**Issue Reference**: https://github.com/LukhasAI/Lukhas/issues/1594
 **Priority**: P1 - Code Quality
 **Estimated Time**: 10 days
 
@@ -984,4 +984,4 @@ After completing all 13 prompts:
 **Last Updated**: 2025-11-15
 **Total Issues**: 13
 **Total Estimated Effort**: 142 days
-**Status**: Ready for GitHub issue creation and Claude Code Web execution
+**Status**: ✅ Ready for Claude Code Web execution - All 13 GitHub issues created (#1582-#1594)
