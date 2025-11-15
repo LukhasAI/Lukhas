@@ -16,7 +16,11 @@ import sys
 import warnings
 from typing import Any
 
-import streamlit as st
+# Make streamlit optional for non-web usage
+try:
+    import streamlit as st
+except ImportError:
+    st = None
 
 logger = logging.getLogger(__name__)
 

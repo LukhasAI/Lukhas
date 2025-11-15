@@ -457,6 +457,20 @@ class ConstitutionalAIValidator:
         self, principle: ConstitutionalPrinciple, validator: Callable, context: ConstitutionalValidationContext
     ) -> PrincipleEvaluation:
         """Evaluate a single constitutional principle"""
+        try:
+            # Call the validator function for this principle
+            evaluation = await validator(context)
+            return evaluation
+        except Exception as e:
+            logger.error(f"❌ Error evaluating principle {principle.value}: {e}")
+            # Return failed evaluation
+            return PrincipleEvaluation(
+                principle=principle,
+                score=0.0,
+                compliant=False,
+                reasoning=f"Evaluation failed: {e!s}",
+                evidence_against=[f"Evaluation error: {e!s}"],
+            )
 
     async def _validate_democratic_governance(self, context: ConstitutionalValidationContext) -> PrincipleEvaluation:
         """Validate democratic governance principle"""
@@ -1186,9 +1200,50 @@ class ConstitutionalAIValidator:
         """Background monitoring loop for validation system"""
 
         while self._monitoring_active:
-            pass
+            await asyncio.sleep(60)  # Check every minute
+            
+            # Could add periodic health checks, cleanup, etc. here
+            if len(self.validation_history) > 10000:
+                # Trim history to prevent unbounded growth
+                self.validation_history = self.validation_history[-5000:]
+                logger.debug("🧹 Trimmed validation history to prevent memory growth")
+
     async def get_constitutional_validation_status(self) -> dict[str, Any]:
         """Get comprehensive constitutional validation system status"""
+        
+        # Calculate recent activity (last 24 hours)
+        recent_cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        recent_validations = [
+            v for v in self.validation_history
+            if v.validated_at >= recent_cutoff
+        ]
+        
+        recent_approvals = sum(1 for v in recent_validations if v.decision_approved)
+        recent_rejections = sum(1 for v in recent_validations if not v.decision_approved)
+        recent_oversight = sum(1 for v in recent_validations if v.human_oversight_required)
+        
+        return {
+            "system_status": {
+                "validation_enabled": self.validation_enabled,
+                "strict_mode": self.strict_mode,
+                "monitoring_active": self._monitoring_active,
+            },
+            "validation_metrics": self.validation_metrics.copy(),
+            "recent_activity_24h": {
+                "total_validations": len(recent_validations),
+                "approvals": recent_approvals,
+                "rejections": recent_rejections,
+                "human_oversight_required": recent_oversight,
+                "average_compliance_score": (
+                    sum(v.overall_compliance_score for v in recent_validations) / len(recent_validations)
+                    if recent_validations else 0.0
+                ),
+            },
+            "thresholds": {
+                "approval_threshold": self.approval_threshold,
+                "human_oversight_threshold": self.human_oversight_threshold,
+            },
+        }
 
     async def shutdown_constitutional_validation(self) -> None:
         """Shutdown constitutional validation system"""
