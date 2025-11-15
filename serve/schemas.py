@@ -1,66 +1,15 @@
-from typing import Any, Optional
-
+"""Serve API Schemas - Stub Implementation"""
 from pydantic import BaseModel
+from typing import Any, Dict, Optional
 
+class RequestSchema(BaseModel):
+    """Base request schema."""
+    request_id: Optional[str] = None
+    data: Dict[str, Any] = {}
 
-class DreamRequest(BaseModel):
-    symbols: list[str]
+class ResponseSchema(BaseModel):
+    """Base response schema."""
+    success: bool = True
+    data: Dict[str, Any] = {}
 
-
-class DreamResponse(BaseModel):
-    dream: str
-
-
-driftScore: float  # ΛTAG: driftScore
-affect_delta: float  # ΛTAG: affect_delta
-
-
-class GlyphFeedbackRequest(BaseModel):
-    driftScore: float  # ΛTAG: driftScore
-
-
-collapseHash: str  # ΛTAG: collapseHash
-
-
-class GlyphFeedbackResponse(BaseModel):
-    suggestions: list[str]
-
-
-class TierAuthRequest(BaseModel):
-    token: str
-
-
-class TierAuthResponse(BaseModel):
-    access_rights: list[str]
-
-
-tier: int
-
-
-class PluginLoadRequest(BaseModel):
-    symbols: list[str]
-
-
-class PluginLoadResponse(BaseModel):
-    status: str
-
-
-class MemoryDumpResponse(BaseModel):
-    folds: list[dict[str, Any]]
-
-
-emotional_state: dict[str, float]
-
-
-# --- OpenAI Modulated Service Schemas ---
-class ModulatedChatRequest(BaseModel):
-    prompt: str
-    context: Optional[dict[str, Any]] = None
-    task: Optional[str] = None
-
-
-class ModulatedChatResponse(BaseModel):
-    content: str
-    raw: dict[str, Any]
-    modulation: dict[str, Any]
-    metadata: dict[str, Any]
+__all__ = ["RequestSchema", "ResponseSchema"]
