@@ -1,0 +1,87 @@
+name: DAST - ZAP Full & API (nightly)
+
+# Comprehensive ZAP scans run nightly:
+# 1. Full scan: Active spider + vulnerability scanning across the site
+# 2. API scan: OpenAPI-spec-driven testing of all endpoints
+# More thorough than baseline, includes active testing (may modify data)
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: dast-zap-full-api
+  cancel-in-progress: false  # Don't cancel nightly scans
+
+jobs:
+  zap-full-api-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    services:
+      postgres:
+        image: postgres:15
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+
+      - name: Boot API server (background)
+        run: |
+          nohup python3 -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+          # Wait for OpenAPI spec to be available
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:8000/openapi.json > /dev/null 2>&1; then
+              echo "API server ready, OpenAPI spec available"
+              exit 0
+            fi
+            echo "Waiting for API... attempt $i/60"
+            sleep 2
+          done
+          echo "ERROR: API failed to start within 120 seconds"
+          exit 1
+
+      - name: ZAP Full Scan (site spider + active)
+        uses: zaproxy/action-full-scan@v0.8.0
+        with:
+          target: 'http://127.0.0.1:8000'
+          cmd_options: '-m 15'  # 15 minute cap for active scanning
+
+      - name: ZAP API Scan (OpenAPI-driven)
+        uses: zaproxy/action-api-scan@v0.7.0
+        with:
+          target: 'http://127.0.0.1:8000/openapi.json'
+          rules_file_name: 'dast/.zap/rules.tsv'
+          cmd_options: '-m 10'  # 10 minute cap for API scanning
+
+      - name: Upload ZAP artifacts
+        uses: actions/upload-artifact@v4
+        if: always()  # Upload even if scans find issues
+        with:
+          name: zap-full-api-artifacts-${{ github.run_number }}
+          path: |
+            report_html.html
+            zap_scan.log
+            owasp_zap_log.txt
+          retention-days: 30  # Keep nightly scan results longer

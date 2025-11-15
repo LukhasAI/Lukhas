@@ -10,6 +10,8 @@ from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from lukhas.middleware import SecurityHeaders
+
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
@@ -56,6 +58,15 @@ except Exception:
         return _os.getenv(key, default)
 import os
 
+# NIAS audit middleware configuration (opt-in via env var)
+NIAS_ENABLED = (env_get('NIAS_ENABLED', 'false') or 'false').strip().lower() == 'true'
+if NIAS_ENABLED:
+    try:
+        from lukhas.guardian.nias import NIASMiddleware
+    except ImportError:
+        logger.warning('NIAS_ENABLED=true but lukhas.guardian.nias module not available')
+        NIAS_ENABLED = False
+
 # ΛTAG: async_response_toggle -- optional async orchestrator integration seam
 _ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
 ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
@@ -73,6 +84,15 @@ if ASYNC_ORCH_ENABLED:
         except Exception:
             ASYNC_ORCH_ENABLED = False
             logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
+
+# ABAS policy middleware configuration (opt-in)
+ABAS_ENABLED = (env_get('ABAS_ENABLED', 'false') or 'false').strip().lower() == 'true'
+if ABAS_ENABLED:
+    try:
+        from enforcement.abas.middleware import ABASMiddleware
+    except ImportError:
+        logger.warning('ABAS_ENABLED=true but enforcement.abas.middleware not available')
+        ABAS_ENABLED = False
 
 def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
     try:
@@ -170,15 +190,33 @@ class HeadersMiddleware(BaseHTTPMiddleware):
         response.headers['x-ratelimit-remaining-requests'] = '59'
         response.headers['x-ratelimit-reset-requests'] = str(int(time.time()) + 60)
 
-        # Security headers (OWASP best practices)
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        response.headers['X-Frame-Options'] = 'DENY'
-        response.headers['Referrer-Policy'] = 'no-referrer'
+        # Note: Security headers handled by SecurityHeaders middleware
+        # (comprehensive OWASP headers applied to all responses)
 
         return response
 frontend_origin = env_get('FRONTEND_ORIGIN', 'http://localhost:3000') or 'http://localhost:3000'
+
+# Middleware stack order (innermost to outermost):
+# 1. SecurityHeaders - comprehensive OWASP headers (applied to all responses)
+# 2. CORS - cross-origin resource sharing
+# 3. Auth - authentication enforcement
+# 4. ABAS - policy enforcement and PII detection (opt-in)
+# 5. NIAS - audit logging and compliance (opt-in)
+# 6. Headers - trace IDs, rate limits, processing time
+
+# Security headers first - applies to all responses including auth failures
+app.add_middleware(SecurityHeaders)
 app.add_middleware(CORSMiddleware, allow_origins=[frontend_origin], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])
 app.add_middleware(StrictAuthMiddleware)
+
+# ABAS policy enforcement (opt-in, policy validation before downstream processing)
+if ABAS_ENABLED:
+    app.add_middleware(ABASMiddleware)
+
+# NIAS audit middleware (opt-in, audits after authentication and policy enforcement)
+if NIAS_ENABLED:
+    app.add_middleware(NIASMiddleware)
+
 app.add_middleware(HeadersMiddleware)
 if routes_router is not None:
     app.include_router(routes_router)
