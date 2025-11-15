@@ -1,12 +1,40 @@
 """
-STUB MODULE: governance.safety
+Governance Safety Module
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
+Provides Constitutional AI safety systems and validation for the LUKHAS platform.
 
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
+Key Components:
+- ConstitutionalAISafety: Main safety validator with critique-revision loops
+- ConstitutionalPrinciple: Individual safety principles
+- ValidationResult: Results of safety validation
+- RevisedResponse: Results of critique-revision loops
+- ConstrainedPrompt: Prompts with applied safety constraints
+
+Example:
+    >>> from governance.safety import ConstitutionalAISafety, get_default_constitution
+    >>> safety = ConstitutionalAISafety()
+    >>> result = safety.validate_action("Generate user report", {})
+    >>> print(f"Valid: {result.valid}, Score: {result.constitutional_score}")
 """
 
-# TODO: Implement or remove dead imports referencing this module
+from governance.safety.constitutional_ai_safety import (
+    ConstitutionalAISafety,
+    ConstitutionalPrinciple,
+    ConstrainedPrompt,
+    PrincipleCategory,
+    RevisedResponse,
+    ValidationResult,
+    get_default_constitution,
+)
+
+__all__ = [
+    "ConstitutionalAISafety",
+    "ConstitutionalPrinciple",
+    "ValidationResult",
+    "RevisedResponse",
+    "ConstrainedPrompt",
+    "PrincipleCategory",
+    "get_default_constitution",
+]
+
+__version__ = "1.0.0"
