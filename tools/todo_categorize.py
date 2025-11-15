@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from typing import Optional
-
 """
 Standalone TODO/FIXME Categorization utility (extracted from TODO/scripts/categorize_todos.py)
 
@@ -14,6 +12,8 @@ Usage:
 from __future__ import annotations
 
 __version__ = "1.0.0"
+
+from typing import Optional
 
 import argparse
 import json
