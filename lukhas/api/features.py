@@ -99,21 +99,25 @@ def get_current_user(user: dict = Depends(get_current_user_from_token)) -> dict:
     """
     Dependency to get the current user dict from the verified token.
 
-    TODO: Extract role from JWT claims once role-based JWT is implemented.
-    For now, infer role from username prefix (admin_* = admin, etc.)
+    Extracts role from JWT claims if present, otherwise infers from username prefix
+    for backward compatibility.
     """
-    # Infer role from username (temporary until JWT includes roles)
     username = user.get("username", "")
-    if username.startswith("admin_"):
-        role = "admin"
-    elif username.startswith("moderator_"):
-        role = "moderator"
-    elif username.startswith("user_"):
-        role = "user"
-    else:
-        role = "guest"
 
-    return {**user, "role": role, "id": username}
+    # Use role from JWT if present, otherwise infer from username prefix
+    if "role" not in user:
+        # Fallback: infer role from username prefix for backward compatibility
+        if username.startswith("admin_"):
+            role = "admin"
+        elif username.startswith("moderator_"):
+            role = "moderator"
+        elif username.startswith("user_"):
+            role = "user"
+        else:
+            role = "guest"
+        user["role"] = role
+
+    return {**user, "id": username}
 
 
 def require_role(required_role: str):
@@ -233,7 +237,7 @@ async def evaluate_flag(
     Returns:
         Flag evaluation result
     """
-    user_id = current_user["id"]
+    current_user["id"]
     # Check rate limit
     if not check_rate_limit(current_user["username"]):
         raise HTTPException(
@@ -307,7 +311,7 @@ async def update_flag(
     Returns:
         Updated flag information
     """
-    user_id = current_user["id"]
+    current_user["id"]
     try:
         # Get flag
         flag = service.get_flag(flag_name)
@@ -377,7 +381,7 @@ async def reload_flag(
     Returns:
         Success message
     """
-    user_id = current_user["id"]
+    current_user["id"]
     try:
         # Reload all flags
         service.reload()

@@ -4,40 +4,53 @@ export default {
   theme: {
     extend: {
       colors: {
-        lukhas: {
-          'deep-space': '#0a0a0a',
-          'card-bg': '#181c24',
-          'card-elevated': '#232b39',
-          'lambda-blue': '#00d4ff',
-          'quantum-green': '#00ff88',
-          'luke-gold': '#d4af37',
-          'text-primary': '#f0f6fc',
-          'text-secondary': '#7d8590',
-          'border': '#2a2a3e',
-        },
-        domain: {
-          'id-purple': '#9333EA',
-          'com-trust-blue': '#3B82F6',
-          'us-institutional': '#1E40AF',
-        },
+        // LUKHAS Brand Colors (CSS variable references)
+        'deep-space': 'var(--lukhas-deep-space)',
+        'card-bg': 'var(--lukhas-card-bg)',
+        'card-elevated': 'var(--lukhas-card-elevated)',
+        'lambda-blue': 'var(--lukhas-lambda-blue)',
+        'quantum-green': 'var(--lukhas-quantum-green)',
+        'luke-gold': 'var(--lukhas-luke-gold)',
+        'text-primary': 'var(--lukhas-text-primary)',
+        'text-secondary': 'var(--lukhas-text-secondary)',
+        'border': 'var(--lukhas-border)',
+        'border-bright': 'var(--lukhas-border-bright)',
+        'domain-id-purple': 'var(--domain-id-purple)',
+        'domain-com-trust-blue': 'var(--domain-com-trust-blue)',
+        'domain-us-institutional': 'var(--domain-us-institutional)',
+        'glass': 'var(--glass-bg)',
+        'glass-border': 'var(--glass-border)',
       },
       fontFamily: {
-        display: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        display: 'var(--font-display)',
+        mono: 'var(--font-mono)',
       },
       letterSpacing: {
-        'thin-capitals': '-3px',
-        'heading': '-1px',
-        'body': '0.15em',
+        'thin-capitals': 'var(--tracking-thin-capitals)',
+        'heading': 'var(--tracking-heading)',
+        'logo': 'var(--tracking-logo)',
       },
       transitionTimingFunction: {
-        'lukhas': 'cubic-bezier(.4, 0, .2, 1)',
+        'lukhas': 'var(--easing-lukhas)',
       },
       backdropBlur: {
-        'lukhas': '18px',
+        'glass': 'var(--glass-blur)',
       },
       borderRadius: {
-        'glass': '18px',
+        'glass': 'var(--border-radius-glass)',
+        'pill': 'var(--border-radius-pill)',
+      },
+      boxShadow: {
+        'glow-blue': 'var(--glow-blue)',
+        'glow-green': 'var(--glow-green)',
+        'glow-purple': 'var(--glow-purple)',
+      },
+      zIndex: {
+        'fixed': 'var(--z-fixed)',
+      },
+      animation: {
+        'breathe-subtle': 'breathe-subtle 12s ease-in-out infinite',
+        'spin': 'spin 1s linear infinite',
       },
     },
   },

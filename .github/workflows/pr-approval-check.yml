@@ -9,6 +9,11 @@ on:
       - labeled
       - unlabeled
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   teams: read

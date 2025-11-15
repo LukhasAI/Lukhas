@@ -7,10 +7,9 @@ from unittest.mock import MagicMock
 
 # Mock missing lukhas modules for standalone execution
 try:
-    from lukhas.monitoring import alerts
-    from lukhas.monitoring import dashboards
     from lukhas.core.api import api_client
     from lukhas.core.db import db_connection
+    from lukhas.monitoring import alerts, dashboards
 except ImportError:
     sys.modules['lukhas'] = MagicMock()
     sys.modules['lukhas.monitoring'] = MagicMock()
@@ -19,10 +18,9 @@ except ImportError:
     sys.modules['lukhas.core'] = MagicMock()
     sys.modules['lukhas.core.api'] = MagicMock()
     sys.modules['lukhas.core.db'] = MagicMock()
-    from lukhas.monitoring import alerts
-    from lukhas.monitoring import dashboards
     from lukhas.core.api import api_client
     from lukhas.core.db import db_connection
+    from lukhas.monitoring import alerts, dashboards
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

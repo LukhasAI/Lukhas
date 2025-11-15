@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from threading import RLock
 from time import perf_counter
-from typing import Any
+from typing import Any, Optional
 
 from observability import counter, gauge, histogram
 
@@ -59,9 +59,9 @@ class SecurityEvent:
     event_type: EventType
     severity: EventSeverity
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    source: str | None = None
-    actor_id: str | None = None
-    ip_address: str | None = None
+    source: Optional[str] = None
+    actor_id: Optional[str] = None
+    ip_address: Optional[str] = None
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
 
@@ -122,7 +122,7 @@ class _SecurityMonitorMetrics:
 class SecurityMonitor:
     """Runtime monitor for security events and lightweight threat detection."""
 
-    def __init__(self, config: SecurityMonitorConfig | None = None) -> None:
+    def __init__(self, config: Optional[SecurityMonitorConfig] = None) -> None:
         self.config = config or SecurityMonitorConfig()
         self._metrics = _SecurityMonitorMetrics()
         self._lock = RLock()
@@ -140,11 +140,11 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Event ingestion API
     # ------------------------------------------------------------------
-    def process_event(self, event: SecurityEvent) -> SecurityThreat | None:
+    def process_event(self, event: SecurityEvent) -> Optional[SecurityThreat]:
         """Process a security event and update metrics/threats."""
 
         start = perf_counter()
-        new_threat: SecurityThreat | None = None
+        new_threat: Optional[SecurityThreat] = None
 
         if event.event_type is EventType.AUTHENTICATION_FAILURE:
             new_threat = self._handle_auth_failure(event)
@@ -183,12 +183,12 @@ class SecurityMonitor:
         self,
         *,
         user_id: str,
-        source_ip: str | None,
+        source_ip: Optional[str],
         success: bool,
         guardian_allowed: bool = True,
-        guardian_reason: str | None = None,
-        anomaly_score: float | None = None,
-        metadata: Mapping[str, Any] | None = None,
+        guardian_reason: Optional[str] = None,
+        anomaly_score: Optional[float] = None,
+        metadata: Optional[Mapping[str, Any]] = None,
     ) -> Iterable[SecurityThreat]:
         """Observe an authentication attempt from the identity system."""
 
@@ -238,10 +238,10 @@ class SecurityMonitor:
         self,
         *,
         identifier: str,
-        source_ip: str | None,
+        source_ip: Optional[str],
         requests_per_minute: int,
-        metadata: Mapping[str, Any] | None = None,
-    ) -> SecurityThreat | None:
+        metadata: Optional[Mapping[str, Any]] = None,
+    ) -> Optional[SecurityThreat]:
         """Observe a rate limit violation event."""
 
         event = SecurityEvent(
@@ -259,8 +259,8 @@ class SecurityMonitor:
         subject: str,
         policy: str,
         severity: EventSeverity = EventSeverity.HIGH,
-        metadata: Mapping[str, Any] | None = None,
-    ) -> SecurityThreat | None:
+        metadata: Optional[Mapping[str, Any]] = None,
+    ) -> Optional[SecurityThreat]:
         """Observe a Guardian policy violation event."""
 
         event = SecurityEvent(
@@ -276,8 +276,8 @@ class SecurityMonitor:
         *,
         event_name: str,
         severity: EventSeverity,
-        metadata: Mapping[str, Any] | None = None,
-    ) -> SecurityThreat | None:
+        metadata: Optional[Mapping[str, Any]] = None,
+    ) -> Optional[SecurityThreat]:
         """Observe a Quantum Integrity system security event."""
 
         event = SecurityEvent(
@@ -323,7 +323,7 @@ class SecurityMonitor:
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------
-    def _handle_auth_failure(self, event: SecurityEvent) -> SecurityThreat | None:
+    def _handle_auth_failure(self, event: SecurityEvent) -> Optional[SecurityThreat]:
         key = self._build_auth_key(event)
         with self._lock:
             failures = self._auth_failures[key]
@@ -349,7 +349,7 @@ class SecurityMonitor:
             )
         return None
 
-    def _handle_rate_limit(self, event: SecurityEvent) -> SecurityThreat | None:
+    def _handle_rate_limit(self, event: SecurityEvent) -> Optional[SecurityThreat]:
         requests_per_minute = int(event.metadata.get("requests_per_minute", 0))
         if requests_per_minute < self.config.rate_limit_threshold:
             return None
@@ -368,7 +368,7 @@ class SecurityMonitor:
             timestamp=event.timestamp,
         )
 
-    def _handle_anomalous_behavior(self, event: SecurityEvent) -> SecurityThreat | None:
+    def _handle_anomalous_behavior(self, event: SecurityEvent) -> Optional[SecurityThreat]:
         anomaly_score = float(event.metadata.get("anomaly_score", 0.0))
         if anomaly_score < self.config.anomaly_score_threshold:
             return None
@@ -387,7 +387,7 @@ class SecurityMonitor:
             timestamp=event.timestamp,
         )
 
-    def _handle_policy_violation(self, event: SecurityEvent) -> SecurityThreat | None:
+    def _handle_policy_violation(self, event: SecurityEvent) -> Optional[SecurityThreat]:
         policy_name = event.metadata.get("policy", event.metadata.get("reason", "guardian_policy_violation"))
         return self._register_threat(
             threat_id=self._build_threat_id("policy", event),
@@ -404,7 +404,7 @@ class SecurityMonitor:
     def _register_threat(
         self,
         *,
-        threat_id: str | None,
+        threat_id: Optional[str],
         threat_type: str,
         severity: EventSeverity,
         description: str,
@@ -430,7 +430,7 @@ class SecurityMonitor:
         return user, ip
 
     @staticmethod
-    def _build_threat_id(prefix: str, event: SecurityEvent | None, key_suffix: str | None = None) -> str:
+    def _build_threat_id(prefix: str, event: Optional[SecurityEvent], key_suffix: Optional[str] = None) -> str:
         base = f"{prefix}:{datetime.now(timezone.utc).timestamp():.6f}"
         if event and event.actor_id:
             base += f":{event.actor_id}"
@@ -439,7 +439,7 @@ class SecurityMonitor:
         return base
 
 
-def create_security_monitor(config: SecurityMonitorConfig | None = None) -> SecurityMonitor:
+def create_security_monitor(config: Optional[SecurityMonitorConfig] = None) -> SecurityMonitor:
     """Factory for creating a ``SecurityMonitor`` with optional configuration."""
 
     return SecurityMonitor(config=config)

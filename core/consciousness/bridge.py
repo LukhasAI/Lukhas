@@ -40,8 +40,8 @@ intuition, and ethical consideration.
 - Emergency: Rapid response for critical situations
 - Adaptive: Context-dependent strategy selection
 
-TAG: DMB, DECISION, CHOICE, WISDOM, BALANCE
-TODO: Implement quantum decision superposition for parallel evaluation
+TAG: DMB, DECISION, CHOICE, WISDOM, BALANCE, QUANTUM
+IMPLEMENTED: Quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
@@ -53,7 +53,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Dict, List, Tuple, Optional
 
 import numpy as np
 
@@ -174,7 +174,7 @@ class DecisionOutcome:
     evaluation_summary: dict[str, Any]
     implementation_timeline: list[dict[str, Any]]
     monitoring_plan: dict[str, Any]
-    rollback_plan: dict[str, Any] | None
+    rollback_plan: Optional[dict[str, Any]]
     decided_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -195,7 +195,7 @@ class DecisionStrategy(ABC):
 class UtilityMaximizationStrategy(DecisionStrategy):
     """Decision strategy based on utility maximization"""
 
-    def __init__(self, weights: dict[DecisionCriteria, float] | None = None):
+    def __init__(self, weights: Optional[dict[DecisionCriteria, float]] = None):
         self.weights = weights or {
             DecisionCriteria.UTILITY: 0.3,
             DecisionCriteria.RISK: 0.2,
@@ -310,6 +310,217 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             return ConfidenceLevel.VERY_LOW
 
 
+@dataclass
+class QuantumDecisionState:
+    """Represents decision in superposition across multiple strategies.
+
+    Uses quantum-inspired probability amplitudes to represent multiple
+    decision strategies simultaneously, allowing for interference patterns
+    and parallel evaluation before collapse to a single choice.
+    """
+
+    strategies: List[DecisionStrategy]
+    amplitudes: np.ndarray  # Complex probability amplitudes for each strategy
+    phase_factors: np.ndarray  # Phase information for interference
+    entangled_decisions: List[str] = field(default_factory=list)
+
+    def normalize_amplitudes(self) -> None:
+        """Ensure amplitudes represent valid probability distribution."""
+        prob_sum = np.sum(np.abs(self.amplitudes) ** 2)
+        if prob_sum > 0:
+            self.amplitudes = self.amplitudes / np.sqrt(prob_sum)
+
+    def add_interference(self, phase_shift: float) -> None:
+        """Add interference pattern by adjusting phase factors."""
+        self.phase_factors = self.phase_factors + phase_shift
+
+    def measure(self) -> Tuple[DecisionStrategy, float]:
+        """Collapse superposition to single strategy with confidence."""
+        probabilities = np.abs(self.amplitudes) ** 2
+        # Normalize probabilities to ensure sum = 1.0
+        probabilities = probabilities / np.sum(probabilities)
+        chosen_idx = np.random.choice(len(self.strategies), p=probabilities)
+        confidence = float(probabilities[chosen_idx])
+        return self.strategies[chosen_idx], confidence
+
+
+class QuantumDecisionEngine:
+    """Evaluates decisions using quantum superposition principles.
+
+    Implements quantum-inspired decision making with:
+    - Superposition of multiple strategies
+    - Interference patterns based on ethical/risk context
+    - Entanglement between related decisions
+    - Measurement/collapse to final decision
+    """
+
+    def __init__(self):
+        self._entanglement_graph: Dict[str, Dict[str, float]] = {}
+        self._history: List[Dict[str, Any]] = []
+
+    def create_superposition(
+        self,
+        strategies: List[DecisionStrategy],
+        initial_weights: Optional[List[float]] = None,
+    ) -> QuantumDecisionState:
+        """Create quantum decision state with strategies in superposition.
+
+        Args:
+            strategies: List of decision strategies to evaluate
+            initial_weights: Optional prior weights for each strategy
+
+        Returns:
+            QuantumDecisionState with normalized amplitudes
+        """
+        n = len(strategies)
+
+        if initial_weights is None:
+            # Equal superposition (Hadamard-like)
+            amplitudes = np.ones(n, dtype=complex) / np.sqrt(n)
+        else:
+            # Weighted superposition
+            amplitudes = np.array([np.sqrt(w) for w in initial_weights], dtype=complex)
+
+        phase_factors = np.zeros(n)
+
+        state = QuantumDecisionState(
+            strategies=strategies, amplitudes=amplitudes, phase_factors=phase_factors
+        )
+        state.normalize_amplitudes()
+        return state
+
+    def apply_interference(self, state: QuantumDecisionState, context: Dict[str, Any]) -> None:
+        """Apply constructive/destructive interference based on context.
+
+        Strategies aligned with ethical principles get constructive interference.
+        Strategies conflicting with safety get destructive interference.
+
+        Args:
+            state: Quantum decision state to modify
+            context: Context with ethical_alignment and risk_level data
+        """
+        for idx, strategy in enumerate(state.strategies):
+            # Ethical alignment -> constructive interference (positive phase)
+            ethical_score = context.get("ethical_alignment", {}).get(strategy.__class__.__name__, 0.5)
+            # Risk level -> destructive for high-risk strategies (negative phase)
+            risk_penalty = context.get("risk_level", {}).get(strategy.__class__.__name__, 0.0)
+
+            # Phase shift combines ethical boost and risk penalty
+            phase_shift = (ethical_score - 0.5) * np.pi - risk_penalty * np.pi / 2
+            state.phase_factors[idx] += phase_shift
+
+        # Apply phase to amplitudes
+        state.amplitudes = state.amplitudes * np.exp(1j * state.phase_factors)
+        state.normalize_amplitudes()
+
+    def entangle_decisions(
+        self, decision_id1: str, decision_id2: str, correlation: float = 0.7
+    ) -> None:
+        """Create entanglement between two decisions.
+
+        Entangled decisions influence each other's probability distributions.
+        Used for related decisions that should be consistent.
+
+        Args:
+            decision_id1: First decision ID
+            decision_id2: Second decision ID
+            correlation: Correlation strength (0.0 to 1.0)
+        """
+        if decision_id1 not in self._entanglement_graph:
+            self._entanglement_graph[decision_id1] = {}
+        if decision_id2 not in self._entanglement_graph:
+            self._entanglement_graph[decision_id2] = {}
+
+        self._entanglement_graph[decision_id1][decision_id2] = correlation
+        self._entanglement_graph[decision_id2][decision_id1] = correlation
+
+    def parallel_evaluate(
+        self, state: QuantumDecisionState, context: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Evaluate all strategies in superposition before measurement.
+
+        Returns evaluation metrics for all strategies without collapsing.
+
+        Args:
+            state: Quantum decision state
+            context: Decision context
+
+        Returns:
+            Dictionary with strategy evaluations, entropy, and coherence
+        """
+        evaluations = {}
+
+        for idx, strategy in enumerate(state.strategies):
+            amplitude = state.amplitudes[idx]
+            probability = float(np.abs(amplitude) ** 2)
+            phase = float(np.angle(amplitude))
+
+            evaluations[strategy.__class__.__name__] = {
+                "probability": probability,
+                "phase": phase,
+                "amplitude_real": float(amplitude.real),
+                "amplitude_imag": float(amplitude.imag),
+            }
+
+        return {
+            "strategy_evaluations": evaluations,
+            "entropy": self._calculate_entropy(state),
+            "coherence": self._calculate_coherence(state),
+        }
+
+    def _calculate_entropy(self, state: QuantumDecisionState) -> float:
+        """Calculate von Neumann entropy of decision state."""
+        probabilities = np.abs(state.amplitudes) ** 2
+        # Remove zero probabilities to avoid log(0)
+        probabilities = probabilities[probabilities > 1e-10]
+        if len(probabilities) == 0:
+            return 0.0
+        entropy = -np.sum(probabilities * np.log2(probabilities))
+        return float(entropy)
+
+    def _calculate_coherence(self, state: QuantumDecisionState) -> float:
+        """Measure quantum coherence (off-diagonal terms of density matrix)."""
+        # Simplified coherence measure
+        density_matrix = np.outer(state.amplitudes, np.conj(state.amplitudes))
+        off_diagonal = density_matrix - np.diag(np.diag(density_matrix))
+        coherence = float(np.sum(np.abs(off_diagonal)))
+        return coherence
+
+    def collapse_and_decide(
+        self, state: QuantumDecisionState, decision_id: str
+    ) -> Tuple[DecisionStrategy, float, Dict[str, Any]]:
+        """Collapse superposition to single decision.
+
+        Args:
+            state: Quantum decision state
+            decision_id: Unique decision identifier
+
+        Returns:
+            Tuple of (chosen_strategy, confidence, metadata)
+        """
+        chosen_strategy, confidence = state.measure()
+
+        metadata = {
+            "decision_id": decision_id,
+            "available_strategies": [s.__class__.__name__ for s in state.strategies],
+            "chosen_strategy": chosen_strategy.__class__.__name__,
+            "confidence": confidence,
+            "measurement_time": datetime.now(timezone.utc).isoformat(),
+            "pre_measurement_entropy": self._calculate_entropy(state),
+        }
+
+        # Store in history for learning
+        self._history.append(
+            {
+                "decision_id": decision_id,
+                "strategy": chosen_strategy.__class__.__name__,
+                "confidence": confidence,
+            }
+        )
+
+        return chosen_strategy, confidence, metadata
+
+
 class DecisionMakingBridge:
     """
     The Decision-Making Bridge - The neural crossroads of intelligent choice.
@@ -325,7 +536,7 @@ class DecisionMakingBridge:
     ethical reasoning, emotional intelligence, and creative insight.
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the Decision-Making Bridge
 
@@ -355,10 +566,12 @@ class DecisionMakingBridge:
         self.decision_outcomes_tracking = {}
         self.performance_metrics = {}
 
-        self.logger.info(
+        logger.info(
             "Decision-Making Bridge initialized",
-            strategies=list(self.strategies.keys()),
-            config_keys=list(self.config.keys()),
+            extra={
+                "strategies": list(self.strategies.keys()),
+                "config_keys": list(self.config.keys()),
+            },
         )
 
     def _default_config(self) -> dict[str, Any]:
@@ -379,10 +592,10 @@ class DecisionMakingBridge:
 
     def integrate_components(
         self,
-        neuro_symbolic_layer: Any | None = None,
-        energy_planner: Any | None = None,
-        ethical_governor: Any | None = None,
-        symbolic_engine: Any | None = None,
+        neuro_symbolic_layer: Optional[Any] = None,
+        energy_planner: Optional[Any] = None,
+        ethical_governor: Optional[Any] = None,
+        symbolic_engine: Optional[Any] = None,
     ) -> None:
         """
         Integrate with other Lukhas Strategy Engine components
@@ -398,25 +611,27 @@ class DecisionMakingBridge:
         self.ethical_governor = ethical_governor
         self.symbolic_engine = symbolic_engine
 
-        self.logger.info(
+        logger.info(
             "Component integration completed",
-            integrated_components=[
-                name
-                for name, component in [
-                    ("nsfl", neuro_symbolic_layer),
-                    ("eaxp", energy_planner),
-                    ("ethical", ethical_governor),
-                    ("symbolic", symbolic_engine),
+            extra={
+                "integrated_components": [
+                    name
+                    for name, component in [
+                        ("nsfl", neuro_symbolic_layer),
+                        ("eaxp", energy_planner),
+                        ("ethical", ethical_governor),
+                        ("symbolic", symbolic_engine),
+                    ]
+                    if component is not None
                 ]
-                if component is not None
-            ],
+            },
         )
 
     async def make_decision(
         self,
         context: DecisionContext,
         alternatives: list[DecisionAlternative],
-        strategy_name: str | None = None,
+        strategy_name: Optional[str] = None,
     ) -> DecisionOutcome:
         """
         Make a decision given context and alternatives
@@ -440,17 +655,21 @@ class DecisionMakingBridge:
 
             # Check if decision is already in progress
             if context.decision_id in self.active_decisions:
-                self.logger.warning("Decision already in progress", decision_id=context.decision_id)
+                logger.warning(
+                    "Decision already in progress", extra={"decision_id": context.decision_id}
+                )
                 return self.active_decisions[context.decision_id]
 
             # Mark decision as active
             self.active_decisions[context.decision_id] = None
 
-            self.logger.info(
+            logger.info(
                 "Starting decision process",
-                decision_id=context.decision_id,
-                decision_type=context.decision_type.value,
-                alternatives_count=len(alternatives),
+                extra={
+                    "decision_id": context.decision_id,
+                    "decision_type": context.decision_type.value,
+                    "alternatives_count": len(alternatives),
+                },
             )
 
             # Select decision strategy
@@ -508,18 +727,23 @@ class DecisionMakingBridge:
 
             decision_duration = (datetime.now(timezone.utc) - decision_start).total_seconds()
 
-            self.logger.info(
+            logger.info(
                 "Decision process completed",
-                decision_id=context.decision_id,
-                selected_alternative=selected_id,
-                confidence=outcome.confidence.name,
-                duration_seconds=decision_duration,
+                extra={
+                    "decision_id": context.decision_id,
+                    "selected_alternative": selected_id,
+                    "confidence": outcome.confidence.name,
+                    "duration_seconds": decision_duration,
+                },
             )
 
             return outcome
 
         except Exception as e:
-            self.logger.error("Decision process failed", decision_id=context.decision_id, error=str(e))
+            logger.error(
+                "Decision process failed",
+                extra={"decision_id": context.decision_id, "error": str(e)},
+            )
             # Clean up active decision
             if context.decision_id in self.active_decisions:
                 del self.active_decisions[context.decision_id]
@@ -557,13 +781,16 @@ class DecisionMakingBridge:
             return {"status": "not_found", "decision_id": decision_id}
 
         except Exception as e:
-            self.logger.error("Failed to get decision status", decision_id=decision_id, error=str(e))
+            logger.error(
+                "Failed to get decision status",
+                extra={"decision_id": decision_id, "error": str(e)},
+            )
             return {"status": "error", "error": str(e)}
 
     def register_decision_strategy(self, name: str, strategy: DecisionStrategy) -> None:
         """Register a new decision-making strategy"""
         self.strategies[name] = strategy
-        self.logger.info("Decision strategy registered", strategy_name=name)
+        logger.info("Decision strategy registered", extra={"strategy_name": name})
 
     def analyze_decision_patterns(self) -> dict[str, Any]:
         """
@@ -612,7 +839,7 @@ class DecisionMakingBridge:
             return analysis
 
         except Exception as e:
-            self.logger.error("Decision pattern analysis failed", error=str(e))
+            logger.error("Decision pattern analysis failed", extra={"error": str(e)})
             return {"error": str(e)}
 
     def get_decision_metrics(self) -> dict[str, Any]:
@@ -646,8 +873,65 @@ class DecisionMakingBridge:
             return metrics
 
         except Exception as e:
-            self.logger.error("Failed to generate decision metrics", error=str(e))
+            logger.error("Failed to generate decision metrics", error=str(e))
             return {"error": str(e)}
+
+    def evaluate_with_quantum_superposition(
+        self,
+        decision_id: str,
+        strategies: List[DecisionStrategy],
+        context: Dict[str, Any],
+        apply_interference: bool = True,
+        entangled_with: Optional[List[str]] = None,
+    ) -> Tuple[DecisionStrategy, float, Dict[str, Any]]:
+        """Evaluate decision using quantum superposition of multiple strategies.
+
+        This method creates a superposition of all candidate strategies,
+        applies interference patterns based on ethical/risk context,
+        and collapses to the optimal strategy.
+
+        Args:
+            decision_id: Unique identifier for this decision
+            strategies: List of strategies to evaluate in superposition
+            context: Decision context with ethical_alignment, risk_level, etc.
+            apply_interference: Whether to apply constructive/destructive interference
+            entangled_with: List of related decision IDs for entanglement
+
+        Returns:
+            Tuple of (chosen_strategy, confidence, evaluation_metadata)
+        """
+        if not hasattr(self, "_quantum_engine"):
+            self._quantum_engine = QuantumDecisionEngine()
+
+        # Create superposition state
+        state = self._quantum_engine.create_superposition(strategies)
+
+        # Apply interference if requested
+        if apply_interference:
+            self._quantum_engine.apply_interference(state, context)
+
+        # Handle entanglement
+        if entangled_with:
+            for related_id in entangled_with:
+                self._quantum_engine.entangle_decisions(decision_id, related_id)
+
+        # Parallel evaluation (pre-measurement)
+        evaluation = self._quantum_engine.parallel_evaluate(state, context)
+
+        # Collapse and decide
+        chosen_strategy, confidence, metadata = self._quantum_engine.collapse_and_decide(
+            state, decision_id
+        )
+
+        # Merge evaluation data into metadata
+        metadata["parallel_evaluation"] = evaluation
+
+        logger.info(
+            f"Quantum decision collapsed: {chosen_strategy.__class__.__name__} "
+            f"(confidence={confidence:.3f}, entropy={evaluation['entropy']:.3f})"
+        )
+
+        return chosen_strategy, confidence, metadata
 
     # Internal helper methods
 
@@ -667,7 +951,7 @@ class DecisionMakingBridge:
         if len(alt_ids) != len(set(alt_ids)):
             raise ValueError("Alternative IDs must be unique")
 
-    def _select_strategy(self, context: DecisionContext, strategy_name: str | None) -> DecisionStrategy:
+    def _select_strategy(self, context: DecisionContext, strategy_name: Optional[str]) -> DecisionStrategy:
         """Select appropriate decision strategy"""
         if strategy_name and strategy_name in self.strategies:
             return self.strategies[strategy_name]
@@ -778,7 +1062,7 @@ class DecisionMakingBridge:
 
     def _create_rollback_plan(
         self, context: DecisionContext, evaluation: DecisionEvaluation
-    ) -> dict[str, Any] | None:
+    ) -> Optional[dict[str, Any]]:
         """Create rollback plan in case decision needs to be reversed"""
         if evaluation.overall_score > 0.8:
             return None  # High confidence decisions may not need rollback plans
@@ -903,7 +1187,7 @@ class DecisionMakingBridge:
 
 
 # Factory function for Lukhas integration
-def create_dmb_instance(config_path: str | None = None) -> DecisionMakingBridge:
+def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBridge:
     """
     Factory function to create DMB instance with Lukhas integration
 
@@ -935,6 +1219,8 @@ __all__ = [
     "DecisionOutcome",
     "DecisionStrategy",
     "DecisionType",
+    "QuantumDecisionEngine",
+    "QuantumDecisionState",
     "UtilityMaximizationStrategy",
     "create_dmb_instance",
 ]

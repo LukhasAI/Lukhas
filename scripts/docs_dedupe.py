@@ -159,7 +159,7 @@ def find_near_duplicates(docs: list[Dict], threshold: float = 0.92) -> list[list
         title_groups[key].append(doc)
 
     # Only check similarity within groups
-    for key, group_docs in title_groups.items():
+    for _key, group_docs in title_groups.items():
         if len(group_docs) < 2:
             continue
 

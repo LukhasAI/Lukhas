@@ -12,7 +12,7 @@ import re
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class SecurityReportValidationError(ValueError):
@@ -108,7 +108,7 @@ class SecurityReport:
         }
 
 
-def validate_report(report: SecurityReport, *, allowed_detail_keys: Iterable[str] | None = None) -> None:
+def validate_report(report: SecurityReport, *, allowed_detail_keys: Optional[Iterable[str]] = None) -> None:
     """Validate *report* ensuring it is safe to store or emit.
 
     Args:

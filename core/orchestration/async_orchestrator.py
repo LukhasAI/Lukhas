@@ -16,11 +16,12 @@ import time
 from collections import deque
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 
 from core.interfaces import ICognitiveNode
 from core.registry import resolve
 
+from lukhas.observability.distributed_tracing import extract_context
 from metrics import (
     arbitration_decisions_total,
     constellation_star_activations,
@@ -39,8 +40,6 @@ from metrics import (
     stage_timeouts,
 )
 
-from lukhas.observability.distributed_tracing import extract_context, inject_context
-
 from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController
 from .otel import stage_span
@@ -58,7 +57,7 @@ class StageConfig:
     timeout_ms: int = 200
     max_retries: int = 2
     backoff_base_ms: int = 80
-    node: str | None = None
+    node: Optional[str] = None
     fallback_nodes: tuple[str, ...] = field(default_factory=tuple)
 
 
@@ -67,7 +66,7 @@ class CancellationToken:
 
     def __init__(self) -> None:
         self._event = asyncio.Event()
-        self.reason: str | None = None
+        self.reason: Optional[str] = None
 
     def cancel(self, reason: str = "cancelled") -> None:
         """Signal cancellation with an optional reason."""
@@ -93,14 +92,14 @@ class PipelineResult:
     success: bool
     output: dict[str, Any]
     stage_results: list[dict[str, Any]]
-    rationale: dict[str, Any] | None = None
-    escalation_reason: str | None = None
+    rationale: Optional[dict[str, Any]] = None
+    escalation_reason: Optional[str] = None
 
 
 class AsyncOrchestrator:
     """Advanced async orchestrator with resilience patterns and parallel execution."""
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.meta_controller = MetaController()
         self.stages: list[StageConfig] = []
@@ -199,7 +198,7 @@ class AsyncOrchestrator:
         duration_ms: float,
         success: bool,
         stage_config: StageConfig,
-        metadata: dict[str, Any] | None = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         self._ensure_node_health_entry(node_key)
         entry = self.node_health[node_key]
@@ -260,12 +259,12 @@ class AsyncOrchestrator:
         self,
         stage_config: StageConfig,
         context: Mapping[str, Any],
-        cancellation: CancellationToken | None,
+        cancellation: Optional[CancellationToken],
         span_ctx: Any,
     ) -> dict[str, Any]:
         """Executes a stage with adaptive routing, handling node selection, retries, and fallbacks."""
         primary_key = (stage_config.node or stage_config.name).lower()
-        last_result: dict[str, Any] | None = None
+        last_result: Optional[dict[str, Any]] = None
 
         for attempt_index, node_key in enumerate(
             self._candidate_node_keys(stage_config)
@@ -397,7 +396,7 @@ class AsyncOrchestrator:
         self,
         coro: Any,
         timeout: float,
-        cancellation: CancellationToken | None,
+        cancellation: Optional[CancellationToken],
     ) -> Any:
         task = asyncio.create_task(coro)
         cancel_task: asyncio.Task | None = None
@@ -434,10 +433,10 @@ class AsyncOrchestrator:
         self,
         fn: Any,
         stage_config: StageConfig,
-        cancellation: CancellationToken | None = None,
+        cancellation: Optional[CancellationToken] = None,
     ) -> Any:
         """Execute function with exponential backoff retry."""
-        last_error: Exception | None = None
+        last_error: Optional[Exception] = None
 
         for attempt in range(stage_config.max_retries):
             if cancellation and cancellation.cancelled:
@@ -467,7 +466,7 @@ class AsyncOrchestrator:
         stage_config: StageConfig,
         node: ICognitiveNode,
         context: Mapping[str, Any],
-        cancellation: CancellationToken | None = None,
+        cancellation: Optional[CancellationToken] = None,
     ) -> dict[str, Any]:
         """Run a single stage with timeout, retry, and observability."""
 
@@ -625,10 +624,10 @@ class AsyncOrchestrator:
         self,
         stage_config: StageConfig,
         current_context: dict[str, Any],
-        cancellation: CancellationToken | None,
+        cancellation: Optional[CancellationToken],
         pipeline_span: Any,
         stage_index: int,
-    ) -> tuple[dict[str, Any] | None, PipelineResult | None]:
+    ) -> Optional[tuple[dict[str, Any]], PipelineResult | None]:
         """Executes a single stage and processes its result, returning the stage result and a potential final pipeline result."""
         try:
             with stage_span(
@@ -755,7 +754,7 @@ class AsyncOrchestrator:
     async def process_query(
         self,
         context: Mapping[str, Any],
-        cancellation: CancellationToken | None = None,
+        cancellation: Optional[CancellationToken] = None,
     ) -> PipelineResult:
         """Process a query through the async pipeline with comprehensive tracing."""
         trace_carrier = context.get("_trace_context", {})
@@ -819,7 +818,7 @@ class AsyncOrchestrator:
         batch: list[StageConfig],
         batch_index: int,
         current_context: dict[str, Any],
-        cancellation: CancellationToken | None,
+        cancellation: Optional[CancellationToken],
         pipeline_span: Any,
     ) -> tuple[list[dict[str, Any]], dict[str, Any], PipelineResult | None]:
         """Processes a single batch of stages in parallel."""
@@ -876,7 +875,7 @@ class AsyncOrchestrator:
     async def process_query_parallel(
         self,
         context: Mapping[str, Any],
-        cancellation: CancellationToken | None = None,
+        cancellation: Optional[CancellationToken] = None,
     ) -> PipelineResult:
         """Process query with parallel stage execution where possible."""
         trace_carrier = context.get("_trace_context", {})
@@ -959,7 +958,7 @@ class AsyncOrchestrator:
         node: ICognitiveNode,
         context: Mapping[str, Any],
         batch_index: int,
-        cancellation: CancellationToken | None = None,
+        cancellation: Optional[CancellationToken] = None,
     ) -> dict[str, Any]:
         """Run stage with additional parallel execution context."""
         result = await self._run_stage(
@@ -1049,7 +1048,7 @@ class AsyncOrchestrator:
 
         return results
 
-    def _check_batch_escalations(self, batch_results: list[dict[str, Any]]) -> dict[str, Any] | None:
+    def _check_batch_escalations(self, batch_results: list[dict[str, Any]]) -> Optional[dict[str, Any]]:
         """Check if any results in the batch require escalation."""
         for result in batch_results:
             if result.get("action") == "escalate":
@@ -1128,7 +1127,7 @@ class AsyncOrchestrator:
     async def process_adaptive(
         self,
         context: Mapping[str, Any],
-        cancellation: CancellationToken | None = None,
+        cancellation: Optional[CancellationToken] = None,
     ) -> PipelineResult:
         """Adaptive processing that chooses between sequential and parallel based on context."""
         # Simple heuristic: use parallel for complex queries

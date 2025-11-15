@@ -6,7 +6,7 @@ import base64
 import json
 import secrets
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 # ΛTAG: webauthn_production
 
@@ -78,7 +78,7 @@ def start_challenge(user_id: str, rp_id: str, origin: str) -> dict[str, Any]:
     }
 
 
-def verify_response(response: dict[str, Any], expected_challenge: str | None = None) -> dict[str, Any]:
+def verify_response(response: dict[str, Any], expected_challenge: Optional[str] = None) -> dict[str, Any]:
     """Verify the provided WebAuthn response matches the expected challenge.
 
     Security: Validates challenge matches expected value to prevent replay attacks.

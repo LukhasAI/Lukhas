@@ -11,7 +11,7 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, ClassVar, Generic, Optional, TypeVar
 
 import redis.asyncio as redis
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
@@ -19,7 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field, model_validator, field_validator
 from pydantic.generics import GenericModel
 
 # from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
@@ -94,7 +94,7 @@ class TimestampMixin(BaseModel):
     updated_at: Optional[datetime] = None
 
     class Config:
-        json_encoders = {datetime: lambda v: v.isoformat()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L96"}
+        json_encoders: ClassVar[dict] = {datetime: lambda v: v.isoformat()}  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_bridge_adapters_api_framework_py_L96"}
 
 
 class RequestMetadata(BaseModel):
@@ -178,7 +178,8 @@ class EmotionalState(BaseModel):
     arousal: float = Field(..., ge=-1, le=1)
     dominance: float = Field(..., ge=-1, le=1)
 
-    @validator("valence", "arousal", "dominance")
+    @field_validator("valence", "arousal", "dominance")
+    @classmethod
     def validate_range(cls, v):
         if not -1 <= v <= 1:
             raise ValueError("Value must be between -1 and 1")

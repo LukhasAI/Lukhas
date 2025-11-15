@@ -9,7 +9,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Any
+from typing import Any, Optional
 
 # Threshold sweep ranges
 ALIGNMENT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
@@ -135,7 +135,7 @@ def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> dict[
         "optimization_metric": metric
     }
 
-def calibration_report(sweep_path: str, out_path: str | None = None) -> str:
+def calibration_report(sweep_path: str, out_path: Optional[str] = None) -> str:
     """Generate calibration report with recommendations."""
     if out_path is None:
         out_path = sweep_path.replace(".json", "_report.json")

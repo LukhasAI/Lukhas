@@ -33,8 +33,8 @@ from unittest.mock import patch
 import pytest
 
 # Import MATRIZ components
-from consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
-from consciousness.types import ConsciousnessState
+from labs.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
+from labs.consciousness.types import ConsciousnessState
 
 # Import Guardian components
 from governance.guardian_serializers import GuardianEnvelopeSerializer

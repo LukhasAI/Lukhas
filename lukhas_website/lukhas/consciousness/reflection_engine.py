@@ -23,7 +23,7 @@ import statistics
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -158,10 +158,10 @@ class ReflectionEngine:
 
     def __init__(
         self,
-        config: ReflectionConfig | None = None,
-        memory_backend: MemoryBackend | None = None,
-        guardian_validator: Any | None = None,
-        guardian_integration: ConsciousnessGuardianIntegration | None = None
+        config: Optional[ReflectionConfig] = None,
+        memory_backend: Optional[MemoryBackend] = None,
+        guardian_validator: Optional[Any] = None,
+        guardian_integration: Optional[ConsciousnessGuardianIntegration] = None
     ):
         """
         Initialize ReflectionEngine.
@@ -209,7 +209,7 @@ class ReflectionEngine:
         self._state_history: list[ConsciousnessState] = []
         self._last_reflection_time: float = 0.0
         self._drift_ema: float = 0.0
-        self._baseline_coherence: float | None = None
+        self._baseline_coherence: Optional[float] = None
 
         # Memory integration state
         self._memory_fold_cache: dict[str, Any] = {}
@@ -237,8 +237,8 @@ class ReflectionEngine:
     async def reflect(
         self,
         consciousness_state: ConsciousnessState,
-        awareness_snapshot: AwarenessSnapshot | None = None,
-        context: dict[str, Any] | None = None
+        awareness_snapshot: Optional[AwarenessSnapshot] = None,
+        context: Optional[dict[str, Any]] = None
     ) -> ReflectionReport:
         """
         Perform comprehensive reflection analysis on consciousness state.
@@ -388,7 +388,7 @@ class ReflectionEngine:
     async def _analyze_state_coherence(
         self,
         state: ConsciousnessState,
-        awareness: AwarenessSnapshot | None
+        awareness: Optional[AwarenessSnapshot]
     ) -> dict[str, Any]:
         """Analyze coherence of consciousness state."""
 
@@ -663,7 +663,7 @@ class ReflectionEngine:
     async def _analyze_memory_integration(
         self,
         state: ConsciousnessState,
-        context: dict[str, Any] | None
+        context: Optional[dict[str, Any]]
     ) -> dict[str, Any]:
         """Analyze integration with memory system."""
 
@@ -715,7 +715,7 @@ class ReflectionEngine:
     async def _analyze_fold_coherence(
         self,
         state: ConsciousnessState,
-        context: dict[str, Any] | None
+        context: Optional[dict[str, Any]]
     ) -> float:
         """Analyze coherence of memory folds."""
 
@@ -770,7 +770,7 @@ class ReflectionEngine:
         self,
         report: ReflectionReport,
         state: ConsciousnessState,
-        context: dict[str, Any] | None
+        context: Optional[dict[str, Any]]
     ) -> None:
         """Validate reflection results with Guardian integration system."""
 

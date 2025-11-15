@@ -42,7 +42,7 @@ def get_current_key() -> Optional[str]:
             check=True
         )
         return result.stdout.strip()
-    except:
+    except Exception:
         return None
 
 

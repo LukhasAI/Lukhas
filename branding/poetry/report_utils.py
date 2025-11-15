@@ -21,9 +21,11 @@ def render_frequency_line(
     scale: int = 10,
     bar_char: str = "█",
     width: int = 20,
-    label: str | None = None,
+    label: Optional[str] = None,
 ) -> str:
     """Render a formatted frequency line with severity indicators."""
+from typing import Optional
+
     if scale <= 0:
         raise ValueError("scale must be positive")
     if count < 0:

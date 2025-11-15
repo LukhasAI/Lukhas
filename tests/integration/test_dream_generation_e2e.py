@@ -25,8 +25,8 @@ def client():
     Create a TestClient instance for the FastAPI app, ensuring all mocks
     are in place before the app is imported and the client is created.
     """
-    with patch("labs.consciousness.dream.core.dream_engine.UnifiedIntegration") as mock_ui, \
-         patch("lukhas.dream.get_dream_engine") as mock_get_engine:
+    with patch("labs.consciousness.dream.core.dream_engine.UnifiedIntegration"), \
+         patch("lukhas.dream.get_dream_engine"):
 
         from serve.main import app
 

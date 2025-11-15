@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Iterable
-from typing import Any
+from typing import Any, Optional
 
 from .backends.pgvector_store import PgVectorStore, VectorDoc
 
@@ -40,7 +40,7 @@ def _fingerprint(text: str) -> str:
 
 
 class Indexer:
-    def __init__(self, store: PgVectorStore, emb: Embeddings | None = None):
+    def __init__(self, store: PgVectorStore, emb: Optional[Embeddings] = None):
         self.store = store
         self.emb = emb or Embeddings()
 
@@ -60,7 +60,7 @@ class Indexer:
 
         return self.store.add(VectorDoc(id=fp, text=text, embedding=vec, meta=meta_with_fp))
 
-    def search_text(self, query: str, k: int = 10, filters: dict[str, Any] | None = None):
+    def search_text(self, query: str, k: int = 10, filters: Optional[dict[str, Any]] = None):
         vec = self.emb.embed(query)
         return self.store.search(vec, k=k, filters=filters)
 

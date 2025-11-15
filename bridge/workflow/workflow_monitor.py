@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +15,8 @@ class TaskLifecycle:
     """Simple lifecycle record for a workflow task."""
 
     started_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    completed_at: datetime | None = None
-    success: bool | None = None
+    completed_at: Optional[datetime] = None
+    success: Optional[bool] = None
 
 
 # ΛTAG:workflow_monitoring
@@ -28,7 +28,7 @@ class WorkflowMonitor:
     task execution without requiring the full monitoring stack.
     """
 
-    def __init__(self, config: dict[str, Any] | None = None) -> None:
+    def __init__(self, config: Optional[dict[str, Any]] = None) -> None:
         self.config = config or {}
         self._workflow_tasks: dict[str, dict[str, TaskLifecycle]] = {}
 

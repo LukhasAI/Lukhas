@@ -8,6 +8,8 @@ Usage:
   monitor = DriftMonitor(lane="experimental")
   result = monitor.update(intent=[1.0, 0.0], action=[0.9, 0.1])
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import math
@@ -51,7 +53,7 @@ def _cosine(a: list[float], b: list[float]) -> float:
 
 class DriftMonitor:
     __slots__ = ("_raw", "cfg", "ema", "lane")
-    def __init__(self, lane: str | None = None):
+    def __init__(self, lane: Optional[str] = None):
         self.lane = (lane or os.getenv("LUKHAS_LANE", "experimental")).lower()
         self.cfg  = LANE_CFG.get(self.lane, LANE_CFG["experimental"])
         self.ema: float = 0.0

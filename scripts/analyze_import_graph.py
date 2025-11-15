@@ -17,9 +17,12 @@ edges = defaultdict(set)
 def mod_from_file(py: Path):
     rel = py.relative_to(Path(".").resolve())
     parts = list(rel.parts)
-    if parts[0]!=ROOT: return None
-    if parts[-1]=="__init__.py": parts=parts[:-1]
-    else: parts[-1]=parts[-1].replace(".py","")
+    if parts[0] != ROOT:
+        return None
+    if parts[-1] == "__init__.py":
+        parts = parts[:-1]
+    else:
+        parts[-1] = parts[-1].replace(".py", "")
     return ".".join(parts)
 
 def imports_in(py: Path):
@@ -27,35 +30,45 @@ def imports_in(py: Path):
         t = ast.parse(py.read_text(encoding="utf-8"))
     except Exception:
         return []
-    out=[]
+    out = []
     for n in ast.walk(t):
         if isinstance(n, ast.ImportFrom) and n.module and not n.level:
             out.append(n.module)
         elif isinstance(n, ast.Import):
-            for a in n.names: out.append(a.name.split(".")[0])
+            for a in n.names:
+                out.append(a.name.split(".")[0])
     return out
 
-mods={}
+mods = {}
 for py in Path(ROOT).rglob("*.py"):
     m = mod_from_file(py)
-    if not m: continue
-    mods[m]=py
+    if not m:
+        continue
+    mods[m] = py
     for imp in imports_in(py):
         if imp.startswith(ROOT):
             edges[m].add(imp)
 
 # find cycles (simple DFS)
-seen=set(); stack=set(); order=[]  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analyze_import_graph_py_L48"}
-cycles=[]
+seen = set()
+stack = set()
+order = []
+cycles = []
+
 def dfs(u):
-    seen.add(u); stack.add(u)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analyze_import_graph_py_L51"}
+    seen.add(u)
+    stack.add(u)
     for v in edges[u]:
-        if v not in seen: dfs(v)
-        elif v in stack: cycles.append((u,v))
-    stack.remove(u); order.append(u)  # TODO[T4-ISSUE]: {"code":"E702","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Multiple statements on one line - split for readability","estimate":"5m","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_analyze_import_graph_py_L55"}
+        if v not in seen:
+            dfs(v)
+        elif v in stack:
+            cycles.append((u, v))
+    stack.remove(u)
+    order.append(u)
 
 for m in mods:
-    if m not in seen: dfs(m)
+    if m not in seen:
+        dfs(m)
 
 if cycles:
     print("[CYCLES]")

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 import logging
@@ -31,7 +33,7 @@ class LoopInfo:
     task: asyncio.Task
     start_time: float
     drift_score: float = 0.0  # ΛTAG: driftScore
-    collapse_hash: str | None = None  # ΛTAG: collapseHash
+    collapse_hash: Optional[str] = None  # ΛTAG: collapseHash
     affect_delta: float = 0.0  # ΛTAG: affect_delta
     entanglement_level: float = 0.0
     corruption_count: int = 0

@@ -1,4 +1,4 @@
-from consciousness.dream.expand import mediation
+from labs.consciousness.dream.expand import mediation
 
 
 def test_mediate_creates_compromise():

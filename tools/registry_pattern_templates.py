@@ -8,11 +8,11 @@ Purpose: Provide transformation logic for pre/post-MATRIZ audit compliance.
 
 from __future__ import annotations
 
-from typing import Any, Protocol
+from typing import Any, Protocol, Optional
 
 # ============================================================================
 # TEMPLATE 1: Core Decision Engine Registry
-# Replaces: static imports from core.* in lukhas/core/core_wrapper.py
+# Replaces: static imports from lukhas.core.* in lukhas/core/core_wrapper.py
 # ============================================================================
 
 
@@ -34,7 +34,7 @@ class CoreDecisionRegistry:
         self._engines[name] = engine
         self._audit_trail.append({"action": "engine_registered", "name": name, "type": type(engine).__name__})
 
-    def get_engine(self, name: str) -> DecisionEngineProtocol | None:
+    def get_engine(self, name: str) -> Optional[DecisionEngineProtocol]:
         """Get registered engine (safe for accepted lane)."""
         return self._engines.get(name)
 
@@ -56,7 +56,7 @@ def register_decision_engine(name: str, engine: DecisionEngineProtocol) -> None:
     _DECISION_REGISTRY.register_engine(name, engine)
 
 
-def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run") -> dict[str, Any]:
+def decide(policy_input: dict[str, Any], *, engine: Optional[str] = None, mode: str = "dry_run") -> dict[str, Any]:
     """Core decision function - audit compliant implementation."""
     # Always safe default in audit mode
     if mode == "dry_run" or not engine:
@@ -114,7 +114,7 @@ class GuardianRegistry:
             }
         )
 
-    def get_guardian(self, name: str) -> GuardianProtocol | None:
+    def get_guardian(self, name: str) -> Optional[GuardianProtocol]:
         """Get guardian by name."""
         return self._guardians.get(name)
 

@@ -34,7 +34,7 @@ import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from core.governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
 from core.governance.security.secret_manager import get_secret_manager
@@ -86,29 +86,29 @@ class UnifiedAuthContext:
     auth_method: AuthMethod
 
     # Consciousness data
-    consciousness_state: ConsciousnessState | None = None
-    attention_metrics: dict[str, float] | None = None
+    consciousness_state: Optional[ConsciousnessState] = None
+    attention_metrics: Optional[dict[str, float]] = None
 
     # Cultural intelligence
-    cultural_context: dict[str, Any] | None = None
-    language_preferences: list[str] | None = None
+    cultural_context: Optional[dict[str, Any]] = None
+    language_preferences: Optional[list[str]] = None
 
     # Biometric data (privacy-preserving hashes only)
-    biometric_hashes: dict[str, str] | None = None
+    biometric_hashes: Optional[dict[str, str]] = None
 
     # Dream integration
-    dream_state_indicators: dict[str, float] | None = None
+    dream_state_indicators: Optional[dict[str, float]] = None
 
     # Quantum elements
-    qi_entropy_source: str | None = None
-    qrglyph_token: str | None = None
+    qi_entropy_source: Optional[str] = None
+    qrglyph_token: Optional[str] = None
 
     # Constitutional validation
-    ethical_challenge_response: str | None = None
+    ethical_challenge_response: Optional[str] = None
 
     # Traditional auth data
-    credentials: dict[str, Any] | None = None
-    client_info: dict[str, Any] | None = None
+    credentials: Optional[dict[str, Any]] = None
+    client_info: Optional[dict[str, Any]] = None
 
 
 class QIConsciousnessValidator:
@@ -546,7 +546,7 @@ class RevolutionaryAuthManager:
         self,
         context: UnifiedAuthContext,
         consciousness_result: dict,
-        dream_result: dict | None,
+        dream_result: Optional[dict],
     ) -> AuthTier:
         """Determine optimal authentication tier based on all factors"""
 

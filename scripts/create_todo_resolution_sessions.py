@@ -592,20 +592,22 @@ Add comprehensive input validation to matriz/interfaces/api_server.py.
 
 **Implementation**:
 ```python
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from fastapi import HTTPException, Request
 
 class NodeCreationRequest(BaseModel):
     node_type: str = Field(..., max_length=100, pattern="^[a-zA-Z0-9_]+$")
     config: dict = Field(..., max_items=50)
 
-    @validator("node_type")
+    @field_validator("node_type")
+    @classmethod
     def validate_node_type(cls, v):
         if v not in ALLOWED_NODE_TYPES:
             raise ValueError(f"Invalid node type: {v}")
         return v
 
-    @validator("config")
+    @field_validator("config")
+    @classmethod
     def validate_config(cls, v):
         # Prevent deeply nested structures (DoS)
         if get_depth(v) > 10:

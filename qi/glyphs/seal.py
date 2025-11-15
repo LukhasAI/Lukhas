@@ -12,7 +12,7 @@ import json
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -30,8 +30,8 @@ class GlyphSeal:
     proof_bundle: str
     expiry: str
     nonce: str
-    prev: str | None = None
-    calib_ref: dict[str, float] | None = None
+    prev: Optional[str] = None
+    calib_ref: Optional[dict[str, float]] = None
 
 
 def sha3_512(data: bytes) -> str:
@@ -67,8 +67,8 @@ def make_seal(
     jurisdiction: str,
     proof_bundle: str,
     ttl_days: int = 365,
-    calib_ref: dict[str, float] | None = None,
-    prev: str | None = None,
+    calib_ref: Optional[dict[str, float]] = None,
+    prev: Optional[str] = None,
 ) -> dict[str, Any]:
     """
     Create a GLYPH seal for content.
@@ -129,7 +129,7 @@ def make_seal(
     return {"seal": json.loads(payload.decode()), "sig": cose_sig}
 
 
-def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | None = None) -> bool:
+def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: Optional[bytes] = None) -> bool:
     """
     Verify a GLYPH seal.
 

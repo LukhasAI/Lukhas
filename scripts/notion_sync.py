@@ -34,7 +34,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 try:
     import requests
@@ -132,7 +132,7 @@ class NotionClient:
             raise RuntimeError(f"GET {url} failed: {r.status_code} {r.text}")
         return r.json()
 
-    def find_page_by_module(self, module: str) -> str | None:
+    def find_page_by_module(self, module: str) -> Optional[str]:
         """Find existing page by Module title"""
         url = f"https://api.notion.com/v1/databases/{self.db_id}/query"
         payload = {
@@ -148,7 +148,7 @@ class NotionClient:
             return results[0]["id"]
         return None
 
-    def get_page_sha(self, page_id: str) -> str | None:
+    def get_page_sha(self, page_id: str) -> Optional[str]:
         """Get Provenance SHA from existing page"""
         url = f"https://api.notion.com/v1/pages/{page_id}"
         try:
@@ -163,7 +163,7 @@ class NotionClient:
         module: str,
         props: dict[str, Any],
         blocks: list[dict[str, Any]],
-        page_id: str | None,
+        page_id: Optional[str],
         dry_run: bool
     ) -> dict[str, Any]:
         """Create new page or update existing one"""
@@ -282,7 +282,7 @@ def to_notion_blocks(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     }]
 
 
-def load_manifests(root: Path, selection: str | None) -> list[Path]:
+def load_manifests(root: Path, selection: Optional[str]) -> list[Path]:
     """Find manifests to sync"""
     paths = [
         m for m in root.rglob("module.manifest.json")
@@ -303,7 +303,7 @@ def validate_manifest(path: Path, validator: Draft202012Validator, vocab_feature
     try:
         validator.validate(data)
     except ValidationError as e:
-        raise ValueError(f"Schema validation failed: {e.message}")
+        raise ValueError(f"Schema validation failed: {e.message}") from e
 
     # Vocab gates
     unknown = [x for x in data.get("features", []) if x not in vocab_features]

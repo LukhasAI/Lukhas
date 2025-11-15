@@ -61,7 +61,7 @@ async def run_mode_comparison(seed: int = 2025):
     print("Mode        │ Folds │ Quarantined │ Structural │ Runtime │ Efficiency")
     print("────────────┼───────┼─────────────┼────────────┼─────────┼──────────")
 
-    for mode, description in modes:
+    for mode, _description in modes:
         r = results[mode]
         efficiency = r["folds"] / max(1, r["runtime_ms"]) if r["runtime_ms"] > 0 else 0
         print(f"{mode.value:<11} │ {r['folds']:5d} │ {r['quarantined']:11d} │ {r['structural_ok']:9.1%} │ {r['runtime_ms']:6.1f}ms │ {efficiency:8.0f} f/s")

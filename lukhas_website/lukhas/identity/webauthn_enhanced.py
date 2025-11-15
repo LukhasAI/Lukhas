@@ -25,7 +25,7 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Optional
 from uuid import uuid4
 
 import structlog
@@ -62,7 +62,7 @@ class WebAuthnChallenge:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(minutes=5))
     ip_address: str = ""
-    user_agent: str | None = None
+    user_agent: Optional[str] = None
 
     # Security state
     used: bool = False
@@ -96,20 +96,20 @@ class WebAuthnCredentialMetadata:
 
     # Security metadata
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_used: datetime | None = None
+    last_used: Optional[datetime] = None
     device_type: str = "unknown"
-    authenticator_aaguid: str | None = None
+    authenticator_aaguid: Optional[str] = None
 
     # T4-specific metadata
     tier_level: int = 4
-    attestation_format: str | None = None
+    attestation_format: Optional[str] = None
     attestation_verified: bool = False
     backup_eligible: bool = False
     backup_state: bool = False
 
     # Usage tracking
     usage_count: int = 0
-    last_ip_address: str | None = None
+    last_ip_address: Optional[str] = None
     risk_score: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
@@ -139,8 +139,8 @@ class WebAuthnVerificationResult:
     """Enhanced verification result with security metadata."""
 
     success: bool
-    credential_id: str | None = None
-    user_id: str | None = None
+    credential_id: Optional[str] = None
+    user_id: Optional[str] = None
 
     # Security verification details
     signature_valid: bool = False
@@ -153,8 +153,8 @@ class WebAuthnVerificationResult:
     verification_time_ms: float = 0.0
 
     # Error details
-    error_code: str | None = None
-    error_message: str | None = None
+    error_code: Optional[str] = None
+    error_message: Optional[str] = None
 
     # Risk assessment
     risk_factors: list[str] = field(default_factory=list)
@@ -174,7 +174,7 @@ class EnhancedWebAuthnService:
         rp_id: str = "ai",
         rp_name: str = "LUKHAS AI Identity System",
         origin: str = "https://ai",
-        guardian_system: GuardianSystem | None = None
+        guardian_system: Optional[GuardianSystem] = None
     ):
         """Initialize enhanced WebAuthn service."""
         self.rp_id = rp_id
@@ -229,7 +229,7 @@ class EnhancedWebAuthnService:
         user_id: str,
         correlation_id: str,
         ip_address: str,
-        user_agent: str | None = None
+        user_agent: Optional[str] = None
     ) -> dict[str, Any]:
         """
         Generate enhanced WebAuthn authentication challenge for T4.
@@ -730,7 +730,7 @@ def create_enhanced_webauthn_service(
     rp_id: str = "ai",
     rp_name: str = "LUKHAS AI Identity System",
     origin: str = "https://ai",
-    guardian_system: GuardianSystem | None = None
+    guardian_system: Optional[GuardianSystem] = None
 ) -> EnhancedWebAuthnService:
     """Create enhanced WebAuthn service with configuration."""
     return EnhancedWebAuthnService(

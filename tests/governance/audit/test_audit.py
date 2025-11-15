@@ -3,15 +3,19 @@
 import json
 import os
 import time
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from pathlib import Path
 
 from lukhas.governance.audit import AuditEvent, AuditEventType, AuditLogger
-from lukhas.governance.audit.config import AuditConfig, get_default_config, get_development_config, get_testing_config
-from lukhas.governance.audit.storage import InMemoryAuditStorage, FileAuditStorage
-
+from lukhas.governance.audit.config import (
+    AuditConfig,
+    get_default_config,
+    get_development_config,
+    get_testing_config,
+)
+from lukhas.governance.audit.storage import FileAuditStorage, InMemoryAuditStorage
 
 # region: Fixtures
 
@@ -325,7 +329,7 @@ def test_file_storage_backup_cleanup(mock_getsize, mock_time, file_logger, tmp_p
         mock_time.return_value = ts
         file_logger.log_event(AuditEvent(user_id=f"user_{i}"))
 
-    backup_files = sorted(list(tmp_path.glob("audit.*.jsonl")))
+    backup_files = sorted(tmp_path.glob("audit.*.jsonl"))
     assert len(backup_files) == 2
 
     backup_names = [p.name for p in backup_files]

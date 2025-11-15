@@ -15,7 +15,7 @@ import glob
 import json
 import pathlib
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any, Optional
 
 
 class AdoptionScoreboardGenerator:
@@ -381,7 +381,7 @@ class AdoptionScoreboardGenerator:
         with open(self.status_file, 'w') as f:
             json.dump(self.status_data, f, indent=2)
 
-    def run(self, output_path: str | None = None) -> str:
+    def run(self, output_path: Optional[str] = None) -> str:
         """Generate adoption scoreboard and update status."""
         print("🏆 Generating Matrix Tracks adoption scoreboard...")
 

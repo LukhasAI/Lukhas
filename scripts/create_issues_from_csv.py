@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Generate a shell script with GitHub CLI commands from docs/audits/todos.csv.
 (We do NOT call gh directly; we produce a reviewable script.)
@@ -24,7 +26,7 @@ import sys
 from pathlib import Path
 
 
-def mk_labels(owner_hint:str, priority:str, extra:str|None):
+def mk_labels(owner_hint:str, priority:str, extra: Optional[str]):
     labels = ["debt"]
     if extra:
         labels.append(extra)

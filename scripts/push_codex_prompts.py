@@ -4,7 +4,7 @@ Generate Codex Web-ready prompt files from tasks/CODEX_PROMPTS.md and
 optionally print GitHub CLI commands to create draft PRs for each task.
 
 Outputs:
-  - codex_artifacts/requests/<slug>.md: one per high-priority task (1–6)
+  - codex_artifacts/requests/<slug>.md: one per high-priority task (1-6)
   - codex_artifacts/requests/manifest.json: index with titles, slugs, branches
 
 Usage:

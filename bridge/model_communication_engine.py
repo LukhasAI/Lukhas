@@ -37,6 +37,8 @@
 ║ • Memory-efficient caching mechanisms
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import base64
@@ -91,7 +93,7 @@ class Linear(nn.Linear):
 
 
 class Conv1d(nn.Conv1d):
-    def _conv_forward(self, x: Tensor, weight: Tensor, bias: Tensor | None) -> Tensor:
+    def _conv_forward(self, x: Tensor, weight: Tensor, bias: Optional[Tensor]) -> Tensor:
         return super()._conv_forward(
             x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype)
         )
@@ -130,9 +132,9 @@ class MultiHeadAttention(nn.Module):
     def forward(
         self,
         x: Tensor,
-        xa: Tensor | None = None,
-        mask: Tensor | None = None,
-        kv_cache: dict | None = None,
+        xa: Optional[Tensor] = None,
+        mask: Optional[Tensor] = None,
+        kv_cache: Optional[dict] = None,
     ):
         q = self.query(x)
 
@@ -152,7 +154,7 @@ class MultiHeadAttention(nn.Module):
         return self.out(wv), qk
 
     def qkv_attention(
-        self, q: Tensor, k: Tensor, v: Tensor, mask: Tensor | None = None
+        self, q: Tensor, k: Tensor, v: Tensor, mask: Optional[Tensor] = None
     ) -> tuple[torch.Tensor, torch.Tensor | None]:
         _n_batch, n_ctx, n_state = q.shape
         scale = (n_state // self.n_head) ** -0.25
@@ -194,9 +196,9 @@ class ResidualAttentionBlock(nn.Module):
     def forward(
         self,
         x: Tensor,
-        xa: Tensor | None = None,
-        mask: Tensor | None = None,
-        kv_cache: dict | None = None,
+        xa: Optional[Tensor] = None,
+        mask: Optional[Tensor] = None,
+        kv_cache: Optional[dict] = None,
     ):
         x = x + self.attn(self.attn_ln(x), mask=mask, kv_cache=kv_cache)[0]
         if self.cross_attn:
@@ -251,7 +253,7 @@ class TextDecoder(nn.Module):
         mask = torch.empty(n_ctx, n_ctx).fill_(-np.inf).triu_(1)
         self.register_buffer("mask", mask, persistent=False)
 
-    def forward(self, x: Tensor, xa: Tensor, kv_cache: dict | None = None):
+    def forward(self, x: Tensor, xa: Tensor, kv_cache: Optional[dict] = None):
         """
         x : torch.LongTensor, shape = (batch_size, <= n_ctx)
             the text tokens
@@ -321,7 +323,7 @@ class ModelCommunicationEngine(nn.Module):
     def num_languages(self):
         return self.dims.n_vocab - 51765 - int(self.is_multilingual)
 
-    def install_kv_cache_hooks(self, cache: dict | None = None):
+    def install_kv_cache_hooks(self, cache: Optional[dict] = None):
         """
         The `MultiHeadAttention` module optionally accepts `kv_cache` which stores the key and value
         tensors calculated for the previous positions. This method returns a dictionary that stores

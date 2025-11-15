@@ -7,7 +7,7 @@ import os
 import sys
 import time
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
@@ -62,7 +62,7 @@ class TEQCoupler:
         self,
         policy_dir: str,
         jurisdiction: str = "global",
-        consent_storage: str | None = None,
+        consent_storage: Optional[str] = None,
     ):
         self.pack = PolicyPack(os.path.join(policy_dir, jurisdiction))
         self.jurisdiction = jurisdiction
@@ -199,7 +199,7 @@ class TEQCoupler:
             )
         return (True, "", "")
 
-    def _budget_limit(self, ctx: dict[str, Any], max_tokens: int | None) -> tuple[bool, str, str]:
+    def _budget_limit(self, ctx: dict[str, Any], max_tokens: Optional[int]) -> tuple[bool, str, str]:
         # AUTO-BUDGET: if no tokens_planned, estimate via Budgeter (best-effort)
         if max_tokens is None:
             return (True, "", "")
@@ -258,9 +258,9 @@ class TEQCoupler:
         self,
         ctx: dict[str, Any],
         *,
-        purpose: str | None,
+        purpose: Optional[str],
         user_key: str = "user_id",
-        require_fields: list[str] | None = None,
+        require_fields: Optional[list[str]] = None,
         within_days: int = 365,
     ):
         from qi.memory.consent_ledger import is_allowed
@@ -296,7 +296,7 @@ class TEQCoupler:
         self,
         ctx: dict[str, Any],
         *,
-        subject: str | None,
+        subject: Optional[str],
         caps: list[str],
         fs_paths: list[str],
         ttl_floor_sec: int,
@@ -336,7 +336,7 @@ class TEQCoupler:
                     )
         return (True, "", "")
 
-    def _require_change_approval(self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"):
+    def _require_change_approval(self, ctx: dict[str, Any], *, proposal_id: Optional[str] = "proposal_id"):
         try:
             from qi.autonomy.self_healer import _approved
         except ImportError:
@@ -557,7 +557,7 @@ class TEQCoupler:
         ctx: dict[str, Any],
         *,
         within_sec: int = 300,
-        accepted_events: list[str] | None = None,
+        accepted_events: Optional[list[str]] = None,
         require_same_user: bool = True,
     ) -> tuple[bool, str, str]:
         """

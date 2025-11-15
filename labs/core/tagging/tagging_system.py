@@ -9,7 +9,7 @@ from __future__ import annotations
 import hashlib
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 # ΛTAG: tag_schema
 
@@ -36,7 +36,7 @@ class TagResolver(ABC):
 
     schema: TagSchema
 
-    def __init__(self, schema: TagSchema | None = None) -> None:
+    def __init__(self, schema: Optional[TagSchema] = None) -> None:
         self.schema = schema or TagSchema()
 
     @abstractmethod
@@ -71,5 +71,5 @@ class DeduplicationCache:
     def __len__(self) -> int:
         return len(self._store)
 
-    def get(self, fingerprint: str) -> Tag | None:
+    def get(self, fingerprint: str) -> Optional[Tag]:
         return self._store.get(fingerprint)

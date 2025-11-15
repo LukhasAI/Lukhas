@@ -91,7 +91,8 @@ class RiskGauge(BaseModel):
     score: float = Field(ge=0.0, le=1.0, description="Risk score 0-1")
     severity: RiskSeverity = Field(description="Risk severity classification")
 
-    @validator("severity")
+    @field_validator("severity")
+    @classmethod
     def severity_matches_score(cls, v, values):
         """Ensure severity aligns with score"""
         if "score" not in values:

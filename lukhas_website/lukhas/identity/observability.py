@@ -21,7 +21,7 @@ from __future__ import annotations
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import structlog
 
@@ -62,7 +62,7 @@ logger = structlog.get_logger(__name__)
 class AuthenticationMetrics:
     """Prometheus metrics for authentication system."""
 
-    def __init__(self, registry: Any | None = None):
+    def __init__(self, registry: Optional[Any] = None):
         """Initialize authentication metrics."""
         self.registry = registry or (CollectorRegistry() if PROMETHEUS_AVAILABLE else None)
 
@@ -745,7 +745,7 @@ class ObservabilityManager:
 
 
 # Global observability manager instance
-_observability_manager: ObservabilityManager | None = None
+_observability_manager: Optional[ObservabilityManager] = None
 
 
 def get_observability_manager() -> ObservabilityManager:

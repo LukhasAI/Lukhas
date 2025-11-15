@@ -32,7 +32,7 @@ import os
 import secrets
 import string
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, Optional
 
 
 class SecureRandom:
@@ -75,7 +75,7 @@ class SecureRandom:
         """
         return self._secure_random.randint(a, b)
 
-    def randrange(self, start: int, stop: int | None = None, step: int = 1) -> int:
+    def randrange(self, start: int, stop: Optional[int] = None, step: int = 1) -> int:
         """Choose a random item from range(start, stop[, step]).
 
         Cryptographically secure replacement for secure_random.randrange().
@@ -97,8 +97,8 @@ class SecureRandom:
     def choices(
         self,
         population: Sequence[Any],
-        weights: Sequence[float] | None = None,
-        cum_weights: Sequence[float] | None = None,
+        weights: Optional[Sequence[float]] = None,
+        cum_weights: Optional[Sequence[float]] = None,
         k: int = 1,
     ) -> list[Any]:
         """Return a k sized list of population elements chosen with replacement.
@@ -257,7 +257,7 @@ def randint(a: int, b: int) -> int:
     return secure_random.randint(a, b)
 
 
-def randrange(start: int, stop: int | None = None, step: int = 1) -> int:
+def randrange(start: int, stop: Optional[int] = None, step: int = 1) -> int:
     """Secure replacement for secure_random.randrange()"""
     return secure_random.randrange(start, stop, step)
 
@@ -269,8 +269,8 @@ def choice(seq: Sequence[Any]) -> Any:
 
 def choices(
     population: Sequence[Any],
-    weights: Sequence[float] | None = None,
-    cum_weights: Sequence[float] | None = None,
+    weights: Optional[Sequence[float]] = None,
+    cum_weights: Optional[Sequence[float]] = None,
     k: int = 1,
 ) -> list[Any]:
     """Secure replacement for secure_random.choices()"""

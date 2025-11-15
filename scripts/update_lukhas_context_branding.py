@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 #!/usr/bin/env python3
 """
 Update lukhas_context.md files with branding compliance
@@ -20,7 +22,7 @@ class BrandingValidator:
     """Validates and fixes branding violations in lukhas_context.md files"""
 
     # Branding standards from BRANDING_POLICY.md
-    DEPRECATED_TERMS = {
+    DEPRECATED_TERMS: ClassVar[dict] = {
         "LUKHAS Cognitive AI": "LUKHAS AI",
         "Cognitive AI technology": "consciousness technology",
         "MATADA": "MATRIZ",
@@ -31,7 +33,7 @@ class BrandingValidator:
     }
 
     # Prohibited terms that should trigger warnings
-    PROHIBITED_TERMS = [
+    PROHIBITED_TERMS: ClassVar[list] = [
         "production-ready",
         "guaranteed",
         "flawless",

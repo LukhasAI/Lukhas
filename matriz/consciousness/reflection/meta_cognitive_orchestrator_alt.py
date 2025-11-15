@@ -55,7 +55,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -334,7 +334,7 @@ class CausalReasoningModule:
                     "confidence_history"
                 ][-10:]
 
-    def _identify_primary_cause(self, valid_causes: dict) -> dict | None:
+    def _identify_primary_cause(self, valid_causes: dict) -> Optional[dict]:
         """Identify most likely primary cause"""
         if not valid_causes:
             return None
@@ -614,7 +614,7 @@ class MetaCognitiveOrchestrator:
         self.components[name] = component
         logger.info(f"Registered component: {name}")
 
-    def orchestrate(self, input_data: dict, context: dict | None = None) -> dict:
+    def orchestrate(self, input_data: dict, context: Optional[dict] = None) -> dict:
         """Orchestrate all components with metacognitive awareness"""
         start_time = datetime.now(timezone.utc)
 
@@ -964,7 +964,7 @@ class EnhancedAGIBot:
     - Quantum-biological architecture inspired by mitochondrial mechanisms
     """
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Enhanced AI Bot with quantum-biological components"""
         logger.info(
             "🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture"
@@ -1071,8 +1071,8 @@ class EnhancedAGIBot:
     async def process_input(
         self,
         user_input: str,
-        context: dict | None = None,
-        user_id: str | None = None,
+        context: Optional[dict] = None,
+        user_id: Optional[str] = None,
     ) -> AGIResponse:
         """
         Process user input with full AI capabilities

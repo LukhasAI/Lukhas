@@ -8,18 +8,25 @@ import asyncio
 
 import pytest
 
+from lukhas.orchestrator.cancellation import CancellationRegistry
 from lukhas.orchestrator.config import OrchestratorConfig, TimeoutConfig
 from lukhas.orchestrator.pipeline import PipelineExecutor
 
 
+@pytest.fixture
+def registry():
+    """Cancellation registry for pipeline testing."""
+    return CancellationRegistry()
+
+
 @pytest.mark.asyncio
-async def test_real_pipeline_with_timeout():
+async def test_real_pipeline_with_timeout(registry):
     """Test real MATRIZ-style pipeline with timeout enforcement."""
     config = OrchestratorConfig(
         timeouts=TimeoutConfig(node_timeout_ms=200, pipeline_timeout_ms=500)
     )
 
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     # Simulate MATRIZ cognitive stages
     async def perception_node(input_data):
@@ -49,9 +56,9 @@ async def test_real_pipeline_with_timeout():
     ]
 
     result = await executor.execute_pipeline(
-        pipeline_name="test_perception_reasoning_action",
-        nodes=nodes,
-        initial_input={"query": "What is 2+2?"},
+        "test_perception_reasoning_action",
+        nodes,
+        {"query": "What is 2+2?"},
     )
 
     assert result is not None
@@ -60,13 +67,13 @@ async def test_real_pipeline_with_timeout():
 
 
 @pytest.mark.asyncio
-async def test_pipeline_within_sla_target():
+async def test_pipeline_within_sla_target(registry):
     """Test that fast pipeline completes within SLA target."""
     config = OrchestratorConfig(
         timeouts=TimeoutConfig(node_timeout_ms=200, pipeline_timeout_ms=500)
     )
 
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def fast_node(input_data):
         await asyncio.sleep(0.02)  # 20ms - well within budget
@@ -85,13 +92,13 @@ async def test_pipeline_within_sla_target():
 
 
 @pytest.mark.asyncio
-async def test_pipeline_with_mixed_speeds():
+async def test_pipeline_with_mixed_speeds(registry):
     """Test pipeline with mix of fast and slower nodes."""
     config = OrchestratorConfig(
         timeouts=TimeoutConfig(node_timeout_ms=200, pipeline_timeout_ms=500)
     )
 
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def very_fast_node(input_data):
         await asyncio.sleep(0.01)  # 10ms
@@ -119,7 +126,7 @@ async def test_pipeline_with_mixed_speeds():
 
 
 @pytest.mark.asyncio
-async def test_cancellation_registry_integration():
+async def test_cancellation_registry_integration(registry):
     """Test CancellationRegistry with real pipeline execution."""
     from lukhas.orchestrator.cancellation import CancellationRegistry
 
@@ -127,7 +134,7 @@ async def test_cancellation_registry_integration():
         timeouts=TimeoutConfig(node_timeout_ms=200, pipeline_timeout_ms=500)
     )
 
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
     registry = CancellationRegistry()
 
     async def long_node(input_data):
@@ -137,16 +144,16 @@ async def test_cancellation_registry_integration():
     nodes = [("node1", long_node)]
 
     # Register pipeline
-    token = registry.register("test_pipeline")
+    registry.register("test_pipeline")
 
     # Start pipeline execution
-    task = asyncio.create_task(
+    asyncio.create_task(
         executor.execute_pipeline("test_pipeline", nodes, {})
     )
 
     # Cancel after 100ms
     await asyncio.sleep(0.1)
-    registry.cancel("test_pipeline", "Test cancellation")
+    await registry.cancel("test_pipeline", "Test cancellation")
 
     # Verify metadata
     metadata = registry.get_metadata("test_pipeline")
@@ -158,14 +165,14 @@ async def test_cancellation_registry_integration():
 
 
 @pytest.mark.asyncio
-async def test_concurrent_pipelines():
+async def test_concurrent_pipelines(registry):
     """Test multiple pipelines executing concurrently."""
     config = OrchestratorConfig(
         timeouts=TimeoutConfig(node_timeout_ms=200, pipeline_timeout_ms=500),
         max_concurrent_pipelines=10,
     )
 
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def processing_node(input_data):
         await asyncio.sleep(0.05)
@@ -186,13 +193,13 @@ async def test_concurrent_pipelines():
 
 
 @pytest.mark.asyncio
-async def test_timeout_overhead_minimal():
+async def test_timeout_overhead_minimal(registry):
     """Test that timeout enforcement adds minimal overhead."""
     config = OrchestratorConfig(
         timeouts=TimeoutConfig(node_timeout_ms=200, pipeline_timeout_ms=500)
     )
 
-    executor = PipelineExecutor(config)
+    executor = PipelineExecutor(config, registry)
 
     async def instant_node(input_data):
         return input_data  # No delay

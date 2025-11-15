@@ -1,3 +1,5 @@
+from typing import Optional
+
 """Bridge for candidate.orchestration.kernel_bus."""
 
 from __future__ import annotations
@@ -6,7 +8,7 @@ from importlib import import_module
 from types import ModuleType
 
 __all__: list[str] = []
-_BACKEND: ModuleType | None = None
+_BACKEND: Optional[ModuleType] = None
 
 for _candidate in (
     "labs.candidate.orchestration.kernel_bus",

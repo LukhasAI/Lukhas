@@ -160,10 +160,7 @@ class ConfidenceCalibrationNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "metrics" not in output["answer"]:
-            return False
-
-        return True
+        return "metrics" in output["answer"]
 
     def _calibrate_predictions(
         self,

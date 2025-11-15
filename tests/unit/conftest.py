@@ -4,9 +4,14 @@ import warnings
 from importlib import import_module
 from pathlib import Path
 
+# CRITICAL: Suppress Pydantic V2 warnings BEFORE any imports
+# This must be at the TOP of conftest.py to catch warnings during module imports
+warnings.filterwarnings("ignore", category=DeprecationWarning, message=".*Pydantic V1 style.*")
+
 # Allow optional pydantic imports for warning suppression without hard dependency
 try:
     from pydantic.warnings import PydanticDeprecatedSince20
+    warnings.filterwarnings("ignore", category=PydanticDeprecatedSince20)
 except ModuleNotFoundError:  # pragma: no cover - pydantic not installed
     PydanticDeprecatedSince20 = DeprecationWarning  # type: ignore[assignment]
 
@@ -61,6 +66,31 @@ else:
         tests_aka_qualia_str = str(_TESTS_AKA_QUALIA_PATH)
         if tests_aka_qualia_str not in prod_aka_qualia.__path__:
             prod_aka_qualia.__path__.append(tests_aka_qualia_str)
+
+# Candidate test packages share the same top-level namespace (`candidate`) as the
+# production modules. Apply the same namespace resolution as bridge and aka_qualia.
+_TESTS_CANDIDATE_PATH = _TESTS_ROOT / "candidate"
+try:
+    prod_candidate = import_module("candidate")
+except ModuleNotFoundError:
+    prod_candidate = None
+else:
+    if hasattr(prod_candidate, "__path__"):
+        tests_candidate_str = str(_TESTS_CANDIDATE_PATH)
+        if tests_candidate_str not in prod_candidate.__path__:
+            prod_candidate.__path__.append(tests_candidate_str)
+
+# Also handle candidate subpackages
+for _subpkg in ("quantum", "consciousness", "core", "qi", "bridge", "identity", "aka_qualia", "governance"):
+    try:
+        module = import_module(f"candidate.{_subpkg}")
+    except ModuleNotFoundError:
+        continue
+    if hasattr(module, "__path__"):
+        tests_sub_path = _TESTS_CANDIDATE_PATH / _subpkg
+        tests_sub_str = str(tests_sub_path)
+        if tests_sub_str not in module.__path__:
+            module.__path__.append(tests_sub_str)
 
 os.environ.setdefault("LUKHAS_SUPPRESS_MATRIZ_COMPAT_WARNING", "1")
 warnings.filterwarnings("ignore", category=DeprecationWarning, module="products")

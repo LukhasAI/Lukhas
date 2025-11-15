@@ -17,3 +17,10 @@ for mod in (
     except Exception:
         continue
 globals().update(_exp)
+
+# Add stub for AIProvider if not found
+if "AIProvider" not in globals():
+    class AIProvider:
+        """Placeholder for AI provider abstraction."""
+        pass
+    __all__.append("AIProvider")

@@ -10,7 +10,8 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-from core.common import get_logger
+
+from lukhas.core.common import get_logger
 
 from .anomaly_detection import AnomalyDetector
 from .vector_encryption import PerceptualEncryptor

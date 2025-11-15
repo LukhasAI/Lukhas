@@ -1,0 +1,9 @@
+{
+  "model": "lukhas-mini",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello, world!"
+    }
+  ]
+}

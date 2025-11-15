@@ -46,7 +46,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 from uuid import uuid4
 
 from .interfaces.memory_interface import (
@@ -96,12 +96,12 @@ class ValidationRequest:
     max_retries: int = 2
 
     # Integrity checking
-    expected_hash: str | None = None
+    expected_hash: Optional[str] = None
     require_hash_match: bool = False
 
     # Metadata
     timestamp: float = field(default_factory=time.time)
-    requester: str | None = None
+    requester: Optional[str] = None
 
 
 @dataclass
@@ -114,15 +114,15 @@ class ColonyValidationResponse:
 
     # Validation results
     validation_result: ValidationResult = ValidationResult.INVALID
-    content_hash: str | None = None
+    content_hash: Optional[str] = None
 
     # Performance metrics
     response_time_ms: float = 0.0
     timestamp: float = field(default_factory=time.time)
 
     # Error information
-    error_message: str | None = None
-    error_code: str | None = None
+    error_message: Optional[str] = None
+    error_code: Optional[str] = None
 
     # Colony health
     colony_load: float = 0.0
@@ -147,7 +147,7 @@ class ConsensusOutcome:
 
     # Conflict resolution
     conflicting_colonies: list[str] = field(default_factory=list)
-    dominant_response: ColonyValidationResponse | None = None
+    dominant_response: Optional[ColonyValidationResponse] = None
 
     # Performance
     total_time_ms: float = 0.0
@@ -166,7 +166,7 @@ class ColonyMemoryValidator:
 
     def __init__(
         self,
-        validator_id: str | None = None,
+        validator_id: Optional[str] = None,
         default_validation_mode: ValidationMode = ValidationMode.QUORUM,
         default_timeout: float = 30.0,
         max_concurrent_validations: int = 100,
@@ -266,9 +266,9 @@ class ColonyMemoryValidator:
     async def validate_memory_operation(
         self,
         operation: MemoryOperation,
-        validation_mode: ValidationMode | None = None,
-        target_colonies: list[str] | None = None,
-        timeout_seconds: float | None = None,
+        validation_mode: Optional[ValidationMode] = None,
+        target_colonies: Optional[list[str]] = None,
+        timeout_seconds: Optional[float] = None,
     ) -> ConsensusOutcome:
         """
         Validate memory operation across colonies with consensus.

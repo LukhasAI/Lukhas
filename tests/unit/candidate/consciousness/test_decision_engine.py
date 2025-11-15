@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 sys.modules['_bridgeutils'] = MagicMock()
 
 import pytest
-from decision_engine import ConsciousnessDecisionEngine
+from consciousness.decision_engine import ConsciousnessDecisionEngine
 
 
 def test_decision_engine_initialization():

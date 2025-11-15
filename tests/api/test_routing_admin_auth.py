@@ -9,10 +9,6 @@ from typing import Dict, List, Optional, Tuple
 import pytest
 from fastapi import HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials
-from lukhas_website.lukhas.api.routing_admin import (
-    ADMIN_PERMISSION,
-    get_admin_user,
-)
 from starlette.requests import Request
 
 # Provide lightweight bridges by reusing the repository implementation when available.
@@ -113,6 +109,12 @@ def get_routing_engine():  # pragma: no cover - stub
 routing_strategies_module.RoutingContext = RoutingContext
 routing_strategies_module.get_routing_engine = get_routing_engine
 sys.modules.setdefault("orchestration.routing_strategies", routing_strategies_module)
+
+# Now import routing_admin after all stubs are registered
+from lukhas_website.lukhas.api.routing_admin import (
+    ADMIN_PERMISSION,
+    get_admin_user,
+)
 
 
 def _build_request(headers: Optional[List[Tuple[bytes, bytes]]] = None) -> Request:

@@ -8,7 +8,7 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # ΛTAG: hidden_gems_summary
 
@@ -148,7 +148,7 @@ def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
     return "\n".join(lines)
 
 
-def _resolve_manifest_path(path_argument: Path | None) -> Path:
+def _resolve_manifest_path(path_argument: Optional[Path]) -> Path:
     """Resolve the manifest path argument, falling back to the default location."""
 
     manifest_path = path_argument or DEFAULT_MANIFEST_PATH
@@ -192,7 +192,7 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Sequence[str] | None = None) -> int:
+def main(argv: Optional[Sequence[str]] = None) -> int:
     """Entry point for the CLI utility."""
 
     parser = _build_parser()

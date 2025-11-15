@@ -1,6 +1,8 @@
+import re
+
 import pytest
 from fastapi.testclient import TestClient
-import re
+
 
 @pytest.fixture(scope="function")
 def client(monkeypatch):

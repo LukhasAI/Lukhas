@@ -33,7 +33,7 @@ from collections import defaultdict
 from collections.abc import Awaitable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 # T4: code=UP035 | ticket=ruff-cleanup | owner=lukhas-cleanup-team | status=resolved
 # reason: Modernize deprecated Dict import to native dict type in API middleware
@@ -85,7 +85,7 @@ def _extract_request_from_args(*args: Any, **kwargs: Any) -> Request:
     )
 
 
-def _coerce_tier(value: Any) -> int | None:
+def _coerce_tier(value: Any) -> Optional[int]:
     """Normalize tier representation into an integer value."""
 
     # ΛTAG: tier_parsing
@@ -100,7 +100,7 @@ def _coerce_tier(value: Any) -> int | None:
     return None
 
 
-def require_tier(min_tier: int, *, identity_manager: Any | None = None) -> Callable:
+def require_tier(min_tier: int, *, identity_manager: Optional[Any] = None) -> Callable:
     """Decorator enforcing minimum tier access for FastAPI endpoints."""
 
     resolved_identity_manager = identity_manager or IDENTITY_MANAGER
@@ -178,7 +178,7 @@ def require_tier(min_tier: int, *, identity_manager: Any | None = None) -> Calla
 class RateLimitConfig:
     """Configuration for a specific tier rate limit."""
 
-    limit: int | None
+    limit: Optional[int]
     window_seconds: int
 
 
@@ -193,8 +193,8 @@ class RateLimitMiddleware:
     def __init__(
         self,
         *,
-        rate_limits: dict[int, RateLimitConfig] | None = None,
-        identity_manager: Any | None = None,
+        rate_limits: Optional[dict[int, RateLimitConfig]] = None,
+        identity_manager: Optional[Any] = None,
         time_provider: Callable[[], float] = time.time,
     ) -> None:
         self.rate_limits = rate_limits or self.DEFAULT_LIMITS.copy()
@@ -213,7 +213,7 @@ class RateLimitMiddleware:
         client_host = getattr(request.client, "host", "anonymous")
         return f"ip:{client_host}"
 
-    def _resolve_limit(self, tier: int | None) -> RateLimitConfig | None:
+    def _resolve_limit(self, tier: Optional[int]) -> Optional[RateLimitConfig]:
         if tier is None:
             return self.rate_limits.get(0)
         if tier >= 2:
@@ -483,7 +483,7 @@ class AuthMiddleware:
 auth_middleware = AuthMiddleware()
 
 
-def create_access_token(data: dict[str, Any], expires_delta: int | None = None) -> str:
+def create_access_token(data: dict[str, Any], expires_delta: Optional[int] = None) -> str:
     """Create a JWT access token.
 
     Args:

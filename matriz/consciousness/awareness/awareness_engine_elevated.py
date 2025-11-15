@@ -32,7 +32,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Protocol
+from typing import Any, Protocol, Optional
 
 from pydantic import BaseModel, Field
 
@@ -112,8 +112,8 @@ class AwarenessInput(BaseModel):
     """Base model for any awareness input with metadata."""
 
     timestamp: str = Field(default_factory=now_iso)
-    user_id: str | None = None
-    session_id: str | None = None
+    user_id: Optional[str] = None
+    session_id: Optional[str] = None
     context_data: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -123,9 +123,9 @@ class AwarenessOutput(BaseModel):
     alignment: AlignmentMetric
     data: dict[str, Any]
     recommendations: list[str] = Field(default_factory=list)
-    sustainability_score: float | None = None
+    sustainability_score: Optional[float] = None
     processing_time_ms: float = 0.0
-    qi_signature: str | None = None
+    qi_signature: Optional[str] = None
 
 
 class Reasoner(Protocol):
@@ -291,9 +291,9 @@ class EnvironmentalAwarenessInput(AwarenessInput):
     ambient_noise: float = Field(..., ge=0, description="Noise level in dB")
     light_level: float = Field(..., ge=0, description="Light level in lux")
     location: tuple[float, float] = Field(..., description="Latitude, Longitude")
-    air_quality_index: float | None = Field(None, ge=0, le=500)
-    energy_consumption: float | None = Field(None, description="kWh consumption")
-    carbon_footprint: float | None = Field(None, description="CO2 kg equivalent")
+    air_quality_index: Optional[float] = Field(None, ge=0, le=500)
+    energy_consumption: Optional[float] = Field(None, description="kWh consumption")
+    carbon_footprint: Optional[float] = Field(None, description="CO2 kg equivalent")
 
 
 class EnhancedEnvReasoner:

@@ -10,6 +10,8 @@ EXTRACTED FROM: enhanced_bot_primary.py (EnhancedAGIBot class, lines 836-1163)
 ENHANCEMENT: Renamed to cognitive_core.py as core brain component following naming conventions
 CORE COMPONENT: This is the main cognitive processing engine, not a bot
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import hashlib
@@ -175,7 +177,7 @@ class CognitiveEngine:
     RENAMED: From EnhancedAGIBot to CognitiveEngine following naming conventions
     """
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Cognitive Engine with quantum-biological components (ORIGINAL LOGIC)"""
         logger.info(
             "🧠 Initializing Cognitive Engine - Advanced AI System with Quantum-Biological Architecture"
@@ -309,8 +311,8 @@ class CognitiveEngine:
     async def process_input(
         self,
         user_input: str,
-        context: dict | None = None,
-        user_id: str | None = None,
+        context: Optional[dict] = None,
+        user_id: Optional[str] = None,
     ) -> AGIResponse:
         """
         Process user input with full AI capabilities (ORIGINAL LOGIC)
@@ -658,8 +660,8 @@ class CognitiveEngine:
     def process_input_sync(
         self,
         user_input: str,
-        context: dict | None = None,
-        user_id: str | None = None,
+        context: Optional[dict] = None,
+        user_id: Optional[str] = None,
     ) -> AGIResponse:
         """Synchronous wrapper for process_input - for easy testing and simple usage"""
         import asyncio

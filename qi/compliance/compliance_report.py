@@ -12,7 +12,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, TypedDict
+from typing import Any, TypedDict, Optional
 
 from .privacy_statement import Jurisdiction
 
@@ -84,8 +84,8 @@ class ConsentRecord(TypedDict):
     legal_basis: str
     scope: list[str]
     active: bool
-    withdrawn_at: str | None
-    expiry_date: str | None
+    withdrawn_at: Optional[str]
+    expiry_date: Optional[str]
 
 
 class AccessRecord(TypedDict):
@@ -97,7 +97,7 @@ class AccessRecord(TypedDict):
     data_categories: list[str]
     purpose: str
     legal_basis: str
-    ip_address: str | None
+    ip_address: Optional[str]
 
 
 class RetentionPolicy(TypedDict):
@@ -117,8 +117,8 @@ class DeletionRecord(TypedDict):
     request_type: str
     scope: list[str]
     status: str
-    completed_at: str | None
-    retention_exception: str | None
+    completed_at: Optional[str]
+    retention_exception: Optional[str]
 
 
 class ThirdPartyDisclosure(TypedDict):
@@ -155,7 +155,7 @@ class ComplianceReport(TypedDict):
     retention_compliance: dict[str, RetentionPolicy]
     deletion_requests: list[DeletionRecord]
     third_party_disclosures: list[ThirdPartyDisclosure]
-    security_events: list[SecurityEvent] | None
+    security_events: Optional[list[SecurityEvent]]
     metadata: dict[str, Any]
 
 

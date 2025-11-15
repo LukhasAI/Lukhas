@@ -16,7 +16,7 @@ import math
 import random
 from dataclasses import dataclass
 from datetime import timezone
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -48,7 +48,7 @@ class QIDreamAdapter:
     including superposition states, entanglement, and coherence management.
     """
 
-    def __init__(self, config: DreamQuantumConfig | None = None):
+    def __init__(self, config: Optional[DreamQuantumConfig] = None):
         """
         Initialize the quantum dream adapter.
 

@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, Optional
 
 try:  # pragma: no cover - structlog is optional in some test environments
     import structlog
@@ -36,12 +36,12 @@ class ApiKeyMetadata:
     user_id: str
     tier: int = 1
     scopes: tuple[str, ...] = ()
-    expires_at: datetime | None = None
+    expires_at: Optional[datetime] = None
     revoked: bool = False
     attributes: dict[str, Any] = field(default_factory=dict)
 
     # ΛTAG: auth_cache - ensure tier decisions remain deterministic.
-    def is_expired(self, reference: datetime | None = None) -> bool:
+    def is_expired(self, reference: Optional[datetime] = None) -> bool:
         """Return ``True`` when the key is past its expiry window."""
 
         if not self.expires_at:
@@ -50,7 +50,7 @@ class ApiKeyMetadata:
         reference_dt = reference or datetime.now(timezone.utc)
         return self.expires_at <= reference_dt
 
-    def is_active(self, reference: datetime | None = None) -> bool:
+    def is_active(self, reference: Optional[datetime] = None) -> bool:
         """Return ``True`` when the key is neither revoked nor expired."""
 
         if self.revoked:
@@ -63,8 +63,8 @@ class ApiKeyCache:
 
     def __init__(
         self,
-        registry_path: str | None = None,
-        refresh_interval: int | None = None,
+        registry_path: Optional[str] = None,
+        refresh_interval: Optional[int] = None,
     ) -> None:
         self._registry_path = Path(registry_path) if registry_path else None
         env_refresh = int(os.getenv(_REFRESH_ENV, "60"))
@@ -74,7 +74,7 @@ class ApiKeyCache:
         self._last_loaded = 0.0
         self._lock = threading.RLock()
 
-    def lookup(self, api_key: str) -> ApiKeyMetadata | None:
+    def lookup(self, api_key: str) -> Optional[ApiKeyMetadata]:
         """Lookup API key metadata using a constant-time hash."""
 
         key_hash = hashlib.sha256(api_key.encode("utf-8")).hexdigest()
@@ -192,7 +192,7 @@ class ApiKeyCache:
 
         return records
 
-    def _build_metadata(self, entry: dict[str, Any], *, source: str) -> ApiKeyMetadata | None:
+    def _build_metadata(self, entry: dict[str, Any], *, source: str) -> Optional[ApiKeyMetadata]:
         raw_hash = entry.get("hash")
         raw_key = entry.get("key")
 
@@ -225,7 +225,7 @@ class ApiKeyCache:
             attributes=attributes,
         )
 
-    def _parse_expiry(self, value: Any) -> datetime | None:
+    def _parse_expiry(self, value: Any) -> Optional[datetime]:
         if value in (None, ""):
             return None
 
@@ -246,7 +246,7 @@ class ApiKeyCache:
         logger.warning("api_key_registry_unsupported_expiry", type=type(value).__name__)
         return None
 
-    def _get_env_path(self) -> Path | None:
+    def _get_env_path(self) -> Optional[Path]:
         path_value = os.getenv(_REGISTRY_PATH_ENV)
         if not path_value:
             return None

@@ -10,10 +10,11 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
-from core.common import get_logger
+
+from lukhas.core.common import get_logger
 
 logger = logging.getLogger(__name__)
 
@@ -126,8 +127,8 @@ class QISubstrate:
 
     def __init__(
         self,
-        interfaces: dict[str, Any] | None = None,
-        config: dict[str, Any] | None = None,
+        interfaces: Optional[dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         self.interfaces = interfaces or {}
         self.config = config or self._default_config()
@@ -169,7 +170,7 @@ class QISubstrate:
     def create_quantum_state(
         self,
         state_type: QIStateType = QIStateType.PURE,
-        dimension: int | None = None,
+        dimension: Optional[int] = None,
     ) -> QIState:
         """
         Create a new quantum state
@@ -352,7 +353,7 @@ class QISubstrate:
         return state1, state2
 
     def apply_resonance_coupling(
-        self, states: list[QIState], coupling_strength: float | None = None
+        self, states: list[QIState], coupling_strength: Optional[float] = None
     ) -> list[QIState]:
         """
         Apply resonance coupling between quantum states

@@ -24,7 +24,7 @@ from enum import Enum
 from typing import Any, List, Optional
 
 import streamlit as st
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class SymbolType(Enum):
@@ -74,7 +74,8 @@ class SymbolBinding(BaseModel):
     meaning_type: MeaningType = Field(..., description="Type of meaning")
     meaning_value: str = Field(..., description="Meaning to bind")
 
-    @validator("meaning_value")
+    @field_validator("meaning_value")
+    @classmethod
     def validate_meaning(cls, v):
         if not v or len(v.strip()) == 0:
             raise ValueError("Meaning value cannot be empty")

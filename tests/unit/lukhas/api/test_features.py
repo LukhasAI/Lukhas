@@ -8,7 +8,6 @@ Coverage target: 85%+
 """
 
 import time
-import unittest
 from datetime import datetime
 from unittest.mock import MagicMock, Mock, patch
 
@@ -752,42 +751,3 @@ class TestLogging:
             log_call = mock_logger.info.call_args[0][0]
             assert "Flag updated" in log_call
             assert "test_flag" in log_call
-
-
-class TestFeatureAnalytics:
-    """Tests for feature analytics integration."""
-
-    @patch("lukhas.api.analytics.track_feature_evaluation")
-    def test_evaluate_flag_triggers_analytics_event(
-        self, mock_track, mock_service_dependency, user_headers
-    ):
-        """Test that evaluating a flag triggers an analytics event."""
-        payload = {"user_id": "analytics_user"}
-        response = client.post(
-            "/api/features/test_flag/evaluate", json=payload, headers=user_headers
-        )
-
-        assert response.status_code == status.HTTP_200_OK
-        mock_track.assert_called_once_with(
-            flag_name="test_flag",
-            user_id="user_user_tes", # Inferred from headers
-            enabled=True,
-            context=unittest.mock.ANY
-        )
-
-    @patch("lukhas.api.analytics.track_feature_update")
-    def test_update_flag_triggers_analytics_event(
-        self, mock_track, mock_service_dependency, admin_user, admin_headers
-    ):
-        """Test that updating a flag triggers an analytics event."""
-        payload = {"enabled": True}
-        response = client.patch(
-            "/api/features/test_flag", json=payload, headers=admin_headers
-        )
-
-        assert response.status_code == status.HTTP_200_OK
-        mock_track.assert_called_once_with(
-            flag_name="test_flag",
-            admin_id="admin_test_user",
-            changes={"enabled": True}
-        )

@@ -69,7 +69,7 @@ def test_token_expiration(auth_manager):
 
 def test_rate_limiting_allows_requests_within_limit():
     """Test that requests are allowed when within the rate limit."""
-    for i in range(5):
+    for _i in range(5):
         assert check_rate_limit("test_user_rate_limit")
 
 def test_rate_limiting_blocks_requests_over_limit():

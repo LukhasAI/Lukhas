@@ -29,7 +29,13 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-import lz4.frame
+# Optional lz4 compression support
+try:
+    import lz4.frame
+    HAS_LZ4 = True
+except ImportError:
+    HAS_LZ4 = False
+
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
 
@@ -348,7 +354,7 @@ class MemorySystem(CognitiveNode):
 
             # Compress content if specified
             is_compressed = False
-            if compress:
+            if compress and HAS_LZ4:
                 try:
                     content_bytes = json.dumps(content).encode("utf-8")
                     content = lz4.frame.compress(content_bytes)
@@ -443,6 +449,9 @@ class MemorySystem(CognitiveNode):
         """Decompress memory content if it is compressed."""
         if not memory_item.compressed:
             return memory_item.content
+
+        if not HAS_LZ4:
+            return {"error": "lz4_not_available", "raw_content": memory_item.content}
 
         try:
             decompressed_bytes = lz4.frame.decompress(memory_item.content)

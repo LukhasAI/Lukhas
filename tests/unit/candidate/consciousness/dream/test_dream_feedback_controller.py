@@ -1,7 +1,7 @@
+from typing import Optional
+
 """Unit tests for DreamFeedbackController symbolic redirect scoring."""
 
-# ruff: noqa: B008
-# ruff: noqa: F821  # Experimental/test code with undefined names
 from __future__ import annotations
 
 import importlib
@@ -20,10 +20,10 @@ sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
 dream_core_pkg.dream_snapshot = dream_core_snapshot_module
 dream_pkg.core = dream_core_pkg
 
-from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402 - stub modules must be registered before import
-from typing import List, Optional, Tuple
+from labs.consciousness.dream.core.dream_feedback_controller import (
     DreamFeedbackController,
 )
+
 
 class StubSnapshotStore:
     def __init__(self, snapshots):
@@ -34,13 +34,15 @@ class StubSnapshotStore:
         self.requested_user_id = user_id
         return list(self._snapshots)
 
+
 class StubEmotionalMemory:
     def __init__(self) -> None:
-        self.calls: List[Tuple[tuple, dict]] = []
+        self.calls: list[tuple[tuple, dict]] = []
 
     def affect_delta(self, *args, **kwargs):  # pragma: no cover - stub only
         self.calls.append((args, kwargs))
         return {"intensity_change": 0.0}
+
 
 def test_trigger_redirection_prefers_symbolic_alignment():
     controller = DreamFeedbackController()
@@ -67,6 +69,7 @@ def test_trigger_redirection_prefers_symbolic_alignment():
 
     assert result["target_snapshot"]["dream_id"] == "dream_alpha"
     assert result["symbolic_reason"].startswith("High driftScore detected")
+
 
 def test_trigger_redirection_handles_missing_snapshots():
     controller = DreamFeedbackController()

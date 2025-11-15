@@ -23,7 +23,7 @@ import threading  # Import at top to avoid E402
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Optional
 
 import structlog
 from pythonjsonlogger import jsonlogger
@@ -320,7 +320,7 @@ def get_log_config() -> dict[str, Any]:
 # ======================================================================
 
 
-def setup_logging(config: dict[str, Any] | None = None) -> None:
+def setup_logging(config: Optional[dict[str, Any]] = None) -> None:
     """Set up comprehensive logging for LUKHAS AI."""
     if config is None:
         config = get_log_config()
@@ -404,7 +404,7 @@ class LoggingContext:
         self.logger._context.update(self.context)
         return self.logger
 
-    def __exit__(self, exc_type: type | None, exc_val: BaseException | None, exc_tb: Any | None) -> None:
+    def __exit__(self, exc_type: Optional[type], exc_val: Optional[BaseException], exc_tb: Optional[Any]) -> None:
         # Restore original context
         if self.original_extra:
             self.logger._context = self.original_extra
@@ -420,8 +420,8 @@ class PerformanceLoggingContext:
         self.operation = operation
         self.context = context
         # Annotate timing fields for static type-checkers
-        self.start_time: float | None = None
-        self.end_time: float | None = None
+        self.start_time: Optional[float] = None
+        self.end_time: Optional[float] = None
 
     def __enter__(self) -> PerformanceLoggingContext:
         import time

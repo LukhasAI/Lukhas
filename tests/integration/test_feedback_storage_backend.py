@@ -53,14 +53,14 @@ class TestConnectionPool:
             pool = ConnectionPool(db_path, max_connections=2)
 
             # Get and release connection
-            with pool.get_connection() as conn1:
+            with pool.get_connection():
                 pass
 
             # Pool should have 1 connection
             assert pool._created_connections == 1
 
             # Get connection again - should reuse
-            with pool.get_connection() as conn2:
+            with pool.get_connection():
                 pass
 
             # Still 1 connection (reused)
@@ -90,7 +90,7 @@ class TestConnectionPool:
 
             # Create connections
             for _ in range(3):
-                with pool.get_connection() as conn:
+                with pool.get_connection():
                     pass
 
             # At least 1 connection should be created (may be reused)

@@ -1,7 +1,7 @@
 import sys
 from collections.abc import Iterable
 from types import GenericAlias
-from typing import Any, Generic, TypeVar, overload
+from typing import Any, Generic, TypeVar, overload, Optional
 
 from typing_extensions import Self
 
@@ -13,14 +13,14 @@ class SharedMemory:
     if sys.version_info >= (3, 13):
         def __init__(
             self,
-            name: str | None = None,
+            name: Optional[str] = None,
             create: bool = False,
             size: int = 0,
             *,
             track: bool = True,
         ) -> None: ...
     else:
-        def __init__(self, name: str | None = None, create: bool = False, size: int = 0) -> None: ...
+        def __init__(self, name: Optional[str] = None, create: bool = False, size: int = 0) -> None: ...
 
     @property
     def buf(self) -> memoryview: ...
@@ -35,9 +35,9 @@ class SharedMemory:
 class ShareableList(Generic[_SLT]):
     shm: SharedMemory
     @overload
-    def __init__(self, sequence: None = None, *, name: str | None = None) -> None: ...
+    def __init__(self, sequence: None = None, *, name: Optional[str] = None) -> None: ...
     @overload
-    def __init__(self, sequence: Iterable[_SLT], *, name: str | None = None) -> None: ...
+    def __init__(self, sequence: Iterable[_SLT], *, name: Optional[str] = None) -> None: ...
     def __getitem__(self, position: int) -> _SLT: ...
     def __setitem__(self, position: int, value: _SLT) -> None: ...
     def __reduce__(self) -> tuple[Self, tuple[_SLT, ...]]: ...

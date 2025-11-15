@@ -27,7 +27,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import requests
 
@@ -81,7 +81,7 @@ class AdvancedAutonomousGitHubManager:
     Handles large-scale repository management with intelligent automation
     """
 
-    def __init__(self, github_token: str | None = None):
+    def __init__(self, github_token: Optional[str] = None):
         """Initialize the advanced autonomous manager"""
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
         if not self.github_token:
@@ -166,7 +166,7 @@ class AdvancedAutonomousGitHubManager:
         self.logger.info(f"✅ Total notifications fetched: {len(all_notifications)}")
         return all_notifications
 
-    def parse_notification(self, notif: dict[str, Any]) -> GitHubNotification | None:
+    def parse_notification(self, notif: dict[str, Any]) -> Optional[GitHubNotification]:
         """Parse GitHub notification into our enhanced format"""
         try:
             # Extract notification details

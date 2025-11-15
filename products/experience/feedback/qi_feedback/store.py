@@ -10,7 +10,7 @@ import json
 import os
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Optional
 
 _ORIG_OPEN = builtins.open
 
@@ -79,9 +79,9 @@ class FeedbackStore:
 
     def read_feedback(
         self,
-        limit: int | None = None,
-        task_filter: str | None = None,
-        jurisdiction_filter: str | None = None,
+        limit: Optional[int] = None,
+        task_filter: Optional[str] = None,
+        jurisdiction_filter: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """Read feedback from jsonl_with optional filters."""
         if not os.path.exists(self.feedback_file):

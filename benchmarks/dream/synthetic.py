@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import random
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 # Canonical emotion keys for consistency
 CANON_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", "surprise", "trust"]
@@ -24,7 +24,7 @@ class SyntheticGenerator:
     def __init__(self, seed: int = 42):
         self.rng = random.Random(seed)
 
-    def _random_emotion(self, bias: dict[str, float] | None = None) -> dict[str, float]:
+    def _random_emotion(self, bias: Optional[dict[str, float]] = None) -> dict[str, float]:
         """Generate random emotion vector with optional bias."""
         emotion = {}
         for key in CANON_EMOTIONS:
@@ -40,7 +40,7 @@ class SyntheticGenerator:
         return emotion
 
     def _generate_snapshot(self, name: str, emotion: dict[str, float],
-                         timestamp_base: float, alignment_hint: float | None = None) -> dict[str, Any]:
+                         timestamp_base: float, alignment_hint: Optional[float] = None) -> dict[str, Any]:
         """Generate a single snapshot."""
         # Add some noise to emotion if desired
         noisy_emotion = {}

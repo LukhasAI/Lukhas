@@ -425,7 +425,7 @@ class StatisticalAnalyzer:
         all_tests_passed = True
         test_count = 0
 
-        for metric, tests in analysis_results["tests"].items():
+        for _metric, tests in analysis_results["tests"].items():
             if "error" not in tests:
                 mw_test = tests["mann_whitney"]
                 ks_test = tests["kolmogorov_smirnov"]

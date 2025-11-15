@@ -8,7 +8,7 @@ import sys
 from dataclasses import dataclass
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 
@@ -49,9 +49,9 @@ async def simulate_governance_flow(
     action: str,
     *,
     risk_score: float,
-    tags: Iterable[str] | None = None,
-    router: TaskRouter | None = None,
-    monitor: WorkflowMonitor | None = None,
+    tags: Optional[Iterable[str]] = None,
+    router: Optional[TaskRouter] = None,
+    monitor: Optional[WorkflowMonitor] = None,
 ) -> GovernanceDecision:
     """Simulate routing a governance action through bridge workflow helpers."""
 

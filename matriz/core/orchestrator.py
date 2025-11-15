@@ -8,11 +8,24 @@ standard node interface helpers (links, triggers, reflections, provenance).
 """
 
 import time
+from collections import OrderedDict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any
 
 from matriz.core.node_interface import CognitiveNode, NodeReflection, NodeState, NodeTrigger
+
+
+# A reusable, lightweight node emitter to avoid creating classes on every call
+class _NodeEmitter(CognitiveNode):
+    def __init__(self, node_name: str, capabilities: list[str]):
+        super().__init__(node_name, capabilities)
+
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+        raise NotImplementedError("This is a helper class and does not process nodes.")
+
+    def validate_output(self, output: dict[str, Any]) -> bool:
+        return True
 
 
 @dataclass
@@ -26,7 +39,6 @@ class ExecutionTrace:
     matriz_node: dict  # The actual MATRIZ node created
     processing_time: float
     validation_result: bool
-    reasoning_chain: list[str]
 
 
 class CognitiveOrchestrator:
@@ -35,11 +47,23 @@ class CognitiveOrchestrator:
     Every thought becomes a traceable, governed node.
     """
 
-    def __init__(self):
+    def __init__(self, max_history=1000):
         self.available_nodes = {}
-        self.context_memory = []  # Recent MATRIZ nodes for context
-        self.execution_trace = []  # Full execution history
-        self.matriz_graph = {}  # All MATRIZ nodes by ID
+        self.context_memory = deque(maxlen=max_history)  # Recent MATRIZ nodes for context
+        self.execution_trace = deque(maxlen=max_history)  # Full execution history
+        self.matriz_graph = OrderedDict()  # All MATRIZ nodes by ID
+
+        # If max_history is set, ensure the graph doesn't grow indefinitely
+        if max_history:
+            self._max_history = max_history
+        else:
+            self._max_history = None
+
+        # A single, reusable emitter for creating internal MATRIZ nodes
+        self._node_emitter = _NodeEmitter(
+            node_name="matriz_orchestrator_internal",
+            capabilities=["intent_analysis", "node_selection", "validation_reflection"],
+        )
 
     def register_node(self, name: str, node: "CognitiveNode"):
         """Register a cognitive node that emits MATRIZ format"""
@@ -55,7 +79,7 @@ class CognitiveOrchestrator:
 
         # 1. Intent Analysis - Create INTENT node
         intent_node = self._analyze_intent(user_input)
-        self.matriz_graph[intent_node["id"]] = intent_node
+        self._add_to_graph(intent_node)
 
         # 2. Node Selection - Create DECISION node
         selected_node_name = self._select_node(intent_node)
@@ -63,7 +87,7 @@ class CognitiveOrchestrator:
             f"Selected {selected_node_name} for processing",
             trigger_id=intent_node["id"],
         )
-        self.matriz_graph[decision_node["id"]] = decision_node
+        self._add_to_graph(decision_node)
 
         # 3. Process through selected node
         if selected_node_name not in self.available_nodes:
@@ -76,7 +100,7 @@ class CognitiveOrchestrator:
         try:
             result = node.process({"query": user_input, "trigger_node_id": decision_node["id"]})
             if "matriz_node" in result and "id" in result["matriz_node"]:
-                self.matriz_graph[result["matriz_node"]["id"]] = result["matriz_node"]
+                self._add_to_graph(result["matriz_node"])
         except Exception as e:
             return {
                 "error": f"Node '{selected_node_name}' failed during processing",
@@ -93,7 +117,7 @@ class CognitiveOrchestrator:
             reflection_node = self._create_reflection_node(
                 result_node=result["matriz_node"], validation=validation
             )
-            self.matriz_graph[reflection_node["id"]] = reflection_node
+            self._add_to_graph(reflection_node)
 
         # 5. Build execution trace
         trace = ExecutionTrace(
@@ -104,7 +128,6 @@ class CognitiveOrchestrator:
             matriz_node=result.get("matriz_node", {}),
             processing_time=time.time() - start_time,
             validation_result=(validation if "validator" in self.available_nodes else True),
-            reasoning_chain=self._build_reasoning_chain(),
         )
         self.execution_trace.append(trace)
 
@@ -113,8 +136,15 @@ class CognitiveOrchestrator:
             "confidence": result.get("confidence", 0.0),
             "matriz_nodes": list(self.matriz_graph.values()),
             "trace": asdict(trace),
-            "reasoning_chain": trace.reasoning_chain,
+            "reasoning_chain": self._build_reasoning_chain(),
         }
+
+    def _add_to_graph(self, node: dict):
+        """Add a node to the graph and enforce history limit."""
+        if 'id' in node:
+            self.matriz_graph[node['id']] = node
+            if self._max_history and len(self.matriz_graph) > self._max_history:
+                self.matriz_graph.popitem(last=False)
 
     def _analyze_intent(self, user_input: str) -> dict:
         """Create INTENT MATRIZ node from user input (schema-compliant)."""
@@ -130,20 +160,7 @@ class CognitiveOrchestrator:
 
         state = NodeState(confidence=0.9, salience=1.0)
 
-        # Create a temporary lightweight node producer to leverage helper
-        class _IntentEmitter(CognitiveNode):  # type: ignore
-            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
-                raise NotImplementedError
-
-            def validate_output(self, output: dict[str, Any]) -> bool:
-                return True
-
-        emitter = _IntentEmitter(
-            node_name="matriz_orchestrator_intent",
-            capabilities=["intent_analysis"],
-        )
-
-        node = emitter.create_matriz_node(
+        node = self._node_emitter.create_matriz_node(
             node_type="INTENT",
             state=state,
             additional_data={
@@ -168,18 +185,6 @@ class CognitiveOrchestrator:
     def _create_decision_node(self, decision: str, trigger_id: str) -> dict:
         """Create DECISION MATRIZ node (schema-compliant)."""
 
-        class _DecisionEmitter(CognitiveNode):  # type: ignore
-            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
-                raise NotImplementedError
-
-            def validate_output(self, output: dict[str, Any]) -> bool:
-                return True
-
-        emitter = _DecisionEmitter(
-            node_name="matriz_orchestrator_decision",
-            capabilities=["node_selection"],
-        )
-
         trigger = NodeTrigger(
             event_type="node_selection",
             timestamp=int(time.time() * 1000),
@@ -187,7 +192,7 @@ class CognitiveOrchestrator:
             effect="selected_processing_node",
         )
 
-        node = emitter.create_matriz_node(
+        node = self._node_emitter.create_matriz_node(
             node_type="DECISION",
             state=NodeState(confidence=0.85, salience=0.9),
             triggers=[trigger],
@@ -198,18 +203,6 @@ class CognitiveOrchestrator:
     def _create_reflection_node(self, result_node: dict, validation: bool) -> dict:
         """Create REFLECTION MATRIZ node (schema-compliant)."""
         reflection_type = "affirmation" if validation else "regret"
-
-        class _ReflectionEmitter(CognitiveNode):  # type: ignore
-            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
-                raise NotImplementedError
-
-            def validate_output(self, output: dict[str, Any]) -> bool:
-                return True
-
-        emitter = _ReflectionEmitter(
-            node_name="matriz_orchestrator_reflection",
-            capabilities=["validation_reflection"],
-        )
 
         reflection = NodeReflection(
             reflection_type=reflection_type,
@@ -224,7 +217,7 @@ class CognitiveOrchestrator:
             effect="validation_reflection",
         )
 
-        node = emitter.create_matriz_node(
+        node = self._node_emitter.create_matriz_node(
             node_type="REFLECTION",
             state=NodeState(
                 confidence=1.0 if validation else 0.3,

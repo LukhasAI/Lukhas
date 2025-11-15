@@ -2,7 +2,7 @@
 """
 🔧 Module Consolidation Script
 =============================
-Updates modules to use common utilities from core.common
+Updates modules to use common utilities from lukhas.core.common
 """
 from __future__ import annotations
 
@@ -67,15 +67,15 @@ class ModuleConsolidator:
         imports_added = set()
 
         for line in lines:
-            # Skip if already importing from core.common
-            if "from core.common" in line:
+            # Skip if already importing from lukhas.core.common
+            if "from lukhas.core.common" in line:
                 new_lines.append(line)
                 continue
 
             # Replace logging imports
             if re.match(r"^import logging", line):
                 if "logger" not in imports_added:
-                    new_lines.append("from core.common import get_logger")
+                    new_lines.append("from lukhas.core.common import get_logger")
                     imports_added.add("logger")
                     self.imports_replaced += 1
                 continue
@@ -83,7 +83,7 @@ class ModuleConsolidator:
             # Replace custom logger factories
             if "get_logger" in line and "core.common" not in line:
                 if "logger" not in imports_added:
-                    new_lines.append("from core.common import get_logger")
+                    new_lines.append("from lukhas.core.common import get_logger")
                     imports_added.add("logger")
                     self.imports_replaced += 1
                 continue
@@ -91,7 +91,7 @@ class ModuleConsolidator:
             # Replace retry decorators
             if re.search(r"def retry\(|from .+ import retry", line):
                 if "decorators" not in imports_added:
-                    new_lines.append("from core.common import retry, with_timeout")
+                    new_lines.append("from lukhas.core.common import retry, with_timeout")
                     imports_added.add("decorators")
                     self.imports_replaced += 1
                 continue
@@ -100,7 +100,7 @@ class ModuleConsolidator:
             if re.search(
                 r"class .+Error\(Exception\):|GuardianRejection|MemoryDrift", line
             ) and "exceptions" not in imports_added:
-                new_lines.append("from core.common import LukhasError, GuardianRejectionError, "
+                new_lines.append("from lukhas.core.common import LukhasError, GuardianRejectionError, "
                                  "MemoryDriftError")
                 imports_added.add("exceptions")
                 imports_added.add("exceptions")
@@ -174,12 +174,12 @@ class ModuleConsolidator:
         # Add import if GLYPH is used
         if (
             "GLYPH" in content
-            and "from core.common import" in content
+            and "from lukhas.core.common import" in content
             and "GLYPHToken" not in content
         ):
             lines = content.split("\n")
             for i, line in enumerate(lines):
-                if "from core.common import" in line:
+                if "from lukhas.core.common import" in line:
                     lines[i] = line.rstrip() + ", GLYPHToken, create_glyph"
                     break
             content = "\n".join(lines)
@@ -294,7 +294,7 @@ def process_data():
 
 After:
 ```python
-from core.common import get_logger, retry
+from lukhas.core.common import get_logger, retry
 
 logger = get_logger(__name__)
 

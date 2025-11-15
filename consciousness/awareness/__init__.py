@@ -11,4 +11,14 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - optional fallback
     from labs.consciousness import awareness  # type: ignore[import-not-found]
 
-__all__ = ["awareness"]
+# Re-export AwarenessEngine for test compatibility
+try:
+    from candidate.consciousness.awareness.awareness_engine import AwarenessEngine
+except (ModuleNotFoundError, ImportError):  # pragma: no cover - optional fallback
+    try:
+        from labs.consciousness.awareness.awareness_engine import AwarenessEngine  # type: ignore[import-not-found]
+    except (ModuleNotFoundError, ImportError):
+        # Fallback: AwarenessEngine not available
+        AwarenessEngine = None  # type: ignore[assignment,misc]
+
+__all__ = ["awareness", "AwarenessEngine"]
