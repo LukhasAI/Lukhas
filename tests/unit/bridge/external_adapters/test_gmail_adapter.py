@@ -7,7 +7,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
+# Skip if google.auth or urllib3 not available (optional test dependencies)
 pytest.importorskip("google.auth")
+pytest.importorskip("urllib3.util")
 
 from bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
 from bridge.external_adapters.oauth_manager import OAuthManager

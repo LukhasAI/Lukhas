@@ -1,4 +1,6 @@
 # path: qi/ops/auto_safety_report.py
+from typing import Optional
+
 from __future__ import annotations
 
 # Safe I/O
@@ -25,7 +27,7 @@ def _read_json(path: str) -> dict:
         return json.load(f)
 
 
-def _latest_eval() -> dict | None:
+def _latest_eval() -> Optional[dict]:
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")), key=os.path.getmtime, reverse=True)
     return _read_json(files[0]) if files else None
 
@@ -39,7 +41,7 @@ def _recent_receipts(n: int = 500) -> list[dict]:
     return out
 
 
-def _policy_fingerprint(policy_root: str, overlays: str | None) -> str:
+def _policy_fingerprint(policy_root: str, overlays: Optional[str]) -> str:
     h = hashlib.sha256()
 
     def add(fp):
@@ -58,7 +60,7 @@ def _policy_fingerprint(policy_root: str, overlays: str | None) -> str:
     return h.hexdigest()
 
 
-def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
+def _mk_markdown(policy_root: str, overlays: Optional[str], window: int) -> str:
     now = time.gmtime()
     ts = time.strftime("%Y-%m-%d %H:%M:%SZ", now)
     ev = _latest_eval()
@@ -115,7 +117,7 @@ def _write(path: str, txt: str):
         f.write(txt)
 
 
-def _post_slack(markdown: str) -> str | None:
+def _post_slack(markdown: str) -> Optional[str]:
     url = os.environ.get("SLACK_WEBHOOK_URL")
     bot_token = os.environ.get("SLACK_BOT_TOKEN")
     channel = os.environ.get("SLACK_CHANNEL", "#lukhas-safety")
@@ -143,7 +145,7 @@ def _post_slack(markdown: str) -> str | None:
     return None
 
 
-def generate_report(policy_root: str, overlays: str | None, window: int = 500) -> str:
+def generate_report(policy_root: str, overlays: Optional[str], window: int = 500) -> str:
     md = _mk_markdown(policy_root, overlays, window)
     fname = f"safety_report_{time.strftime('%Y%m%d')}.md"
     path = os.path.join(OUTDIR, fname)

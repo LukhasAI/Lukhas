@@ -1,4 +1,4 @@
-from consciousness.dream.expand import replay
+from labs.consciousness.dream.expand import replay
 
 
 def test_describe_formats_trace():

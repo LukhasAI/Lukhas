@@ -55,7 +55,7 @@ class PerformanceBudgetValidator:
             logger.info(f"Loaded performance budget config: {self.config_file}")
             return config
         except (OSError, yaml.YAMLError) as e:
-            raise RuntimeError(f"Could not load budget config: {e}")
+            raise RuntimeError(f"Could not load budget config: {e}") from e
 
     def validate_artifact_naming(self) -> bool:
         """Validate all required performance artifacts exist with locked names."""

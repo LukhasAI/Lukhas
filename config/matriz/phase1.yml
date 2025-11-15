@@ -1,0 +1,8 @@
+# Phase‑1 node defaults (overridable)
+working_memory:
+  capacity: 7
+attention_controller:
+  top_k: 3
+  temperature: 1.0
+episodic_memory: {}
+wavec_every_n: 10

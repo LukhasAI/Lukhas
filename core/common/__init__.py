@@ -6,12 +6,13 @@ Also provides real exceptions submodule for explicit imports.
 from __future__ import annotations
 
 import sys
+from typing import Optional
 from importlib import import_module
 # Always expose our submodule path
 from . import exceptions
 
 __all__: list[str] = []
-_SRC: object | None = None
+_SRC: Optional[object] = None
 
 def _bind(modname: str) -> bool:
     global _SRC, __all__
@@ -38,7 +39,6 @@ for _mod in (
 else:
     # Minimal fallback - load from shadowed core/common.py file
     import importlib.util
-    import sys
     from pathlib import Path
     _common_file = Path(__file__).parent.parent / "common.py"
     if _common_file.exists():

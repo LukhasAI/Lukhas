@@ -7,7 +7,7 @@ import json
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 LEDGER_DIR = os.path.join(STATE, "consent")
@@ -122,7 +122,7 @@ def record(
     purpose: str,
     fields: list[str],
     duration_days: int,
-    meta: dict[str, Any] | None = None,
+    meta: Optional[dict[str, Any]] = None,
 ) -> ConsentEvent:
     now = time.time()
     grant = {
@@ -164,9 +164,9 @@ def record(
 
 def revoke(
     user: str,
-    purpose: str | None = None,
-    reason: str | None = None,
-    meta: dict[str, Any] | None = None,
+    purpose: Optional[str] = None,
+    reason: Optional[str] = None,
+    meta: Optional[dict[str, Any]] = None,
 ) -> ConsentEvent:
     now = time.time()
     p = purpose or "ALL"
@@ -208,9 +208,9 @@ def is_allowed(
     user: str,
     purpose: str,
     *,
-    require_fields: list[str] | None = None,
-    now: float | None = None,
-    within_days: int | None = None,
+    require_fields: Optional[list[str]] = None,
+    now: Optional[float] = None,
+    within_days: Optional[int] = None,
 ) -> bool:
     """
     Returns True if there is a non-revoked, non-expired consent for user+purpose.

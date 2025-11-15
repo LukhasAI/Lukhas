@@ -1,16 +1,18 @@
 """Bridge for `cognitive_core.reasoning.deep_inference_engine`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.cognitive_core.reasoning.deep_inference_engine
+  1) lukhas_website.lukhas.cognitive_core.reasoning.deep_inference_engine
   2) candidate.cognitive_core.reasoning.deep_inference_engine
-  3) cognitive_core.reasoning.deep_inference_engine
+  3) labs.cognitive_core.reasoning.deep_inference_engine
 
 Graceful fallback to stubs if no backend available.
 """
 from __future__ import annotations
 
 from importlib import import_module
-__all__: list[str] = []
+from typing import List
+
+__all__: List[str] = []
 
 def _try(n: str):
     try:
@@ -20,9 +22,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.cognitive_core.reasoning.deep_inference_engine",
+    "lukhas_website.lukhas.cognitive_core.reasoning.deep_inference_engine",
     "candidate.cognitive_core.reasoning.deep_inference_engine",
-    "cognitive_core.reasoning.deep_inference_engine",
+    "labs.cognitive_core.reasoning.deep_inference_engine",
 )
 
 _SRC = None
@@ -41,9 +43,6 @@ for _cand in _CANDIDATES:
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""
-    if _SRC is not None:
-        try:
-            return getattr(_SRC, name)
-        except AttributeError:
-            pass
+    if _SRC is not None and hasattr(_SRC, name):
+        return getattr(_SRC, name)
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

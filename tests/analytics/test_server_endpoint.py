@@ -13,7 +13,15 @@ Coverage:
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.api.analytics import aggregator, anonymize_ip, app, normalize_user_agent
+from lukhas.api.analytics import (
+    AnalyticsBatch,
+    AnalyticsEvent,
+    aggregator,
+    anonymize_ip,
+    app,
+    normalize_user_agent,
+    track_feature_evaluation,
+)
 
 
 class TestServerEndpoint:

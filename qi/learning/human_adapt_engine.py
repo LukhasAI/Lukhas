@@ -10,7 +10,7 @@ import os
 import statistics
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
@@ -135,7 +135,7 @@ class HumanAdaptEngine:
 
         return stats
 
-    def propose_tone_adaptations(self, *, target_file: str, user_focus: str | None = None) -> list[dict]:
+    def propose_tone_adaptations(self, *, target_file: str, user_focus: Optional[str] = None) -> list[dict]:
         """
         Generate proposals for tone/style adjustments based on satisfaction analysis.
         """

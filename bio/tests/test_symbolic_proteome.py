@@ -327,7 +327,7 @@ class TestSymbolicProteome(unittest.IsolatedAsyncioTestCase):
         await self.proteome.translate_memory("mem1", "data", ProteinType.ENZYMATIC)
         await self.proteome.translate_memory("mem2", "data", ProteinType.STRUCTURAL)
 
-        p1 = list(self.proteome.proteins.values())[0]
+        p1 = next(iter(self.proteome.proteins.values()))
         p1.folding_state = FoldingState.NATIVE
         p1.is_functional = MagicMock(return_value=True)
 

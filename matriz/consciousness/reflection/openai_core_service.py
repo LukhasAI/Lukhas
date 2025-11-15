@@ -40,7 +40,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar, Optional
 
 # Try to import from core.common if available
 try:
@@ -100,11 +100,11 @@ class OpenAIRequest:
     module: str
     capability: OpenAICapability
     data: dict[str, Any]
-    model_preference: ModelType | None = None
+    model_preference: Optional[ModelType] = None
     priority: int = 5  # 1-10, higher is more important
-    user_id: str | None = None
-    session_id: str | None = None
-    metadata: dict[str, Any] | None = None
+    user_id: Optional[str] = None
+    session_id: Optional[str] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -115,10 +115,10 @@ class OpenAIResponse:
     module: str
     capability: OpenAICapability
     success: bool
-    data: Any | None = None
-    error: str | None = None
-    usage: dict[str, Any] | None = None
-    latency_ms: int | None = None
+    data: Optional[Any] = None
+    error: Optional[str] = None
+    usage: Optional[dict[str, Any]] = None
+    latency_ms: Optional[int] = None
     fallback_used: bool = False
 
 
@@ -129,7 +129,7 @@ class OpenAICoreService:
     """
 
     # Model configurations
-    MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
+    MODELS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L131"}
         ModelType.REASONING: "gpt-4-turbo-preview",
         ModelType.CREATIVE: "gpt-4",
         ModelType.FAST: "gpt-3.5-turbo",
@@ -142,7 +142,7 @@ class OpenAICoreService:
     }
 
     # Capability to models mapping
-    CAPABILITY_MODELS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
+    CAPABILITY_MODELS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_matriz_consciousness_reflection_openai_core_service_py_L144"}
         OpenAICapability.TEXT_GENERATION: [
             ModelType.REASONING,
             ModelType.CREATIVE,
@@ -157,7 +157,7 @@ class OpenAICoreService:
         OpenAICapability.MODERATION: [ModelType.MODERATION],
     }
 
-    def __init__(self, api_key: str | None = None):
+    def __init__(self, api_key: Optional[str] = None):
         """
         Initialize the OpenAI core service.
 
@@ -584,7 +584,7 @@ class OpenAICoreService:
         ).hexdigest()[:8]
         return f"{request.module}_{timestamp}_{data_hash}"
 
-    def _get_cache_key(self, request: OpenAIRequest) -> str | None:
+    def _get_cache_key(self, request: OpenAIRequest) -> Optional[str]:
         """Generate cache key for request."""
         # Only cache certain capabilities
         if request.capability not in [
@@ -870,7 +870,7 @@ async def generate_audio(
     module: str,
     text: str,
     voice: str = "nova",
-    output_path: str | None = None,
+    output_path: Optional[str] = None,
     **kwargs,
 ) -> str | bytes:
     """Convenience function for audio generation."""

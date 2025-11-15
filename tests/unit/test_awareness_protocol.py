@@ -1,6 +1,6 @@
 import pytest
-from consciousness.awareness.awareness_protocol import map_local_tier_to_global
-from tiers import GlobalTier, TierMappingError
+from labs.consciousness.awareness.awareness_protocol import map_local_tier_to_global
+from lukhas_website.lukhas.tiers import GlobalTier, TierMappingError
 
 
 def test_map_local_tier_to_global_valid_tiers():

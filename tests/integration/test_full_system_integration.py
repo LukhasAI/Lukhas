@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, Mock
 
 import pytest
-from consciousness.consciousness_stream import ConsciousnessStream
-from consciousness.memory_bridge import MemoryConsciousnessBridge
+from labs.consciousness.consciousness_stream import ConsciousnessStream
+from labs.consciousness.memory_bridge import MemoryConsciousnessBridge
 from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
 from identity.device_registry import DeviceRegistry
 from identity.jwt_utils import JWTManager
@@ -241,7 +241,7 @@ class TestMemoryConsciousnessIntegration:
         consciousness_stream = integration_harness.components['consciousness_stream']
 
         # Create consciousness session
-        from consciousness.types import ConsciousnessState
+        from labs.consciousness.types import ConsciousnessState
 
         consciousness_state = ConsciousnessState(
             phase="AWARE",

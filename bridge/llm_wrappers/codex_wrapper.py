@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 OpenAI Codex API Wrapper for LUKHAS AI Agent Integration
 ========================================================
@@ -95,8 +97,8 @@ class CodexClient:
 
     def __init__(
         self,
-        api_key: str | None = None,
-        config: CodexConfig | None = None
+        api_key: Optional[str] = None,
+        config: Optional[CodexConfig] = None
     ):
         """
         Initialize Codex API client.
@@ -175,9 +177,9 @@ class CodexClient:
     async def _make_request(
         self,
         prompt: str,
-        system_prompt: str | None = None,
-        temperature: float | None = None,
-        max_tokens: int | None = None
+        system_prompt: Optional[str] = None,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None
     ) -> CodexResponse:
         """
         Make a request to OpenAI Chat Completions API.
@@ -248,8 +250,8 @@ class CodexClient:
     async def complete(
         self,
         prompt: str,
-        temperature: float | None = None,
-        max_tokens: int | None = None
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None
     ) -> CodexResponse:
         """
         Generate code completion from prompt.
@@ -275,7 +277,7 @@ class CodexClient:
         self,
         code: str,
         error: str,
-        context: str | None = None
+        context: Optional[str] = None
     ) -> CodexResponse:
         """
         Fix code that has errors.

@@ -7,6 +7,8 @@ Enforces preferred phrasing in agent-visible outputs:
 
 Intended for lightweight post-processing. Keep replacements conservative.
 """
+from typing import Optional
+
 
 from __future__ import annotations
 
@@ -43,7 +45,7 @@ _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
 )
 
 
-def normalize_output(text: str | None) -> str | None:
+def normalize_output(text: Optional[str]) -> Optional[str]:
     """Apply terminology normalization to plain text.
 
     Returns the original text if None or not a str.

@@ -26,7 +26,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Global constant for symbolic memory directory
 SYMBOLIC_MEMORY_DIR = ".lukhas"
@@ -90,13 +90,13 @@ class DocumentationSection:
 
     title: str
     content: str
-    metadata: dict[str, Any] | None = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class AIDocumentationGenerator:
     """AI-powered documentation generator with LUKHlukhasS consciousness"""
 
-    def __init__(self, custom_api_key: str | None = None, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, custom_api_key: Optional[str] = None, model: str = "gpt-4-turbo-preview"):
         self.api_key = custom_api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
         self.logger = logging.getLogger("LukhasDocGen")

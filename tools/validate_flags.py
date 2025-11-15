@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 #!/usr/bin/env python3
 """
 Feature Flags Validation Tool.
@@ -31,8 +33,8 @@ RESET = "\033[0m"
 class FlagValidator:
     """Validator for feature flags configuration."""
 
-    REQUIRED_FIELDS = ["type", "enabled", "description", "owner", "created_at"]
-    OPTIONAL_FIELDS = [
+    REQUIRED_FIELDS: ClassVar[list] = ["type", "enabled", "description", "owner", "created_at"]
+    OPTIONAL_FIELDS: ClassVar[list] = [
         "jira_ticket",
         "fallback",
         "percentage",

@@ -18,7 +18,7 @@ import datetime
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 
 @dataclass
@@ -51,7 +51,7 @@ class DirectoryIndexUpdater:
     """Updates directory_index.json files with modern architecture"""
 
     # Constellation Framework star mappings
-    STAR_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L54"}
+    STAR_MAPPINGS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L54"}
         "identity": "anchor_star",
         "memory": "trail_star",
         "consciousness": "horizon_star",
@@ -62,14 +62,14 @@ class DirectoryIndexUpdater:
     }
 
     # Component type modernization
-    COMPONENT_TYPE_MAPPINGS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L65"}
+    COMPONENT_TYPE_MAPPINGS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L65"}
         "TRINITY_BRIDGE": "CONSTELLATION_BRIDGE",
         "TRINITY_CORE": "CONSTELLATION_CORE",
         "TRINITY_SERVICE": "CONSTELLATION_SERVICE"
     }
 
     # MATRIZ pipeline activation patterns
-    MATRIZ_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L72"}
+    MATRIZ_PATTERNS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_update_directory_indexes_py_L72"}
         "memory": {
             "memory_stage": "primary",
             "attention_stage": "supporting",
@@ -152,7 +152,7 @@ class DirectoryIndexUpdater:
             return True
 
         except Exception as e:
-            raise Exception(f"Failed to update {index_file}: {e!s}")
+            raise Exception(f"Failed to update {index_file}: {e!s}") from e
 
     def modernize_index_data(self, data: dict[str, Any], file_path: Path) -> dict[str, Any]:
         """Apply all modernization transformations to index data"""

@@ -27,7 +27,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 # Import MΛTRIZ consciousness components
 try:
@@ -146,11 +146,11 @@ class ConstitutionalValidationContext:
 
     # Previous decisions and precedent
     related_decisions: list[dict[str, Any]] = field(default_factory=list)
-    precedent_analysis: dict[str, Any] | None = None
+    precedent_analysis: Optional[dict[str, Any]] = None
 
     # Temporal factors
-    decision_deadline: datetime | None = None
-    review_period: timedelta | None = None
+    decision_deadline: Optional[datetime] = None
+    review_period: Optional[timedelta] = None
 
 
 @dataclass
@@ -208,11 +208,11 @@ class ConstitutionalValidationResult:
     # Transparency and explanation
     explanation_summary: str = ""
     detailed_explanation: dict[str, str] = field(default_factory=dict)
-    public_explanation: str | None = None
+    public_explanation: Optional[str] = None
 
     # Follow-up requirements
     monitoring_requirements: list[str] = field(default_factory=list)
-    review_schedule: list[datetime] | None = None
+    review_schedule: Optional[list[datetime]] = None
     appeals_process_available: bool = True
 
     # Metadata
@@ -1208,7 +1208,7 @@ if "ConstitutionalAIComplianceMonitor" not in globals():
     class ConstitutionalAIComplianceMonitor:
         """Asynchronous monitor enforcing constitutional compliance for identity actions."""
 
-        def __init__(self, *, validator: ConstitutionalAIValidator | None = None) -> None:
+        def __init__(self, *, validator: Optional[ConstitutionalAIValidator] = None) -> None:
             self.validator = validator or ConstitutionalAIValidator()
             self.action_history: list[AIAction] = []
             self.compliance_results: list[ComplianceMonitoringResult] = []

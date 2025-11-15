@@ -11,7 +11,7 @@ import subprocess
 import time
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 AUDIT_DIR = os.path.join(STATE, "audit")
@@ -62,7 +62,7 @@ class Lease:
     def expires_at(self) -> float:
         return self.issued_at + self.ttl_sec
 
-    def alive(self, now: float | None = None) -> bool:
+    def alive(self, now: Optional[float] = None) -> bool:
         return (now or _now()) < self.expires_at
 
 
@@ -113,7 +113,7 @@ class CapManager:
         subject: str,
         caps: list[str],
         ttl_sec: int,
-        meta: dict[str, Any] | None = None,
+        meta: Optional[dict[str, Any]] = None,
         persist: bool = False,
     ) -> Lease:
         lease = Lease(
@@ -137,7 +137,7 @@ class CapManager:
         )
         return lease
 
-    def revoke(self, subject: str, cap_prefix: str | None = None, persist: bool = False) -> int:
+    def revoke(self, subject: str, cap_prefix: Optional[str] = None, persist: bool = False) -> int:
         arr = self._leases.get(subject, [])
         before = len(arr)
         arr = [] if cap_prefix is None else [lease for lease in arr if not any(c.startswith(cap_prefix) for c in lease.caps)]
@@ -151,7 +151,7 @@ class CapManager:
         )
         return removed
 
-    def list(self, subject: str, now: float | None = None) -> list[Lease]:
+    def list(self, subject: str, now: Optional[float] = None) -> list[Lease]:
         now = now or _now()
         return [lease for lease in self._leases.get(subject, []) if lease.alive(now)]
 
@@ -202,10 +202,10 @@ class EnvSpec:
 class FsSpec:
     read: list[str] = None  # glob patterns
     write: list[str] = None  # glob patterns
-    cwd: str | None = None
+    cwd: Optional[str] = None
 
 
-def _env_build(spec: EnvSpec | None) -> dict[str, str]:
+def _env_build(spec: Optional[EnvSpec]) -> dict[str, str]:
     base = {}
     if spec and spec.inject:
         base.update(spec.inject)
@@ -347,7 +347,7 @@ class Sandbox:
             finally:
                 _audit_write("sandbox_exit", {"subject": plan.subject})
 
-    def run_cmd(self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None) -> tuple[int, str]:
+    def run_cmd(self, plan: SandboxPlan, cmd: list[str], timeout: Optional[int] = None) -> tuple[int, str]:
         with self.activate(plan) as env:
             # merge env with minimal PATH (unless provided)
             if "PATH" not in env:

@@ -5,7 +5,7 @@ import warnings
 from collections.abc import Iterable, Mapping
 from importlib import import_module
 from types import ModuleType
-from typing import Callable
+from typing import Callable, Optional
 
 __all__ = [
     "bridge",
@@ -20,7 +20,7 @@ __all__ = [
 def resolve_first(paths: Iterable[str]) -> ModuleType:
     """Return the first successfully imported module from *paths*."""
 
-    last_err: Exception | None = None
+    last_err: Optional[Exception] = None
     for path in paths:
         try:
             return import_module(path)
@@ -29,7 +29,7 @@ def resolve_first(paths: Iterable[str]) -> ModuleType:
     raise ModuleNotFoundError(f"None of {list(paths)} importable") from last_err
 
 
-def export_from(mod: ModuleType, names: Iterable[str] | None = None) -> Mapping[str, object]:
+def export_from(mod: ModuleType, names: Optional[Iterable[str]] = None) -> Mapping[str, object]:
     """Build a mapping of exported names for *mod* using ``__all__`` when available."""
 
     selected = list(names) if names is not None else list(getattr(mod, "__all__", ()))
@@ -38,7 +38,7 @@ def export_from(mod: ModuleType, names: Iterable[str] | None = None) -> Mapping[
     return {name: getattr(mod, name) for name in selected}
 
 
-def deprecate(name_or_msg: str, msg: str | None = None) -> None:
+def deprecate(name_or_msg: str, msg: Optional[str] = None) -> None:
     """Emit a deprecation warning using a stable stacklevel."""
 
     if msg is None:
@@ -57,9 +57,9 @@ def safe_guard(name: str, exports: Iterable[str]) -> None:
 def bridge(
     candidates: Iterable[str],
     *,
-    deprecation: str | None = None,
-    names: Iterable[str] | None = None,
-    post: Callable[[ModuleType], None] | None = None,
+    deprecation: Optional[str] = None,
+    names: Optional[Iterable[str]] = None,
+    post: Optional[Callable[[ModuleType], None]] = None,
 ) -> tuple[ModuleType, dict[str, object], list[str]]:
     """Resolve the first importable module from *candidates* and expose selected names."""
 
@@ -79,7 +79,7 @@ def bridge_from_candidates(
 ) -> tuple[list[str], dict[str, object]]:
     """Return ``(__all__, exports)`` from the first successfully imported backend."""
 
-    backend: ModuleType | None = None
+    backend: Optional[ModuleType] = None
     for path in candidates:
         try:
             backend = __import__(path, fromlist=["*"])

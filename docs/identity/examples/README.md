@@ -498,5 +498,5 @@ These examples are part of LUKHAS AI and follow the same license as the main rep
 
 ---
 
-**Last Updated**: November 2, 2024
+**Last Updated**: November 13, 2025
 **LUKHAS AI - Constellation Framework - Identity ⚛️ Pillar**

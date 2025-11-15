@@ -14,7 +14,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +85,7 @@ class QIGlyphSystem:
     """
 
     # Quantum glyph alphabet - carefully chosen for visual distinctiveness
-    QUANTUM_GLYPHS = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_quantum_glyph_pairs_py_L88"}
+    QUANTUM_GLYPHS: ClassVar[list] = [  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_quantum_glyph_pairs_py_L88"}
         "🔐",
         "🔓",
         "🗝️",
@@ -121,7 +121,7 @@ class QIGlyphSystem:
     ]
 
     # Entanglement rules - which glyphs can be paired
-    ENTANGLEMENT_RULES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_quantum_glyph_pairs_py_L124"}
+    ENTANGLEMENT_RULES: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_next_gen_quantum_glyph_pairs_py_L124"}
         "lock_key": (["🔐", "🔓"], ["🗝️", "🔑"]),
         "science": (["⚛️", "🧬"], ["🔬", "🧪"]),
         "nature": (["🪷", "🌸"], ["🌺", "🌻"]),

@@ -1,0 +1,53 @@
+name: SBOM Generation
+
+on:
+  schedule:
+    # Weekly on Sunday at 02:00 UTC
+    - cron: '0 2 * * 0'
+  release:
+    types: [published]
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate_sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      # Required to checkout the code and for anchore/sbom-action to upload SBOMs to a release
+      contents: write
+      # Required for anchore/sbom-action to read other workflow artifacts if needed
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate SBOM
+        id: sbom-generation
+        uses: anchore/sbom-action@v0
+        with:
+          # Scan the entire repository directory
+          path: .
+          # Define the output file name to be used in subsequent steps
+          output-file: "sbom.spdx.json"
+          # Disable the action's default artifact upload to use a custom path.
+          # The action will still upload to the release asset on release events.
+          upload-artifact: false
+
+      - name: Prepare artifact directory for upload
+        run: |
+          mkdir -p upload/artifacts/sbom
+          mv sbom.spdx.json upload/artifacts/sbom/
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: upload/
+          retention-days: 90

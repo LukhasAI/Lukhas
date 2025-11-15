@@ -25,7 +25,8 @@ def sha256(path):
 def walk_files(dirs):
     files = {}
     for d in dirs:
-        if not os.path.exists(d): continue
+        if not os.path.exists(d):
+            continue
         for root,_,names in os.walk(d):
             for n in names:
                 p=os.path.join(root,n)
@@ -108,11 +109,13 @@ def main():
     for k,v in sorted(files.items(), key=lambda kv: -len(kv[1])):
         if len(v)>1:
             print(f"{k}:")
-            for p in v: print("  ",p)
+            for p in v:
+                print("  ",p)
     print("\nDetected identical file duplicates (same sha):")
     for h,ps in dups.items():
         print("sha:",h)
-        for p in ps: print("  ",p)
+        for p in ps:
+            print("  ",p)
     moves = propose_moves(files)
     write_proposed(moves)
     if not args.dry_run:

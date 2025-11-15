@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from collections.abc import Awaitable, Iterable
-from typing import Callable, Union
+from typing import Callable, Union, Optional
 
 CommandHandler = Callable[[list[str]], Union[Awaitable[bool], bool]]
 
@@ -19,7 +19,7 @@ class CommandExecutionError(RuntimeError):
 class BaseCommand:
     """Minimal asynchronous command harness for developer utilities."""
 
-    def __init__(self, name: str | None = None, description: str | None = None) -> None:
+    def __init__(self, name: Optional[str] = None, description: Optional[str] = None) -> None:
         self.name = name or self.__class__.__name__.lower()
         self.description = (description or (self.__doc__ or "")).strip()
         self.logger = logging.getLogger(f"tools.commands.{self.name}")

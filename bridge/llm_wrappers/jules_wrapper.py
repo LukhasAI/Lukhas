@@ -42,7 +42,7 @@ import logging
 import os
 from collections.abc import AsyncIterator
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 import aiohttp
 from pydantic import BaseModel, Field
@@ -105,7 +105,7 @@ class JulesActivity(BaseModel):
     create_time: datetime = Field(..., description="Creation timestamp")
     originator: str = Field(..., description="Who created the activity (AGENT/USER)")
     message: Optional[str] = Field(None, description="Activity message text")
-    artifacts: Optional[dict[str, Any]] = Field(
+    artifacts: Optional[Dict[str, Any]] = Field(
         None,
         description="Activity artifacts (code changes, etc.)"
     )
@@ -215,7 +215,7 @@ class JulesClient:
         method: str,
         endpoint: str,
         **kwargs: Any
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """
         Make authenticated API request with retry logic.
 
@@ -252,7 +252,7 @@ class JulesClient:
 
         raise RuntimeError("Max retries exceeded")
 
-    async def list_sources(self) -> list[JulesSource]:
+    async def list_sources(self) -> List[JulesSource]:
         """
         List all connected repository sources.
 
@@ -292,7 +292,7 @@ class JulesClient:
         display_name: Optional[str] = None,
         automation_mode: Optional[str] = None,
         require_plan_approval: Optional[bool] = None
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """
         Create a new Jules coding session.
 
@@ -329,7 +329,7 @@ class JulesClient:
 
         # Build payload according to official Jules API documentation
         # https://developers.google.com/jules/api
-        payload: dict[str, Any] = {
+        payload: Dict[str, Any] = {
             "prompt": prompt,
             "sourceContext": {
                 "source": source_id,
@@ -370,7 +370,7 @@ class JulesClient:
         self,
         page_size: int = 50,
         page_token: Optional[str] = None
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """
         List Jules sessions with pagination.
 
@@ -391,7 +391,7 @@ class JulesClient:
             params=params
         )
 
-    async def get_session(self, session_id: str) -> dict[str, Any]:
+    async def get_session(self, session_id: str) -> Dict[str, Any]:
         """
         Get a specific session by ID.
 
@@ -403,7 +403,7 @@ class JulesClient:
         """
         return await self._request("GET", f"/v1alpha/{session_id}")
 
-    async def approve_plan(self, session_id: str) -> dict[str, Any]:
+    async def approve_plan(self, session_id: str) -> Dict[str, Any]:
         """
         Approve a session's generated plan.
 
@@ -423,7 +423,7 @@ class JulesClient:
         self,
         session_id: str,
         message: str
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """
         Send a message to the Jules agent in a session.
 
@@ -441,7 +441,7 @@ class JulesClient:
             json={"message": message}
         )
 
-    async def delete_session(self, session_id: str) -> dict[str, Any]:
+    async def delete_session(self, session_id: str) -> Dict[str, Any]:
         """
         Delete a session.
 
@@ -459,7 +459,7 @@ class JulesClient:
         session_id: str,
         page_size: int = 100,
         page_token: Optional[str] = None
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """
         List activities for a session.
 
@@ -536,7 +536,7 @@ class JulesClient:
 
             await asyncio.sleep(poll_interval)
 
-    async def approve_plan(self, session_id: str) -> dict[str, Any]:
+    async def approve_plan(self, session_id: str) -> Dict[str, Any]:
         """
         Approve the latest plan in a session.
 
@@ -562,7 +562,7 @@ class JulesClient:
         self,
         session_id: str,
         message: str
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         """
         Send a message/feedback to a Jules session.
 
@@ -603,7 +603,7 @@ async def create_jules_session(
     repository_url: str,
     api_key: Optional[str] = None,
     auto_create_pr: bool = True
-) -> dict[str, Any]:
+) -> Dict[str, Any]:
     """
     Convenience function to quickly create a Jules session.
 
@@ -628,7 +628,7 @@ async def monitor_jules_session(
     session_id: str,
     api_key: Optional[str] = None,
     timeout: Optional[float] = 3600.0
-) -> list[JulesActivity]:
+) -> List[JulesActivity]:
     """
     Monitor a Jules session until completion.
 

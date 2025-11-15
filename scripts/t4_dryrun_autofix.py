@@ -28,7 +28,7 @@ def main():
     ap.add_argument("--limit", type=int, default=20)
     args = ap.parse_args()
 
-    files = [l.strip() for l in Path(args.candidates).read_text().splitlines() if l.strip()]
+    files = [line.strip() for line in Path(args.candidates).read_text().splitlines() if line.strip()]
     files = files[: args.limit]
 
     for f in files:

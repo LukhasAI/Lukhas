@@ -85,7 +85,7 @@ def main():
     print("🎨 LUKHAS ASCII Art Header Fixer 🎨")
     print("=" * 50)
 
-    # Start from core root directory
+    # Start from lukhas.core root directory
     lukhas_dir = Path(__file__).parent.parent  # Go up to lukhas directory
     fixed = 0
     skipped = 0

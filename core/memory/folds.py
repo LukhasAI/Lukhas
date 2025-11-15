@@ -203,10 +203,7 @@ class FoldManager:
         Returns:
             Created MemoryFold or WriteOnceFold based on settings
         """
-        if self.immutability:
-            fold = WriteOnceFold(fold_id, data)
-        else:
-            fold = MemoryFold(fold_id, data)
+        fold = WriteOnceFold(fold_id, data) if self.immutability else MemoryFold(fold_id, data)
 
         self.folds[fold_id] = fold
         return fold

@@ -25,10 +25,10 @@ def fix_imports_in_file(file_path):
                 r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)",
                 r"from orchestration.\1",
             ),
-            # from core.module -> from core.module (but avoid core)
+            # from lukhas.core.module -> from lukhas.core.module (but avoid core)
             (
-                r"(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)",
-                r"from core.\1",
+                r"(?<!lukhas\.)from lukhas.core\.([a-zA-Z_][a-zA-Z0-9_.]*)",
+                r"from lukhas.core.\1",
             ),
             # from module -> keep as is (these should stay)
         ]

@@ -3,6 +3,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from urllib.parse import urlencode
 
 import pytest
+
+# Skip if aioresponses not available (optional test dependency)
+pytest.importorskip("aioresponses")
+
 from aioresponses import aioresponses
 from bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
 from bridge.adapters.service_adapter_base import CapabilityToken

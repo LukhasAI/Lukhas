@@ -15,8 +15,10 @@ from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
 @pytest.fixture
-def client():
-    """Create test client."""
+def client(monkeypatch):
+    """Create test client with strict auth mode enabled."""
+    # Enable strict auth for 401 tests to work
+    monkeypatch.setenv("LUKHAS_POLICY_MODE", "strict")
     return TestClient(app)
 
 
@@ -27,78 +29,32 @@ def auth_headers():
 
 
 # 400 Bad Request Tests
-def test_400_missing_required_field_responses(client, auth_headers):
-    """Verify 400 when required field missing in /v1/responses."""
-    response = client.post(
-        "/v1/responses",
-        json={},  # Missing 'input'
-        headers=auth_headers
-    )
-    assert response.status_code == 400
-
-
-def test_400_empty_input_responses(client, auth_headers):
-    """Verify 400 when input is empty string."""
-    response = client.post(
-        "/v1/responses",
-        json={"input": ""},
-        headers=auth_headers
-    )
-    assert response.status_code == 400
-
-
-def test_400_missing_input_embeddings(client, auth_headers):
-    """Verify 400 when input missing in /v1/embeddings."""
-    response = client.post(
-        "/v1/embeddings",
-        json={},
-        headers=auth_headers
-    )
-    assert response.status_code == 400
-
-
-def test_400_empty_input_embeddings(client, auth_headers):
-    """Verify 400 when embeddings input is empty."""
-    response = client.post(
-        "/v1/embeddings",
-        json={"input": ""},
-        headers=auth_headers
-    )
-    assert response.status_code == 400
+@pytest.mark.parametrize("endpoint,payload,test_id", [
+    ("/v1/responses", {}, "missing_input_responses"),
+    ("/v1/responses", {"input": ""}, "empty_input_responses"),
+    ("/v1/embeddings", {}, "missing_input_embeddings"),
+    ("/v1/embeddings", {"input": ""}, "empty_input_embeddings"),
+])
+def test_400_bad_request_scenarios(client, auth_headers, endpoint, payload, test_id):
+    """Verify 400 for various bad request scenarios (parametrized)."""
+    response = client.post(endpoint, json=payload, headers=auth_headers)
+    assert response.status_code == 400, f"Failed for {test_id}"
 
 
 # 401 Unauthorized Tests
-def test_401_missing_auth_header(client):
-    """Verify 401 when Authorization header missing."""
-    response = client.get("/v1/models")
-    assert response.status_code == 401
-
-
-def test_401_malformed_auth_header(client):
-    """Verify 401 when Authorization header malformed."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "NotBearer token"}
-    )
-    assert response.status_code == 401
-
-
-def test_401_empty_bearer_token(client):
-    """Verify 401 when Bearer token is empty."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer "}
-    )
-    assert response.status_code == 401
-
-
-def test_401_short_token(client):
-    """Verify 401 when token too short (< 8 chars)."""
-    response = client.get(
-        "/v1/models",
-        headers={"Authorization": "Bearer abc"}
-    )
-    assert response.status_code == 401
+@pytest.mark.parametrize("auth_header,test_id", [
+    (None, "missing_auth_header"),
+    ({"Authorization": "NotBearer token"}, "malformed_auth_header"),
+    ({"Authorization": "Bearer "}, "empty_bearer_token"),
+    ({"Authorization": "Bearer abc"}, "short_token"),
+])
+def test_401_auth_failure_scenarios(client, auth_header, test_id):
+    """Verify 401 for various authentication failure scenarios (parametrized)."""
+    if auth_header is None:
+        response = client.get("/v1/models")
+    else:
+        response = client.get("/v1/models", headers=auth_header)
+    assert response.status_code == 401, f"Failed for {test_id}"
 
 
 def test_401_error_format_openai_compatible(client):
@@ -107,14 +63,16 @@ def test_401_error_format_openai_compatible(client):
     assert response.status_code == 401
 
     data = response.json()
-    detail = data.get("detail", {})
-    error = detail.get("error", detail) if isinstance(detail, dict) else {}
+    # OpenAI format: top-level "error" object (NOT nested in "detail")
+    assert "error" in data, f"Expected 'error' in response, got: {data}"
+    error = data["error"]
 
-    # Should have type, message, code
-    assert "type" in error
-    assert "message" in error
-    assert "code" in error
+    # Should have type, message, code (OpenAI error envelope spec)
+    assert "type" in error, f"Missing 'type' in error: {error}"
+    assert "message" in error, f"Missing 'message' in error: {error}"
+    assert "code" in error, f"Missing 'code' in error: {error}"
     assert error["code"] == "invalid_api_key"
+    assert error["type"] == "invalid_api_key"
 
 
 # 404 Not Found Tests
@@ -182,8 +140,11 @@ def test_graceful_degradation_matriz_unavailable(client, auth_headers):
     assert response.status_code == 200
 
     data = response.json()
-    assert "output" in data
-    assert "text" in data["output"]
+    # OpenAI-compatible format
+    assert "choices" in data
+    assert len(data["choices"]) > 0
+    assert "message" in data["choices"][0]
+    assert "content" in data["choices"][0]["message"]
 
 
 def test_graceful_degradation_memory_unavailable(client, auth_headers):

@@ -26,7 +26,7 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from functools import wraps
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 import structlog
 from core.identity_integration import TierMappingConfig, get_identity_client
@@ -243,7 +243,7 @@ class UnifiedTierAdapter:
         self.emotional = EmotionalTierAdapter()
         self.client = get_identity_client()
 
-    def normalize_any_tier(self, tier: Any, system_hint: str | None = None) -> str:
+    def normalize_any_tier(self, tier: Any, system_hint: Optional[str] = None) -> str:
         """
         Normalize any tier format to LAMBDA_TIER.
 
@@ -264,7 +264,7 @@ class UnifiedTierAdapter:
         # Otherwise use general normalization
         return TierMappingConfig.normalize_tier(tier)
 
-    def create_unified_decorator(self, required_tier: Any, system: str | None = None):
+    def create_unified_decorator(self, required_tier: Any, system: Optional[str] = None):
         """
         Create a unified decorator that works with any tier system.
 
@@ -317,7 +317,7 @@ class UnifiedTierAdapter:
 
 
 # Singleton instance
-_unified_adapter: UnifiedTierAdapter | None = None
+_unified_adapter: Optional[UnifiedTierAdapter] = None
 
 
 def get_unified_adapter() -> UnifiedTierAdapter:
@@ -354,7 +354,7 @@ class TierUnificationAdapter:
     across the LUKHAS AI ecosystem.
     """
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the tier unification adapter"""
         self.config = config or {}
         self.unified_adapter = get_unified_adapter()

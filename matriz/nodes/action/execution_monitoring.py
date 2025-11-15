@@ -164,10 +164,7 @@ class ExecutionMonitoringNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "execution_statuses" not in output["answer"]:
-            return False
-
-        return True
+        return "execution_statuses" in output["answer"]
 
     def _monitor_actions(
         self,

@@ -2,3 +2,7 @@
 
 class EmotionalMemoryManager:
     pass
+
+
+# Backwards compatibility alias
+EmotionalMemory = EmotionalMemoryManager

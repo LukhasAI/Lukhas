@@ -11,7 +11,7 @@ from __future__ import annotations
 import os
 import time
 from contextlib import asynccontextmanager
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -28,12 +28,12 @@ class SealRequest(BaseModel):
     media_type: str = Field(..., description="MIME type of content")
     issuer: str = Field(..., description="Issuer ID (lukhas://org/<tenant>)")
     model_id: str = Field(..., description="Model identifier")
-    policy_fingerprint: str | None = Field(None, description="Policy fingerprint (auto-computed if not provided)")
+    policy_fingerprint: Optional[str] = Field(None, description="Policy fingerprint (auto-computed if not provided)")
     jurisdiction: str = Field("global", description="Jurisdiction")
     proof_bundle: str = Field(..., description="URL to proof bundle")
     ttl_days: int = Field(365, description="Seal validity in days", ge=1, le=3650)
-    calib_ref: dict[str, float] | None = Field(None, description="Calibration reference")
-    prev: str | None = Field(None, description="Previous seal ID for chaining")
+    calib_ref: Optional[dict[str, float]] = Field(None, description="Calibration reference")
+    prev: Optional[str] = Field(None, description="Previous seal ID for chaining")
 
 
 class SealResponse(BaseModel):
@@ -77,7 +77,7 @@ SIGNER_CONFIG = {
 }
 
 # Global signer instance
-_signer: GlyphSigner | None = None
+_signer: Optional[GlyphSigner] = None
 
 
 @asynccontextmanager

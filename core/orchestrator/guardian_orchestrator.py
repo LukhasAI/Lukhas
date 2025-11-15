@@ -4,7 +4,7 @@
 
 # core/orchestrator/guardian_orchestrator.py
 import time
-from typing import Any
+from typing import Any, Optional
 
 from core.dream.simulator import DreamSimulator, measure_drift
 from core.mesh.resonance import resonance_snapshot
@@ -19,7 +19,7 @@ class GuardianOrchestrator:
         self.dreamer = DreamSimulator()
         self.wavec = WaveC()
 
-    def _sign_decision(self, decision_payload: dict, consent_hash: str = None):
+    def _sign_decision(self, decision_payload: dict, consent_hash: Optional[str] = None):
         return qrg_sign(decision_payload, self.priv_pem, consent_hash=consent_hash)
 
     def dream_validate(self, prompt_set: list, seed_shift: int = 0):
@@ -37,7 +37,7 @@ class GuardianOrchestrator:
         drift = measure_drift(control_embs, loaded_embs)
         return {"drift": drift, "control": control_embs, "loaded": loaded_embs}
 
-    def decide_and_maybe_execute(self, decision_payload: dict[str, Any], demo_prompts: list, consent_hash: str = None) -> dict[str, Any]:
+    def decide_and_maybe_execute(self, decision_payload: dict[str, Any], demo_prompts: list, consent_hash: Optional[str] = None) -> dict[str, Any]:
         """
         Main flow:
         - sign decision

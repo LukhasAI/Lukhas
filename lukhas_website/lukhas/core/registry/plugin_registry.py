@@ -22,6 +22,7 @@ from typing import Protocol
 from observability.opentelemetry_tracing import LUKHASTracer
 from observability.prometheus_metrics import LUKHASMetrics
 
+
 class LUKHASPlugin(Protocol):
     """Protocol defining the interface for LUKHAS plugins."""
 

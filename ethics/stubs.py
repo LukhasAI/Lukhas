@@ -9,7 +9,7 @@ import logging
 import warnings
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class RiskLevel(Enum):
@@ -39,7 +39,7 @@ class Decision:
 class MEGPolicyBridge:
     """MEG (Multi-Ethics-Guardian) Policy Bridge with real Guardian integration"""
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self._guardian = None
         self._use_real_guardian = self._try_load_guardian()
@@ -85,7 +85,7 @@ class MEGPolicyBridge:
         )
 
 
-def create_meg_bridge(config: dict | None = None) -> MEGPolicyBridge:
+def create_meg_bridge(config: Optional[dict] = None) -> MEGPolicyBridge:
     """Factory for MEG bridge"""
     return MEGPolicyBridge(config)
 
@@ -93,7 +93,7 @@ def create_meg_bridge(config: dict | None = None) -> MEGPolicyBridge:
 class EthicsEngine:
     """Ethics engine with Guardian integration"""
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self._guardian = None
         self._use_real_guardian = self._try_load_guardian()
@@ -151,7 +151,7 @@ class SafetyChecker:
     Integrates with Guardian system when available, provides robust fallback otherwise.
     """
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = logging.getLogger("ethics.safety_checker")
 
@@ -247,7 +247,7 @@ class SafetyChecker:
             "crack",
         ]
 
-    def check(self, content: str, context: dict | None = None) -> bool:
+    def check(self, content: str, context: Optional[dict] = None) -> bool:
         """
         Comprehensive safety check with multi-layer analysis
 
@@ -295,7 +295,7 @@ class SafetyChecker:
             # Fail safe - block content if we can't analyze it
             return False
 
-    async def async_check(self, content: str, context: dict | None = None) -> bool:
+    async def async_check(self, content: str, context: Optional[dict] = None) -> bool:
         """Async safety check with same logic as sync version"""
         try:
             # For now, just wrap the sync version
@@ -305,7 +305,7 @@ class SafetyChecker:
             self.logger.error(f"Async safety check error: {e}")
             return False
 
-    def _check_with_guardian(self, content: str, context: dict | None = None) -> bool:
+    def _check_with_guardian(self, content: str, context: Optional[dict] = None) -> bool:
         """Check content using Guardian system if available"""
         try:
             if hasattr(self.guardian, "analyze_ethical_risk"):

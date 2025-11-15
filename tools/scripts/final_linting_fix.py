@@ -89,11 +89,11 @@ def add_missing_imports(file_path: Path) -> bool:
             "time": "import time",
             "datetime": "from datetime import datetime",
             "timezone": "from datetime import timezone",
-            "Any": "from typing import Any"
-            "Optional": "from typing import Optional"
-            "List": "from typing import List"
-            "Dict": "from typing import Dict"
-            "Tuple": "from typing import Tuple"
+            "Any": "from typing import Any",
+            "Optional": "from typing import Optional",
+            "List": "from typing import List",
+            "Dict": "from typing import Dict",
+            "Tuple": "from typing import Tuple",
             "Union": "from typing import Union"
         }
 

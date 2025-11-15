@@ -1,0 +1,32 @@
+{
+  "audit_date": "2025-11-13T03:33:29.131282+00:00",
+  "summary": {
+    "total_exemptions_audited": 5,
+    "unauthorized_exemptions": 1,
+    "stale_entries": 1,
+    "missing_justification": 1
+  },
+  "findings": {
+    "unauthorized": [
+      {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
+        "plan_id": "plan-002",
+        "reason": "Critical override missing one or both approvers."
+      }
+    ],
+    "stale": [
+      {
+        "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef2",
+        "plan_id": "plan-003",
+        "reason": "Exemption is older than one year (created at 2023-05-20T11:00:00Z)."
+      }
+    ],
+    "missing_justification": [
+      {
+        "id": "d4e5f6a7-b8c9-0123-4567-890abcdef3",
+        "plan_id": "plan-004",
+        "reason": "Override granted without a justification."
+      }
+    ]
+  }
+}

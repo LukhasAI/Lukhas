@@ -1,4 +1,4 @@
-from consciousness.dream.expand import sentinel
+from labs.consciousness.dream.expand import sentinel
 
 
 def test_detect_blocks_high_fear():

@@ -14,10 +14,10 @@ import hashlib
 import json
 import re
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 
-def _normalize_consent_timestamp(value: str | datetime | None) -> str | None:
+def _normalize_consent_timestamp(value: str | datetime | None) -> Optional[str]:
     """Normalize consent timestamps to ISO-8601 strings."""
 
     if value is None:
@@ -113,15 +113,15 @@ def emit_guardian_decision(
     band: str,
     tenant: str = "default",
     env: str = "prod",
-    purpose: str | None = None,
-    retention_days: int | None = None,
-    justification: str | None = None,
+    purpose: Optional[str] = None,
+    retention_days: Optional[int] = None,
+    justification: Optional[str] = None,
     override_requested: bool = False,
     override_granted: bool = False,
-    approver1_id: str | None = None,
-    approver2_id: str | None = None,
+    approver1_id: Optional[str] = None,
+    approver2_id: Optional[str] = None,
     user_consent_timestamp: str | datetime | None = None,
-    consent_method: str | None = None
+    consent_method: Optional[str] = None
 ) -> None:
     """
     Convenience wrapper to emit guardian decisions.
@@ -226,8 +226,8 @@ def emit_guardian_action_with_exemplar(
     action: str,
     lane: str,
     plan: dict[str, Any],
-    trace_id: str | None = None,
-    confidence_scores: dict[str, float] | None = None,
+    trace_id: Optional[str] = None,
+    confidence_scores: Optional[dict[str, float]] = None,
     emit_to_prometheus: bool = True
 ) -> None:
     """

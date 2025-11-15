@@ -14,7 +14,7 @@ import json
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 import pkg_resources
 
@@ -57,13 +57,13 @@ class LUKHASSecuritySBOMGenerator:
     """Generate comprehensive SBOM with security analysis"""
 
     # Approved licenses for LUKHAS project
-    APPROVED_LICENSES = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L60"}
+    APPROVED_LICENSES: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L60"}
         'MIT', 'Apache-2.0', 'BSD-3-Clause', 'BSD-2-Clause',
         'Python-2.0', 'PSF-2.0', 'ISC', 'Unlicense'
     }
 
     # Critical CVE patterns to flag
-    CRITICAL_CVE_PATTERNS = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L66"}
+    CRITICAL_CVE_PATTERNS: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_scripts_security_sbom_generator_py_L66"}
         'remote_code_execution', 'sql_injection', 'xss',
         'authentication_bypass', 'privilege_escalation'
     }
@@ -175,7 +175,7 @@ class LUKHASSecuritySBOMGenerator:
                     break
                 elif in_deps and line.startswith('"') and line.endswith('",'):
                     # Parse dependency line like "fastapi>=0.100.0",
-                    dep_line = line.strip('"",')
+                    dep_line = line.strip('"').rstrip(',')
                     name, version = self._parse_dependency(dep_line)
                     if name:
                         self._add_component(name, version, "required")

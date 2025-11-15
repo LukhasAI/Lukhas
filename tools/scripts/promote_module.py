@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from typing import Optional
+
 """
 Candidate → Lukhas promotion helper (safe, auditable).
 
@@ -40,7 +42,7 @@ REWRITE_IMPORT2 = re.compile(r"\bimport\s+candidate(?P<rest>(\.|\s).*)")
 class PromotionResult:
     copied_files: list[str]
     rewritten_files: list[str]
-    shim_file: str | None
+    shim_file: Optional[str]
     dry_run: bool
 
 
@@ -109,14 +111,14 @@ def rewrite_imports(dst_root: Path, files: Iterable[str], dry: bool) -> list[str
     return rewritten
 
 
-def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> str | None:
+def create_shim(shim_direction: Optional[str], src: Path, dst: Path, dry: bool) -> Optional[str]:
     if not shim_direction:
         return None
 
     shim_file: Path
     if shim_direction == "candidate->lukhas":
         # Create a candidate shim that re-exports from lukhas
-        # Example: candidate/core/orchestration/__init__.py -> from core.orchestration import *
+        # Example: candidate/core/orchestration/__init__.py -> from lukhas.core.orchestration import *
         shim_file = src / "__init__.py"
         content = _shim_content("lukhas", src)
     else:

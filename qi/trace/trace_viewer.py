@@ -1,4 +1,6 @@
 # path: qi/trace/trace_viewer.py
+from typing import Optional
+
 from __future__ import annotations
 
 import os
@@ -26,9 +28,9 @@ def healthz():
 def trace_svg(
     receipt_id: str,
     policy_root: str = Query(default="qi/safety/policy_packs"),
-    overlays: str | None = Query(default=None),
-    link_base: str | None = Query(default=None),
-    prov_base: str | None = Query(default=None),
+    overlays: Optional[str] = Query(default=None),
+    link_base: Optional[str] = Query(default=None),
+    prov_base: Optional[str] = Query(default=None),
 ):
     try:
         r = _load_receipt(receipt_id, None)

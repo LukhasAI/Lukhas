@@ -5,8 +5,12 @@
 
 import math
 from importlib.util import find_spec
+from typing import ClassVar
 
 import pytest
+
+# Skip experimental aka_qualia tests
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
 if find_spec("aka_qualia.metrics") is None or find_spec("aka_qualia.models") is None:
     pytest.skip("Aka Qualia metrics not available", allow_module_level=True)
@@ -90,7 +94,7 @@ class TestAkaQualiaMetrics:
 
     def test_initialization_invalid_config_raises_error(self):
         """Tests that an invalid config (weights don't sum to 1.0) raises a ValueError."""
-    with pytest.raises(ValueError, match=r"Weights must sum to 1.0"):
+        with pytest.raises(ValueError, match=r"Weights must sum to 1.0"):
             # Create a valid config, then modify it to be invalid to bypass Pydantic's validation
             config = MetricsConfig()
             config.weight_arousal = 1.0
@@ -337,9 +341,6 @@ class TestAkaQualiaMetrics:
     def test_compute_neurosis_risk_with_glyph_penalty(self, metrics_computer: AkaQualiaMetrics):
         """Tests that repeated glyph triplets add a penalty to the risk score."""
         from aka_qualia.models import PhenomenalGlyph
-
-# Skip experimental aka_qualia tests
-pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
         # Create a repeating glyph pattern
         glyphs = [PhenomenalGlyph(key="aka:loop", attrs={})]

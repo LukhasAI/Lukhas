@@ -1,3 +1,5 @@
+from typing import Optional
+
 from __future__ import annotations
 
 import logging
@@ -108,7 +110,7 @@ class ResponseReasoningItemParam(TypedDict, total=False):
     """The type of the object. Always `reasoning`. (Required)"""
     # Human-readable comment: Fixed literal type ensures type safety for this parameter.
 
-    encrypted_content: str | None
+    encrypted_content: Optional[str]
     """
     The encrypted content of the reasoning item. This might be provided when creating
     an item that should store its detailed content securely. (Optional)

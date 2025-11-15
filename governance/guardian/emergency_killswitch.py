@@ -57,7 +57,6 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 # Kill-switch file path - DO NOT CHANGE without updating runbooks
 KILLSWITCH_PATH = "/tmp/guardian_emergency_disable"
@@ -93,7 +92,7 @@ def is_emergency_killswitch_active() -> bool:
     return killswitch_exists
 
 
-def read_killswitch_reason() -> Optional[str]:
+def read_killswitch_reason() -> str | None:
     """
     Read the reason for kill-switch activation from the file contents.
 

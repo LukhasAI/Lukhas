@@ -26,6 +26,8 @@ class NodeExecutor:
         node_func: Callable,
         input_data: Any,
         cancellation_token: Optional[asyncio.Event] = None,
+        on_timeout: Optional[Callable] = None,
+        on_cancel: Optional[Callable] = None,
     ) -> Any:
         """
         Execute a cognitive node with timeout enforcement.
@@ -35,6 +37,8 @@ class NodeExecutor:
             node_func: Async function to execute
             input_data: Input data for the node
             cancellation_token: Optional event to check for cancellation
+            on_timeout: Optional async function to call on timeout
+            on_cancel: Optional async function to call on cancellation
 
         Returns:
             Node execution result
@@ -74,10 +78,23 @@ class NodeExecutor:
             # Record timeout metric
             self._record_node_timeout(node_id)
 
+            # Call timeout handler
+            if on_timeout:
+                try:
+                    await on_timeout()
+                except Exception:
+                    logger.exception(f"Node {node_id} on_timeout handler failed")
+
             # Raise timeout exception
             raise NodeTimeoutException(node_id, self.config.node_timeout_ms)
 
         except CancellationException:
+            # Call cancellation handler
+            if on_cancel:
+                try:
+                    await on_cancel()
+                except Exception:
+                    logger.exception(f"Node {node_id} on_cancel handler failed")
             # Propagate cancellation
             task.cancel()
             raise

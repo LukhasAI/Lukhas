@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 💥 NUCLEAR F-STRING FIXER - ISOLATED & DRY RUN CAPABLE
 More aggressive pattern matching with full isolation and dry run mode
@@ -16,7 +18,7 @@ from pathlib import Path
 class NuclearFStringFixer:
     """Nuclear approach with isolation and dry run safeguards"""
 
-    def __init__(self, dry_run: bool = True, isolation_dir: str | None = None):
+    def __init__(self, dry_run: bool = True, isolation_dir: Optional[str] = None):
         self.dry_run = dry_run
         self.isolation_dir = isolation_dir or f"/tmp/lukhas_nuclear_test_{os.getpid()}"
         self.fixes_applied = 0

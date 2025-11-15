@@ -100,7 +100,7 @@ class MasterLogValidator:
         total_match = re.search(r'Total Tasks:\s*(\d+)', content)
         completed_match = re.search(r'Completed:\s*(\d+)', content)
         active_match = re.search(r'Active:\s*(\d+)', content)
-        blocked_match = re.search(r'Blocked:\s*(\d+)', content)
+        re.search(r'Blocked:\s*(\d+)', content)
 
         if not total_match:
             self.errors.append("Could not find 'Total Tasks' in Quick Stats")
@@ -119,7 +119,7 @@ class MasterLogValidator:
         completed = status_counts.get('✅ MERGED', 0) + status_counts.get('COMPLETED', 0)
         active = sum(count for status, count in status_counts.items()
                      if status in ['PENDING', 'IN_PROGRESS'])
-        blocked = status_counts.get('BLOCKED', 0)
+        status_counts.get('BLOCKED', 0)
 
         if completed_match:
             reported_completed = int(completed_match.group(1))

@@ -18,7 +18,7 @@ import os
 import time
 import zlib
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
@@ -248,7 +248,7 @@ class TokenGenerator:
     def __init__(
         self,
         secret_provider: SecretProvider,
-        kid: str | None = None,
+        kid: Optional[str] = None,
         ttl_seconds: int = 3600,
         issuer: str = "ai"
     ):
@@ -270,9 +270,9 @@ class TokenGenerator:
     def create(
         self,
         claims: dict[str, Any],
-        realm: str | None = None,
-        zone: str | None = None,
-        alias: str | None = None
+        realm: Optional[str] = None,
+        zone: Optional[str] = None,
+        alias: Optional[str] = None
     ) -> TokenResponse:
         """
         Create signed JWT token with ΛiD alias.

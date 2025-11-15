@@ -44,7 +44,7 @@ import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import structlog
 
@@ -139,7 +139,7 @@ class IntegrationRequest:
     configuration: dict[str, Any] = field(default_factory=dict)
     priority: str = "medium"
     timeout_seconds: int = 300
-    callback_url: str | None = None
+    callback_url: Optional[str] = None
     require_human_approval: bool = False
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -154,7 +154,7 @@ class IntegrationResponse:
     results: dict[str, Any] = field(default_factory=dict)
     execution_trace: list[dict[str, Any]] = field(default_factory=list)
     performance_metrics: dict[str, float] = field(default_factory=dict)
-    error_details: str | None = None
+    error_details: Optional[str] = None
     recommendations: list[str] = field(default_factory=list)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -1476,7 +1476,7 @@ class CEOAttitudeIntegrationHub:
     ΛTAG: integration, orchestration, ceo_attitude, lukhas_core
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the integration hub."""
         self.config = config or {}
         self.logger = logger.bind(component="CEOAttitudeHub")

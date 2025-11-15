@@ -39,6 +39,7 @@ from lukhas_website.lukhas.governance.guardian.guardian_wrapper import (
 
 # Guardian implementation (available for direct import)
 from lukhas_website.lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+import contextlib
 
 # Feature flag for Guardian system
 GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
@@ -46,10 +47,8 @@ GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
 # Guardian system instance (conditional)
 _guardian_system = None
 if GUARDIAN_ACTIVE:
-    try:
+    with contextlib.suppress(Exception):
         _guardian_system = GuardianSystemImpl()
-    except Exception:
-        pass
 
 # Legacy compatibility bridge
 try:

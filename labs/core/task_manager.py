@@ -169,3 +169,16 @@ class TaskManager:
         # Placeholder for symbolic task execution
         await asyncio.sleep(0.1)
         return "Symbolic task complete"
+
+
+# Backwards compatibility exports for test suite
+class TaskPriority:
+    """Task priority enumeration stub for backwards compatibility."""
+    LOW = 0
+    MEDIUM = 5
+    HIGH = 10
+    CRITICAL = 15
+
+
+# Alias for branded task manager name
+LukhλsTaskManager = TaskManager

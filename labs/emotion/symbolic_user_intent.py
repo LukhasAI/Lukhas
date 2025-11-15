@@ -5,6 +5,8 @@ that provides simple text-based intent inference.
 
 # ΛTAG: codex, intent
 """
+from typing import Optional
+
 from __future__ import annotations
 
 import re
@@ -19,7 +21,7 @@ class UserIntent:
     intent_type: str
     confidence: float = 0.0
     entities: dict[str, str] = field(default_factory=dict)
-    raw_input: str | None = None
+    raw_input: Optional[str] = None
     sid: str = field(default_factory=lambda: uuid.uuid4().hex)
     drift_score: float = 0.0
     affect_delta: float = 0.0

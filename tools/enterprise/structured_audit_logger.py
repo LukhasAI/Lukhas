@@ -21,7 +21,7 @@ from async_utils import create_background_task
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 # Configure structured logging
 structlog.configure(
@@ -116,7 +116,8 @@ class AuditEvent(BaseModel):
     data_classification: Optional[str] = None
     retention_days: int = Field(default=2555, description="7 years default")
 
-    @validator("risk_score")
+    @field_validator("risk_score")
+    @classmethod
     def validate_risk_score(cls, v):
         if v is not None and not 0 <= v <= 10:
             raise ValueError("Risk score must be between 0 and 10")

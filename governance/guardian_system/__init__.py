@@ -4,12 +4,16 @@ from __future__ import annotations
 from _bridgeutils import bridge_from_candidates, export_from, safe_guard
 
 # Primary: website → candidate → ab_safety_guard (where Guardian often lives)
-__all__, _exp = bridge_from_candidates(
-    "lukhas_website.governance.guardian_system",
-    "candidate.core.ethics.ab_safety_guard",
-    "governance.guardian_system",
-)
-globals().update(_exp)
+# Note: Removed self-referential "governance.guardian_system" to avoid circular import during pytest
+try:
+    __all__, _exp = bridge_from_candidates(
+        "lukhas_website.governance.guardian_system",
+        "candidate.core.ethics.ab_safety_guard",
+    )
+    globals().update(_exp)
+except (ValueError, TypeError):
+    # If bridge_from_candidates returns unexpected format, start with empty exports
+    __all__, _exp = [], {}
 
 # Canonical surface - promote from ab_safety_guard
 try:

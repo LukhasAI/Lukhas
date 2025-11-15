@@ -37,10 +37,12 @@ class RetentionPolicy:
     days: int = 30
 
 
+from typing import Optional
+
 class Lifecycle:
     """Minimal lifecycle stub retained for import compatibility."""
 
-    def __init__(self, policy: RetentionPolicy | None = None):
+    def __init__(self, policy: Optional[RetentionPolicy] = None):
         self.policy = policy or RetentionPolicy()
 
     def enforce_retention(self) -> int:
@@ -134,7 +136,7 @@ if "MemoryLifecycleManager" not in globals():
     class MemoryLifecycleManager:
         """Fallback lifecycle manager coordinating retention."""
 
-        def __init__(self, policy: RetentionPolicy | None = None):
+        def __init__(self, policy: Optional[RetentionPolicy] = None):
             self.policy = policy or RetentionPolicy()
 
         def summarize(self) -> LifecycleStats:

@@ -8,7 +8,7 @@ implementations.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 
 class _NotWiredError(RuntimeError):
@@ -22,7 +22,7 @@ class MATRIZProcessingContext:
     Replace usage with canonical MATRIZ processing context.
     """
 
-    params: dict[str, Any] | None = None
+    params: Optional[dict[str, Any]] = None
 
 
 class MATRIZThoughtLoop:
@@ -31,7 +31,7 @@ class MATRIZThoughtLoop:
     Methods raise informative errors until the real backend is wired.
     """
 
-    def __init__(self, context: MATRIZProcessingContext | None = None) -> None:
+    def __init__(self, context: Optional[MATRIZProcessingContext] = None) -> None:
         self.context = context or MATRIZProcessingContext()
 
     def run(self, *args: Any, **kwargs: Any) -> Any:

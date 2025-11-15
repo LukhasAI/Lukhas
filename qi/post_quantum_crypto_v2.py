@@ -288,7 +288,7 @@ class PostQuantumCryptoEngine:
         self.config = config or SecurityConfig()
         self.key_manager = QIResistantKeyManager(self.config)
         self.session_cache: dict[str, dict[str, Any]] = {}
-        self.active_sessions: Set[str] = set()  # noqa: F821  # TODO: Set
+        self.active_sessions: Set[str] = set()  # TODO: Set
 
         # Initialize secure memory manager
         self.secure_memory = SecureMemoryManager(self.config)

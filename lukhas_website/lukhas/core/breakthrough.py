@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import math
 import os
-from typing import Any
+from typing import Any, Optional
 
 try:
     from prometheus_client import Counter, Gauge
@@ -73,7 +73,7 @@ class BreakthroughDetector:
     """
     __slots__ = ("lane", "min_n", "mu", "n", "sq", "w", "z", "z_per_lane")
 
-    def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: int | None = None):
+    def __init__(self, novelty_w: float = 0.5, value_w: float = 0.5, z: float = 3.0, *, min_n: Optional[int] = None):
         """Initialize breakthrough detector.
 
         Args:

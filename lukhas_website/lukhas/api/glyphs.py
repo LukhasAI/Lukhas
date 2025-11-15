@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 """
 LUKHAS GLYPH API Endpoints
 ===========================
@@ -16,7 +18,7 @@ import logging
 from typing import Any, Optional
 
 from fastapi import APIRouter, Header, HTTPException, status
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +47,8 @@ class GlyphEncodeRequest(BaseModel):
     domains: Optional[list[str]] = Field(default=None, description="Symbol domains")
     source_module: Optional[str] = Field(default=None, max_length=100, description="Source module name")
 
-    @validator('emotion')
+    @field_validator('emotion')
+    @classmethod
     def validate_emotion(cls, v):
         if v is not None:
             for key, value in v.items():
@@ -56,7 +59,7 @@ class GlyphEncodeRequest(BaseModel):
         return v
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "concept": "morning_gratitude",
                 "emotion": {"joy": 0.8, "calm": 0.6},
@@ -79,7 +82,7 @@ class GlyphBindRequest(BaseModel):
     user_id: Optional[str] = Field(default=None, max_length=100, description="User identifier")
 
     class Config:
-        json_schema_extra = {
+        json_schema_extra: ClassVar[dict] = {
             "example": {
                 "glyph_data": {
                     "concept": "important_insight",

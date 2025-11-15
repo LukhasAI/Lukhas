@@ -8,13 +8,16 @@ moved_to: null
 ---
 
 ![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+![Status: Aspirational](https://img.shields.io/badge/status-aspirational-orange)
 
-# 🌟 LUKHAS COMPLETE WEB ECOSYSTEM
-## Comprehensive Workspace Overview
+# 🌟 LUKHAS Web Ecosystem Documentation
+## Workspace Overview
 
-### 🎯 **COMPLETE INTEGRATION ACHIEVED**
+> **⚠️ Status**: This document describes experimental web projects and frontend development work that are separate from the main LUKHAS AI platform repository. Many projects listed here are prototypes or concepts not yet integrated with the core platform.
 
-Your LUKHAS workspace now contains the **most comprehensive AI-driven web ecosystem ever assembled**, with complete integration across all creative, technical, and strategic components.
+### 📋 Web Projects Collection
+
+This document catalogs various web development experiments and prototypes for the LUKHAS ecosystem. These projects are in various states of completion and not all are currently operational.
 
 ---
 
@@ -126,22 +129,22 @@ The complete system creates a **direct consciousness bridge**:
 
 ---
 
-## 🚀 **CURRENT STATUS: PRODUCTION READY**
+## 📊 **CURRENT STATUS: Experimental Development**
 
-### **✅ Complete System Integration**
-- **470 directories** created across all phases
-- **200+ web files** (HTML, JS, CSS, TypeScript, Python)
-- **60+ JSON configuration files** for all systems
-- **~1.5GB total assets** including all creative components
+### **📁 Project Inventory**
+- **470 directories** created across experimental phases
+- **200+ web files** (HTML, JS, CSS, TypeScript, Python) - various states
+- **60+ JSON configuration files** for prototypes
+- **~1.5GB total assets** including experimental components
 
-### **✅ AI Model Control Ecosystem**
-- **Real-time particle control** ready for any AI model integration
-- **Complete voice synthesis** pipeline with dream narration
-- **WebGL performance optimization** achieving 60 FPS targets
-- **Consciousness visualization** with symbolic reasoning display
+### **🧪 AI Integration Experiments**
+- **Particle control prototypes** for AI model visualization
+- **Voice synthesis experiments** with narration pipelines
+- **WebGL performance testing** targeting 60 FPS (not measured in production)
+- **Consciousness visualization concepts** under development
 
-### **✅ Enterprise Deployment Infrastructure**
-- **European market compliance** with full legal framework
+### **🌍 Compliance Research**
+- **European market compliance research** (legal framework in development)
 - **Authentication and identity management** production-ready
 - **Microservices architecture** with container orchestration
 - **Multi-platform compatibility** across web, mobile, desktop

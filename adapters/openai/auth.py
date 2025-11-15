@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from fastapi import Header, HTTPException, status
 
 try:
-    from core.interfaces.api.v1.v1.common.api_key_cache import (  # type: ignore
+    from lukhas.core.interfaces.api.v1.v1.common.api_key_cache import (  # type: ignore
         ApiKeyMetadata,
         api_key_cache,
     )
@@ -19,7 +19,7 @@ except ModuleNotFoundError:  # pragma: no cover - offline fallback
     api_key_cache = None  # type: ignore[assignment]
 
 try:
-    from core.policy_guard import PolicyGuard  # type: ignore
+    from lukhas.core.policy_guard import PolicyGuard  # type: ignore
 except ModuleNotFoundError:  # pragma: no cover - offline fallback
     class _StubDecision:
         def __init__(self, allow: bool = True, reason: str = "policy guard stub allow") -> None:
@@ -28,8 +28,10 @@ except ModuleNotFoundError:  # pragma: no cover - offline fallback
 
     class PolicyGuard:  # type: ignore
         """Minimal PolicyGuard stub for docs-only environments."""
+from typing import Optional
 
-        def __init__(self, lane: str | None = None) -> None:
+
+        def __init__(self, lane: Optional[str] = None) -> None:
             self.lane = (lane or os.getenv("LUKHAS_LANE", "experimental")).lower()
             self.config = type("Config", (), {"allowed_kinds": set()})()
 
@@ -79,8 +81,8 @@ class TokenClaims:
     scopes: tuple[str, ...]
     lane: str
     token_hash: str = field(repr=False)
-    project_id: str | None = None
-    subject: str | None = None
+    project_id: Optional[str] = None
+    subject: Optional[str] = None
 
     def has_scope(self, scope: str) -> bool:
         return scope in self.scopes
@@ -115,7 +117,7 @@ def _metadata_for_token(token: str) -> ApiKeyMetadata:
     return metadata
 
 
-def _string_attr(metadata: ApiKeyMetadata, *keys: str) -> str | None:
+def _string_attr(metadata: ApiKeyMetadata, *keys: str) -> Optional[str]:
     attributes = getattr(metadata, "attributes", {}) or {}
     for key in keys:
         value = attributes.get(key)
@@ -269,7 +271,7 @@ def _risk_from_metadata(token_type: str, owner: str, metadata: ApiKeyMetadata) -
     return _risk_for(token_type, owner)
 
 
-def _project_from_metadata(project_id: str | None, metadata: ApiKeyMetadata) -> str | None:
+def _project_from_metadata(project_id: Optional[str], metadata: ApiKeyMetadata) -> Optional[str]:
     if project_id:
         return project_id
     return _string_attr(metadata, "project_id", "default_project_id", "project")
@@ -278,8 +280,8 @@ def _project_from_metadata(project_id: str | None, metadata: ApiKeyMetadata) -> 
 def verify_token_with_policy(
     token: str,
     *,
-    required_scopes: Sequence[str] | None = None,
-    project_id: str | None = None,
+    required_scopes: Optional[Sequence[str]] = None,
+    project_id: Optional[str] = None,
 ) -> TokenClaims:
     """Validate a token and derive its claims using PolicyGuard for gating."""
     token = (token or "").strip()
@@ -335,10 +337,10 @@ def verify_token_with_policy(
 
 
 def require_bearer(
-    authorization: str | None = Header(default=None),
+    authorization: Optional[str] = Header(default=None),
     *,
-    required_scopes: Sequence[str] | None = None,
-    project_id: str | None = Header(default=None, alias="X-Lukhas-Project"),
+    required_scopes: Optional[Sequence[str]] = None,
+    project_id: Optional[str] = Header(default=None, alias="X-Lukhas-Project"),
 ) -> TokenClaims:
     """FastAPI dependency that validates Bearer tokens."""
     if not authorization:

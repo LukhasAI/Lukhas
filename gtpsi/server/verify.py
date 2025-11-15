@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 import asyncpg
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 from .. import (
     HIGH_RISK_ACTIONS,
@@ -42,7 +42,8 @@ class GestureVerificationRequest(BaseModel):
     gesture_features: GestureFeatures = Field(..., description="Hashed gesture features")
     nonce: str = Field(..., description="Cryptographic nonce")
 
-    @validator("nonce")
+    @field_validator("nonce")
+    @classmethod
     def validate_nonce(cls, v):
         if len(v) < 16:
             raise ValueError("Nonce must be at least 16 characters")

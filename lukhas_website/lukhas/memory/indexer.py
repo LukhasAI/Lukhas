@@ -18,7 +18,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 from core.logging import get_logger
@@ -34,16 +34,16 @@ class IndexingResult:
     """
     Result of document indexing operation.
     """
-    document: VectorDocument | None = None
+    document: Optional[VectorDocument] = None
     success: bool = False
-    error: str | None = None
-    duplicate_of: str | None = None
+    error: Optional[str] = None
+    duplicate_of: Optional[str] = None
     processing_time_ms: float = 0.0
     metadata_extracted: dict[str, Any] = field(default_factory=dict)
 
     # Content analysis results
     word_count: int = 0
-    language: str | None = None
+    language: Optional[str] = None
     content_type: str = "text"
     extracted_entities: list[str] = field(default_factory=list)
 
@@ -283,7 +283,7 @@ class DocumentIndexer:
     def __init__(
         self,
         embedding_provider: AbstractEmbeddingProvider,
-        content_extractor: ContentExtractor | None = None,
+        content_extractor: Optional[ContentExtractor] = None,
         enable_deduplication: bool = True,
         dedup_threshold: float = 0.95
     ):
@@ -321,12 +321,12 @@ class DocumentIndexer:
         self,
         document_id: str,
         content: str,
-        metadata: dict[str, Any] | None = None,
-        identity_id: str | None = None,
+        metadata: Optional[dict[str, Any]] = None,
+        identity_id: Optional[str] = None,
         lane: str = "candidate",
-        fold_id: str | None = None,
-        tags: list[str] | None = None,
-        expires_at: datetime | None = None
+        fold_id: Optional[str] = None,
+        tags: Optional[list[str]] = None,
+        expires_at: Optional[datetime] = None
     ) -> IndexingResult:
         """
         Index a single document with embedding generation and analysis.

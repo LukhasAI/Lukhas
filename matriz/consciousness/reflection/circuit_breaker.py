@@ -23,7 +23,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 import numpy as np
 from core.common import get_logger
@@ -67,7 +67,7 @@ class FailureRecord:
     failure_type: FailureType
     actor_id: str
     error_message: str
-    correlation_id: str | None = None
+    correlation_id: Optional[str] = None
     propagation_path: list[str] = field(default_factory=list)
     severity: float = 1.0  # 0-1 scale
 

@@ -20,12 +20,18 @@ import os
 import sys
 import tempfile
 from datetime import datetime, timezone
+from typing import ClassVar
 
 # Module-level logger
 logger = logging.getLogger(__name__)
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import pytest
+
+# Skip experimental aka_qualia tests
+pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
 # Suppress logging during tests unless debug mode
 if not os.getenv("DEBUG_TESTS"):
@@ -644,9 +650,6 @@ class TestMainApplication:
         try:
             import os
             import sys
-
-# Skip experimental aka_qualia tests
-pytestmark = pytest.mark.skip(reason="aka_qualia is experimental")
 
             # Check that project root is in path
             project_root = os.path.dirname(os.path.abspath(__file__))

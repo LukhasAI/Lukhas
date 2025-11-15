@@ -20,7 +20,7 @@ import json
 import pathlib
 import re
 import sys
-from typing import Any
+from typing import Any, Optional
 
 from star_canon_utils import extract_canon_labels, normalize_star_label
 
@@ -36,8 +36,7 @@ def load_star_rules(path: pathlib.Path):
     Args:
         path (pathlib.Path): Path to a JSON rules file.
 
-    Returns:
-        dict | None: Parsed rules dict if readable, otherwise None.
+    Returns: Optional[dict]: Parsed rules dict if readable, otherwise None.
     """
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -160,7 +159,7 @@ COLONY_HINTS = [
     (r"/perception|/asr|/vision_model", "perception"),
 ]
 
-def validate_star(star: str, star_canon: dict[str, Any], *, labels: set[str] | None = None) -> str:
+def validate_star(star: str, star_canon: dict[str, Any], *, labels: Optional[set[str]] = None) -> str:
     """Validate constellation star label against canonical definitions with fail-fast gating.
 
     Enforces strict validation of star labels to prevent invalid assignments
@@ -197,7 +196,7 @@ def validate_star(star: str, star_canon: dict[str, Any], *, labels: set[str] | N
     return star
 
 
-def guess_star(path: str, inv_star: str | None, star_canon: dict[str, Any]) -> str:
+def guess_star(path: str, inv_star: Optional[str], star_canon: dict[str, Any]) -> str:
     """Guess constellation star label with canonical normalization.
 
     Args:
@@ -220,7 +219,7 @@ def guess_star(path: str, inv_star: str | None, star_canon: dict[str, Any]) -> s
             return validate_star(star, star_canon, labels=labels)
     return validate_star(STAR_DEFAULT, star_canon, labels=labels)
 
-def guess_colony(path: str) -> str | None:
+def guess_colony(path: str) -> Optional[str]:
     """Infer LUKHAS colony assignment from module path patterns.
 
     Colonies organize modules by functional domain (actuation, simulation,
@@ -231,8 +230,7 @@ def guess_colony(path: str) -> str | None:
         path: Module filesystem path (repo-relative, e.g., "lukhas/api/endpoints").
             Should include forward slashes as separators.
 
-    Returns:
-        str | None: Inferred colony name if a pattern matches (one of:
+    Returns: Optional[str]: Inferred colony name if a pattern matches (one of:
             "actuation", "simulation", "memory", "ethics", "interface",
             "perception"), otherwise None if no heuristic matches.
 
@@ -396,7 +394,7 @@ def map_priority_to_quality_tier(priority: str) -> str:
     return "T4_experimental"
 
 
-def decide_quality_tier(priority: str | None, has_tests: bool, owner: str | None) -> str:
+def decide_quality_tier(priority: Optional[str], has_tests: bool, owner: Optional[str]) -> str:
     """Apply quality gates to determine final tier assignment.
 
     Enforces T1 requirements (tests + assigned owner) with automatic demotion
@@ -499,7 +497,7 @@ def discover_tests(module_fs_path: str) -> list[str]:
     return sorted(found)
 
 
-def build_testing_block(module_fs_path: str, tier: str | None = None) -> dict[str, Any]:
+def build_testing_block(module_fs_path: str, tier: Optional[str] = None) -> dict[str, Any]:
     """Build schema-compliant testing configuration block for manifest.
 
     Generates testing metadata matching matriz_module_compliance.schema.json
@@ -568,7 +566,7 @@ def now_iso() -> str:
     """
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
 
-def make_context_md(fqn: str, star: str, pipeline_nodes: list[str], colony: str | None, exports=None, contracts=None, logger=None) -> str:
+def make_context_md(fqn: str, star: str, pipeline_nodes: list[str], colony: Optional[str], exports=None, contracts=None, logger=None) -> str:
     """Generate lukhas_context.md template with architectural metadata placeholders.
 
     Creates structured Markdown documentation template for module context files.
@@ -666,8 +664,10 @@ def main():
     ap.add_argument("--star-confidence-min", type=float, default=0.70)
     args = ap.parse_args()
 
-    inv = json.load(open(args.inventory, encoding="utf-8"))
-    star_canon = json.load(open(args.star_canon, encoding="utf-8"))
+    with open(args.inventory, encoding="utf-8") as f:
+        inv = json.load(f)
+    with open(args.star_canon, encoding="utf-8") as f:
+        star_canon = json.load(f)
     extract_canon_labels(star_canon)
 
     items = inv.get("inventory", [])

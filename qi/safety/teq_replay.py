@@ -9,7 +9,7 @@ import glob
 import hashlib
 import json
 import os
-from typing import Any
+from typing import Any, Optional
 
 _ORIG_OPEN = builtins.open
 
@@ -30,7 +30,7 @@ def _read_json(path: str) -> dict[str, Any]:
         return json.load(f)
 
 
-def _load_receipt(receipt_id: str | None, path: str | None) -> dict[str, Any]:
+def _load_receipt(receipt_id: Optional[str], path: Optional[str]) -> dict[str, Any]:
     if path:
         return _read_json(path)
     if not receipt_id:
@@ -45,7 +45,7 @@ def _load_receipt(receipt_id: str | None, path: str | None) -> dict[str, Any]:
     return _read_json(p)
 
 
-def _policy_fingerprint(policy_root: str, overlays_dir: str | None) -> str:
+def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
     """Stable hash over the policy pack + overlays (filenames + contents)."""
     h = hashlib.sha256()
 
@@ -68,7 +68,7 @@ def _policy_fingerprint(policy_root: str, overlays_dir: str | None) -> str:
     return h.hexdigest()
 
 
-def _verify_attestation_pointer(att: dict[str, Any] | None) -> bool | None:
+def _verify_attestation_pointer(att: Optional[dict[str, Any]]) -> Optional[bool]:
     if not att or not _HAS_VERIFY:
         return None
     path = att.get("chain_path")
@@ -81,7 +81,7 @@ def _verify_attestation_pointer(att: dict[str, Any] | None) -> bool | None:
         return False
 
 
-def _build_teq_context(receipt: dict[str, Any], provenance_record: dict[str, Any] | None) -> dict[str, Any]:
+def _build_teq_context(receipt: dict[str, Any], provenance_record: Optional[dict[str, Any]]) -> dict[str, Any]:
     """Construct a minimal context consistent with your TEQ checks."""
     user_id = None
     for a in receipt.get("agents", []):
@@ -105,7 +105,7 @@ def _build_teq_context(receipt: dict[str, Any], provenance_record: dict[str, Any
     return ctx
 
 
-def _load_provenance_record(artifact_sha: str | None) -> dict[str, Any] | None:
+def _load_provenance_record(artifact_sha: Optional[str]) -> Optional[dict[str, Any]]:
     if not artifact_sha:
         return None
     try:
@@ -131,7 +131,7 @@ def _task_from_receipt(
     return task, jurisdiction, context, user
 
 
-def _run_teq(policy_root: str, jurisdiction: str | None, task: str, ctx: dict[str, Any]) -> dict[str, Any]:
+def _run_teq(policy_root: str, jurisdiction: Optional[str], task: str, ctx: dict[str, Any]) -> dict[str, Any]:
     from qi.safety.teq_gate import TEQCoupler
 
     teq = TEQCoupler(policy_dir=policy_root, jurisdiction=jurisdiction or "global")
@@ -175,7 +175,7 @@ def replay_from_receipt(
     *,
     receipt: dict[str, Any],
     policy_root: str,
-    overlays_dir: str | None,
+    overlays_dir: Optional[str],
     verify_receipt_attestation: bool = False,
     verify_provenance_attestation: bool = False,
 ) -> dict[str, Any]:

@@ -155,10 +155,7 @@ class GoalPrioritizationNode(CognitiveNode):
         if not 0.0 <= output["confidence"] <= 1.0:
             return False
 
-        if "prioritized_goals" not in output["answer"]:
-            return False
-
-        return True
+        return "prioritized_goals" in output["answer"]
 
     def _prioritize_goals(
         self,

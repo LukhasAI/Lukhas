@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import structlog
 from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
@@ -307,8 +307,8 @@ class IntegratedMonitoringSystem:
 
     def __init__(
         self,
-        signal_bus: SignalBus | None = None,
-        config: dict[str, Any] | None = None,
+        signal_bus: Optional[SignalBus] = None,
+        config: Optional[dict[str, Any]] = None,
         data_dir: str = "data/integrated_monitoring",
     ):
         self.signal_bus = signal_bus or SignalBus()
@@ -1013,7 +1013,7 @@ class IntegratedMonitoringSystem:
 
 # Factory function
 def create_integrated_monitoring_system(
-    signal_bus: SignalBus, config: dict[str, Any] | None = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> IntegratedMonitoringSystem:
     """Create and return an IntegratedMonitoringSystem instance"""
     return IntegratedMonitoringSystem(signal_bus, config)
@@ -1021,7 +1021,7 @@ def create_integrated_monitoring_system(
 
 # Helper function to start the complete system
 async def start_complete_monitoring_system(
-    signal_bus: SignalBus, config: dict[str, Any] | None = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> IntegratedMonitoringSystem:
     """
     Start the complete integrated monitoring system with all components.

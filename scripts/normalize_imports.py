@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Normalize relative imports to absolute imports.
 
@@ -36,7 +38,7 @@ def dotted_from_file(py: pathlib.Path, repo_root: pathlib.Path, root_pkg: str) -
     return pkg_path, mod_name
 
 
-def join_dotted(base_pkg: str, up_levels: int, tail: str | None) -> str:
+def join_dotted(base_pkg: str, up_levels: int, tail: Optional[str]) -> str:
     """Base 'a.b.c', go up 'up_levels', then append tail (may be None)."""
     parts = base_pkg.split(".")
     if parts and parts[-1] == "__init__":
@@ -54,7 +56,7 @@ class Absolutizer(cst.CSTTransformer):
         self.root_pkg = root_pkg
         self.pkg_path, self.mod_name = dotted_from_file(file_path, repo_root, root_pkg)
 
-    def _module_to_str(self, module: cst.BaseExpression | None) -> str | None:
+    def _module_to_str(self, module: cst.BaseExpression | None) -> Optional[str]:
         if module is None:
             return None
         # Convert Name/Attribute to dotted string

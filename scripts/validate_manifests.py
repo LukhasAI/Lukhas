@@ -19,7 +19,8 @@ def main():
     ap.add_argument("--warn-only", action="store_true")
     args = ap.parse_args()
 
-    schema = json.load(open(args.schema, encoding="utf-8"))
+    with open(args.schema, encoding="utf-8") as f:
+        schema = json.load(f)
     validator = Draft7Validator(schema)
 
     root = pathlib.Path(args.root)
@@ -27,7 +28,8 @@ def main():
     failures = 0
 
     for f in sorted(files):
-        data = json.load(open(f, encoding="utf-8"))
+        with open(f, encoding="utf-8") as file:
+            data = json.load(file)
         errs = sorted(validator.iter_errors(data), key=lambda e: list(e.path))
         if errs:
             failures += 1

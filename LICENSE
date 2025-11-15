@@ -1,47 +1,66 @@
 PROPRIETARY SOFTWARE LICENSE
 
-Copyright (c) 2025 LukhasAI. All rights reserved.
+Copyright (c) 2025 LUKHAS AI. All rights reserved.
 
-ΛGI Consolidation Repository - Advanced AGI System
-===================================================
+LUKHAS - Logic Unified Knowledge Hyper Adaptable System
+========================================================
 
-PROPRIETARY AND CONFIDENTIAL
+PROPRIETARY AND CONFIDENTIAL - NOT OPEN SOURCE
 
 This software and associated documentation files (the "Software") are the
-proprietary property of LukhasAI and are protected by copyright, trade secret,
+proprietary property of LUKHAS AI and are protected by copyright, trade secret,
 and other intellectual property laws.
+
+⚠️ IMPORTANT NOTICE:
+This repository is PUBLIC for viewing purposes only. The code is NOT free to use,
+modify, or distribute without explicit written permission and appropriate licensing fees.
 
 LICENSE TERMS:
 
 1. OWNERSHIP
-   This Software is owned by LukhasAI and is protected by copyright laws and
+   This Software is owned by LUKHAS AI and is protected by copyright laws and
    international copyright treaties, as well as other intellectual property
    laws and treaties.
 
-2. GRANT OF LICENSE
-   Subject to the terms of this license, LukhasAI grants you a limited,
-   non-exclusive, non-transferable license to:
-   - Use the Software for internal development and evaluation purposes only
-   - Modify the Software for your internal use only
-   - Create derivative works for internal use only
+2. VIEWING ONLY LICENSE
+   By accessing this public repository, you are granted permission to:
+   - VIEW the source code for evaluation purposes only
+   - Read documentation to understand the system architecture
+
+   You may NOT:
+   - Copy, download, or clone the repository
+   - Use any portion of the code in your own projects
+   - Modify, adapt, or create derivative works
+   - Use the Software for any commercial or non-commercial purposes
 
 3. RESTRICTIONS
    You may NOT:
-   - Distribute, publish, or make the Software available to third parties
+   - Use, copy, modify, or distribute the Software without a paid license
    - Use the Software for commercial purposes without explicit written consent
    - Reverse engineer, decompile, or disassemble the Software
    - Remove or modify any proprietary notices or labels
    - Grant sublicenses or transfer your rights under this license
 
-4. COMMERCIAL USE
-   Commercial use of this Software requires a separate commercial license
-   agreement with LukhasAI. Contact licensing@lukhas.ai for commercial
-   licensing terms.
+4. COMMERCIAL USE - CONTACT FOR PRICING
+   ANY use of this Software requires a commercial license agreement.
+   Licensing fees apply for:
+   - Commercial use
+   - Internal business use
+   - Integration into products or services
+   - Development or deployment purposes
 
-5. ACADEMIC AND RESEARCH USE
-   Academic institutions may use this Software for non-commercial research
-   purposes, provided proper attribution is given to LukhasAI in any
-   publications or presentations.
+   Contact for licensing and pricing: licensing@lukhas.ai
+
+5. ACADEMIC AND RESEARCH COLLABORATION
+   Academic institutions, researchers, and professionals interested in
+   collaboration are encouraged to contact us. Special licensing terms
+   may be available for:
+   - University research projects
+   - Academic partnerships
+   - Professional collaborations
+   - Research publications
+
+   Contact licensing@lukhas.ai to discuss collaboration opportunities.
 
 6. CONFIDENTIALITY
    You acknowledge that the Software contains confidential and proprietary
