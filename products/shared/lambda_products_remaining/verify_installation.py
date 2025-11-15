@@ -7,14 +7,20 @@ Checks that all components are properly installed and functional
 import sys
 from pathlib import Path
 
+# Add to path for safe imports
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
+from lukhas.security.safe_import import safe_import_wildcard, ImportSecurityError
+
 
 def check_component(name, import_path, critical=True):
     """Check if a component can be imported"""
     try:
-        exec(f"from {import_path} import *")
+        # Use safe wildcard import instead of exec()
+        safe_import_wildcard(import_path)
         print(f"✅ {name}")
         return True
-    except ImportError as e:
+    except (ImportError, ImportSecurityError) as e:
         if critical:
             print(f"❌ {name}: {e}")
         else:
