@@ -10,7 +10,7 @@ import time
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -61,13 +61,13 @@ class EntangledSuperpositionState:
 class QuantumSuperpositionEngine:
     """Create and manage quantum-inspired superposition states."""
 
-    def __init__(self, *, rng: Any | None = None) -> None:
+    def __init__(self, *, rng: Optional[Any] = None) -> None:
         self._rng = rng or random.Random()
 
     def create_state(
         self,
         options: Sequence[Mapping[str, Any]],
-        context: Mapping[str, Any] | None = None,
+        context: Optional[Mapping[str, Any]] = None,
     ) -> SuperpositionState:
         """Create a normalized superposition state with interference patterns."""
 
@@ -189,9 +189,9 @@ class QuantumSuperpositionEngine:
 
     def _resolve_index(
         self,
-        label: str | None,
+        label: Optional[str],
         options: Sequence[Mapping[str, Any]],
-    ) -> int | None:
+    ) -> Optional[int]:
         if label is None:
             return None
         for index, option in enumerate(options):
@@ -306,7 +306,7 @@ class QuantumEntanglementManager:
         return link
 
     def measure_with_entanglement(
-        self, state_id: str, option_index: int | None = None
+        self, state_id: str, option_index: Optional[int] = None
     ) -> dict[str, Any]:
         """
         Measure a superposition state and propagate measurement effects through entanglement.
@@ -408,7 +408,7 @@ class QuantumEntanglementManager:
         measured_index: int,
         measured_amplitude: complex,
         target_superposition: SuperpositionState,
-    ) -> dict[str, Any] | None:
+    ) -> Optional[dict[str, Any]]:
         """
         Apply entanglement effect to target superposition based on link type.
 
@@ -592,7 +592,7 @@ class QuantumEntanglementManager:
         """Get the entanglement graph showing which states are connected."""
         return dict(self._entanglement_graph)
 
-    def get_state(self, state_id: str) -> EntangledSuperpositionState | None:
+    def get_state(self, state_id: str) -> Optional[EntangledSuperpositionState]:
         """Get an entangled state by ID."""
         return self._states.get(state_id)
 

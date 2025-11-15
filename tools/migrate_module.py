@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Module Migration Helper for LUKHAS AI
 Automates the migration of modules to lukhas/ (accepted)
@@ -17,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class ModuleMigrator:
-    def __init__(self, root_path: Path | None = None):
+    def __init__(self, root_path: Optional[Path] = None):
         self.root = root_path or Path.cwd()
         self.lukhas_dir = self.root / "lukhas"
         self.candidate_dir = self.root / "labs"

@@ -34,7 +34,7 @@ import hashlib  # For CardiolipinEncoder
 import json  # For CardiolipinEncoder
 import logging
 from datetime import datetime, timezone  # Standardized timestamping
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import structlog  # Standardized logging
@@ -138,7 +138,7 @@ def lukhas_tier_required(level: int):
 class ProtonGradient:
     """Simulates bio-inspired quantum-enhanced gradient processing."""
 
-    def __init__(self, qi_oscillator: QIOscillator | None = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.gradient_state_vector = np.zeros(3, dtype=float)
@@ -205,7 +205,7 @@ class ProtonGradient:
 class QIAttentionGate:
     """Simulates a quantum-enhanced attention gating mechanism."""
 
-    def __init__(self, bio_oscillator: QIBioOscillator | None = None):
+    def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
         self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.log.info("QIAttentionGate initialized.")

@@ -48,7 +48,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -183,9 +183,9 @@ class SymbolicDriftAnalyzer:
 
     def __init__(
         self,
-        dream_memory_manager: DreamMemoryManager | None = None,
-        ethical_detector: EthicalDriftDetector | None = None,
-        config: dict[str, Any] | None = None,
+        dream_memory_manager: Optional[DreamMemoryManager] = None,
+        ethical_detector: Optional[EthicalDriftDetector] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initialize the drift analyzer

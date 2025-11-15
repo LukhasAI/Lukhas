@@ -5,7 +5,7 @@ from __future__ import annotations
 import builtins
 import json
 import os
-from typing import Any
+from typing import Any, Optional
 
 from qi.metrics.calibration import apply_calibration, load_params
 from qi.safety.constants import MAX_THRESHOLD_SHIFT
@@ -24,7 +24,7 @@ def _write_json(p: str, obj: Any):
     os.replace(tmp, p)
 
 
-def _pick_temperature(task: str | None, params) -> float:
+def _pick_temperature(task: Optional[str], params) -> float:
     if not params:
         return 1.0
     if task and params.per_task_temperature and task in params.per_task_temperature:
@@ -37,7 +37,7 @@ def calibrated_gate(
     *,
     base_threshold: float,
     max_shift: float = MAX_THRESHOLD_SHIFT,
-    task: str | None = None,
+    task: Optional[str] = None,
 ) -> dict[str, Any]:
     """
     Uses per-task temperature if available; falls back to global.

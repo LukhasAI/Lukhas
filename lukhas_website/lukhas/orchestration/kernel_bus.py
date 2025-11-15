@@ -15,7 +15,7 @@ import os
 import uuid
 from collections import defaultdict, deque
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from observability.matriz_decorators import instrument
 
@@ -60,7 +60,7 @@ class KernelBus:
         *,
         source: str = "unknown",
         priority: EventPriority = EventPriority.NORMAL,
-        correlation_id: str | None = None,
+        correlation_id: Optional[str] = None,
         mode: str = "dry_run",
         **kwargs,
     ) -> dict[str, Any]:
@@ -187,7 +187,7 @@ class KernelBus:
 
 
 # Global instance (lazy initialization)
-_kernel_bus_instance: KernelBus | None = None
+_kernel_bus_instance: Optional[KernelBus] = None
 
 
 def get_kernel_bus() -> KernelBus:

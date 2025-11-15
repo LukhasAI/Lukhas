@@ -29,7 +29,7 @@ import json
 import os
 import time
 import uuid
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
@@ -187,8 +187,8 @@ async def register_node(request: Request):
 
 @app.get("/api/v1/registry/query")
 async def query_registry(
-    signal: str | None = None,
-    capability: str | None = None
+    signal: Optional[str] = None,
+    capability: Optional[str] = None
 ):
     """
     Query registered nodes (mocked).

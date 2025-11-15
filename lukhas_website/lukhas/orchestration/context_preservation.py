@@ -37,7 +37,7 @@ import uuid
 import zlib
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 
@@ -112,7 +112,7 @@ class ContextHop:
     timestamp: float
     latency_ms: float
     success: bool
-    error: str | None = None
+    error: Optional[str] = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -136,8 +136,8 @@ class PreservedContext:
     """Complete preserved context with metadata"""
     metadata: ContextMetadata
     data: dict[str, Any]
-    compressed_data: bytes | None = None
-    checksum: str | None = None
+    compressed_data: Optional[bytes] = None
+    checksum: Optional[str] = None
 
 
 class ContextSerializer:
@@ -216,7 +216,7 @@ class ContextCache:
         self._cache: dict[str, tuple[PreservedContext, float]] = {}  # key -> (context, expiry_time)
         self._access_order: list[str] = []  # LRU tracking
 
-    async def get(self, context_id: str) -> PreservedContext | None:
+    async def get(self, context_id: str) -> Optional[PreservedContext]:
         """Get context from cache"""
         start_time = time.time()
 
@@ -410,7 +410,7 @@ class ContextPreservationEngine:
                 logger.error(f"❌ Failed to preserve context: {e}")
                 raise
 
-    async def restore_context(self, context_id: str) -> dict[str, Any] | None:
+    async def restore_context(self, context_id: str) -> Optional[dict[str, Any]]:
         """Restore context data by ID"""
 
         start_time = time.time()
@@ -481,7 +481,7 @@ class ContextPreservationEngine:
         context_id: str,
         source_provider: str,
         destination_provider: str,
-        additional_metadata: dict[str, Any] | None = None
+        additional_metadata: Optional[dict[str, Any]] = None
     ) -> bool:
         """Hand off context between providers"""
 
@@ -552,7 +552,7 @@ class ContextPreservationEngine:
                 logger.error(f"❌ Context handoff failed: {e}")
                 return False
 
-    async def get_context_metadata(self, context_id: str) -> ContextMetadata | None:
+    async def get_context_metadata(self, context_id: str) -> Optional[ContextMetadata]:
         """Get context metadata"""
         preserved_context = await self.cache.get(context_id)
         if not preserved_context:
@@ -624,7 +624,7 @@ class ContextPreservationEngine:
 
 
 # Global context preservation engine
-_context_engine: ContextPreservationEngine | None = None
+_context_engine: Optional[ContextPreservationEngine] = None
 
 
 async def get_context_preservation_engine() -> ContextPreservationEngine:

@@ -11,7 +11,7 @@ Constellation Framework: Flow Star (🌊)
 from __future__ import annotations
 
 import time
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -62,7 +62,7 @@ decision_confidence_score = Gauge(
 class GuardianResponse:
     """Guardian validation response."""
 
-    def __init__(self, approved: bool, reason: str, confidence: float = 1.0, constraints: dict[str, Any] | None = None):
+    def __init__(self, approved: bool, reason: str, confidence: float = 1.0, constraints: Optional[dict[str, Any]] = None):
         self.approved = approved
         self.reason = reason
         self.confidence = confidence
@@ -79,7 +79,7 @@ class AutoConsciousness:
     Guardian validation. Implements full consciousness decision loop.
     """
 
-    def __init__(self, guardian_validator: Callable | None = None):
+    def __init__(self, guardian_validator: Optional[Callable] = None):
         """
         Initialize autonomous consciousness system.
 
@@ -110,9 +110,9 @@ class AutoConsciousness:
     async def decide_and_act(
         self,
         consciousness_state: ConsciousnessState,
-        awareness_snapshot: AwarenessSnapshot | None = None,
-        reflection_report: ReflectionReport | None = None,
-        dream_trace: DreamTrace | None = None
+        awareness_snapshot: Optional[AwarenessSnapshot] = None,
+        reflection_report: Optional[ReflectionReport] = None,
+        dream_trace: Optional[DreamTrace] = None
     ) -> DecisionContext:
         """
         Execute complete decision-making cycle with Guardian validation.
@@ -187,7 +187,7 @@ class AutoConsciousness:
     async def _generate_proposed_actions(
         self,
         decision_context: DecisionContext,
-        dream_trace: DreamTrace | None
+        dream_trace: Optional[DreamTrace]
     ) -> None:
         """Generate proposed actions based on consciousness inputs."""
 
@@ -212,7 +212,7 @@ class AutoConsciousness:
     async def _propose_awareness_actions(
         self,
         decision_context: DecisionContext,
-        awareness_snapshot: AwarenessSnapshot | None
+        awareness_snapshot: Optional[AwarenessSnapshot]
     ) -> None:
         """Propose actions based on awareness analysis."""
         if not awareness_snapshot:
@@ -256,7 +256,7 @@ class AutoConsciousness:
     async def _propose_reflection_actions(
         self,
         decision_context: DecisionContext,
-        reflection_report: ReflectionReport | None
+        reflection_report: Optional[ReflectionReport]
     ) -> None:
         """Propose actions based on reflection analysis."""
         if not reflection_report:
@@ -289,7 +289,7 @@ class AutoConsciousness:
     async def _propose_dream_actions(
         self,
         decision_context: DecisionContext,
-        dream_trace: DreamTrace | None
+        dream_trace: Optional[DreamTrace]
     ) -> None:
         """Propose actions based on dream processing insights."""
         if not dream_trace:

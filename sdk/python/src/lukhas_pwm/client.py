@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import time
-from typing import Any, TypedDict
+from typing import Any, TypedDict, Optional
 
 import requests
 
 
 class LukhasError(RuntimeError):
-    def __init__(self, status: int, message: str, body: str | None = None):
+    def __init__(self, status: int, message: str, body: Optional[str] = None):
         super().__init__(f"{status} {message}")
         self.status = status
         self.body = body
@@ -16,9 +16,9 @@ class LukhasError(RuntimeError):
 class FeedbackCard(TypedDict, total=False):
     target_action_id: str
     rating: int
-    note: str | None
-    user_id: str | None
-    tags: list[str] | None
+    note: Optional[str]
+    user_id: Optional[str]
+    tags: Optional[list[str]]
 
 
 class Lukhas:
@@ -32,7 +32,7 @@ class Lukhas:
     def __init__(
         self,
         base_url: str,
-        api_key: str | None = None,
+        api_key: Optional[str] = None,
         timeout: float = 10.0,
         retries: int = 3,
     ):
@@ -75,9 +75,9 @@ class Lukhas:
         *,
         target_action_id: str,
         rating: int,
-        note: str | None = None,
-        user_id: str | None = None,
-        tags: list[str] | None = None,
+        note: Optional[str] = None,
+        user_id: Optional[str] = None,
+        tags: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         body: FeedbackCard = {
             "target_action_id": target_action_id,

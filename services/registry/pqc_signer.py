@@ -7,6 +7,8 @@ Falls back to HMAC in development environments where liboqs is unavailable.
 MATRIZ-007: PQC Migration
 Status: Week 1 - Initial Implementation
 """
+from typing import Optional
+
 
 from __future__ import annotations
 
@@ -53,9 +55,9 @@ class PQCSigner:
 
     def __init__(
         self,
-        key_path: Path | None = None,
-        public_key_path: Path | None = None,
-        fallback_hmac_key: str | None = None
+        key_path: Optional[Path] = None,
+        public_key_path: Optional[Path] = None,
+        fallback_hmac_key: Optional[str] = None
     ):
         """
         Initialize PQC signer.

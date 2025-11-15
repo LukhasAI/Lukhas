@@ -11,7 +11,7 @@ import json
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 from qi.autonomy.self_healer import observe_signals
 
@@ -54,7 +54,7 @@ class CandidateConfig:
     id: str
     base_path: str  # config file to tweak (YAML/JSON)
     patch: dict[str, Any]  # structured change
-    score_offline: float | None = None
+    score_offline: Optional[float] = None
     trials: int = 0
     meta: dict[str, Any] = None
 
@@ -118,7 +118,7 @@ class AdaptiveLearningEngine:
         return {"by_task": stats, "window": window, "ts": _now()}
 
     def evolve_node_parameters(
-        self, *, target_file: str, tasks_focus: list[str] | None = None
+        self, *, target_file: str, tasks_focus: Optional[list[str]] = None
     ) -> list[CandidateConfig]:
         """
         Suggest numeric tweaks (e.g., router thresholds) based on low-reward tasks.
@@ -147,7 +147,7 @@ class AdaptiveLearningEngine:
         return cands
 
     def discover_new_node_combinations(
-        self, *, target_file: str, tasks_focus: list[str] | None = None
+        self, *, target_file: str, tasks_focus: Optional[list[str]] = None
     ) -> list[CandidateConfig]:
         """
         Explore novel tool combos: try enabling backup tool or reranker for weak tasks.

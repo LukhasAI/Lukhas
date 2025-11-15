@@ -24,7 +24,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import psutil
 from core.common import get_logger
@@ -113,8 +113,8 @@ class CascadeEvent:
 
     # Prevention status
     prevented: bool = False
-    prevention_method: str | None = None
-    recovery_time: float | None = None
+    prevention_method: Optional[str] = None
+    recovery_time: Optional[float] = None
 
 
 @dataclass
@@ -186,7 +186,7 @@ class SystemHealthMonitor:
     and Constellation Framework health with real-time alerting.
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize system health monitor.
 
@@ -539,7 +539,7 @@ class SystemHealthMonitor:
         value: float,
         unit: str,
         timestamp: datetime,
-        tags: dict[str, str] | None = None,
+        tags: Optional[dict[str, str]] = None,
     ):
         """Record a health metric."""
 

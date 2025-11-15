@@ -18,7 +18,7 @@ import contextlib
 import logging
 import time
 import uuid
-from typing import Any, cast
+from typing import Any, cast, Optional
 
 from bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
@@ -56,9 +56,9 @@ class OpenAIModulatedService:
 
     def __init__(
         self,
-        client: UnifiedOpenAIClient | None = None,
-        homeostasis: HomeostasisController | None = None,
-        modulator: PromptModulator | None = None,
+        client: Optional[UnifiedOpenAIClient] = None,
+        homeostasis: Optional[HomeostasisController] = None,
+        modulator: Optional[PromptModulator] = None,
     ) -> None:
         self.bus = get_signal_bus()
         self.homeo = homeostasis or HomeostasisController(self.bus)
@@ -82,10 +82,10 @@ class OpenAIModulatedService:
     async def generate(
         self,
         prompt: str,
-        context: dict[str, Any] | None = None,
-        signals: list[Signal] | None = None,
-        params: ModulationParams | None = None,
-        task: str | None = None,
+        context: Optional[dict[str, Any]] = None,
+        signals: Optional[list[Signal]] = None,
+        params: Optional[ModulationParams] = None,
+        task: Optional[str] = None,
         stream: bool = False,
     ) -> dict[str, Any]:
         """
@@ -362,10 +362,10 @@ class OpenAIModulatedService:
     async def generate_stream(
         self,
         prompt: str,
-        context: dict[str, Any] | None = None,
-        signals: list[Signal] | None = None,
-        params: ModulationParams | None = None,
-        task: str | None = None,
+        context: Optional[dict[str, Any]] = None,
+        signals: Optional[list[Signal]] = None,
+        params: Optional[ModulationParams] = None,
+        task: Optional[str] = None,
     ):
         """
         Stream tokens from OpenAI with pre-moderation and retrieval injection.
@@ -637,10 +637,10 @@ class OpenAIModulatedService:
 async def _run_modulated_completion_impl(
     client,
     user_msg: str,
-    ctx_snips: list[str] | None = None,
-    endocrine_signals: dict[str, float] | None = None,
+    ctx_snips: Optional[list[str]] = None,
+    endocrine_signals: Optional[dict[str, float]] = None,
     base_model: str = "gpt-3.5-turbo",
-    audit_id: str | None = None,
+    audit_id: Optional[str] = None,
     max_steps: int = 6,
 ):
     """
@@ -701,11 +701,11 @@ async def _run_modulated_completion_impl(
                     self,
                     messages: list[dict[str, Any]],
                     task: str = "general",
-                    temperature: float | None = None,
-                    max_tokens: int | None = None,
+                    temperature: Optional[float] = None,
+                    max_tokens: Optional[int] = None,
                     stream: bool = False,
-                    tools: list[dict[str, Any]] | None = None,
-                    tool_choice: str | None = None,
+                    tools: Optional[list[dict[str, Any]]] = None,
+                    tool_choice: Optional[str] = None,
                 ) -> dict[str, Any]:
                     # Call sync create() in an async-friendly way
 
@@ -834,10 +834,10 @@ run_modulated_completion_async = _run_modulated_completion_impl
 def run_modulated_completion(
     client,
     user_msg: str,
-    ctx_snips: list[str] | None = None,
-    endocrine_signals: dict[str, float] | None = None,
+    ctx_snips: Optional[list[str]] = None,
+    endocrine_signals: Optional[dict[str, float]] = None,
     base_model: str = "gpt-3.5-turbo",
-    audit_id: str | None = None,
+    audit_id: Optional[str] = None,
     max_steps: int = 6,
 ):
     """Dual-mode entrypoint (async-compatible + sync-friendly).
@@ -869,11 +869,11 @@ def run_modulated_completion(
     res = asyncio.run(coro)
 
     class _Msg:
-        def __init__(self, content: str | None):
+        def __init__(self, content: Optional[str]):
             self.content = content
 
     class _Choice:
-        def __init__(self, content: str | None):
+        def __init__(self, content: Optional[str]):
             self.message = _Msg(content)
 
     class _Usage:

@@ -5,7 +5,7 @@ import collections
 import dataclasses
 import itertools
 import pprint
-from typing import TYPE_CHECKING, Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol, Optional
 
 import sympy
 import torch
@@ -139,7 +139,7 @@ class Allocation(AllocationTreeNode):
     size_hint: int
     symbolic_size: sympy.Expr
     allocated: bool = False
-    pool: AllocationPool | None = None
+    pool: Optional[AllocationPool] = None
     offset: sympy.Expr | None = None
 
     @property
@@ -352,8 +352,8 @@ class AllocationPool:
     device: torch.device
     root: TemporalSplit
     can_expand: bool = True
-    restrict_live_range: LiveRange | None = None
-    name: str | None = None
+    restrict_live_range: Optional[LiveRange] = None
+    name: Optional[str] = None
     names_to_del: list[str] = dataclasses.field(default_factory=list)
     creation_cache: dict[str, str] = dataclasses.field(default_factory=dict)
 
@@ -489,7 +489,7 @@ class BufferGroup:
         self.node = node
         self.names = [node.get_name()]
         self.is_output = False
-        self.allocation: Allocation | None = None
+        self.allocation: Optional[Allocation] = None
         self.live_range = LiveRange(float("inf"), -float("inf"))
 
     def update_usage(self, timestep: int):
@@ -526,7 +526,7 @@ class PoolMemoryPlanningLine(MemoryPlanningLine):
     """Abstract base class for {Alloc,Dealloc}FromPoolLine"""
 
     group: BufferGroup
-    timestep: int | None = None
+    timestep: Optional[int] = None
 
     @property
     def node(self):
@@ -578,7 +578,7 @@ class MemoryPlanner:
 
     wrapper: Any
     pools: AllocationPools = dataclasses.field(default_factory=AllocationPools)
-    buffer_groups: list[BufferGroup] | None = None
+    buffer_groups: Optional[list[BufferGroup]] = None
 
     def plan(self, lines: list[Any]) -> list[Any]:
         """Call all the memory planning passes in sequence"""

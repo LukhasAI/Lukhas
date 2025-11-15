@@ -14,7 +14,7 @@ import logging
 import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -42,8 +42,8 @@ class Proposal:
     fix_type: str
     affected_files: list[str]
     confidence: float
-    patch_content: str | None = None
-    runbook_reference: str | None = None
+    patch_content: Optional[str] = None
+    runbook_reference: Optional[str] = None
     priority: str = "medium"
     estimated_effort: str = "medium"
 
@@ -128,7 +128,7 @@ class TestFailureParser:
 
         return failures
 
-    def _parse_error_section(self, test_file: str, content: str) -> TestFailure | None:
+    def _parse_error_section(self, test_file: str, content: str) -> Optional[TestFailure]:
         """Parse an individual error section"""
         # Extract error type
         error_type = "UnknownError"
@@ -202,7 +202,7 @@ class ProposalGenerator:
         return runbooks
 
     def generate_proposals(
-        self, failures: list[TestFailure], filter_marker: str | None = None
+        self, failures: list[TestFailure], filter_marker: Optional[str] = None
     ) -> ProposalReport:
         """Generate proposals from test failures"""
         logger.info(f"Generating proposals from {len(failures)} failures")
@@ -241,7 +241,7 @@ class ProposalGenerator:
 
         return report
 
-    def _create_proposal(self, error_key: str, failures: list[TestFailure]) -> Proposal | None:
+    def _create_proposal(self, error_key: str, failures: list[TestFailure]) -> Optional[Proposal]:
         """Create a proposal for a specific error type"""
         error_type = failures[0].error_type
         error_message = failures[0].error_message
@@ -394,7 +394,7 @@ class Error2ProposalConverter:
         self.generator = ProposalGenerator(repo_root)
 
     def convert(
-        self, test_results_file: Path, filter_marker: str | None = None, generate_patches: bool = True
+        self, test_results_file: Path, filter_marker: Optional[str] = None, generate_patches: bool = True
     ) -> ProposalReport:
         """Convert test failures to proposals"""
         # Parse test failures

@@ -54,7 +54,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 # Import colony and orchestration systems
 try:
@@ -155,7 +155,7 @@ class ColonyDreamTask:
     target_colonies: list[str] = field(default_factory=list)
     distribution_strategy: DreamDistributionStrategy = DreamDistributionStrategy.SPECIALIZED
     priority: ColonyPriority = ColonyPriority.NORMAL
-    user_context: Any | None = None
+    user_context: Optional[Any] = None
     consensus_threshold: float = 0.67
     timeout_seconds: int = 300
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -174,7 +174,7 @@ class ColonyDreamResult:
     synthesis_result: dict[str, Any] = field(default_factory=dict)
     processing_time_seconds: float = 0.0
     success: bool = True
-    error: str | None = None
+    error: Optional[str] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -197,9 +197,9 @@ class ColonyDreamCoordinator:
 
     def __init__(
         self,
-        colony_orchestrator: ColonyOrchestrator | None = None,
-        swarm_hub: SwarmHub | None = None,
-        qi_dream_adapter: QIDreamAdapter | None = None,
+        colony_orchestrator: Optional[ColonyOrchestrator] = None,
+        swarm_hub: Optional[SwarmHub] = None,
+        qi_dream_adapter: Optional[QIDreamAdapter] = None,
     ):
         """
         Initialize the colony dream coordinator
@@ -302,7 +302,7 @@ class ColonyDreamCoordinator:
         dream_data: dict[str, Any],
         task_types: list[DreamTaskType],
         distribution_strategy: DreamDistributionStrategy = DreamDistributionStrategy.SPECIALIZED,
-        user_context: Any | None = None,
+        user_context: Optional[Any] = None,
     ) -> ColonyDreamResult:
         """
         Process a dream using the colony infrastructure

@@ -5,7 +5,7 @@ import math
 import os
 import time
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")
@@ -70,7 +70,7 @@ class Budgeter:
         *,
         text: str = "",
         model: str = "default",
-        target_tokens: int | None = None,
+        target_tokens: Optional[int] = None,
     ) -> dict[str, Any]:
 
         # ΛTAG: cost_defaults
@@ -97,7 +97,7 @@ class Budgeter:
         }
 
     # ---- limits ----
-    def _caps(self, user_id: str | None, task: str | None) -> dict[str, int]:
+    def _caps(self, user_id: Optional[str], task: Optional[str]) -> dict[str, int]:
         cap = self.conf.default_token_cap
         lat = self.conf.default_latency_ms
         if task and (self.conf.task_overrides or {}).get(task):
@@ -110,7 +110,7 @@ class Budgeter:
             lat = int(u.get("latency_ms", lat))
         return {"token_cap": cap, "latency_ms": lat}
 
-    def check(self, *, user_id: str | None, task: str | None, plan: dict[str, Any]) -> dict[str, Any]:
+    def check(self, *, user_id: Optional[str], task: Optional[str], plan: dict[str, Any]) -> dict[str, Any]:
         caps = self._caps(user_id, task)
         reasons = []
         if plan["tokens_planned"] > caps["token_cap"]:
@@ -123,11 +123,11 @@ class Budgeter:
     def commit(
         self,
         *,
-        user_id: str | None,
-        task: str | None,
+        user_id: Optional[str],
+        task: Optional[str],
         actual_tokens: int,
         latency_ms: int,
-        meta: dict[str, Any] | None = None,
+        meta: Optional[dict[str, Any]] = None,
     ):
         self.state["runs"].append(
             {

@@ -16,7 +16,7 @@ import json
 import logging
 import zlib
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 from core.glyph.glyph_memory_integration import get_glyph_memory_system
 from fastapi import APIRouter, HTTPException
@@ -30,7 +30,7 @@ router = APIRouter(prefix="/glyph", tags=["glyph"])
 
 class GlyphImportItem(BaseModel):
     glyph: str = Field(..., description="Unicode glyph symbol")
-    meaning: str | None = Field(None, description="Optional glyph meaning")
+    meaning: Optional[str] = Field(None, description="Optional glyph meaning")
 
 
 class GlyphImportRequest(BaseModel):
@@ -46,7 +46,7 @@ class CompressedDreamTagRequest(BaseModel):
 class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
-    message: str | None = Field(None, description="Optional message")
+    message: Optional[str] = Field(None, description="Optional message")
     timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 

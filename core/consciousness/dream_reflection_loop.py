@@ -48,7 +48,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -152,9 +152,9 @@ class DreamReflectionLoop:
 
     def __init__(
         self,
-        config: DreamReflectionConfig | None = None,
-        bio_orchestrator: Any | None = None,
-        memory_manager: Any | None = None,
+        config: Optional[DreamReflectionConfig] = None,
+        bio_orchestrator: Optional[Any] = None,
+        memory_manager: Optional[Any] = None,
         integration_mode: str = "orchestration",
         enable_logging: bool = True,
     ):
@@ -280,7 +280,7 @@ class DreamReflectionLoop:
     async def process_dream(
         self,
         dream_content: dict[str, Any],
-        context: dict[str, Any] | None = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Process a dream with full reflection and integration.
@@ -920,7 +920,7 @@ class DreamReflectionLoop:
         self,
         fold_id: str,
         content: dict[str, Any],
-        metadata: dict[str, Any] | None = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Create a dream snapshot in the memory fold system.

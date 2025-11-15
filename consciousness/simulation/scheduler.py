@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import time
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -12,8 +12,8 @@ class JobStatus:
     state: str
     trace_id: str
     created_ts: float
-    started_ts: float | None = None
-    finished_ts: float | None = None
+    started_ts: Optional[float] = None
+    finished_ts: Optional[float] = None
     budget_tokens: int = 0
     budget_seconds: float = 0.0
     progress: float = 0.0
@@ -56,7 +56,7 @@ class SimulationScheduler:
         if not self._runner_task or self._runner_task.done():
             self._runner_task = asyncio.create_task(self._runner())
 
-    def get(self, job_id: str) -> JobStatus | None:
+    def get(self, job_id: str) -> Optional[JobStatus]:
         return self._jobs.get(job_id)
 
     async def wait(self, job_id: str) -> None:

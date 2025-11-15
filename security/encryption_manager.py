@@ -22,7 +22,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class EncryptionAlgorithm(str, Enum):
@@ -64,7 +64,7 @@ class KeyMetadata:
     usage: KeyUsage
     created_at: datetime
     is_active: bool = True
-    expires_at: datetime | None = None
+    expires_at: Optional[datetime] = None
 
 
 @dataclass
@@ -73,7 +73,7 @@ class EncryptionResult:
 
     encrypted_data: bytes
     iv: bytes
-    tag: bytes | None
+    tag: Optional[bytes]
     algorithm: EncryptionAlgorithm
     key_id: str
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -98,14 +98,14 @@ class EncryptionManager:
 
     def __init__(
         self,
-        key_store_path: str | None = None,
+        key_store_path: Optional[str] = None,
         *,
         auto_rotation: bool = False,
         key_retention_days: int = 90,
-        default_algorithm: EncryptionAlgorithm | None = None,
+        default_algorithm: Optional[EncryptionAlgorithm] = None,
         password_iterations: int = DEFAULT_PASSWORD_ITERATIONS,
         password_salt_size: int = DEFAULT_PASSWORD_SALT_SIZE,
-        allowed_algorithms: Iterable[EncryptionAlgorithm] | None = None,
+        allowed_algorithms: Optional[Iterable[EncryptionAlgorithm]] = None,
     ) -> None:
         self.key_store_path = key_store_path or os.path.join(
             os.getcwd(), "keys"
@@ -185,8 +185,8 @@ class EncryptionManager:
         self,
         key_id: str,
         *,
-        key_type: KeyType | None = None,
-        usage: KeyUsage | None = None,
+        key_type: Optional[KeyType] = None,
+        usage: Optional[KeyUsage] = None,
     ) -> str:
         """Rotate the key referenced by ``key_id`` and return the new key id."""
 
@@ -368,7 +368,7 @@ class EncryptionManager:
         self.total_time_ms += elapsed
 
 
-def create_encryption_manager(config: dict[str, Any] | None = None) -> EncryptionManager:
+def create_encryption_manager(config: Optional[dict[str, Any]] = None) -> EncryptionManager:
     """Factory used by the tests to obtain an :class:`EncryptionManager`."""
 
     config = config or {}
@@ -390,7 +390,7 @@ def create_encryption_manager(config: dict[str, Any] | None = None) -> Encryptio
         _parse_algorithm(default_algorithm) if default_algorithm is not None else None
     )
 
-    parsed_allowed: Iterable[EncryptionAlgorithm] | None
+    parsed_allowed: Optional[Iterable[EncryptionAlgorithm]]
     if allowed_algorithms is None:
         parsed_allowed = None
     else:

@@ -1,5 +1,7 @@
 # ruff: noqa: F821  # Experimental/test code with undefined names
 # path: qi/safety/provenance_proxy.py
+from typing import Optional
+
 from __future__ import annotations
 
 import os
@@ -37,7 +39,7 @@ def healthz():
 
 
 @app.get("/provenance/{sha}/link")
-def get_presigned_link(sha: str, request: Request, expires: int = 600, filename: str | None = None):
+def get_presigned_link(sha: str, request: Request, expires: int = 600, filename: Optional[str] = None):
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
@@ -51,7 +53,7 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
 
 
 @app.get("/provenance/{sha}/download")
-def download(sha: str, request: Request, expires: int = 600, filename: str | None = None):
+def download(sha: str, request: Request, expires: int = 600, filename: Optional[str] = None):
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:

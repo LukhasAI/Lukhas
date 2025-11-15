@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class EthicalSeverity(Enum):
@@ -34,8 +34,8 @@ class GovernanceAction:
     target: str
     context: dict[str, Any]
     severity: EthicalSeverity = EthicalSeverity.LOW
-    timestamp: str | None = None
-    correlation_id: str | None = None
+    timestamp: Optional[str] = None
+    correlation_id: Optional[str] = None
 
 
 @dataclass
@@ -46,8 +46,8 @@ class EthicalDecision:
     reason: str
     severity: EthicalSeverity
     confidence: float = 0.0
-    recommendations: list[str] | None = None
-    drift_score: float | None = None
+    recommendations: Optional[list[str]] = None
+    drift_score: Optional[float] = None
 
 
 @dataclass

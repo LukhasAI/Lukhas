@@ -7,7 +7,7 @@ import time
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Protocol
+from typing import Any, Protocol, Optional
 
 # Optional Redis dependency (graceful degradation)
 try:
@@ -53,7 +53,7 @@ class GlyphRegistryBackend(Protocol):
         """Publish threshold update to registry."""
         ...
 
-    def get_threshold(self, glyph_id: str) -> dict[str, Any] | None:
+    def get_threshold(self, glyph_id: str) -> Optional[dict[str, Any]]:
         """Get threshold from registry."""
         ...
 
@@ -93,7 +93,7 @@ class InMemoryGlyphRegistry:
                 except Exception as e:
                     logger.error(f"Subscriber callback failed: {e}")
 
-    def get_threshold(self, glyph_id: str) -> dict[str, Any] | None:
+    def get_threshold(self, glyph_id: str) -> Optional[dict[str, Any]]:
         """Get threshold from in-memory registry."""
         return self._thresholds.get(glyph_id)
 
@@ -142,7 +142,7 @@ class RedisGlyphRegistry:
         # Publish to pubsub channel
         self._redis.publish(f"glyph:updates:{glyph_id}", json.dumps(data))
 
-    def get_threshold(self, glyph_id: str) -> dict[str, Any] | None:
+    def get_threshold(self, glyph_id: str) -> Optional[dict[str, Any]]:
         """Get threshold from Redis registry."""
         import json
 
@@ -213,7 +213,7 @@ class DistributedGlyphSynchronizer:
     def __init__(
         self,
         registry: GlyphRegistryBackend,
-        instance_id: str | None = None,
+        instance_id: Optional[str] = None,
         sync_interval: float = 5.0,
     ):
         """
@@ -285,7 +285,7 @@ class DistributedGlyphSynchronizer:
 
     def get_consensus_threshold(
         self, glyph_id: str, strategy: str = "latest"
-    ) -> float | None:
+    ) -> Optional[float]:
         """
         Get consensus threshold from registry.
 
@@ -353,7 +353,7 @@ class GlyphSpecialist:
         drift_threshold: float = 0.3,
         enable_distributed_sync: bool = False,
         registry_backend: str = "memory",
-        redis_url: str | None = None,
+        redis_url: Optional[str] = None,
     ) -> None:
         """
         Initialize GLYPH specialist.
@@ -384,7 +384,7 @@ class GlyphSpecialist:
             self._synchronizer = None
 
     def _create_registry(
-        self, backend_type: str, redis_url: str | None
+        self, backend_type: str, redis_url: Optional[str]
     ) -> GlyphRegistryBackend:
         """Create registry backend."""
         if backend_type == "redis":

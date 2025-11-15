@@ -49,7 +49,7 @@ from dataclasses import (
 )
 from datetime import datetime, timedelta, timezone  # ΛTRACE_CHANGE: Added timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 from bio.qi_layer import QIBioOscillator
@@ -100,7 +100,7 @@ class SystemState:
     last_update: datetime = field(default_factory=lambda: datetime.now(timezone.utc))  # ΛTRACE_CHANGE: UTC default
     # Extended state for integrations
     consciousness_level: float = 1.0
-    dream_phase: str | None = None
+    dream_phase: Optional[str] = None
     ethical_status: str = "aligned"
     ethical_scenarios_processed: int = 0
     # Neuroplasticity state
@@ -118,8 +118,8 @@ class QIAwarenessSystem:
         self,
         orchestrator: BioOrchestrator,
         integration: UnifiedIntegration,
-        config: AwarenessQuantumConfig | None = None,
-        metrics_dir: str | None = None,
+        config: Optional[AwarenessQuantumConfig] = None,
+        metrics_dir: Optional[str] = None,
     ):
         """Initialize quantum awareness system
 
@@ -166,13 +166,13 @@ class QIAwarenessSystem:
         self.monitoring_task: asyncio.Task[None] | None = None  # ΛTRACE_CHANGE: More specific type hint
 
         # Integration with consciousness, dream, and ethics
-        self.consciousness_engine: AwarenessEngine | None = None
-        self.ethics_engine: QIEthics | None = None
+        self.consciousness_engine: Optional[AwarenessEngine] = None
+        self.ethics_engine: Optional[QIEthics] = None
         self.dream_training_task: asyncio.Task[None] | None = None
         self.ethical_scenarios_log: list[dict[str, Any]] = []
 
         # Neuroplasticity integration
-        self.qi_inspired_processor: QIProcessingCore | None = None
+        self.qi_inspired_processor: Optional[QIProcessingCore] = None
         self.plasticity_buffer: list[dict[str, Any]] = []
         self.safe_plasticity_mode: bool = True  # Safety by default
 
@@ -262,7 +262,7 @@ class QIAwarenessSystem:
         return self.current_state
 
     # @lukhas_tier_required(level=1) # ΛTRACE_ADD
-    def get_state_history(self, hours: int | None = None) -> list[SystemState]:
+    def get_state_history(self, hours: Optional[int] = None) -> list[SystemState]:
         """Get system state history."""
         # ΛTRACE_ADD
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
@@ -281,7 +281,7 @@ class QIAwarenessSystem:
         log.debug("Handling message for system_awareness.", message_keys=list(message.keys()))
         try:
             content: dict[str, Any] = message.get("content", {})  # ΛTRACE_CHANGE: Use .get for safety
-            action: str | None = content.get("action")  # ΛTRACE_CHANGE: Use .get for safety
+            action: Optional[str] = content.get("action")  # ΛTRACE_CHANGE: Use .get for safety
 
             log = log.bind(action=action)  # ΛTRACE_ADD
 
@@ -1031,7 +1031,7 @@ class QIAwarenessSystem:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.debug("Handling state request.", content=content)
         try:
-            hours: int | None = content.get("hours")  # ΛTRACE_CHANGE: Type hint
+            hours: Optional[int] = content.get("hours")  # ΛTRACE_CHANGE: Type hint
 
             states_to_send: list[SystemState]  # ΛTRACE_CHANGE: Type hint
             if hours is not None:  # ΛTRACE_CHANGE: Explicit check for None

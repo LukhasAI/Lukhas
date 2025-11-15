@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 class ConsentRecord:
@@ -43,10 +43,10 @@ class ConsentRecord:
         scopes: List[str],
         audience: str,
         status: str = "active",
-        issued_at: datetime | None = None,
-        expires_at: datetime | None = None,
-        record_id: str | None = None,
-        context: Dict[str, Any] | None = None,
+        issued_at: Optional[datetime] = None,
+        expires_at: Optional[datetime] = None,
+        record_id: Optional[str] = None,
+        context: Optional[Dict[str, Any]] = None,
     ):
         """
         Initializes a new ConsentRecord.
@@ -126,7 +126,7 @@ class ConsentLedger:
         scopes: List[str],
         audience: str,
         ttl_minutes: int = 60,
-        context: Dict[str, Any] | None = None,
+        context: Optional[Dict[str, Any]] = None,
     ) -> ConsentRecord:
         """
         Grants consent and creates a new consent record.

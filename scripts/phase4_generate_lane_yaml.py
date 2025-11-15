@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Generate missing module.lane.yaml files from manifests/module.manifest.json.
 
@@ -41,12 +43,12 @@ INFRA_MODULES = {"core", "governance", "security", "observability", "api"}
 CRITICAL_MODULES = {"identity", "memory", "consciousness", "governance"}
 
 
-def lane_from_json(raw: str | None) -> str:
+def lane_from_json(raw: Optional[str]) -> str:
     raw = (raw or "").strip().lower()
     return LANE_MAP.get(raw, "candidate")
 
 
-def resolve_module_path(manifest_path: Path, prefer_labs: bool) -> Path | None:
+def resolve_module_path(manifest_path: Path, prefer_labs: bool) -> Optional[Path]:
     rel = manifest_path.parent
     # rel is manifests/<parts>/; we need <parts> as module path
     try:

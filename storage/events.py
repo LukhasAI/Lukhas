@@ -19,7 +19,7 @@ from collections import deque
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Optional
 from uuid import UUID, uuid4
 
 try:
@@ -77,8 +77,8 @@ class Event:
         glyph_id: UUID,
         payload: dict[str, Any],
         *,
-        ts: datetime | None = None,
-        event_id: UUID | None = None
+        ts: Optional[datetime] = None,
+        event_id: Optional[UUID] = None
     ) -> Event:
         """Create a new event with automatic ID and timestamp."""
         return cls(
@@ -153,9 +153,9 @@ class EventStore:
     def query_recent(
         self,
         limit: int = 100,
-        kind: str | None = None,
-        lane: str | None = None,
-        since: datetime | None = None
+        kind: Optional[str] = None,
+        lane: Optional[str] = None,
+        since: Optional[datetime] = None
     ) -> list[Event]:
         """Query recent events with optional filtering."""
         query_type = f"recent_{kind or 'all'}_{lane or 'all'}"
@@ -182,7 +182,7 @@ class EventStore:
         self,
         glyph_id: UUID,
         limit: int = 100,
-        since: datetime | None = None
+        since: Optional[datetime] = None
     ) -> list[Event]:
         """Query events for specific glyph ID (for replay)."""
         query_type = "by_glyph"
@@ -206,7 +206,7 @@ class EventStore:
     def query_sliding_window(
         self,
         window_seconds: int = 300,  # 5 minutes default
-        kind: str | None = None
+        kind: Optional[str] = None
     ) -> list[Event]:
         """Query events within sliding time window for replay analysis."""
         since = datetime.now(timezone.utc) - timedelta(seconds=window_seconds)
@@ -281,7 +281,7 @@ class _DummyTimer:
 
 
 # Global event store instance
-_global_store: EventStore | None = None
+_global_store: Optional[EventStore] = None
 _store_lock = threading.Lock()
 
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from _bridgeutils import bridge
 
-_mod: object | None = None
+_mod: Optional[object] = None
 _exports: dict[str, object] = {}
 
 try:
@@ -20,6 +20,8 @@ except ModuleNotFoundError:
 
 if not isinstance(__all__, list):
     __all__ = list(__all__)
+
+from typing import Optional
 
 
 class _Stub:

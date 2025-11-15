@@ -28,7 +28,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -142,7 +142,7 @@ class UnifiedMemoryManager:
     - Memory garbage collection
     """
 
-    def __init__(self, config: MemoryConfig | None = None):
+    def __init__(self, config: Optional[MemoryConfig] = None):
         self.config = config or MemoryConfig()
 
         # Storage setup
@@ -220,7 +220,7 @@ class UnifiedMemoryManager:
         content: dict[str, Any],
         memory_type: MemoryType = MemoryType.EPISODIC,
         priority: MemoryPriority = MemoryPriority.MEDIUM,
-        memory_id: str | None = None,
+        memory_id: Optional[str] = None,
     ) -> str:
         """
         Store a memory entry.
@@ -277,8 +277,8 @@ class UnifiedMemoryManager:
     async def retrieve_memory(
         self,
         user_id: str,
-        memory_id: str | None = None,
-        memory_type: MemoryType | None = None,
+        memory_id: Optional[str] = None,
+        memory_type: Optional[MemoryType] = None,
         limit: int = 20,
         include_old: bool = False,
     ) -> list[MemoryEntry]:
@@ -345,7 +345,7 @@ class UnifiedMemoryManager:
             logger.error(f"Failed to retrieve memories: {e}")
             return []
 
-    async def delete_user_memories(self, user_id: str, memory_ids: list[str] | None = None) -> bool:
+    async def delete_user_memories(self, user_id: str, memory_ids: Optional[list[str]] = None) -> bool:
         """
         Delete memories for GDPR compliance.
 
@@ -385,7 +385,7 @@ class UnifiedMemoryManager:
             logger.error(f"Failed to delete user memories: {e}")
             return False
 
-    async def get_memory_stats(self, user_id: str | None = None) -> dict[str, Any]:
+    async def get_memory_stats(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """Get memory usage statistics"""
         try:
             if user_id:
@@ -511,7 +511,7 @@ class UnifiedMemoryManager:
 
         return (current_time - memory.timestamp) < ttl_seconds
 
-    async def _get_memory_by_id(self, user_id: str, memory_id: str) -> MemoryEntry | None:
+    async def _get_memory_by_id(self, user_id: str, memory_id: str) -> Optional[MemoryEntry]:
         """Get specific memory by ID"""
         user_memories = self.lru_cache.get(user_id, OrderedDict())
         memory = user_memories.get(memory_id)

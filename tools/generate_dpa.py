@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-or-later
+from typing import Optional
+
 """
 DPA Generator Tool.
 
@@ -19,7 +21,7 @@ def generate_dpa(
     customer_name: str,
     customer_address: str,
     customer_email: str,
-    output_file: Path | None = None,
+    output_file: Optional[Path] = None,
 ) -> None:
     """Generate customized DPA from template."""
 

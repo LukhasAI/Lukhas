@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from .burn_rate_alerts import BurnRateAlertManager, CIPipelineIntegration
 from .service_metrics import get_metrics_collector
@@ -80,7 +80,7 @@ class DeploymentReport:
     context: DeploymentContext
     stage: DeploymentStage
     status: DeploymentStatus
-    duration_seconds: float | None
+    duration_seconds: Optional[float]
     slo_validations: list[SLOValidationResult] = field(default_factory=list)
     performance_metrics: dict[str, Any] = field(default_factory=dict)
     safety_checks: dict[str, bool] = field(default_factory=dict)
