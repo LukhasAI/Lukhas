@@ -172,12 +172,17 @@ class ActionNode(CognitiveNodeBase):
                 import re
                 math_expr = re.findall(r'[\d+\-*/\(\)\s]+', query)
                 if math_expr:
-                    # Very basic calculator (unsafe eval avoided)
+                    # Very basic calculator using safe evaluator
+                    from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
                     expr = math_expr[0].strip()
                     if all(c in "0123456789+-*/ ()." for c in expr):
-                        result = eval(expr)  # Only for demo - would use safe math parser in production
-                        actions_taken.append("mathematical_calculation")
-                        results["calculation_result"] = result
+                        try:
+                            result = safe_evaluate_expression(expr, {})
+                            actions_taken.append("mathematical_calculation")
+                            results["calculation_result"] = result
+                        except (SecurityError, EvaluationError):
+                            actions_taken.append("calculation_failed")
+                            results["error"] = "Invalid mathematical expression"
             except Exception:
                 actions_taken.append("calculation_failed")
                 results["error"] = "Could not parse mathematical expression"

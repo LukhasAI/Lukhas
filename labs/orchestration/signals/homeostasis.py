@@ -461,10 +461,14 @@ class HomeostasisController:
         """
         try:
             # Safe evaluation with limited functions
+            from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
             safe_dict = {"min": min, "max": max, "round": round, "abs": abs, **context}
-            return eval(expr, {"__builtins__": {}, **safe_dict})
-        except Exception as e:
+            return safe_evaluate_expression(expr, safe_dict)
+        except (SecurityError, EvaluationError) as e:
             logger.error(f"Error evaluating expression '{expr}': {e}")
+            return 0.5  # Safe default
+        except Exception as e:
+            logger.error(f"Unexpected error evaluating expression '{expr}': {e}")
             return 0.5  # Safe default
 
     def _calculate_ambiguity(self, text: str) -> float:

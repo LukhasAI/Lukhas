@@ -514,8 +514,9 @@ voice_modulator = VoiceModulator()
             with open(full_path, encoding="utf-8") as f:
                 content = f.read()
 
-            # Parse broken imports
-            broken_imports = eval(broken_imports_str)
+            # Parse broken imports using safe evaluation
+            import ast
+            broken_imports = ast.literal_eval(broken_imports_str)
 
             # Apply fixes
             fixed_content = content

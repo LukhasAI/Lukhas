@@ -25,7 +25,8 @@ class CriticalConnectivityAnalyzer:
 
         for file_path, broken_imports_str in self.report["details"]["broken_imports"].items():
             # Parse the string representation of set
-            broken_imports = eval(broken_imports_str)
+            import ast
+            broken_imports = ast.literal_eval(broken_imports_str)
 
             for broken_import in broken_imports:
                 # Extract the missing module

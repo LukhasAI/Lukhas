@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 Security utilities for Cognitive AI Consolidation Repo
-Provides secure alternatives to dangerous functions like exec(), eval(), subprocess.call()
+Provides secure alternatives to dangerous functions like exec() and subprocess.call()
+DEPRECATED: Use lukhas.security.safe_evaluator instead for expression evaluation.
 """
 
 import ast
@@ -19,6 +20,7 @@ import subprocess
 from typing import Any, Optional
 
 from core.common import LukhasError, get_logger
+from lukhas.security import SafeEvaluator, SecurityError as LukhasSecurityError, EvaluationError
 
 logger = get_logger(__name__)
 
@@ -29,7 +31,10 @@ class SecurityError(LukhasError):
 
 def safe_eval(expression: str, allowed_names: Optional[dict[str, Any]] = None) -> Any:
     """
-    Safely evaluate a Python expression using ast.literal_eval
+    Safely evaluate a Python expression using AST-based evaluation.
+
+    DEPRECATED: Use lukhas.security.safe_evaluator.safe_evaluate_expression instead.
+    This function is kept for backwards compatibility.
 
     Args:
         expression: Python expression to evaluate
@@ -49,34 +54,12 @@ def safe_eval(expression: str, allowed_names: Optional[dict[str, Any]] = None) -
         # First try ast.literal_eval for literals
         return ast.literal_eval(expression)
     except (ValueError, SyntaxError):
-        # For more complex expressions, parse and validate the AST
+        # For more complex expressions, use the safe evaluator
         try:
-            tree = ast.parse(expression, mode="eval")
-            if not _is_safe_ast(tree):
-                raise SecurityError(f"Expression contains unsafe operations: {expression}")
-
-            # Create a restricted environment
-            safe_env = {
-                "__builtins__": {
-                    "len": len,
-                    "str": str,
-                    "int": int,
-                    "float": float,
-                    "bool": bool,
-                    "list": list,
-                    "dict": dict,
-                    "tuple": tuple,
-                    "set": set,
-                    "abs": abs,
-                    "min": min,
-                    "max": max,
-                    "sum": sum,
-                    "round": round,
-                },
-                **allowed_names,
-            }
-
-            return eval(compile(tree, "<string>", "eval"), safe_env)
+            evaluator = SafeEvaluator()
+            return evaluator.evaluate(expression, allowed_names)
+        except (LukhasSecurityError, EvaluationError) as e:
+            raise SecurityError(f"Failed to safely evaluate expression: {e}")
         except Exception as e:
             raise SecurityError(f"Failed to safely evaluate expression: {e}")
 

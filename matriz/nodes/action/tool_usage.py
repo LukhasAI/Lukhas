@@ -123,7 +123,8 @@ class ToolUsageNode(CognitiveNode):
     def _execute_tool(self, tool_name: str, tool_params: dict[str, Any]) -> Any:
         # This is a placeholder for a real tool execution engine.
         if tool_name == "calculator":
-            return eval(tool_params.get("expression", "0"))
+            from lukhas.security import safe_evaluate_expression
+            return safe_evaluate_expression(tool_params.get("expression", "0"), {})
         elif tool_name == "search":
             return f"Search results for: {tool_params.get('query', '')}"
         else:

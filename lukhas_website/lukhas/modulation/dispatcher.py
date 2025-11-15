@@ -46,13 +46,19 @@ class Modulator:
         }
         if ctx:
             local.update(ctx)
-        if " if " in expr and " else " in expr:
-            cond = expr.split(" if ")[1].split(" else ")[0]
-            true_v = expr.split(" if ")[0].strip()
-            false_v = expr.split(" else ")[1].strip()
-            val = eval(cond, {}, local)
-            return true_v if val else false_v
-        return eval(expr, {}, local)
+
+        from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+        try:
+            if " if " in expr and " else " in expr:
+                cond = expr.split(" if ")[1].split(" else ")[0]
+                true_v = expr.split(" if ")[0].strip()
+                false_v = expr.split(" else ")[1].strip()
+                val = safe_evaluate_expression(cond, local)
+                return true_v if val else false_v
+            return safe_evaluate_expression(expr, local)
+        except (SecurityError, EvaluationError) as e:
+            # Return safe default on error
+            return 0.0
 
     def combine(self, incoming: list[Signal]) -> dict[str, Any]:
         # 1) cooldown + clamp

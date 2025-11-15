@@ -33,6 +33,8 @@ from enum import Enum
 from typing import Any, Callable, Optional
 from logging import getLogger
 
+from lukhas.security import safe_evaluate_expression, SecurityError, EvaluationError
+
 logger = getLogger(__name__)
 
 
@@ -306,10 +308,10 @@ class PolicyRuleEngine:
         if rule.condition_logic not in ["AND", "OR"] and rule.conditions:
             # Check if it's a valid logical expression
             try:
-                # Simple validation - could be more sophisticated
+                # Simple validation - replace with safe values for testing
                 expression = rule.condition_logic.replace("AND", "True").replace("OR", "False")
-                eval(expression, {"__builtins__": {}})
-            except:
+                safe_evaluate_expression(expression, {})
+            except (SecurityError, EvaluationError, SyntaxError):
                 errors.append("Invalid condition logic expression")
 
         # Validate dependencies
@@ -385,10 +387,10 @@ class PolicyRuleEngine:
                         for i, result in enumerate(condition_results):
                             expression = expression.replace(f"C{i}", str(result))
 
-                        # Evaluate the expression
-                        return eval(expression, {"__builtins__": {}})
-                    except:
-                        logger.error(f"Failed to evaluate custom condition logic for rule {rule.rule_id}")
+                        # Evaluate the expression using safe evaluator
+                        return safe_evaluate_expression(expression, {})
+                    except (SecurityError, EvaluationError, SyntaxError) as e:
+                        logger.error(f"Failed to evaluate custom condition logic for rule {rule.rule_id}: {e}")
                         return False
 
             return compiled_evaluator
