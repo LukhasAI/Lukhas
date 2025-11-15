@@ -22,11 +22,13 @@
 
 ### Business Impact
 
-- **Customer Promises:** Dreams API advertised but non-functional
-- **Marketing Claims:** "Creative dream synthesis" feature unavailable
-- **Product Roadmap:** Constellation Framework integration blocked
-- **Revenue Impact:** Cannot charge for Dreams-related features
-- **Reputation:** Trust erosion if customers discover non-functional advertised feature
+**Note:** LUKHAS is currently in pre-production development phase (no customers, no investors yet).
+
+- **Development Foundation:** Dreams API needed for complete consciousness architecture
+- **Demo Readiness:** Feature must work before investor presentations or customer pilots
+- **Technical Integrity:** Stub code creates technical debt that compounds over time
+- **Product Vision:** Constellation Framework incomplete without Dreams component
+- **Development Velocity:** 22 failing tests block parallel development efforts
 
 ---
 
@@ -281,12 +283,27 @@ Test expectations show Dreams should support:
 
 ### User Experience Impact
 
-**Customer Scenario:**
+**Pre-Production Development Scenario:**
+
+Since LUKHAS currently has no customers or investors, the primary impact is on:
+
+1. **Development Experience:**
+   - 22 tests failing creates noise in test suite
+   - Makes it hard to identify real regressions
+   - Blocks consciousness pipeline integration testing
+   - Confuses new AI agents contributing to the codebase
+
+2. **Demo Preparation:**
+   - Cannot demonstrate full Constellation Framework
+   - Dreams API missing from investor pitch demos
+   - Technical presentations show incomplete architecture
+
+3. **Future Customer Scenario (when onboarding begins):**
 ```python
 import openai
 client = openai.OpenAI(base_url="https://api.lukhas.ai/v1")
 
-# Customer tries to use Dreams API
+# Future customer tries to use Dreams API
 response = client.post(
     "/v1/dreams/generate",
     json={"prompt": "Generate creative solution"}
@@ -296,11 +313,10 @@ response = client.post(
 # Actual: 404 Not Found (endpoint doesn't exist)
 ```
 
-**Customer sees:**
-1. Marketing materials promising "dream-state creative synthesis"
-2. API documentation listing `/v1/dreams/*` endpoints
-3. 404 errors when trying to use the feature
-4. **Conclusion:** False advertising, broken product
+**Future customer would see:**
+1. Documentation listing `/v1/dreams/*` endpoints
+2. 404 errors when trying to use the feature
+3. **Conclusion:** Incomplete product, trust erosion
 
 ### Technical Debt Implications
 
@@ -311,11 +327,13 @@ response = client.post(
 
 ### Competitive Risk
 
-If Dreams API is a differentiating feature:
+**Pre-Launch Competitive Implications:**
+
+If Dreams API is planned as a differentiating feature:
 - Competitors may already have similar functionality
-- Customer churn if promised features unavailable
-- Sales pipeline impact if demos fail
-- Partnership deals at risk if integrations incomplete
+- Delayed investor funding if demos incomplete
+- Partnership discussions stalled without working feature
+- Technical debt compounds if left unaddressed
 
 ---
 
@@ -401,7 +419,7 @@ __all__ = ["router", "generate_dream"]
 **Impact:**
 - ✅ All 22 tests can at least run (router is not None)
 - ✅ API endpoints return 200 instead of 404
-- ✅ Customers can test integration (stub responses)
+- ✅ Demo environment functional (stub responses work)
 - ⚠️ Still no actual Dreams functionality
 
 **Effort:** 2-4 hours
@@ -510,7 +528,7 @@ def test_consciousness_constellation_dream_star(client, auth_headers):
 - ✅ 22 tests no longer crash
 - ✅ Honest about Dreams unavailability
 - ⚠️ Consciousness pipeline incomplete
-- ⚠️ Customers can't use Dreams features
+- ⚠️ Feature not ready for demos/investors
 
 **Effort:** 1-2 hours
 
@@ -749,15 +767,18 @@ The Dreams API feature mentioned in product materials is currently not functiona
 due to incomplete implementation. This affects:
 
 - Product demos that show Dreams functionality
-- Marketing claims about "creative dream synthesis"
-- Sales presentations mentioning Dreams capabilities
-- Customer integrations expecting Dreams endpoints
+**Pre-Production Communication Checklist:**
+
+INTERNAL ALIGNMENT:
+1. Update product roadmap: Mark Dreams as "In Development"
+2. Review all pitch decks: Note current implementation status
+3. Investor materials: Honest about feature timeline
+4. Documentation: Mark Dreams endpoints as "Coming Soon"
 
 RECOMMENDED ACTIONS:
-1. Remove Dreams feature from active marketing materials
-2. Mark as "Coming Soon" in product roadmap
-3. Update sales enablement materials
-4. Notify customers who may have attempted integration
+- Prioritize Dreams implementation before first customer pilots
+- Include Dreams status in all investor/partner technical discussions
+- Do not demo Dreams features until at least stub API is functional
 
 TIMELINE:
 - Stub API: This week (basic endpoints return dummy data)

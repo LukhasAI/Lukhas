@@ -16,8 +16,10 @@
 
 - **Availability:** CRITICAL - API can be taken offline via resource exhaustion
 - **Financial:** HIGH - Unauthorized computational resource consumption
-- **Compliance:** MEDIUM - SLA violations for paying customers
-- **Reputation:** HIGH - Service degradation affects all users
+- **Compliance:** MEDIUM - Must fix before customer onboarding (SLA requirements)
+- **Reputation:** HIGH - Demo failures affect investor/partner confidence
+
+**Note:** LUKHAS is currently in pre-production development (no customers or investors yet), so impact is limited to development/demo environments. However, this must be fixed before any external deployment.
 
 ### Exploitation Difficulty
 
@@ -202,29 +204,29 @@ def test_rate_limit_per_tenant_isolation(client):
 - No per-IP tracking
 - **One abusive user affects ALL users** (shared resource pool)
 
-### Attack 3: Cost Amplification
+### Attack 3: Cost Amplification (Pre-Production Risk Model)
 
-**Business Impact:**
+**Hypothetical Business Impact:**
 
-Assume LUKHAS pricing:
+Assume LUKHAS planned pricing (when launched):
 - Embeddings: $0.0001 per 1K tokens
 - Chat completions: $0.002 per 1K tokens
 
-Attacker with stolen API key can:
+Without rate limiting, malicious actor could:
 ```python
 # 1 million embedding requests * 10K tokens each
-Cost = 1,000,000 * 10 * $0.0001 = $1,000 in compute costs
+Hypothetical cost = 1,000,000 * 10 * $0.0001 = $1,000 in compute costs
 
 # With no rate limiting:
 Time to execute = 1,000,000 requests / 10,000 RPS = 100 seconds
 Total cost inflicted = $1,000 in less than 2 minutes
 ```
 
-**Financial Impact:**
-- Stolen API keys = unlimited usage
-- No way to detect abuse until bill arrives
-- Cannot stop attack in progress (no circuit breaker)
-- Chargeback disputes if customer claims fraud
+**Pre-Launch Risk:**
+- Demo API keys could be abused if leaked
+- Development infrastructure costs (currently absorbed by team)
+- No production billing system to detect abuse
+- Must implement before first customer onboarding
 
 ---
 
@@ -793,11 +795,11 @@ groups:
 - Integrate with billing system
 - Add tier-based quotas (free/pro/enterprise)
 - Implement quota management UI
-- Add quota alerts for customers
+- Add quota alerts for future customers
 
 **Effort:** 40-80 hours  
 **Risk:** Medium (complex business logic)  
-**Impact:** Fair resource allocation, revenue protection  
+**Impact:** Fair resource allocation, launch-ready billing  
 
 ---
 

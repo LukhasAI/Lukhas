@@ -17,12 +17,12 @@
 - **Confidentiality:** HIGH - Unauthorized access to all API responses
 - **Integrity:** HIGH - Ability to submit arbitrary requests
 - **Availability:** MEDIUM - Resource exhaustion via unlimited requests
-- **Compliance:** CRITICAL - GDPR/SOC2/ISO27001 violation
+- **Compliance:** CRITICAL - Must fix before customer onboarding (GDPR/SOC2/ISO27001)
 - **Financial:** HIGH - Potential API abuse, computational resource theft
 
 ### Attack Surface
 
-- **Affected Endpoints:** 15+ production endpoints
+- **Affected Endpoints:** 15+ API endpoints (pre-production)
   - `/v1/models` - Model listing
   - `/v1/chat/completions` - Chat completions
   - `/v1/completions` - Text completions  
@@ -33,6 +33,8 @@
   - `/v1/guardian/*` - Guardian APIs
   - `/v1/identity/*` - Identity APIs
   - All other `/v1/*` routes
+
+**Note:** LUKHAS is currently in pre-production development (no customers or investors yet), so impact is limited to development/demo environments.
 
 - **Vulnerable Configurations:**
   - Default installation (no `LUKHAS_POLICY_MODE` set)
@@ -586,37 +588,43 @@ Full technical analysis: docs/reports/CRITICAL_P0_AUTHENTICATION_BYPASS.md
 War room scheduled for [TIME] to discuss remediation plan.
 ```
 
-### Customer Notification (if breach occurred)
+### Pre-Production Communication Plan
 
-**Subject:** Security Notice: API Access Controls Update
+**Since LUKHAS currently has no customers or investors:**
 
-**To:** All API customers
+**Internal Team Communication:**
+```
+Subject: P0 Security Issue Fixed - Auth Bypass Resolved
 
-**Body:**
+Team,
+
+We've identified and fixed a critical authentication bypass vulnerability in our API.
+
+IMPACT:
+- Pre-production only (no customer data exposure)
+- 15 failing tests highlighted the issue
+- Could have been catastrophic if deployed to customers
+
+FIX APPLIED:
+- Removed LUKHAS_POLICY_MODE bypass logic
+- Added startup validation checks
+- Tests now passing
+
+ACTION REQUIRED:
+- All local environments: Set LUKHAS_POLICY_MODE=strict
+- Demo environments: Verify authentication works
+- Do NOT deploy to any external environment without strict mode
+
+This is why we test before launch. Crisis averted.
+```
+
+**Future Customer Notification Template (if needed post-launch):**
 ```
 Dear LUKHAS Customer,
 
-We are writing to inform you of a security update to the LUKHAS API that may have
-affected access controls between [DATE] and [DATE].
+We are writing to inform you of a security update to the LUKHAS API.
 
-What happened:
-During this period, API endpoints may have been accessible without proper authentication
-due to a configuration issue.
-
-What we're doing:
-- Implemented immediate fix
-- Auditing access logs
-- Enhancing security controls
-- External security audit scheduled
-
-What you should do:
-- Rotate API keys as a precaution
-- Review audit logs for suspicious activity
-- Update to latest SDK version
-
-We take security seriously and apologize for any concern this may cause.
-
-Questions: security@lukhas.ai
+[Use standard breach notification template if actual customer impact occurs]
 ```
 
 ---
