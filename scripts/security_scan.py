@@ -253,7 +253,8 @@ def main():
 
     print(f"\nSecurity surface report written to: {output_file}")
     print(f"High-risk patterns: {findings['summary']['total_high_risk']}")
-    print(f"Secret patterns found: {findings['summary']['total_secrets_found']}")
+    if findings['summary']['total_secrets_found'] > 0:
+        print("Warning: Potential secrets found (see report for details).")
     print(f"Network calls: {findings['summary']['total_network_calls']}")
     print(f"Total dependencies: {findings['summary']['total_dependencies']}")
 
