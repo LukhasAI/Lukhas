@@ -1,0 +1,680 @@
+{
+  "metadata": {
+    "generated": "2025-11-15",
+    "total_errors": 63,
+    "tests_collected": 3558,
+    "error_reduction_session": "69 -> 63 errors (6 fixed)",
+    "commits": [
+      "0d36e4f32 - fix(syntax): resolve 6 critical syntax and indentation errors",
+      "e21a5763c2 - fix(syntax): resolve additional syntax errors - 20 error reduction",
+      "2d60ad75af - fix(imports): add HeadersMiddleware alias and fix IndentationError"
+    ]
+  },
+  "error_categories": {
+    "missing_modules": {
+      "count": 25,
+      "percentage": 40,
+      "priority": "high"
+    },
+    "import_errors": {
+      "count": 20,
+      "percentage": 32,
+      "priority": "medium"
+    },
+    "pytest_config": {
+      "count": 3,
+      "percentage": 5,
+      "priority": "quick_win"
+    },
+    "cascading_failures": {
+      "count": 15,
+      "percentage": 23,
+      "priority": "low"
+    }
+  },
+  "quick_wins": [
+    {
+      "id": "QW1",
+      "type": "pytest_marker",
+      "effort": "5_minutes",
+      "impact": "3_errors",
+      "action": "Add markers to pyproject.toml",
+      "code": "[tool.pytest.ini_options]\nmarkers = [\n    \"property: Property-based testing\",\n    \"load: Load testing\",\n    \"chaos: Chaos engineering\"\n]"
+    },
+    {
+      "id": "QW2",
+      "type": "external_dependency",
+      "effort": "1_minute",
+      "impact": "1_error",
+      "action": "Install OpenCV",
+      "code": "pip install opencv-python"
+    },
+    {
+      "id": "QW3",
+      "type": "missing_constant",
+      "effort": "10_minutes",
+      "impact": "3_errors",
+      "files": [
+        "governance/ethics/guardian.py",
+        "qi/compliance.py",
+        "lukhas/api/features.py"
+      ],
+      "constants": {
+        "GUARDIAN_EMERGENCY_DISABLE_FILE": "\".guardian_disabled\"",
+        "DEFAULT_COMPLIANCE_FRAMEWORKS": "[\"SOC2\", \"GDPR\", \"HIPAA\"]",
+        "FEATURE_ACCESS": "{\"consciousness_api\": \"premium\", \"guardian_api\": \"enterprise\"}"
+      }
+    },
+    {
+      "id": "QW4",
+      "type": "test_fixture",
+      "effort": "20_minutes",
+      "impact": "2_errors",
+      "action": "Create AGIMemoryFake",
+      "file": "memory/agi_memory.py",
+      "class_name": "AGIMemoryFake"
+    }
+  ],
+  "missing_modules": [
+    {
+      "module": "core.consciousness.drift_detector",
+      "path": "core/consciousness/drift_detector.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "CRITICAL",
+      "files_affected": [
+        "tests/unit/core/consciousness/test_drift_archival.py",
+        "tests/unit/orchestration/test_multi_brain_specialists.py"
+      ],
+      "required_classes": [
+        "DriftDetector",
+        "DriftArchiver",
+        "DriftEvent"
+      ],
+      "description": "Monitors consciousness state drift for safety",
+      "complexity": "medium",
+      "estimated_effort_hours": 3,
+      "template_provided": true
+    },
+    {
+      "module": "lukhas.analytics.privacy_client",
+      "path": "lukhas/analytics/privacy_client.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/lukhas/analytics/test_privacy_client.py",
+        "tests/unit/lukhas/analytics/test_privacy_dp_client.py"
+      ],
+      "required_classes": [
+        "PrivacyClient",
+        "DifferentialPrivacyClient"
+      ],
+      "description": "Privacy-preserving analytics with differential privacy",
+      "complexity": "medium",
+      "estimated_effort_hours": 2,
+      "template_provided": true
+    },
+    {
+      "module": "lukhas.memory.index",
+      "path": "lukhas/memory/index.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/lukhas/memory/test_index.py",
+        "tests/unit/memory/test_memory_correct.py"
+      ],
+      "required_classes": [
+        "MemoryIndex"
+      ],
+      "description": "Memory indexing for fast retrieval",
+      "complexity": "medium",
+      "estimated_effort_hours": 3
+    },
+    {
+      "module": "core.consciousness.bridge",
+      "path": "core/consciousness/bridge.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/core/consciousness/test_quantum_decision.py"
+      ],
+      "description": "Bridge between consciousness and quantum systems",
+      "complexity": "high",
+      "estimated_effort_hours": 4
+    },
+    {
+      "module": "core.integration.nias_dream_bridge",
+      "path": "core/integration/nias_dream_bridge.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/core/integration/test_nias_dream_bridge.py"
+      ],
+      "description": "Bridge between NIAS and dream processing",
+      "complexity": "high",
+      "estimated_effort_hours": 4
+    },
+    {
+      "module": "core.bridge.dream_commerce",
+      "path": "core/bridge/dream_commerce.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "LOW",
+      "files_affected": [
+        "tests/unit/core/bridge/test_dream_blockchain.py"
+      ],
+      "required_classes": [
+        "DreamBlockchainBridge"
+      ],
+      "description": "Blockchain integration for dream state (experimental)",
+      "complexity": "high",
+      "estimated_effort_hours": 5
+    },
+    {
+      "module": "core.adapters.config_resolver",
+      "path": "core/adapters/config_resolver.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/core/adapters/test_provider_registry.py"
+      ],
+      "description": "Configuration resolution for provider registry",
+      "complexity": "low",
+      "estimated_effort_hours": 1
+    },
+    {
+      "module": "core.utils.orchestration_energy_aware_execution_planner",
+      "path": "core/utils/orchestration_energy_aware_execution_planner.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/core/utils/test_orchestration_energy_aware_execution_planner.py"
+      ],
+      "description": "Energy-aware task scheduling for orchestration",
+      "complexity": "high",
+      "estimated_effort_hours": 4
+    },
+    {
+      "module": "labs.bridge.adapters.main",
+      "path": "labs/bridge/adapters/main.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "LOW",
+      "files_affected": [
+        "tests/unit/labs/bridge/adapters/test_fastapi_middleware.py"
+      ],
+      "description": "FastAPI middleware adapters (experimental)",
+      "complexity": "medium",
+      "estimated_effort_hours": 2
+    },
+    {
+      "module": "labs.core.qi_biometrics.qi_biometrics_engine",
+      "path": "labs/core/qi_biometrics/qi_biometrics_engine.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "LOW",
+      "files_affected": [
+        "tests/unit/labs/core/qi_biometrics/test_qi_biometrics_realistic.py"
+      ],
+      "description": "Qi biometric authentication engine (quantum-inspired)",
+      "complexity": "high",
+      "estimated_effort_hours": 6
+    },
+    {
+      "module": "bridge.queue.redis_queue",
+      "path": "bridge/queue/redis_queue.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/scripts/test_ai_webhook_receiver.py"
+      ],
+      "description": "Redis-based queue for async webhook processing",
+      "complexity": "low",
+      "estimated_effort_hours": 2,
+      "external_deps": ["redis"]
+    },
+    {
+      "module": "_bridgeutils",
+      "path": "_bridgeutils.py",
+      "status": "DOES_NOT_EXIST",
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/aka_qualia/test_metrics.py",
+        "tests/unit/branding/personal_brand/test_consciousness_authority_builder.py"
+      ],
+      "description": "Internal utility module for bridge components",
+      "complexity": "low",
+      "estimated_effort_hours": 1,
+      "note": "Module name starts with _ suggesting private/internal"
+    }
+  ],
+  "import_errors": [
+    {
+      "error_type": "cannot_import_name",
+      "name": "AGIMemoryFake",
+      "module": "memory.agi_memory",
+      "module_exists": true,
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/memory/test_fold_engine.py",
+        "tests/unit/memory/test_memory_manager.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "memory/agi_memory.py",
+      "is_test_fixture": true
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "ConstitutionalRule",
+      "module": "governance.ethics.constitutional_ai",
+      "module_exists": true,
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/governance/ethics/test_candidate_constitutional_ai.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/ethics/constitutional_ai.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "ConstitutionalPrinciple",
+      "module": "governance.ethics.constitutional_ai",
+      "module_exists": true,
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/governance/ethics/test_constitutional_ai.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/ethics/constitutional_ai.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "GUARDIAN_EMERGENCY_DISABLE_FILE",
+      "module": "governance.ethics.guardian",
+      "module_exists": true,
+      "priority": "QUICK_WIN",
+      "files_affected": [
+        "tests/unit/governance/ethics/test_guardian_kill_switch.py"
+      ],
+      "fix_type": "add_constant",
+      "target_file": "governance/ethics/guardian.py",
+      "value": "\".guardian_disabled\""
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "EthicsEngine",
+      "module": "governance.ethics",
+      "module_exists": true,
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/governance/ethics/test_guardian_reflector_imports.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/ethics/__init__.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "MoralAgentTemplate",
+      "module": "governance.ethics.moral_agent",
+      "module_exists": true,
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/governance/ethics/test_moral_agent_template.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/ethics/moral_agent.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "ConstitutionalAGISafety",
+      "module": "governance.constitutional_ai",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/governance/test_constitutional_ai_safety.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/constitutional_ai.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "GuardianSystemIntegration",
+      "module": "governance.guardian",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/governance/test_guardian_resilience.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/guardian.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "AuthQRGBridge",
+      "module": "governance.auth",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/governance/test_jules03_identity.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "governance/auth.py",
+      "description": "QRG (Quantum Random Generation) bridge for auth"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "ConsciousnessIdentitySignalProcessor",
+      "module": "identity.processors",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/identity/test_matriz_consciousness_identity_signals.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "identity/processors.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "ActorManager",
+      "module": "core.actor",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/core/test_minimal_actor.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "core/actor.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "JSONFormatter",
+      "module": "core.logging",
+      "module_exists": true,
+      "priority": "LOW",
+      "files_affected": [
+        "tests/unit/core/test_time_tz.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "core/logging.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "generate_symbolic_id",
+      "module": "core.utils",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/core/utils/test_init.py"
+      ],
+      "fix_type": "add_function",
+      "target_file": "core/utils/__init__.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "_rate_limit_store",
+      "module": "lukhas.api",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/lukhas/api/test_features.py"
+      ],
+      "fix_type": "add_variable",
+      "target_file": "lukhas/api/__init__.py",
+      "note": "Internal rate limit storage (starts with _)"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "FEATURE_ACCESS",
+      "module": "lukhas.api.features",
+      "module_exists": true,
+      "priority": "QUICK_WIN",
+      "files_affected": [
+        "tests/unit/lukhas/api/test_features_auth.py"
+      ],
+      "fix_type": "add_constant",
+      "target_file": "lukhas/api/features.py",
+      "value": "{\"consciousness_api\": \"premium\", \"guardian_api\": \"enterprise\"}"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "SleepStage",
+      "module": "memory.sleep",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/memory/test_unified_memory_orchestrator.py"
+      ],
+      "fix_type": "add_enum",
+      "target_file": "memory/sleep.py",
+      "enum_values": ["AWAKE", "NREM1", "NREM2", "NREM3", "REM"]
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "KernelBus",
+      "module": "orchestration.kernel",
+      "module_exists": true,
+      "priority": "HIGH",
+      "files_affected": [
+        "tests/unit/orchestration/test_kernel_bus_smoke.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "orchestration/kernel.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "get_logger",
+      "module": "products.experience.logging",
+      "module_exists": true,
+      "priority": "LOW",
+      "files_affected": [
+        "tests/unit/products/experience/test_experience_modules.py"
+      ],
+      "fix_type": "add_function",
+      "target_file": "products/experience/logging.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "DEFAULT_COMPLIANCE_FRAMEWORKS",
+      "module": "qi.compliance",
+      "module_exists": true,
+      "priority": "QUICK_WIN",
+      "files_affected": [
+        "tests/unit/qi/test_system_orchestrator.py"
+      ],
+      "fix_type": "add_constant",
+      "target_file": "qi/compliance.py",
+      "value": "[\"SOC2\", \"GDPR\", \"HIPAA\"]"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "get_quantum_random_bytes",
+      "module": "security.quantum_random",
+      "module_exists": true,
+      "priority": "MEDIUM",
+      "files_affected": [
+        "tests/unit/security/test_secure_random.py"
+      ],
+      "fix_type": "add_function",
+      "target_file": "security/quantum_random.py"
+    },
+    {
+      "error_type": "cannot_import_name",
+      "name": "BrandingBridge",
+      "module": "candidate.bridge.branding",
+      "module_exists": true,
+      "priority": "LOW",
+      "files_affected": [
+        "tests/unit/candidate/bridge/test_branding_bridge_coverage.py"
+      ],
+      "fix_type": "add_class",
+      "target_file": "candidate/bridge/branding.py"
+    }
+  ],
+  "pytest_config_errors": [
+    {
+      "marker": "property",
+      "priority": "QUICK_WIN",
+      "files_affected": [
+        "tests/unit/governance/test_guardian_schema_standardization.py"
+      ],
+      "fix_location": "pyproject.toml",
+      "description": "Property-based testing with hypothesis"
+    },
+    {
+      "marker": "load",
+      "priority": "QUICK_WIN",
+      "files_affected": [
+        "tests/unit/memory/test_memory_event_optimization.py"
+      ],
+      "fix_location": "pyproject.toml",
+      "description": "Load testing and performance tests"
+    },
+    {
+      "marker": "chaos",
+      "priority": "QUICK_WIN",
+      "files_affected": [
+        "tests/unit/orchestration/test_provider_compatibility_framework.py"
+      ],
+      "fix_location": "pyproject.toml",
+      "description": "Chaos engineering tests"
+    }
+  ],
+  "cascading_errors": [
+    {
+      "description": "Serve module imports - MISLEADING",
+      "status": "NOT_ACTUAL_ERRORS",
+      "note": "Modules exist and work individually. Cascading import failures during full test collection.",
+      "files_affected": [
+        "tests/unit/serve/test_consciousness_api.py",
+        "tests/unit/serve/test_dreams_api.py",
+        "tests/unit/serve/test_guardian_api.py",
+        "tests/unit/serve/test_identity_api.py",
+        "tests/unit/serve/test_routes_traces.py",
+        "tests/unit/serve/test_schemas.py",
+        "tests/unit/serve/test_webauthn_routes.py"
+      ],
+      "verification": "Individual tests collect successfully (40-22 tests each)",
+      "action": "Investigate test suite initialization order"
+    },
+    {
+      "description": "lukhas_website import chain failures",
+      "files_affected": [
+        "tests/unit/api/test_dreams_api_security.py",
+        "tests/unit/lukhas/governance/middleware/test_strict_auth.py"
+      ],
+      "import_chain": "from lukhas_website.lukhas.api.* → lukhas_website/lukhas/api/__init__.py:50 → fails",
+      "action": "Fix lukhas_website package initialization"
+    },
+    {
+      "description": "Complex candidate/aka_qualia imports",
+      "files_affected": [
+        "tests/unit/candidate/aka_qualia",
+        "tests/unit/consciousness/test_registry_activation_order.py"
+      ],
+      "action": "Review aka_qualia conftest.py and consciousness registry"
+    },
+    {
+      "description": "Bridge module import chains",
+      "files_affected": [
+        "tests/unit/bridge/test_audio_engine.py",
+        "tests/unit/bridge/test_direct_ai_router.py"
+      ],
+      "import_chain": "products.experience.voice.bridge.* chain failures",
+      "action": "Check products package structure"
+    },
+    {
+      "description": "Governance consolidation import chain",
+      "files_affected": [
+        "tests/unit/governance/test_consolidate_guardian_governance.py"
+      ],
+      "import_chain": "governance.oversight.consolidate_guardian_governance:11",
+      "action": "Fix governance.oversight module initialization"
+    }
+  ],
+  "action_plan": {
+    "phase_1_quick_wins": {
+      "duration": "1-2 hours",
+      "effort": "minimal",
+      "impact": "6 errors fixed",
+      "tasks": [
+        "Add 3 pytest markers to pyproject.toml",
+        "Install opencv-python",
+        "Add 3 missing constants (GUARDIAN_EMERGENCY_DISABLE_FILE, DEFAULT_COMPLIANCE_FRAMEWORKS, FEATURE_ACCESS)",
+        "Create AGIMemoryFake test fixture",
+        "Fix TODO.scripts → tools.scripts import",
+        "Create _bridgeutils.py stub"
+      ],
+      "expected_result": "63 → 57 errors"
+    },
+    "phase_2_test_infrastructure": {
+      "duration": "3-4 hours",
+      "effort": "low",
+      "impact": "10-15 errors fixed",
+      "tasks": [
+        "Create comprehensive test fixtures module",
+        "Implement missing test utilities",
+        "Fix cascading import issues",
+        "Resolve lukhas_website initialization"
+      ],
+      "expected_result": "57 → 42 errors"
+    },
+    "phase_3_core_systems": {
+      "duration": "1-2 days",
+      "effort": "medium",
+      "impact": "15-20 errors fixed",
+      "tasks": [
+        "Implement drift_detector module (CRITICAL)",
+        "Implement privacy_client module",
+        "Implement memory.index module",
+        "Complete core.utils modules",
+        "Add missing core system exports"
+      ],
+      "expected_result": "42 → 22 errors"
+    },
+    "phase_4_governance_ethics": {
+      "duration": "2-3 days",
+      "effort": "medium-high",
+      "impact": "10-12 errors fixed",
+      "tasks": [
+        "Complete ethics system classes",
+        "Implement guardian integration",
+        "Add constitutional AI components",
+        "Implement moral agent templates"
+      ],
+      "expected_result": "22 → 10 errors"
+    },
+    "phase_5_advanced_systems": {
+      "duration": "3-5 days",
+      "effort": "high",
+      "impact": "10 errors fixed",
+      "tasks": [
+        "Implement bridge architecture",
+        "Complete orchestration system",
+        "Implement quantum-inspired systems",
+        "Final integration and testing"
+      ],
+      "expected_result": "10 → 0 errors"
+    }
+  },
+  "architecture_notes": {
+    "lane_system": {
+      "development": "candidate/ - 2,877 files - Experimental (imports: core, matriz only)",
+      "integration": "core/ - 253 files - Testing/validation",
+      "production": "lukhas/ - 692 files - Battle-tested (imports: core, matriz, universal_language)"
+    },
+    "import_rules": {
+      "candidate_can_import": ["core", "matriz"],
+      "candidate_cannot_import": ["lukhas"],
+      "core_can_import": ["matriz"],
+      "lukhas_can_import": ["core", "matriz", "universal_language"]
+    },
+    "patterns": {
+      "stub_modules": "Many files exist as minimal stubs (intentional placeholders)",
+      "test_fixtures": "Missing Fake/Mock classes for testing",
+      "configuration": "Missing type-safe config objects",
+      "bridges": "Bridge modules connect subsystems (adapter pattern)"
+    }
+  },
+  "verification_commands": {
+    "test_specific_module": "python3 -m pytest tests/unit/path/to/test.py --collect-only",
+    "check_error_count": "python3 -m pytest tests/unit --collect-only --continue-on-collection-errors | tail -1",
+    "run_actual_tests": "python3 -m pytest tests/unit/path/to/test.py -v",
+    "validate_lane_boundaries": "make lane-guard"
+  }
+}
