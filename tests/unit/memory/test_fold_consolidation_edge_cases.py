@@ -197,11 +197,7 @@ class TestTagNormalization:
         # Note: Current implementation might not skip empty tags - this tests actual behavior
         tag_names = {
             system.tag_registry[tid].tag_name
-<<<<<<< HEAD
-            for tid in system.tag_registry
-=======
             for tid in system.tag_registry.keys()
->>>>>>> test/memory-fold-edge-cases
         }
 
         # Should not have empty string as tag (or should handle gracefully)
