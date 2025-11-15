@@ -3,11 +3,10 @@
 Exports from the richest available backend (core.common preferred).
 Also provides real exceptions submodule for explicit imports.
 """
-from typing import Optional
-
 from __future__ import annotations
 
 import sys
+from typing import Optional
 from importlib import import_module
 # Always expose our submodule path
 from . import exceptions
