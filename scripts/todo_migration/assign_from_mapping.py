@@ -16,6 +16,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def area_for_path(path: str) -> str:
     p = path.lower()
@@ -34,7 +36,7 @@ def area_for_path(path: str) -> str:
 
 def run(cmd: str) -> subprocess.CompletedProcess:
     print("+", cmd)
-    return subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    return safe_run_command(cmd, capture_output=True, text=True)
 
 
 def gh_add_assignee(repo: str, issue: int, assignee: str, dry: bool = False) -> bool:

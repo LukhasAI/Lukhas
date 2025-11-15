@@ -26,6 +26,8 @@ import sys
 from pathlib import Path
 from typing import Callable, Optional
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 # Try to import audio libraries
 try:
     import winsound
@@ -256,7 +258,10 @@ class StargateActivator:
             with contextlib.suppress(BaseException):
                 winsound.Beep(frequency, duration)
         elif sys.platform == "darwin":  # macOS
-            os.system("osascript -e 'beep'")
+            try:
+                safe_run_command(["osascript", "-e", "beep"], check=False)
+            except Exception:
+                pass
         elif sys.platform.startswith("linux"):
             # Use console beep
             sys.stdout.write("\a")
@@ -277,10 +282,13 @@ class StargateActivator:
 
     def _clear_screen(self):
         """Clear console screen"""
-        if sys.platform == "win32":
-            os.system("cls")
-        else:
-            os.system("clear")
+        try:
+            if sys.platform == "win32":
+                safe_run_command(["cls"], check=False)
+            else:
+                safe_run_command(["clear"], check=False)
+        except Exception:
+            pass
 
     async def deactivate(self):
         """Deactivate Stargate with closing animation"""

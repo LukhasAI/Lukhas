@@ -22,6 +22,7 @@ Integration Date: 2025-05-31T07:55:28.291189
 import os
 import sys
 
+from lukhas.security.safe_subprocess import safe_run_command
 from tools.session_logger import log_session_event
 
 
@@ -41,7 +42,10 @@ def launch_dashboard(user_id):
     }
 
     if tier in dashboard_map:
-        os.system(f"streamlit run dashboards/{dashboard_map[tier]}")
+        try:
+            safe_run_command(["streamlit", "run", f"dashboards/{dashboard_map[tier]}"], check=False)
+        except Exception as e:
+            print(f"❌ Failed to launch dashboard: {e}")
     else:
         print("❌ Unknown tier. Cannot launch dashboard.")
 

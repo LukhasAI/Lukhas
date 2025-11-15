@@ -15,6 +15,8 @@ from pathlib import Path
 
 import click
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 # Add project root to path (repo-relative if available)
 try:
     from utils.runtime_paths import ensure_repo_paths

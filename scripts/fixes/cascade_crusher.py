@@ -8,6 +8,8 @@ import ast
 import os
 import subprocess
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 class CascadeCrusher:
     """Crush cascade blockers with immediate functional testing feedback"""
@@ -168,7 +170,7 @@ class CascadeCrusher:
         if self.cascade_broken:
             print("\n🎉 FUNCTIONAL BREAKTHROUGH ACHIEVED!")
             print("Running final functional test...")
-            os.system("python3 functional_test_suite.py")
+            safe_run_command(["python3", "functional_test_suite.py"], check=False)
         else:
             print("\n💪 Continue the assault - cascade weakened but not broken")
 

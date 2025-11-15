@@ -20,6 +20,8 @@ from datetime import datetime
 import pyfiglet
 from core.interfaces.voice.edge_voice import speak
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 LOG_PATH = "core/logging/symbolic_output_log.jsonl"
 
 
@@ -36,7 +38,10 @@ def log_event(timezone, source, event, tier="sys"):
 
 def symbolic_intro():
     cmd = ["clear"] if platform.system() != "Windows" else ["cls"]
-    subprocess.run(cmd, shell=(platform.system() == "Windows"), check=False)
+    try:
+        safe_run_command(cmd, check=False)
+    except Exception as e:
+        print(f"⚠️ Clear screen failed: {e}")
     print(pyfiglet.figlet_format("LUKHAS Cognitive AI", font="slant"))
     print("🌱 Welcome back. Lukhas is awake.\n")
     try:
@@ -61,22 +66,34 @@ def symbolic_menu():
 
 def launch_gui():
     log_event("main", "launch_gui")
-    os.system("python3 core/interface/gui_launcher.py")
+    try:
+        safe_run_command(["python3", "core/interface/gui_launcher.py"], check=False)
+    except Exception as e:
+        print(f"❌ GUI launch failed: {e}")
 
 
 def launch_cli():
     log_event("main", "launch_cli")
-    os.system("python3 core/interface/lukhasctl.py")
+    try:
+        safe_run_command(["python3", "core/interface/lukhasctl.py"], check=False)
+    except Exception as e:
+        print(f"❌ CLI launch failed: {e}")
 
 
 def launch_socket():
     log_event("main", "launch_socket")
-    os.system("python3 core/interface/lukhas_socket.py")
+    try:
+        safe_run_command(["python3", "core/interface/lukhas_socket.py"], check=False)
+    except Exception as e:
+        print(f"❌ Socket launch failed: {e}")
 
 
 def launch_narration():
     log_event("main", "narrate_last_dream")
-    os.system("python3 tools/html_social_generator.py")
+    try:
+        safe_run_command(["python3", "tools/html_social_generator.py"], check=False)
+    except Exception as e:
+        print(f"❌ Narration failed: {e}")
 
 
 def main():

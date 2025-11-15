@@ -12,11 +12,13 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def run_cmd(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
     """Run shell command with status reporting"""
     print(f"🔄 {cmd}")
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    result = safe_run_command(cmd, capture_output=True, text=True)
 
     if result.stdout:
         print(result.stdout)

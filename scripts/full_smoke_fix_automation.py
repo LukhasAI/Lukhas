@@ -25,6 +25,8 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 ROOT = Path(".").resolve()
 ARTDIR = ROOT / "release_artifacts" / "matriz_readiness_v1"
 DISC = ARTDIR / "discovery"
@@ -35,10 +37,10 @@ SCRIPTDIR = ROOT / "scripts"
 def run(cmd, check=True, capture=False, env=None):
     print(f"$ {cmd}")
     if capture:
-        res = subprocess.run(cmd, shell=True, check=check, capture_output=True, env=env, text=True)
+        res = safe_run_command(cmd, check=check, capture_output=True, env=env)
         return res.stdout + res.stderr
     else:
-        subprocess.run(cmd, shell=True, check=check, env=env)
+        safe_run_command(cmd, check=check, env=env, capture_output=False)
 
 def safe_mkdir(p: Path):
     p.mkdir(parents=True, exist_ok=True)
@@ -111,10 +113,10 @@ def parse_collect_log(collect_log_path: Path):
     rg = shutil.which("rg")
     if rg:
         try:
-            out = subprocess.check_output("rg --hidden --no-ignore \"candidate\\.\" --glob '!release_artifacts/**' -n", shell=True, text=True)
-            for line in out.splitlines():
+            result = safe_run_command(["rg", "--hidden", "--no-ignore", "candidate\\.", "--glob", "!release_artifacts/**", "-n"], check=True)
+            for line in result.stdout.splitlines():
                 candidate_refs.add(line)
-        except subprocess.CalledProcessError:
+        except Exception:
             pass
     else:
         # python walk

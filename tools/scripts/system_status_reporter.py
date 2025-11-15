@@ -15,11 +15,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def run_command(cmd: str) -> dict[str, Any]:
     """Run a command and return result"""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
+        result = safe_run_command(cmd, capture_output=True, text=True, timeout=30)
         return {
             "success": result.returncode == 0,
             "stdout": result.stdout.strip(),

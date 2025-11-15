@@ -14,6 +14,7 @@ import sys
 from datetime import datetime, timezone
 from uuid import uuid4
 
+from lukhas.security.safe_subprocess import safe_run_command
 from modules.voice.lukhas_voice_agent import speak
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
@@ -77,7 +78,10 @@ if __name__ == "__main__":
             if args.mode == "voice":
                 speak(published["summary"])
             elif args.mode == "web":
-                os.system("python3 narration/post_agent.py")
+                try:
+                    safe_run_command(["python3", "narration/post_agent.py"], check=False)
+                except Exception as e:
+                    print(f"❌ Failed to run post_agent: {e}")
             update_dispatch_log(published)
         rewrite_queue(posts)
         print(f"\n✅ {len(posts)} symbolic cognition(s) dispatched to LUKHAS news queue.")

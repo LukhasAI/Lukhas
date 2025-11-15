@@ -17,6 +17,8 @@ from typing import Any, Optional
 import aiohttp
 from core.common import get_logger
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 logger = get_logger(__name__)
 
 
@@ -247,18 +249,32 @@ class ElevenLabsClient:
                 # Try to use platform-specific audio playback
                 played = False
                 if sys.platform == "darwin":  # macOS
-                    played = os.system(f"afplay {audio_path}") == 0
+                    try:
+                        safe_run_command(["afplay", audio_path], check=True)
+                        played = True
+                    except Exception:
+                        played = False
                 elif sys.platform == "win32":  # Windows
-                    played = os.system(f"start {audio_path}") == 0
+                    try:
+                        safe_run_command(["cmd", "/c", "start", audio_path], check=True)
+                        played = True
+                    except Exception:
+                        played = False
                 else:  # Linux and other platforms
                     # Try multiple players
-                    if (
-                        os.system(f"aplay {audio_path}") == 0
-                        or os.system(f"mpg123 {audio_path}") == 0
-                        or (os.system(f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1") == 0)
-                    ):
-                        played = True
-                    else:
+                    for player_cmd in [
+                        ["aplay", audio_path],
+                        ["mpg123", audio_path],
+                        ["ffplay", "-nodisp", "-autoexit", audio_path]
+                    ]:
+                        try:
+                            safe_run_command(player_cmd, check=True, capture_output=True)
+                            played = True
+                            break
+                        except Exception:
+                            continue
+
+                    if not played:
                         logger.warning("Could not find a suitable audio player for Linux")
 
                 result["played"] = played

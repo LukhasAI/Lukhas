@@ -29,6 +29,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, ClassVar, Optional
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 try:
     import jwt
     from pydantic import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)

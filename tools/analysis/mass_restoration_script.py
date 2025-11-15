@@ -6,6 +6,8 @@ Mass Restoration Script - Restore large batches of files from clean commits
 import json
 import subprocess
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 def run_command(cmd):
     """Run shell command and return output"""

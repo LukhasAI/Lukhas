@@ -15,6 +15,8 @@ import logging
 import os
 from datetime import datetime, timezone
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
 from core.compliance.tier_manager import get_user_tier
 
@@ -43,7 +45,10 @@ async def speak(text, voice=DEFAULT_VOICE, preview=False):
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lukhas_output.mp3")
     if not preview:
-        os.system("afplay lukhas_output.mp3")  # For macOS. Use another player for Linux/Win.
+        try:
+            safe_run_command(["afplay", "lukhas_output.mp3"], check=False)  # For macOS. Use another player for Linux/Win.
+        except Exception as e:
+            logger.warning(f"Audio playback failed: {e}")
 
 
 def log_output(text, tier, voice):

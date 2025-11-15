@@ -17,6 +17,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 # ANSI color codes for terminal output
 class Colors:
@@ -42,7 +44,11 @@ class Colors:
 
 def clear_screen():
     """Clear terminal screen."""
-    os.system("cls" if os.name == "nt" else "clear")
+    try:
+        cmd = ["cls"] if os.name == "nt" else ["clear"]
+        safe_run_command(cmd, check=False)
+    except Exception:
+        pass
 
 
 def print_header():

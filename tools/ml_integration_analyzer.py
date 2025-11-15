@@ -40,6 +40,8 @@ from datetime import timezone
 from pathlib import Path
 from typing import Any, Optional
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 try:
     import numpy as np
 except Exception:  # pragma: no cover

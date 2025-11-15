@@ -15,6 +15,8 @@ import os
 import sys
 from datetime import datetime, timezone
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 
 class Goal:
 
@@ -300,7 +302,10 @@ async def edge_tts_speak(text, voice="en-US-AriaNeural"):
     communicate = edge_tts.Communicate(text=text, voice=voice)
     output_file = "lukhas_output.mp3"
     await communicate.save(output_file)
-    os.system(f"afplay {output_file}")
+    try:
+        safe_run_command(["afplay", output_file], check=False)
+    except Exception:
+        pass
 
 
 def elevenlabs_speak(text, voice="Adam", style=None):

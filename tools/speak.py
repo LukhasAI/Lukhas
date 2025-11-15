@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from edge_tts import Communicate
 
 from lukhas.core.compliance.tier_manager import get_user_tier
+from lukhas.security.safe_subprocess import safe_run_command
 
 DEFAULT_VOICE = "en-US-AriaNeural"
 LOG_PATH = "symbolic_output_log.jsonl"
@@ -29,8 +30,11 @@ async def speak(text, voice=DEFAULT_VOICE, preview=False):
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lucas_output.mp3")
     if not preview:
-        os.system("afplay lucas_output.mp3")
-        # For macOS. Use another player for Linux/Win.
+        try:
+            safe_run_command(["afplay", "lucas_output.mp3"], check=False)
+            # For macOS. Use another player for Linux/Win.
+        except Exception:
+            pass
 
 
 def log_output(text, tier, voice):

@@ -16,6 +16,8 @@ This script only reports. It does not change files.
 import subprocess
 from pathlib import Path
 
+from lukhas.security.safe_subprocess import safe_run_command
+
 REPO_ROOT = Path(".").resolve()
 FILES = [
     "AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md",
