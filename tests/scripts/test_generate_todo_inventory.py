@@ -18,7 +18,7 @@ SCRIPT_PATH = (
 )
 
 
-def run_generator(tmp_path: Path, max_files: int | None = None) -> List[Dict[str, str]]:
+def run_generator(tmp_path: Path, max_files: Optional[int] = None) -> List[Dict[str, str]]:
     (tmp_path / "one.py").write_text("# TODO: first\n", encoding="utf-8")
     (tmp_path / "two.py").write_text("# TODO: second\n", encoding="utf-8")
 

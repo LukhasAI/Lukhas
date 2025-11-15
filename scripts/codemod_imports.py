@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Codemod legacy imports to canonical lukhas.* paths using LibCST when available.
 
@@ -55,7 +57,7 @@ PY_GLOB = "**/*.py"
 EXCLUDE_DIRS = {".git","venv",".venv","node_modules","dist","build","__pycache__",
                 ".mypy_cache",".ruff_cache",".pytest_cache",".tox",".idea",".vscode"}
 
-def load_cfg(path: str|None):
+def load_cfg(path: Optional[str]):
     if not path:
         return DEFAULT_MAP, ALLOWLIST_DEFAULT
     p = Path(path)
@@ -68,7 +70,7 @@ def load_cfg(path: str|None):
     else:
         mapping = {}
         allow = set()
-        current: str | None = None
+        current: Optional[str] = None
         for raw_line in p.read_text(encoding="utf-8").splitlines():
             line = raw_line.strip()
             if not line or line.startswith("#"):
@@ -95,7 +97,7 @@ def load_cfg(path: str|None):
 def root_ok(p: Path)->bool:
     return all(seg not in EXCLUDE_DIRS for seg in p.parts)
 
-def rewrite_root(name: str, mapping: dict[str,str]) -> str|None:
+def rewrite_root(name: str, mapping: dict[str,str]) -> Optional[str]:
     # If name begins with any legacy root, replace that segment
     parts = name.split(".")
     if not parts:

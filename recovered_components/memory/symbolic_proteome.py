@@ -50,7 +50,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 from uuid import uuid4
 
 logger = logging.getLogger(__name__)
@@ -147,7 +147,7 @@ class MemoryProtein:
     # Folding properties
     folding_state: FoldingState = FoldingState.UNFOLDED
     folding_energy: float = 100.0  # High energy = unstable
-    native_conformation: dict[str, Any] | None = None
+    native_conformation: Optional[dict[str, Any]] = None
 
     # Functional properties
     activity_level: float = 0.0
@@ -203,7 +203,7 @@ class ProteinComplex:
     complex_type: str = ""
     formation_energy: float = 0.0
     activity_multiplier: float = 1.0
-    collective_function: str | None = None
+    collective_function: Optional[str] = None
 
     def calculate_synergy(self, proteins: dict[str, MemoryProtein]) -> float:
         """Calculate synergistic effect of protein complex"""
@@ -264,8 +264,8 @@ class SymbolicProteome:
 
     def __init__(
         self,
-        atomic_scaffold: Any | None = None,
-        persistence_layer: Any | None = None,
+        atomic_scaffold: Optional[Any] = None,
+        persistence_layer: Optional[Any] = None,
         max_proteins: int = 10000,
         folding_temperature: float = 37.0,  # Celsius, like body temp
         enable_chaperones: bool = True,
@@ -434,8 +434,8 @@ class SymbolicProteome:
         return True
 
     async def form_complex(
-        self, protein_ids: list[str], complex_type: str, function: str | None = None
-    ) -> str | None:
+        self, protein_ids: list[str], complex_type: str, function: Optional[str] = None
+    ) -> Optional[str]:
         """Form a multi-protein complex"""
 
         # Verify all proteins exist and are functional
@@ -485,9 +485,9 @@ class SymbolicProteome:
 
     async def query_functional_proteins(
         self,
-        protein_type: ProteinType | None = None,
+        protein_type: Optional[ProteinType] = None,
         min_activity: float = 0.5,
-        has_modification: PostTranslationalModification | None = None,
+        has_modification: Optional[PostTranslationalModification] = None,
     ) -> list[MemoryProtein]:
         """Query for functional proteins meeting criteria"""
 
@@ -513,7 +513,7 @@ class SymbolicProteome:
 
         return results
 
-    async def express_memory_function(self, memory_id: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
+    async def express_memory_function(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Express the functional form of a memory through its proteins.
         This is like gene expression but for memories.
@@ -758,7 +758,7 @@ class SymbolicProteome:
 
         return total_compatibility / max(pair_count, 1)
 
-    def _generate_functional_output(self, proteins: list[MemoryProtein], context: dict[str, Any] | None) -> Any:
+    def _generate_functional_output(self, proteins: list[MemoryProtein], context: Optional[dict[str, Any]]) -> Any:
         """Generate functional output from active proteins"""
 
         # Aggregate protein functions

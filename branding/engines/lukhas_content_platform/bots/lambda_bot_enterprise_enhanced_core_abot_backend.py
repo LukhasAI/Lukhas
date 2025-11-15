@@ -10,7 +10,7 @@ import os
 import uuid
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import boto3
 import databases
@@ -204,7 +204,7 @@ class ContentCreate(BaseModel):
     content: str
     content_type: str
     target_platforms: list[str]
-    scheduled_for: datetime | None = None
+    scheduled_for: Optional[datetime] = None
     hashtags: list[str] = []
     mentions: list[str] = []
 
@@ -217,7 +217,7 @@ class ContentResponse(BaseModel):
     ai_generated: bool
     review_status: str
     created_at: datetime
-    scheduled_for: datetime | None
+    scheduled_for: Optional[datetime]
     media_urls: list[str]
     hashtags: list[str]
     mentions: list[str]
@@ -227,7 +227,7 @@ class ContentResponse(BaseModel):
 class ChatMessage(BaseModel):
     role: str
     content: str
-    platform: str | None = None
+    platform: Optional[str] = None
 
 
 class ChatResponse(BaseModel):
@@ -241,13 +241,13 @@ class ChatResponse(BaseModel):
 class ContentReviewRequest(BaseModel):
     content_id: str
     action: str  # "approve", "reject", "request_revision"
-    comments: str | None = None
+    comments: Optional[str] = None
 
 
 class AmendmentRequest(BaseModel):
     content: str
     amendment: str
-    platform: str | None = None
+    platform: Optional[str] = None
 
 
 # Enums
@@ -300,7 +300,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Create JWT access token"""
     to_encode = data.copy()
     expire = (
@@ -364,7 +364,7 @@ class ChatGPTService:
             logger.error(f"ChatGPT API error: {e}")
             raise HTTPException(status_code=500, detail="AI service temporarily unavailable")
 
-    async def generate_content(self, platform: str, topic: str, user_context: dict | None = None) -> str:
+    async def generate_content(self, platform: str, topic: str, user_context: Optional[dict] = None) -> str:
         """Generate platform-specific content"""
         prompt = f"""
         Generate engaging {platform} content about: {topic}
@@ -385,7 +385,7 @@ class ChatGPTService:
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
 
-    async def review_content(self, content: str, platform: str, user_context: dict | None = None) -> str:
+    async def review_content(self, content: str, platform: str, user_context: Optional[dict] = None) -> str:
         """Review content for compliance and effectiveness"""
         prompt = f"""
         Review this {platform} content for:
@@ -410,7 +410,7 @@ class ChatGPTService:
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
 
-    async def apply_amendment(self, content: str, amendment: str, user_context: dict | None = None) -> str:
+    async def apply_amendment(self, content: str, amendment: str, user_context: Optional[dict] = None) -> str:
         """Apply natural language amendments to content"""
         prompt = f"""
         Apply this amendment to the content:
@@ -607,7 +607,7 @@ class ComplianceService:
         return any(word in content.lower() for word in inappropriate_words)
 
     async def log_compliance_event(
-        self, event_type: str, event_data: dict, user_id: str | None = None, ip_address: str | None = None
+        self, event_type: str, event_data: dict, user_id: Optional[str] = None, ip_address: Optional[str] = None
     ):
         """Log compliance events for audit trail"""
         log_data = {
@@ -742,14 +742,14 @@ class FileService:
             logger.error(f"File upload failed: {e}")
             raise HTTPException(status_code=500, detail="File upload failed")
 
-    def get_file_type(self, extension: str) -> str | None:
+    def get_file_type(self, extension: str) -> Optional[str]:
         """Determine file type from extension"""
         for file_type, extensions in self.allowed_types.items():
             if extension in extensions:
                 return file_type
         return None
 
-    async def get_user_files(self, user_id: str, file_type: str | None = None) -> list[dict[str, Any]]:
+    async def get_user_files(self, user_id: str, file_type: Optional[str] = None) -> list[dict[str, Any]]:
         """Get user's uploaded files"""
         query = media_files_table.select().where(media_files_table.c.user_id == user_id)
 
@@ -1022,7 +1022,7 @@ async def create_content(content_data: ContentCreate, current_user=Depends(get_c
 
 
 @app.get("/content/list")
-async def list_content(status: str | None = None, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1024"}
+async def list_content(status: Optional[str] = None, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1024"}
     """List user's content items"""
     query = content_items_table.select().where(content_items_table.c.user_id == current_user["id"])
 
@@ -1134,7 +1134,7 @@ async def upload_file(file: UploadFile = File(...), current_user=Depends(get_cur
 
 
 @app.get("/files/list")
-async def list_files(file_type: str | None = None, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1136"}
+async def list_files(file_type: Optional[str] = None, current_user=Depends(get_current_user)):  # TODO[T4-ISSUE]: {"code":"B008","ticket":"GH-1031","owner":"matriz-team","status":"accepted","reason":"FastAPI dependency injection - Depends() in route parameters is required pattern","estimate":"0h","priority":"low","dependencies":"none","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_branding_engines_lukhas_content_platform_bots_lambda_bot_enterprise_enhanced_core_abot_backend_py_L1136"}
     """List user's uploaded files"""
     files = await file_service.get_user_files(str(current_user["id"]), file_type)
     return files

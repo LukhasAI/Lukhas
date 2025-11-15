@@ -50,7 +50,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # ΛTRACE: ΛSAGE Archetypal Resonance Profiler initialization
 # ΛORIGIN_AGENT: Claude Code
@@ -112,8 +112,8 @@ class SymbolicElement:
     context: str
     timestamp: str
     system_origin: str  # memory, dream, ethics, etc.
-    glyph_lineage: str | None = None
-    emotional_valence: float | None = None
+    glyph_lineage: Optional[str] = None
+    emotional_valence: Optional[float] = None
     frequency: int = 1
 
     def to_dict(self) -> dict[str, Any]:
@@ -216,7 +216,7 @@ class ΛSage:
     def __init__(
         self,
         base_directory: str = "/Users/cognitive_dev/Downloads/Consolidation-Repo",
-        output_directory: str | None = None
+        output_directory: Optional[str] = None
     ):
         """
         Initialize ΛSAGE with system paths and archetypal knowledge base.
@@ -1109,8 +1109,8 @@ class ΛSage:
 
     def load_symbolic_archive(
         self,
-        dream_sessions: str | None = None,
-        memory_path: str | None = None,
+        dream_sessions: Optional[str] = None,
+        memory_path: Optional[str] = None,
         limit: int = 100,
     ) -> list[SymbolicElement]:
         """
@@ -1374,7 +1374,7 @@ class ΛSage:
         return elements
 
     def identify_archetypes(
-        self, symbols: list[SymbolicElement] | None = None
+        self, symbols: Optional[list[SymbolicElement]] = None
     ) -> dict[str, ArchetypalMapping]:
         """
         Classify symbols by archetypal type using Jungian framework.
@@ -1583,7 +1583,7 @@ class ΛSage:
         return variants
 
     def map_mythic_resonance(
-        self, mappings: dict[str, ArchetypalMapping] | None = None
+        self, mappings: Optional[dict[str, ArchetypalMapping]] = None
     ) -> dict[MythicSystem, float]:
         """
         Link symbols to myth systems and calculate overall resonance.
@@ -1624,7 +1624,7 @@ class ΛSage:
         return sorted_resonances
 
     def analyze_resonance_strength(
-        self, mappings: dict[str, ArchetypalMapping] | None = None
+        self, mappings: Optional[dict[str, ArchetypalMapping]] = None
     ) -> dict[str, Any]:
         """
         Calculate how strongly symbols reflect specific archetypes.
@@ -1723,7 +1723,7 @@ class ΛSage:
 
     def calculate_volatility_index(
         self,
-        sessions: list[ArchetypalSession] | None = None,
+        sessions: Optional[list[ArchetypalSession]] = None,
         time_window: int = 24,
     ) -> dict[str, float]:
         """
@@ -1818,7 +1818,7 @@ class ΛSage:
             return "stable"
 
     def detect_integration_conflicts(
-        self, mappings: dict[str, ArchetypalMapping] | None = None
+        self, mappings: Optional[dict[str, ArchetypalMapping]] = None
     ) -> list[dict[str, Any]]:
         """
         Detect potential conflicts between archetypal patterns.
@@ -1902,7 +1902,7 @@ class ΛSage:
             return "low"
 
     def generate_archetype_report(
-        self, output_format: str = "markdown", session_id: str | None = None
+        self, output_format: str = "markdown", session_id: Optional[str] = None
     ) -> str:
         """
         Generate comprehensive archetype analysis report.
@@ -1921,7 +1921,7 @@ class ΛSage:
         else:
             return self._generate_markdown_report(session_id)
 
-    def _generate_markdown_report(self, session_id: str | None = None) -> str:
+    def _generate_markdown_report(self, session_id: Optional[str] = None) -> str:
         """Generate markdown-formatted archetype report."""
 
         # Calculate analysis data
@@ -2147,7 +2147,7 @@ class ΛSage:
 
         return report
 
-    def _generate_json_report(self, session_id: str | None = None) -> str:
+    def _generate_json_report(self, session_id: Optional[str] = None) -> str:
         """Generate JSON-formatted archetype report."""
 
         # Calculate analysis data
@@ -2244,8 +2244,8 @@ class ΛSage:
 
     def export_csv(
         self,
-        mappings: dict[str, ArchetypalMapping] | None = None,
-        output_path: str | None = None,
+        mappings: Optional[dict[str, ArchetypalMapping]] = None,
+        output_path: Optional[str] = None,
     ) -> str:
         """
         Export symbol → archetype links as CSV.

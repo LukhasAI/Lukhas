@@ -28,7 +28,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +53,7 @@ class BiometricCommitment:
     nullifier: str  # Prevents replay attacks
     timestamp: datetime
     quality_score: float
-    consciousness_binding: str | None = None
+    consciousness_binding: Optional[str] = None
 
 
 @dataclass
@@ -75,7 +75,7 @@ class MultiModalZKProof:
     user_id_commitment: str  # Hidden user ID
     biometric_commitments: list[BiometricCommitment]
     consciousness_proof: dict[str, Any]
-    cultural_proof: dict[str, Any] | None
+    cultural_proof: Optional[dict[str, Any]]
     temporal_proof: dict[str, Any]
     aggregated_proof: bytes
     verification_key: bytes
@@ -452,7 +452,7 @@ class MultiModalZKEngine:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def _aggregate_proofs(self, proofs: list[dict[str, Any] | None]) -> bytes:
+    async def _aggregate_proofs(self, proofs: Optional[list[dict[str, Any]]]) -> bytes:
         """Aggregate multiple proofs into single proof"""
 
         # Filter out None proofs

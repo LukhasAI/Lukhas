@@ -38,7 +38,7 @@ import warnings
 from collections import OrderedDict, deque
 from dataclasses import dataclass, field
 from types import TracebackType
-from typing import NamedTupleVar
+from typing import NamedTupleVar, Optional
 
 from .. import BrokenResourceError, ClosedResourceError, EndOfStream, WouldBlock
 from .._core._testing import TaskInfo, get_current_task
@@ -199,9 +199,9 @@ class MemoryObjectReceiveStream(Generic[T_co], ObjectReceiveStream[T_co]):
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
-        exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
     ) -> None:
         self.close()
 
@@ -330,9 +330,9 @@ class MemoryObjectSendStream(Generic[T_contra], ObjectSendStream[T_contra]):
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
-        exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
     ) -> None:
         self.close()
 

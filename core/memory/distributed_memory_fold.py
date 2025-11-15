@@ -51,7 +51,7 @@ import random
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import aiohttp
 import numpy as np
@@ -177,9 +177,9 @@ class ConsensusProtocol:
 
         # RAFT state
         self.current_term = 0
-        self.voted_for: str | None = None
+        self.voted_for: Optional[str] = None
         self.state = NodeState.FOLLOWER
-        self.leader_id: str | None = None
+        self.leader_id: Optional[str] = None
 
         # Memory log
         self.memory_log: list[DistributedMemoryEntry] = []
@@ -567,7 +567,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: list[tuple[str, int]] | None = None,
+        bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -677,9 +677,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: list[str] | None = None,
+        tags: Optional[list[str]] = None,
         embedding: np.ndarray = None,
-        metadata: dict[str, Any] | None = None,
+        metadata: Optional[dict[str, Any]] = None,
         require_consensus: bool = True,
     ) -> str:
         """
@@ -911,7 +911,7 @@ class DistributedMemoryFold:
 async def create_distributed_memory_fold(
     node_id: str,
     port: int,
-    bootstrap_nodes: list[tuple[str, int]] | None = None,
+    bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
     consciousness_level: float = 0.8,
 ) -> DistributedMemoryFold:
     """

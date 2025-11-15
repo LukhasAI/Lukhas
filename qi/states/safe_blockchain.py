@@ -42,7 +42,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from hashlib import sha3_256
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -73,10 +73,10 @@ class ComplianceReport:
     generated_at: datetime
     total_blocks: int
     total_decisions: int
-    merkle_root: str | None
+    merkle_root: Optional[str]
     compliance_proof: Any
-    block_range: tuple[int, int] | None
-    cryptographic_attestation: str | None
+    block_range: Optional[tuple[int, int]]
+    cryptographic_attestation: Optional[str]
     model_breakdown: dict[str, int] = field(default_factory=dict)
     consent_summary: dict[str, int] = field(default_factory=dict)
 
@@ -220,7 +220,7 @@ class QISafeAuditBlockchain:
                     consent_summary["without_consent"] += 1
 
         merkle_root = getattr(decision_tree, "root", None)
-        block_range: tuple[int, int] | None = None
+        block_range: Optional[tuple[int, int]] = None
         if relevant_blocks:
             block_range = (
                 getattr(relevant_blocks[0], "number", 0),

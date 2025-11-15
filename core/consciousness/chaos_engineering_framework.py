@@ -43,7 +43,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -175,7 +175,7 @@ class ChaosScenario(ABC):
         self.scenario_type = scenario_type
         self.intensity = intensity
         self.active = False
-        self.start_time: datetime | None = None
+        self.start_time: Optional[datetime] = None
 
     @abstractmethod
     async def inject_chaos(self, system_state: ConsciousnessSystemState) -> ConsciousnessSystemState:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from MATRIZ.nodes.phase1 import (
     AttentionController,
@@ -19,7 +19,7 @@ DEFAULT_CONFIG = {
     "wavec_every_n": 10,
 }
 
-def _load_config(path: str | None) -> Dict[str, Any]:
+def _load_config(path: Optional[str]) -> Dict[str, Any]:
     if not path:
         return dict(DEFAULT_CONFIG)
     # Accept YAML or JSON; for now parse JSON if .json else fallback to defaults
@@ -31,7 +31,7 @@ def _load_config(path: str | None) -> Dict[str, Any]:
         pass
     return dict(DEFAULT_CONFIG)
 
-def compose_phase1(config_path: str | None = None) -> NodeRegistry:
+def compose_phase1(config_path: Optional[str] = None) -> NodeRegistry:
     cfg = _load_config(config_path)
     reg = NodeRegistry()
     # Register nodes (in dependency‑light order)

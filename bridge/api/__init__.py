@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from _bridgeutils import bridge
 
-_mod: object | None = None
+_mod: Optional[object] = None
 _exports: dict[str, object] = {}
 
 _CANDIDATES = (
@@ -28,6 +28,8 @@ if not isinstance(__all__, list):
 if "RouteHandlers" not in globals():
     class RouteHandlers:
         """Minimal mountable stub to keep collection healthy."""
+from typing import Optional
+
 
         def __init__(self) -> None:
             self._mounts: list[tuple[tuple[object, ...], dict[str, object]]] = []

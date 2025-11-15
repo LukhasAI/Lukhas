@@ -21,7 +21,7 @@ from __future__ import annotations
 
     def __init__(self, cognitive_engine=None):
         self.cognitive_engine = cognitive_engine
-        self.cognitive_orchestrator: LukhasAGIOrchestrator | None = lukhas_agi_orchestrator
+        self.cognitive_orchestrator: Optional[LukhasAGIOrchestrator] = lukhas_agi_orchestrator
         self.enhancement_active = bool(self.cognitive_orchestrator and self.cognitive_orchestrator.is_active)
 
         if self.cognitive_orchestrator:

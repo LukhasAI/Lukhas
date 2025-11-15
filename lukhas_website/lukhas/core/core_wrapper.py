@@ -11,7 +11,7 @@ import os
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Protocol
+from typing import Any, Protocol, Optional
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -59,7 +59,7 @@ class SymbolicResult:
 class GlyphEngine(Protocol):
     """Protocol for GLYPH engine implementations"""
 
-    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any:
+    def encode_concept(self, concept: str, emotion: Optional[dict[str, float]] = None) -> Any:
         ...
 
     def decode_glyph(self, glyph_repr: Any) -> Any:
@@ -185,22 +185,22 @@ class CoreWrapper:
             logger.error(f"Core system initialization failed: {e}")
 
     @property
-    def _glyph_engine(self) -> GlyphEngine | None:
+    def _glyph_engine(self) -> Optional[GlyphEngine]:
         """Get GLYPH engine from registry"""
         return _REGISTRY.get("glyph_engine")
 
     @property
-    def _actor_system(self) -> ActorSystem | None:
+    def _actor_system(self) -> Optional[ActorSystem]:
         """Get actor system from registry"""
         return _REGISTRY.get("actor_system")
 
     @property
-    def _symbolic_world(self) -> SymbolicWorld | None:
+    def _symbolic_world(self) -> Optional[SymbolicWorld]:
         """Get symbolic world from registry"""
         return _REGISTRY.get("symbolic_world")
 
     @property
-    def _symbolic_reasoner(self) -> SymbolicReasoner | None:
+    def _symbolic_reasoner(self) -> Optional[SymbolicReasoner]:
         """Get symbolic reasoner from registry"""
         return _REGISTRY.get("symbolic_reasoner")
 
@@ -208,7 +208,7 @@ class CoreWrapper:
     def encode_concept(
         self,
         concept: str,
-        emotion: dict[str, float] | None = None,
+        emotion: Optional[dict[str, float]] = None,
         mode: str = "dry_run",
     ) -> GlyphResult:
         """
@@ -330,7 +330,7 @@ class CoreWrapper:
         symbol1_name: str,
         symbol2_name: str,
         relationship_type: str,
-        properties: dict[str, Any] | None = None,
+        properties: Optional[dict[str, Any]] = None,
         mode: str = "dry_run",
     ) -> bool:
         """
@@ -623,7 +623,7 @@ def get_core() -> CoreWrapper:
 
 
 # Convenience functions for common operations
-def encode_concept(concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run") -> GlyphResult:
+def encode_concept(concept: str, emotion: Optional[dict[str, float]] = None, mode: str = "dry_run") -> GlyphResult:
     """Encode a concept using the global core instance"""
     return get_core().encode_concept(concept, emotion, mode)
 
@@ -655,7 +655,7 @@ def register_decision_engine(name: str, impl: DecisionEngine) -> None:
     logger.info(f"Decision engine '{name}' registered")
 
 
-def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run") -> dict[str, Any]:
+def decide(policy_input: dict[str, Any], *, engine: Optional[str] = None, mode: str = "dry_run") -> dict[str, Any]:
     """
     Make a policy decision using registered decision engines.
 

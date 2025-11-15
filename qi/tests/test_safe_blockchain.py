@@ -4,7 +4,7 @@ import json
 from dataclasses import dataclass
 from hashlib import sha3_256
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, Optional
 
 import pytest
 from qi.states import safe_blockchain
@@ -15,7 +15,7 @@ class DummyMerkleTree:
 
     def __init__(self) -> None:
         self.leaf_hashes: list[str] = []
-        self.root: str | None = None
+        self.root: Optional[str] = None
 
     def add_leaf(self, data: Any) -> None:
         payload = json.dumps(data, sort_keys=True, default=str).encode()
@@ -70,7 +70,7 @@ class DummyBlockchain(safe_blockchain.QISafeAuditBlockchain):
             "root": decision_tree.root,
         }
 
-    async def _sign_report(self, merkle_root: str | None) -> str | None:
+    async def _sign_report(self, merkle_root: Optional[str]) -> Optional[str]:
         if not merkle_root:
             return None
         return f"attestation:{merkle_root}"

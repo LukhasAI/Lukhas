@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class AuthenticationTier(Enum):
@@ -62,8 +62,8 @@ class _IdentitySignal:
     tier: AuthenticationTier
     validation_passed: bool
     signal_integrity_hash: str
-    bio_symbolic_data: IdentityBiometricData | None = None
-    constellation_compliance: dict[str, Any] | None = None
+    bio_symbolic_data: Optional[IdentityBiometricData] = None
+    constellation_compliance: Optional[dict[str, Any]] = None
 
 
 class MatrizConsciousnessIdentitySignalEmitter:
@@ -84,8 +84,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
         self,
         identity_id: str,
         authentication_tier: AuthenticationTier,
-        biometric_data: IdentityBiometricData | None = None,
-        namespace_data: NamespaceIsolationData | None = None,
+        biometric_data: Optional[IdentityBiometricData] = None,
+        namespace_data: Optional[NamespaceIsolationData] = None,
     ) -> _IdentitySignal:
         async with self._lock:
             signal = _IdentitySignal(

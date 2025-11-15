@@ -57,7 +57,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 import numpy as np
 import structlog
@@ -104,10 +104,10 @@ class EnergyTask:
     estimated_energy: float
     max_energy: float
     estimated_duration: float
-    deadline: datetime | None = None
+    deadline: Optional[datetime] = None
     dependencies: list[str] = field(default_factory=list)
     energy_profile: EnergyProfile = EnergyProfile.STANDARD
-    callback: Callable | None = None
+    callback: Optional[Callable] = None
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -160,13 +160,13 @@ class DistributedEnergyTask:
     priority: Priority
     estimated_energy: float
     estimated_duration: float
-    deadline: datetime | None = None
+    deadline: Optional[datetime] = None
     energy_profile: EnergyProfile = EnergyProfile.STANDARD
 
     # Distributed coordination fields
     node_requirements: dict[str, float] = field(default_factory=dict)  # node_id -> energy
     minimum_nodes: int = 1
-    maximum_nodes: int | None = None
+    maximum_nodes: Optional[int] = None
     task_distribution_strategy: str = "balanced"  # balanced, priority, locality
 
     # Energy budget and constraints
@@ -177,7 +177,7 @@ class DistributedEnergyTask:
     # Metadata and tracking
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    coordinator_node_id: str | None = None
+    coordinator_node_id: Optional[str] = None
 
     def __post_init__(self):
         """Initialize computed fields"""
@@ -261,7 +261,7 @@ class EnergyAwareExecutionPlanner:
     of limited resources to achieve maximum cognitive impact.
     """
 
-    def __init__(self, config: dict[str, Any] | None = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the Energy-Aware Execution Planner
 
@@ -1292,12 +1292,12 @@ class EnergyAwareExecutionPlanner:
         """Check if a task dependency is satisfied"""
         return any(task["task_id"] == dep_id for task in self.completed_tasks)
 
-    def _estimate_completion_time(self, task_id: str) -> str | None:
+    def _estimate_completion_time(self, task_id: str) -> Optional[str]:
         """Estimate completion time for a running task"""
         # Simplified estimation
         return (datetime.now(timezone.utc) + timedelta(minutes=5)).isoformat()
 
-    def _estimate_start_time(self, queue_position: int) -> str | None:
+    def _estimate_start_time(self, queue_position: int) -> Optional[str]:
         """Estimate start time for a queued task"""
         # Simplified estimation based on queue position
         estimated_delay = queue_position * 60  # 1 minute per position
@@ -1308,7 +1308,7 @@ class EnergyAwareExecutionPlanner:
 
 
 def create_eaxp_instance(
-    config_path: str | None = None,
+    config_path: Optional[str] = None,
 ) -> EnergyAwareExecutionPlanner:
     """
     Factory function to create EAXP instance with Lukhas integration
@@ -1538,7 +1538,7 @@ class DistributedLoadBalancer:
 
         return rebalance_plan
 
-    def select_optimal_node(self, task: EnergyTask, available_nodes: list) -> str | None:
+    def select_optimal_node(self, task: EnergyTask, available_nodes: list) -> Optional[str]:
         """Select optimal node for task execution"""
         if not available_nodes:
             return None

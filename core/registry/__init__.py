@@ -27,7 +27,7 @@ def autoload():
     """Autoload discovered plugins (placeholder)."""
     pass
 
-def discover_entry_points(group: str | None = None):
+def discover_entry_points(group: Optional[str] = None):
     """Discover entry points (placeholder)."""
     return []
 

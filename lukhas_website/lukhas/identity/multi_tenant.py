@@ -23,7 +23,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 from uuid import uuid4
 
 from opentelemetry import trace
@@ -101,19 +101,19 @@ class TenantMetadata:
 
     # Organizational structure
     tenant_type: TenantType = TenantType.ORGANIZATION
-    parent_tenant_id: str | None = None
-    root_tenant_id: str | None = None
+    parent_tenant_id: Optional[str] = None
+    root_tenant_id: Optional[str] = None
 
     # Status and lifecycle
     status: TenantStatus = TenantStatus.PENDING
     plan: TenantPlan = TenantPlan.STARTER
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    expires_at: datetime | None = None
+    expires_at: Optional[datetime] = None
 
     # Configuration
     namespace: str = ""  # Auto-generated from tenant_id if empty
-    domain: str | None = None
+    domain: Optional[str] = None
     custom_claims: dict[str, Any] = field(default_factory=dict)
     tags: dict[str, str] = field(default_factory=dict)
 
@@ -122,7 +122,7 @@ class TenantMetadata:
     security_policy: TenantSecurityPolicy = field(default_factory=TenantSecurityPolicy)
 
     # Audit and compliance
-    created_by: str | None = None
+    created_by: Optional[str] = None
     compliance_flags: dict[str, bool] = field(default_factory=dict)
     audit_retention_days: int = 90
 
@@ -151,7 +151,7 @@ class TenantUser:
     permissions: list[str] = field(default_factory=list)
     max_tier_level: TierLevel = TierLevel.ELEVATED
     status: str = "active"
-    last_login: datetime | None = None
+    last_login: Optional[datetime] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -166,10 +166,10 @@ class TenantManager:
 
     def __init__(
         self,
-        token_generator: TokenGenerator | None = None,
-        token_validator: TokenValidator | None = None,
-        guardian: Any | None = None,
-        storage_provider: Callable | None = None
+        token_generator: Optional[TokenGenerator] = None,
+        token_validator: Optional[TokenValidator] = None,
+        guardian: Optional[Any] = None,
+        storage_provider: Optional[Callable] = None
     ):
         self.token_generator = token_generator
         self.token_validator = token_validator
@@ -189,8 +189,8 @@ class TenantManager:
         name: str,
         display_name: str,
         tenant_type: TenantType = TenantType.ORGANIZATION,
-        parent_tenant_id: str | None = None,
-        creator_user_id: str | None = None,
+        parent_tenant_id: Optional[str] = None,
+        creator_user_id: Optional[str] = None,
         **kwargs
     ) -> TenantMetadata:
         """
@@ -266,7 +266,7 @@ class TenantManager:
 
             return tenant
 
-    async def get_tenant(self, tenant_identifier: str) -> TenantMetadata | None:
+    async def get_tenant(self, tenant_identifier: str) -> Optional[TenantMetadata]:
         """
         Retrieve tenant by ID, name, or namespace.
 
@@ -291,7 +291,7 @@ class TenantManager:
         self,
         tenant_id: str,
         updates: dict[str, Any],
-        updater_user_id: str | None = None
+        updater_user_id: Optional[str] = None
     ) -> TenantMetadata:
         """
         Update tenant configuration.
@@ -337,7 +337,7 @@ class TenantManager:
         tenant_id: str,
         user_id: str,
         tier_level: TierLevel = TierLevel.AUTHENTICATED,
-        custom_claims: dict[str, Any] | None = None,
+        custom_claims: Optional[dict[str, Any]] = None,
         expires_in_seconds: int = 3600
     ) -> str:
         """
@@ -427,8 +427,8 @@ class TenantManager:
     async def validate_tenant_token(
         self,
         token: str,
-        required_tenant: str | None = None,
-        required_permissions: list[str] | None = None
+        required_tenant: Optional[str] = None,
+        required_permissions: Optional[list[str]] = None
     ) -> ValidationResult:
         """
         Validate tenant-scoped token with namespace verification.
@@ -505,8 +505,8 @@ class TenantManager:
         user_id: str,
         username: str,
         email: str,
-        roles: list[str] | None = None,
-        permissions: list[str] | None = None,
+        roles: Optional[list[str]] = None,
+        permissions: Optional[list[str]] = None,
         max_tier_level: TierLevel = TierLevel.ELEVATED
     ) -> TenantUser:
         """
@@ -583,7 +583,7 @@ class TenantManager:
         self,
         tenant_id: str,
         user_id: str
-    ) -> TenantUser | None:
+    ) -> Optional[TenantUser]:
         """
         Retrieve user within specific tenant context.
 
@@ -657,7 +657,7 @@ class TenantManager:
         self,
         tenant: TenantMetadata,
         updates: dict[str, Any],
-        updater_user_id: str | None
+        updater_user_id: Optional[str]
     ) -> None:
         """Guardian validation for tenant updates."""
         if self.guardian:
@@ -714,7 +714,7 @@ class TenantManager:
         self,
         event: str,
         tenant: TenantMetadata,
-        context: dict[str, Any] | None = None
+        context: Optional[dict[str, Any]] = None
     ) -> None:
         """Guardian monitoring for tenant events."""
         if self.guardian:

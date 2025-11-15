@@ -30,7 +30,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Callable
+from typing import Callable, Optional
 
 # AI-specific validation imports
 try:
@@ -70,7 +70,7 @@ class ValidationResult:
     is_valid: bool
     severity: ValidationSeverity
     attack_vectors: list[AttackVector] = field(default_factory=list)
-    sanitized_value: Any | None = None
+    sanitized_value: Optional[Any] = None
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     processing_time_ms: float = 0.0
@@ -155,9 +155,9 @@ class InputValidator:
 
     def validate(self,
                  value: Any,
-                 context: dict[str, Any] | None = None,
-                 expected_type: type | None = None,
-                 custom_validators: list[Callable] | None = None) -> ValidationResult:
+                 context: Optional[dict[str, Any]] = None,
+                 expected_type: Optional[type] = None,
+                 custom_validators: Optional[list[Callable]] = None) -> ValidationResult:
         """
         Comprehensive input validation with multi-layer checks.
 
@@ -221,7 +221,7 @@ class InputValidator:
 
         return result
 
-    def _validate_basic(self, value: Any, result: ValidationResult, expected_type: type | None):
+    def _validate_basic(self, value: Any, result: ValidationResult, expected_type: Optional[type]):
         """Basic type and null validation."""
         if value is None:
             result.warnings.append("Null value provided")
@@ -358,7 +358,7 @@ class InputValidator:
                 logger.exception(f"Custom validator error: {e}")
                 result.errors.append(f"Custom validator error: {validator.__name__}")
 
-    def _guardian_validation(self, value: Any, result: ValidationResult, context: dict[str, Any] | None):
+    def _guardian_validation(self, value: Any, result: ValidationResult, context: Optional[dict[str, Any]]):
         """Integrate with Guardian system for high-risk inputs."""
         try:
             # Mock Guardian integration - would be replaced with actual Guardian calls
@@ -386,7 +386,7 @@ class InputValidator:
             logger.exception(f"Guardian integration error: {e}")
             result.warnings.append("Guardian system unavailable")
 
-    def _sanitize_value(self, value: Any, result: ValidationResult) -> Any | None:
+    def _sanitize_value(self, value: Any, result: ValidationResult) -> Optional[Any]:
         """Sanitize input value based on detected threats."""
         if not isinstance(value, str):
             return value
@@ -463,7 +463,7 @@ class AIInputValidator(InputValidator):
             ]
         }
 
-    def validate_ai_input(self, prompt: str, context: dict[str, Any] | None = None) -> ValidationResult:
+    def validate_ai_input(self, prompt: str, context: Optional[dict[str, Any]] = None) -> ValidationResult:
         """Validate AI input with specialized AI threat detection."""
         result = self.validate(prompt, context, expected_type=str)
 

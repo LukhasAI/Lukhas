@@ -31,7 +31,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 # Optional YAML dependency (preferred)
 try:
@@ -75,9 +75,9 @@ class Result:
     path: str
     had_fm: bool
     updated: bool
-    error: str | None = None
-    sha_before: str | None = None
-    sha_after: str | None = None
+    error: Optional[str] = None
+    sha_before: Optional[str] = None
+    sha_after: Optional[str] = None
 
 
 def sha256_text(s: str) -> str:
@@ -141,7 +141,7 @@ def extract_front_matter(content: str) -> tuple[Dict | None, str]:
     return safe_yaml_load(fm_text), body
 
 
-def build_front_matter(doc_info: Dict, existing: Dict | None) -> Dict:
+def build_front_matter(doc_info: Dict, existing: Optional[Dict]) -> Dict:
     fm = dict(existing or {})
 
     # Fill from manifest if present; otherwise defaults

@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import Enum
 from importlib import import_module
 from types import ModuleType
-from typing import Any
+from typing import Any, Optional
 
 __all__: list[str] = []
 
@@ -15,7 +15,7 @@ _CANDIDATES = (
     "lukhas_website.memory.retention",
 )
 
-_backend: ModuleType | None = None
+_backend: Optional[ModuleType] = None
 for _module in _CANDIDATES:
     try:
         _backend = import_module(_module)

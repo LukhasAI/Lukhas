@@ -33,7 +33,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 
@@ -137,7 +137,7 @@ class BaseRoutingStrategy(ABC):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
         """Select provider based on strategy"""
         pass
 
@@ -166,7 +166,7 @@ class RoundRobinStrategy(BaseRoutingStrategy):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
@@ -222,7 +222,7 @@ class WeightedStrategy(BaseRoutingStrategy):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
@@ -304,7 +304,7 @@ class HealthBasedStrategy(BaseRoutingStrategy):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
@@ -394,7 +394,7 @@ class LatencyBasedStrategy(BaseRoutingStrategy):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
@@ -458,7 +458,7 @@ class CostOptimizedStrategy(BaseRoutingStrategy):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
@@ -532,7 +532,7 @@ class HybridStrategy(BaseRoutingStrategy):
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth],
         circuit_breakers: dict[str, CircuitBreaker]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
 
         start_time = time.time()
 
@@ -610,8 +610,8 @@ class RoutingEngine:
         self,
         rule: RoutingRule,
         context: RoutingContext,
-        provider_health: dict[str, ProviderHealth] | None = None
-    ) -> RoutingResult | None:
+        provider_health: Optional[dict[str, ProviderHealth]] = None
+    ) -> Optional[RoutingResult]:
         """Route request using specified strategy"""
 
         start_time = time.time()
@@ -693,7 +693,7 @@ class RoutingEngine:
         rule: RoutingRule,
         context: RoutingContext,
         provider_health: dict[str, ProviderHealth]
-    ) -> RoutingResult | None:
+    ) -> Optional[RoutingResult]:
         """Try fallback providers when primary strategy fails"""
 
         if not rule.fallback_providers:
@@ -779,7 +779,7 @@ class RoutingEngine:
 
 
 # Global routing engine instance
-_routing_engine: RoutingEngine | None = None
+_routing_engine: Optional[RoutingEngine] = None
 
 
 def get_routing_engine() -> RoutingEngine:

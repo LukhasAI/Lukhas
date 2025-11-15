@@ -28,7 +28,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 # Third-Party Imports
 import structlog
@@ -147,7 +147,7 @@ except ImportError as e:
                 tier=tier.name,
             )
 
-        def check_permission(self, source_id: str | None, target_id: str, message_type: Any) -> bool:
+        def check_permission(self, source_id: Optional[str], target_id: str, message_type: Any) -> bool:
             log.debug(
                 "PH_ECI: check_permission called",
                 source=source_id,
@@ -242,18 +242,18 @@ class EnhancedCoreIntegrator:
     Manages interactions, security, and quantum-biological aspects of core components.
     """
 
-    def __init__(self, config: EnhancedCoreConfig | None = None):
+    def __init__(self, config: Optional[EnhancedCoreConfig] = None):
         """
         Initializes the EnhancedCoreIntegrator.
         Sets up quantum layer, bio-orchestrator, and security components based on config.
         """
         self.config: EnhancedCoreConfig = config or EnhancedCoreConfig()
 
-        self.qi_layer: QIBioOscillator | None = None
-        self.bio_orchestrator: BioOrchestrator | None = None
-        self.access_controller: AccessController | None = None
-        self.qi_auth: QIAuthenticator | None = None
-        self.compliance_monitor: ComplianceMonitor | None = None
+        self.qi_layer: Optional[QIBioOscillator] = None
+        self.bio_orchestrator: Optional[BioOrchestrator] = None
+        self.access_controller: Optional[AccessController] = None
+        self.qi_auth: Optional[QIAuthenticator] = None
+        self.compliance_monitor: Optional[ComplianceMonitor] = None
 
         if self.config.enable_quantum and CORE_COMPONENTS_LOADED_FLAG_ECI:
             self.qi_layer = QIBioOscillator(self.config.qi_config)  # type: ignore
@@ -280,7 +280,7 @@ class EnhancedCoreIntegrator:
         # Event system initialization
         self._initialize_context_bus()
 
-        self.integration_layer: UnifiedIntegration | None = (
+        self.integration_layer: Optional[UnifiedIntegration] = (
             UnifiedIntegration() if CORE_COMPONENTS_LOADED_FLAG_ECI else None
         )  # type: ignore
         if self.integration_layer:
@@ -299,7 +299,7 @@ class EnhancedCoreIntegrator:
         self,
         component_id: str,
         component_instance: Any,
-        access_tier: AccessTier | None = None,
+        access_tier: Optional[AccessTier] = None,
     ) -> bool:
         """
         Registers a component with the integrator.
@@ -353,7 +353,7 @@ class EnhancedCoreIntegrator:
         self,
         target_id: str,
         payload: dict[str, Any],
-        source_id: str | None = "CoreIntegrator",
+        source_id: Optional[str] = "CoreIntegrator",
         msg_type: CoreMessageType = CoreMessageType.COMMAND,
     ) -> dict[str, Any]:
         """
@@ -549,7 +549,7 @@ class EnhancedCoreIntegrator:
         self,
         event_type: str,
         event_data: dict[str, Any],
-        source_component_id: str | None = None,
+        source_component_id: Optional[str] = None,
         priority: str = "normal",
         context_preservation: bool = True,
     ) -> int:
@@ -643,9 +643,9 @@ class EnhancedCoreIntegrator:
         self,
         event_type: str,
         callback_function: Callable,
-        component_id: str | None = None,
+        component_id: Optional[str] = None,
         priority_level: str = "normal",
-        context_requirements: dict[str, Any] | None = None,
+        context_requirements: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Subscribes a component's callback to a specific event type with orchestration support.

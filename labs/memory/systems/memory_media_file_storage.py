@@ -21,7 +21,7 @@ import contextlib
 import hashlib
 import mimetypes
 import os.path
-from typing import Final, NamedTuple
+from typing import Final, NamedTuple, Optional
 
 from core.common import get_logger
 
@@ -45,7 +45,7 @@ PREFERRED_MIMETYPE_EXTENSION_MAP: Final = {
 }
 
 
-def _calculate_file_id(data: bytes, mimetype: str, filename: str | None=None) -> str:
+def _calculate_file_id(data: bytes, mimetype: str, filename: Optional[str]=None) -> str:
     """Hash data, mimetype, and an optional filename to generate a stable file ID.
 
     Parameters
@@ -84,7 +84,7 @@ class MemoryFile(NamedTuple):
     content: bytes
     mimetype: str
     kind: MediaFileKind
-    filename: str | None
+    filename: Optional[str]
 
     @ property
     def content_size(self) -> int:
@@ -109,7 +109,7 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         path_or_data: str | bytes,
         mimetype: str,
         kind: MediaFileKind,
-        filename: str | None = None,
+        filename: Optional[str] = None,
     ) -> str:
         """Add a file to the manager and return its ID."""
         file_data: bytes

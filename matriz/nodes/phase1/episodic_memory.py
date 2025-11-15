@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from .base import Node, NodeContext, NodeMetrics
 from .events import NodeEvent, emit_event
@@ -39,7 +39,7 @@ class EpisodicMemory(Node):
             emit_event(NodeEvent(node=self.name, run_id=ctx.run_id, cycle_idx=ctx.cycle_idx,
                                  payload={"op": "append"}))
             return {"count": len(self._episodes)}
-        qn: int | None = inputs.get("query_last")
+        qn: Optional[int] = inputs.get("query_last")
         if qn is not None:
             result = self._episodes[-qn:] if qn > 0 else []
             return {"episodes": list(result)}

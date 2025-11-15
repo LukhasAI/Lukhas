@@ -12,7 +12,7 @@ import os
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -22,7 +22,7 @@ class Consent:
     granted: bool
     timestamp: float
     ttl_seconds: int = 86400 * 30  # 30 days default
-    metadata: dict[str, Any] | None = None
+    metadata: Optional[dict[str, Any]] = None
 
     def is_valid(self) -> bool:
         if not self.granted:
@@ -65,7 +65,7 @@ class ConsentGuard:
         user_id: str,
         purpose: str,
         ttl_seconds: int = 86400 * 30,
-        metadata: dict[str, Any] | None = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> Consent:
         """Grant consent for a specific purpose"""
         consent = Consent(
@@ -142,7 +142,7 @@ class ConsentGuard:
 
         return False, None
 
-    def list_active(self, user_id: str | None = None) -> list[Consent]:
+    def list_active(self, user_id: Optional[str] = None) -> list[Consent]:
         """List all active consents, optionally filtered by user"""
         active = []
         seen = set()

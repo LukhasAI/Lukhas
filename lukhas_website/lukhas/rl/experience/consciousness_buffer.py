@@ -17,7 +17,7 @@ import pickle
 import random
 from collections import deque, namedtuple
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import torch
@@ -76,8 +76,8 @@ class ConsciousnessReplayBuffer:
         alpha: float = 0.6,  # Prioritization exponent
         beta: float = 0.4,  # Importance sampling exponent
         beta_increment: float = 0.001,  # Beta annealing rate
-        memory_system: MemoryFoldSystem | None = None,
-        consciousness_priorities: ConsciousnessMemoryPriorities | None = None,
+        memory_system: Optional[MemoryFoldSystem] = None,
+        consciousness_priorities: Optional[ConsciousnessMemoryPriorities] = None,
     ):
         self.capacity = capacity
         self.alpha = alpha
@@ -129,8 +129,8 @@ class ConsciousnessReplayBuffer:
         done: bool,
         log_prob: float,
         value: float,
-        advantage: float | None = None,
-        consciousness_info: dict[str, Any] | None = None,
+        advantage: Optional[float] = None,
+        consciousness_info: Optional[dict[str, Any]] = None,
     ) -> None:
         """Store consciousness experience in replay buffer"""
 
@@ -314,7 +314,7 @@ class ConsciousnessReplayBuffer:
 
     @instrument("DECISION", label="rl:experience_sample", capability="rl:memory")
     def sample(
-        self, batch_size: int, consciousness_focus: str | None = None, temporal_coherence_threshold: float = 0.0
+        self, batch_size: int, consciousness_focus: Optional[str] = None, temporal_coherence_threshold: float = 0.0
     ) -> tuple[list[ConsciousnessExperience], torch.Tensor, list[int]]:
         """
         Sample batch of consciousness experiences.
@@ -570,7 +570,7 @@ class EpisodicConsciousnessBuffer:
         reward: float,
         next_state: torch.Tensor,
         done: bool,
-        consciousness_info: dict[str, Any] | None = None,
+        consciousness_info: Optional[dict[str, Any]] = None,
     ) -> None:
         """Add experience to current episode"""
 

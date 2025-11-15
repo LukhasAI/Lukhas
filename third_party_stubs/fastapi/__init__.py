@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 
 class HTTPException(Exception):
@@ -19,8 +19,8 @@ class Response:
         self,
         content: Any = None,
         status_code: int = 200,
-        media_type: str | None = None,
-        headers: dict[str, str] | None = None,
+        media_type: Optional[str] = None,
+        headers: Optional[dict[str, str]] = None,
     ) -> None:
         self.content = content
         self.status_code = status_code
@@ -49,7 +49,7 @@ def Query(default: Any = None, **_: Any) -> Any:
 class APIRouter:
     """Minimal APIRouter stub storing registered routes."""
 
-    def __init__(self, prefix: str = "", tags: list[str] | None = None) -> None:
+    def __init__(self, prefix: str = "", tags: Optional[list[str]] = None) -> None:
         self.prefix = prefix
         self.tags = tags or []
         self.routes: list[tuple[str, str, Callable[..., Any]]] = []

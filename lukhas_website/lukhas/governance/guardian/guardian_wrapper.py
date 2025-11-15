@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import os
 import uuid
-from typing import Any
+from typing import Any, Optional
 
 from lukhas_website.lukhas.governance.guardian.core import GovernanceAction
 from lukhas_website.lukhas.observability.matriz_decorators import instrument
@@ -45,8 +45,8 @@ def detect_drift(
     baseline_behavior: str,
     current_behavior: str,
     *,
-    threshold: float | None = None,
-    context: dict[str, Any] | None = None,
+    threshold: Optional[float] = None,
+    context: Optional[dict[str, Any]] = None,
     mode: str = "dry_run",
     **kwargs,
 ) -> dict[str, Any]:
@@ -123,7 +123,7 @@ def detect_drift(
 def evaluate_ethics(
     action: GovernanceAction,
     *,
-    context: dict[str, Any] | None = None,
+    context: Optional[dict[str, Any]] = None,
     mode: str = "dry_run",
     **kwargs,
 ) -> dict[str, Any]:
@@ -185,7 +185,7 @@ def evaluate_ethics(
 def check_safety(
     content: str,
     *,
-    context: dict[str, Any] | None = None,
+    context: Optional[dict[str, Any]] = None,
     constitutional_check: bool = True,
     mode: str = "dry_run",
     **kwargs,

@@ -22,7 +22,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 from uuid import UUID
 
 CONTRACT_VERSION = "1.0.0"
@@ -76,7 +76,7 @@ class MatrizMessage:
     payload: dict[str, Any]
     topic: str  # one of ALLOWED_TOPICS
     guardian_token: str = ""  # Guardian system audit token
-    idempotency_key: str | None = None  # optional stable idempotency key (defaults to str(msg_id))
+    idempotency_key: Optional[str] = None  # optional stable idempotency key (defaults to str(msg_id))
 
 
 @dataclass
@@ -292,7 +292,7 @@ def validate_message_ex(msg: MatrizMessage) -> tuple[bool, list[str]]:
     return (len(reasons) == 0, reasons)
 
 
-def mk_guardian_token(node_name: str, lane: str, msg_id: UUID, epoch_ms: int | None = None) -> str:
+def mk_guardian_token(node_name: str, lane: str, msg_id: UUID, epoch_ms: Optional[int] = None) -> str:
     """Recommended Guardian token format for searchable audits."""
     if epoch_ms is None:
         epoch_ms = int(datetime.now(timezone.utc).timestamp() * 1000)

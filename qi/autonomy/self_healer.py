@@ -11,7 +11,7 @@ import os
 import shutil
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
@@ -78,11 +78,11 @@ class ChangeProposal:
     ttl_sec: int
     kind: str  # e.g., "config_patch", "router_threshold", "eval_weight_adjust"
     target_path: str  # file to patch (for config/threshold kinds)
-    current_checksum: str | None
+    current_checksum: Optional[str]
     patch: dict[str, Any]  # structured change (not shell)
     rationale: str
-    dry_run_diff: str | None = None
-    attestation: dict[str, Any] | None = None
+    dry_run_diff: Optional[str] = None
+    attestation: Optional[dict[str, Any]] = None
 
 
 def _read_json(path: str) -> dict[str, Any]:
@@ -98,7 +98,7 @@ def _write_json(path: str, obj: Any):
     os.replace(tmp, path)
 
 
-def _file_checksum(path: str) -> str | None:
+def _file_checksum(path: str) -> Optional[str]:
     try:
         with _ORIG_OPEN(path, "rb") as f:
             import hashlib
@@ -119,7 +119,7 @@ def _diff(old: str, new: str) -> str:
     )
 
 
-def _attest(steps: list[dict[str, Any]]) -> dict[str, Any] | None:
+def _attest(steps: list[dict[str, Any]]) -> Optional[dict[str, Any]]:
     if not _HAS_ATT:
         return None
     try:
@@ -158,7 +158,7 @@ def observe_signals(
     return sig
 
 
-def _path_allowed(path: str, allowed: list[str] | None, denied: list[str] | None) -> bool:
+def _path_allowed(path: str, allowed: Optional[list[str]], denied: Optional[list[str]]) -> bool:
     ap = os.path.abspath(path)
     if denied:
         for patt in denied:

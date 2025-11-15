@@ -10,7 +10,7 @@ import hashlib
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
 
 
 # Placeholder classes for post-monetary economic systems
@@ -61,10 +61,10 @@ class ConsciousnessExchangeProposal:
     """Proposal for a consciousness-aligned exchange."""
 
     exchange_type: str
-    proposal: str | None = None
-    financial_requirement: float | None = None
-    suggested_contribution: float | None = None
-    fair_price: float | None = None
+    proposal: Optional[str] = None
+    financial_requirement: Optional[float] = None
+    suggested_contribution: Optional[float] = None
+    fair_price: Optional[float] = None
 
 
 class ConsciousnessTokenProtocol:
@@ -76,7 +76,7 @@ class ConsciousnessTokenProtocol:
         self,
         rng_or_bias: random.Random | float | None = None,
         *,
-        resonance_bias: float | None = None,
+        resonance_bias: Optional[float] = None,
     ) -> None:
         if isinstance(rng_or_bias, random.Random):
             self._rng = rng_or_bias
@@ -158,7 +158,7 @@ class QuantumFinancialConsciousnessEngine:
 
     def __init__(
         self,
-        seed: int | None = None,
+        seed: Optional[int] = None,
         *,
         rng: random.Random | None = None,
     ) -> None:

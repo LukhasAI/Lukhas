@@ -65,7 +65,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -131,7 +131,7 @@ class FoldLineage:
     """Tracks the evolutionary lineage of a memory fold."""
 
     fold_key: str
-    parent_key: str | None
+    parent_key: Optional[str]
     emotion_delta: np.ndarray
     compression_ratio: float
     timestamp: datetime
@@ -174,7 +174,7 @@ class GlyphMemoryIndex:
         fold_key: str,
         affect_vector: np.ndarray,
         binding_strength: float = 1.0,
-        metadata: dict[str, Any] | None = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> GlyphBinding:
         """
         Create a binding between a glyph and a memory fold.
@@ -300,7 +300,7 @@ class EmotionalFoldingEngine:
     def identify_foldable_memories(
         self,
         time_window: timedelta = TEMPORAL_COMPRESSION_WINDOW,
-        user_id: str | None = None,
+        user_id: Optional[str] = None,
     ) -> list[list[dict[str, Any]]]:
         """
         Identify groups of memories suitable for folding.
@@ -349,7 +349,7 @@ class EmotionalFoldingEngine:
         memory_group: list[dict[str, Any]],
         compression_type: CompressionType = CompressionType.CONSOLIDATION,
         preserve_glyphs: bool = True,
-    ) -> dict[str, Any] | None:
+    ) -> Optional[dict[str, Any]]:
         """
         Perform temporal compression on a group of memories.
 
@@ -802,7 +802,7 @@ class GlyphMemorySystem:
     Coordinates all glyph-memory subsystems.
     """
 
-    def __init__(self, memory_fold_config: dict[str, Any] | None = None):
+    def __init__(self, memory_fold_config: Optional[dict[str, Any]] = None):
         """Initialize the integrated glyph-memory system."""
         # Initialize base memory system
         self.memory_system = MemoryFoldSystem(
@@ -824,7 +824,7 @@ class GlyphMemorySystem:
         emotion: str,
         context: str,
         glyphs: list[str],
-        user_id: str | None = None,
+        user_id: Optional[str] = None,
         auto_couple: bool = True,
     ) -> dict[str, Any]:
         """
@@ -935,7 +935,7 @@ class GlyphMemorySystem:
         self,
         time_window: timedelta = TEMPORAL_COMPRESSION_WINDOW,
         min_salience: float = HIGH_SALIENCE_THRESHOLD,
-        user_id: str | None = None,
+        user_id: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Perform temporal memory folding with glyph preservation.
@@ -1057,7 +1057,7 @@ def create_glyph_memory(
     emotion: str,
     context: str,
     glyphs: list[str],
-    user_id: str | None = None,
+    user_id: Optional[str] = None,
 ) -> dict[str, Any]:
     """Convenience function to create glyph-indexed memory."""
     system = get_glyph_memory_system()

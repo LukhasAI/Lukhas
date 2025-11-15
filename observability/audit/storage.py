@@ -7,7 +7,7 @@ from __future__ import annotations
 import contextlib
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Storage configuration
 AUDIT_STORAGE = Path("audit_logs")
@@ -40,7 +40,7 @@ class JSONLStorage:
         with path.open("a") as f:
             f.write(line)
 
-    async def fetch_decision_trace(self, trace_id: str) -> dict[str, Any] | None:
+    async def fetch_decision_trace(self, trace_id: str) -> Optional[dict[str, Any]]:
         """
         Fetch decision trace by ID.
 
@@ -69,7 +69,7 @@ class JSONLStorage:
         self,
         table: str,
         trace_id: str,
-        order_by: str | None = None
+        order_by: Optional[str] = None
     ) -> list[dict[str, Any]]:
         """
         Fetch all JSON objects matching trace_id.
@@ -105,7 +105,7 @@ class JSONLStorage:
 
 
 # Singleton storage instance
-_storage: JSONLStorage | None = None
+_storage: Optional[JSONLStorage] = None
 
 
 def get_storage() -> JSONLStorage:
@@ -123,7 +123,7 @@ async def write_json(table: str, payload: dict[str, Any]):
     await storage.write_json(table, payload)
 
 
-async def fetch_decision_trace(trace_id: str) -> dict[str, Any] | None:
+async def fetch_decision_trace(trace_id: str) -> Optional[dict[str, Any]]:
     """Fetch decision trace by ID."""
     storage = get_storage()
     return await storage.fetch_decision_trace(trace_id)
@@ -132,7 +132,7 @@ async def fetch_decision_trace(trace_id: str) -> dict[str, Any] | None:
 async def fetch_jsons_by_trace(
     table: str,
     trace_id: str,
-    order_by: str | None = None
+    order_by: Optional[str] = None
 ) -> list[dict[str, Any]]:
     """Fetch JSONs by trace ID."""
     storage = get_storage()

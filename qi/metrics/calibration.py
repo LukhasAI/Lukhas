@@ -9,7 +9,7 @@ import math
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
 
 _ORIG_OPEN = builtins.open
 
@@ -75,7 +75,7 @@ def _collect_receipts() -> list[tuple[float, int, str]]:
             continue
     return out
 
-def reliability_diagram(samples: list[tuple[float,int,str]], bins: int = 10, task: str | None=None):
+def reliability_diagram(samples: list[tuple[float,int,str]], bins: int = 10, task: Optional[str]=None):
     if task is not None:
         samples = [s for s in samples if s[2] == task]
     buckets = [ {"lower":i/bins, "upper":(i+1)/bins, "count":0, "acc":0.0, "conf":0.0 } for i in range(bins) ]
@@ -101,7 +101,7 @@ def expected_calibration_error(diag) -> float:
         e += (b["count"]/total) * gap
     return float(round(e, 6))
 
-def fit_temperature(samples: list[tuple[float,int,str]], weights: dict[str, float] | None = None) -> float:
+def fit_temperature(samples: list[tuple[float,int,str]], weights: Optional[dict[str, float]] = None) -> float:
     """Simple 1D temperature on confidence → minimize logloss (Newton steps) with optional per-task weights."""
     if not samples: return 1.0
     # Apply weights if provided
@@ -128,7 +128,7 @@ def fit_temperature(samples: list[tuple[float,int,str]], weights: dict[str, floa
         if abs(step) < 1e-6: break
     return float(round(T, 6))
 
-def fit_and_save(source_preference: str = "eval", feedback_weights: dict[str, float] | None = None) -> CalibParams:
+def fit_and_save(source_preference: str = "eval", feedback_weights: Optional[dict[str, float]] = None) -> CalibParams:
     samples = _collect_eval() if source_preference == "eval" else _collect_receipts()
     if not samples:
         # fallback to the other source
@@ -183,12 +183,12 @@ def fit_and_save(source_preference: str = "eval", feedback_weights: dict[str, fl
     _write_json(PARAMS_PATH, asdict(params))
     return params
 
-def load_params() -> CalibParams | None:
+def load_params() -> Optional[CalibParams]:
     if not os.path.exists(PARAMS_PATH): return None
     j = _read_json(PARAMS_PATH)
     return CalibParams(**j)
 
-def apply_calibration(conf: float, params: CalibParams | None = None) -> float:
+def apply_calibration(conf: float, params: Optional[CalibParams] = None) -> float:
     p = params or load_params()
     if p is None: return conf
     c = min(max(conf, p.min_conf_clip), p.max_conf_clip)
@@ -198,7 +198,7 @@ def apply_calibration(conf: float, params: CalibParams | None = None) -> float:
     out = 1.0/(1.0+math.exp(-zT))
     return float(max(0.0, min(1.0, out)))
 
-def reliability_svg(task: str | None=None, width=640, height=320) -> str:
+def reliability_svg(task: Optional[str]=None, width=640, height=320) -> str:
     """Render reliability diagram + ECE/Temp as SVG using current params (or latest fit)."""
     p = load_params()
     if not p:

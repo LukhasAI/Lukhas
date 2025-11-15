@@ -1,3 +1,5 @@
+from typing import Optional
+
 """Bridge for candidate.consciousness.types."""
 
 from __future__ import annotations
@@ -13,7 +15,7 @@ _CANDIDATES = (
     "consciousness.types",
 )
 
-_backend: ModuleType | None = None
+_backend: Optional[ModuleType] = None
 for _module in _CANDIDATES:
     try:
         _backend = import_module(_module)

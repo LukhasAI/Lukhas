@@ -32,7 +32,7 @@ import logging
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from opentelemetry import trace
 
@@ -101,7 +101,7 @@ class HealthCheckResult:
     provider: str
     success: bool
     latency_ms: float
-    error: str | None = None
+    error: Optional[str] = None
     timestamp: float = field(default_factory=time.time)
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -114,7 +114,7 @@ class PerformanceMetrics:
     successful_requests: int = 0
     total_latency_ms: float = 0.0
     error_count: int = 0
-    last_error: str | None = None
+    last_error: Optional[str] = None
     uptime_percentage: float = 100.0
 
 
@@ -190,7 +190,7 @@ class HealthMonitor:
         """Add callback for health status changes"""
         self.health_change_callbacks.append(callback)
 
-    async def get_provider_health(self, provider: str) -> ProviderHealth | None:
+    async def get_provider_health(self, provider: str) -> Optional[ProviderHealth]:
         """Get current health status for a provider"""
         return self.provider_health.get(provider)
 
@@ -537,7 +537,7 @@ class HealthMonitor:
 
 
 # Global health monitor instance
-_health_monitor: HealthMonitor | None = None
+_health_monitor: Optional[HealthMonitor] = None
 
 
 async def get_health_monitor() -> HealthMonitor:

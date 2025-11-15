@@ -24,7 +24,7 @@ from collections import defaultdict, deque
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import bcrypt
 import jwt
@@ -80,7 +80,7 @@ class SecurityConfig:
     jwt_refresh_hours: int = 168  # 7 days
 
     # Encryption Configuration
-    encryption_key: str | None = None  # Will be generated if None
+    encryption_key: Optional[str] = None  # Will be generated if None
     password_salt_rounds: int = 12
 
     # Rate Limiting
@@ -128,8 +128,8 @@ class UserPrincipal:
     issued_at: float
     expires_at: float
     last_activity: float
-    ip_address: str | None = None
-    user_agent: str | None = None
+    ip_address: Optional[str] = None
+    user_agent: Optional[str] = None
     mfa_verified: bool = False
 
     def is_expired(self) -> bool:
@@ -183,10 +183,10 @@ class SecurityAuditEvent:
     timestamp: float
     event_type: str
     severity: ThreatLevel
-    user_id: str | None
-    session_id: str | None
-    ip_address: str | None
-    user_agent: str | None
+    user_id: Optional[str]
+    session_id: Optional[str]
+    ip_address: Optional[str]
+    user_agent: Optional[str]
     resource: str
     action: str
     outcome: str  # success, failure, blocked
@@ -302,7 +302,7 @@ class JWTService:
 
         return jwt.encode(payload, self.config.jwt_secret_key, algorithm=self.config.jwt_algorithm)
 
-    def verify_token(self, token: str) -> dict[str, Any] | None:
+    def verify_token(self, token: str) -> Optional[dict[str, Any]]:
         """Verify and decode JWT token."""
 
         try:
@@ -319,7 +319,7 @@ class JWTService:
             logger.warning(f"Invalid JWT token: {e}")
             return None
 
-    def refresh_access_token(self, refresh_token: str) -> str | None:
+    def refresh_access_token(self, refresh_token: str) -> Optional[str]:
         """Create new access token from refresh token."""
 
         payload = self.verify_token(refresh_token)
@@ -347,7 +347,7 @@ class RateLimiter:
         self.request_history: dict[str, deque] = defaultdict(lambda: deque())
         self.blocked_ips: dict[str, float] = {}  # IP -> unblock_time
 
-    def is_allowed(self, identifier: str, current_time: float | None = None) -> bool:
+    def is_allowed(self, identifier: str, current_time: Optional[float] = None) -> bool:
         """Check if request is allowed under rate limits."""
 
         if current_time is None:
@@ -417,7 +417,7 @@ class ThreatDetector:
                        ip_address: str,
                        user_agent: str,
                        endpoint: str,
-                       user_id: str | None = None) -> float:
+                       user_id: Optional[str] = None) -> float:
         """Analyze request and return risk score (0-1)."""
 
         if not self.config.threat_detection_enabled:
@@ -517,11 +517,11 @@ class SecurityAuditor:
                           resource: str,
                           action: str,
                           outcome: str,
-                          user_id: str | None = None,
-                          session_id: str | None = None,
-                          ip_address: str | None = None,
-                          user_agent: str | None = None,
-                          details: dict[str, Any] | None = None,
+                          user_id: Optional[str] = None,
+                          session_id: Optional[str] = None,
+                          ip_address: Optional[str] = None,
+                          user_agent: Optional[str] = None,
+                          details: Optional[dict[str, Any]] = None,
                           risk_score: float = 0.0) -> SecurityAuditEvent:
         """Log security audit event."""
 
@@ -583,11 +583,11 @@ class SecurityAuditor:
         return sanitized
 
     def get_audit_events(self,
-                        start_time: float | None = None,
-                        end_time: float | None = None,
-                        event_type: str | None = None,
-                        user_id: str | None = None,
-                        severity: ThreatLevel | None = None) -> list[SecurityAuditEvent]:
+                        start_time: Optional[float] = None,
+                        end_time: Optional[float] = None,
+                        event_type: Optional[str] = None,
+                        user_id: Optional[str] = None,
+                        severity: Optional[ThreatLevel] = None) -> list[SecurityAuditEvent]:
         """Get filtered audit events."""
 
         filtered_events = []
@@ -649,7 +649,7 @@ class SecurityAuditor:
 class LUKHASSecurityFramework:
     """Main security framework integrating all security services."""
 
-    def __init__(self, config: SecurityConfig | None = None):
+    def __init__(self, config: Optional[SecurityConfig] = None):
         """Initialize security framework."""
 
         self.config = config or SecurityConfig()
@@ -674,8 +674,8 @@ class LUKHASSecurityFramework:
     def authenticate_user(self,
                          username: str,
                          password: str,
-                         ip_address: str | None = None,
-                         user_agent: str | None = None) -> UserPrincipal | None:
+                         ip_address: Optional[str] = None,
+                         user_agent: Optional[str] = None) -> Optional[UserPrincipal]:
         """Authenticate user with username/password."""
 
         # Check for lockout
@@ -771,7 +771,7 @@ class LUKHASSecurityFramework:
         """Create JWT refresh token for authenticated user."""
         return self.jwt_service.create_refresh_token(principal)
 
-    def verify_access_token(self, token: str) -> UserPrincipal | None:
+    def verify_access_token(self, token: str) -> Optional[UserPrincipal]:
         """Verify JWT access token and return user principal."""
 
         payload = self.jwt_service.verify_token(token)
@@ -794,8 +794,8 @@ class LUKHASSecurityFramework:
     async def secure_operation(self,
                               operation_name: str,
                               principal: UserPrincipal,
-                              required_permission: str | None = None,
-                              required_security_level: SecurityLevel | None = None):
+                              required_permission: Optional[str] = None,
+                              required_security_level: Optional[SecurityLevel] = None):
         """Context manager for secure operations with authorization."""
 
         # Check permissions
@@ -924,7 +924,7 @@ class LUKHASSecurityFramework:
 
 
 # Global security framework instance
-_global_security: LUKHASSecurityFramework | None = None
+_global_security: Optional[LUKHASSecurityFramework] = None
 
 
 def get_security_framework() -> LUKHASSecurityFramework:

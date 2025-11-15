@@ -22,7 +22,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 from uuid import UUID, uuid4
 
 # Optional Prometheus metrics
@@ -71,14 +71,14 @@ class SyncOperation:
     source_lane: str
     target_lane: str
     operation_type: str  # "fold_sync", "promote", "replicate"
-    fold_id: str | None
+    fold_id: Optional[str]
     data_size: int
     fanout_cost: int
     fanin_cost: int
     depth_level: int
     result: SyncResult
     duration_ms: float
-    error_message: str | None = None
+    error_message: Optional[str] = None
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for logging/serialization."""
@@ -163,7 +163,7 @@ class MemorySynchronizer:
     to ensure safe memory synchronization across lanes.
     """
 
-    def __init__(self, lane: str | None = None, custom_config: dict[str, SyncBudgetConfig] | None = None):
+    def __init__(self, lane: Optional[str] = None, custom_config: Optional[dict[str, SyncBudgetConfig]] = None):
         """
         Initialize memory synchronizer.
 
@@ -199,9 +199,9 @@ class MemorySynchronizer:
         source_lane: str,
         target_lane: str,
         fold_data: dict[str, Any],
-        fold_id: str | None = None,
+        fold_id: Optional[str] = None,
         operation_type: str = "fold_sync",
-        parent_op_id: UUID | None = None
+        parent_op_id: Optional[UUID] = None
     ) -> SyncOperation:
         """
         Synchronize memory fold between lanes with governance checks.
@@ -348,7 +348,7 @@ class MemorySynchronizer:
             # Fallback estimation
             return len(str(data).encode('utf-8'))
 
-    def _calculate_depth(self, parent_op_id: UUID | None) -> int:
+    def _calculate_depth(self, parent_op_id: Optional[UUID]) -> int:
         """Calculate operation depth based on parent operation."""
         if parent_op_id is None:
             return 0
@@ -430,7 +430,7 @@ class MemorySynchronizer:
 
         self._operation_depth.pop(op_id, None)
 
-    def _perform_sync(self, source_lane: str, target_lane: str, data: dict[str, Any], fold_id: str | None):
+    def _perform_sync(self, source_lane: str, target_lane: str, data: dict[str, Any], fold_id: Optional[str]):
         """Perform the actual memory synchronization (implementation placeholder)."""
         # This would contain the actual sync logic
         # For now, we simulate the sync operation
@@ -442,10 +442,10 @@ class MemorySynchronizer:
 
     def _create_sync_operation(self, op_id: UUID, start_time: datetime,
                               source_lane: str, target_lane: str, operation_type: str,
-                              fold_id: str | None, data_size: int,
+                              fold_id: Optional[str], data_size: int,
                               fanout_cost: int, fanin_cost: int, depth_level: int,
-                              result: SyncResult, error_message: str | None = None,
-                              duration_ms: float | None = None) -> SyncOperation:
+                              result: SyncResult, error_message: Optional[str] = None,
+                              duration_ms: Optional[float] = None) -> SyncOperation:
         """Create sync operation record."""
         if duration_ms is None:
             duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
@@ -531,7 +531,7 @@ class MemorySynchronizer:
             "active_operations": len(self._operation_depth)
         }
 
-    def get_sync_log(self, limit: int | None = None) -> list[SyncOperation]:
+    def get_sync_log(self, limit: Optional[int] = None) -> list[SyncOperation]:
         """Get recent sync operations for audit/debugging."""
         if limit is None:
             return self._sync_log.copy()
@@ -548,6 +548,6 @@ class MemorySynchronizer:
             self._operation_depth.clear()
 
 
-def create_memory_synchronizer(lane: str | None = None, **config_overrides) -> MemorySynchronizer:
+def create_memory_synchronizer(lane: Optional[str] = None, **config_overrides) -> MemorySynchronizer:
     """Factory function for creating memory synchronizers."""
     return MemorySynchronizer(lane=lane)

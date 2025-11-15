@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from typing import Optional
+
 """
 Type-safe encryption algorithm definitions and metadata.
 
@@ -96,7 +98,7 @@ class AlgorithmMetadata:
     key_size: int  # bits
     nonce_size: int  # bytes
     tag_size: int  # bytes (for AEAD)
-    block_size: int | None  # bytes (None for stream ciphers)
+    block_size: Optional[int]  # bytes (None for stream ciphers)
     pq_resistant: bool
     security_level: SecurityLevel
     aead: bool

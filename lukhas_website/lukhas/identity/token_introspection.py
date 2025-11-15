@@ -21,7 +21,7 @@ import hashlib
 import logging
 import time
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -70,14 +70,14 @@ class IntrospectionRequest:
     token: str
 
     # Optional fields for enhanced introspection
-    token_type_hint: str | None = None  # "access_token", "lid_token", etc.
-    client_id: str | None = None
-    client_secret: str | None = None
+    token_type_hint: Optional[str] = None  # "access_token", "lid_token", etc.
+    client_id: Optional[str] = None
+    client_secret: Optional[str] = None
 
     # Request metadata
-    client_ip: str | None = None
-    user_agent: str | None = None
-    request_id: str | None = None
+    client_ip: Optional[str] = None
+    user_agent: Optional[str] = None
+    request_id: Optional[str] = None
 
 
 @dataclass
@@ -91,31 +91,31 @@ class IntrospectionResponse:
     active: bool
 
     # RFC 7662 optional fields
-    scope: str | None = None
-    client_id: str | None = None
-    username: str | None = None
-    token_type: str | None = None
-    exp: int | None = None
-    iat: int | None = None
-    nbf: int | None = None
-    sub: str | None = None
-    aud: str | None = None
-    iss: str | None = None
-    jti: str | None = None
+    scope: Optional[str] = None
+    client_id: Optional[str] = None
+    username: Optional[str] = None
+    token_type: Optional[str] = None
+    exp: Optional[int] = None
+    iat: Optional[int] = None
+    nbf: Optional[int] = None
+    sub: Optional[str] = None
+    aud: Optional[str] = None
+    iss: Optional[str] = None
+    jti: Optional[str] = None
 
     # LUKHAS extensions
-    lid_alias: str | None = None
-    realm: str | None = None
-    zone: str | None = None
-    tier_level: int | None = None
-    namespace: str | None = None
-    permissions: list[str] | None = None
-    guardian_approved: bool | None = None
-    validation_time_ms: float | None = None
+    lid_alias: Optional[str] = None
+    realm: Optional[str] = None
+    zone: Optional[str] = None
+    tier_level: Optional[int] = None
+    namespace: Optional[str] = None
+    permissions: Optional[list[str]] = None
+    guardian_approved: Optional[bool] = None
+    validation_time_ms: Optional[float] = None
 
     # Error information (if active=False)
-    error: str | None = None
-    error_description: str | None = None
+    error: Optional[str] = None
+    error_description: Optional[str] = None
 
 
 class RateLimiter:
@@ -213,8 +213,8 @@ class TokenIntrospectionService:
 
     def __init__(
         self,
-        auth_service: AuthenticationService | None = None,
-        rate_limiter: RateLimiter | None = None,
+        auth_service: Optional[AuthenticationService] = None,
+        rate_limiter: Optional[RateLimiter] = None,
         cache_ttl_seconds: int = 60
     ):
         """
@@ -417,7 +417,7 @@ class TokenIntrospectionService:
 
         return False
 
-    def _check_cache(self, token: str) -> IntrospectionResponse | None:
+    def _check_cache(self, token: str) -> Optional[IntrospectionResponse]:
         """Check response cache for recent introspection."""
         token_hash = hashlib.sha256(token.encode()).hexdigest()
 

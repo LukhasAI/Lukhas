@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 import time
 import uuid
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from ..unified_integration import (
     ComponentType,
@@ -29,7 +29,7 @@ class LegacyComponentAdapter:
         self.integration = integration_layer
         self.component_id = component_id
         self.component_type = component_type
-        self.legacy_handler: Callable[[dict[str, Any]], None] | None = None
+        self.legacy_handler: Optional[Callable[[dict[str, Any]], None]] = None
 
         # Register with integration layer using the legacy component type.
         self.integration.register_component(
@@ -43,7 +43,7 @@ class LegacyComponentAdapter:
     def adapt_legacy_message(
         self,
         message: dict[str, Any],
-        target: str | None = None,
+        target: Optional[str] = None,
     ) -> Message:
         """Normalize a legacy-style message to the integration format."""
 
@@ -67,7 +67,7 @@ class LegacyComponentAdapter:
     async def send_message(
         self,
         message: dict[str, Any],
-        target: str | None = None,
+        target: Optional[str] = None,
     ) -> str:
         """Send a legacy message through the integration layer."""
 

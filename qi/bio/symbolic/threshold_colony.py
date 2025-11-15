@@ -16,7 +16,7 @@ import json
 import logging
 from collections import deque
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 from core.colonies.base_colony import BaseColony
@@ -440,6 +440,6 @@ class AdaptiveThresholdColony(BaseColony):
 
 
 # Colony instance factory
-def create_threshold_colony(colony_id: str | None = None) -> AdaptiveThresholdColony:
+def create_threshold_colony(colony_id: Optional[str] = None) -> AdaptiveThresholdColony:
     """Create a new adaptive threshold colony instance."""
     return AdaptiveThresholdColony(colony_id or "threshold_colony_default")
