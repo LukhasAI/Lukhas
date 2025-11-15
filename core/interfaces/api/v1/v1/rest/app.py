@@ -25,6 +25,7 @@ except ImportError:
             pass
 
 from interfaces.api.v1.rest.routers import (
+    data_rights_router,
     health_router,
     metrics_router,
     process_router,
@@ -69,6 +70,7 @@ async def api_error_handler(request: Request, exc: APIError):
     )
 
 
+app.include_router(data_rights_router, prefix=f"{API_PREFIX}/data-rights")
 app.include_router(process_router, prefix=f"{API_PREFIX}/process")
 app.include_router(health_router, prefix=f"{API_PREFIX}/health")
 app.include_router(metrics_router, prefix=f"{API_PREFIX}/metrics")
