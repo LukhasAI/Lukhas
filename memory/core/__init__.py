@@ -1,12 +1,29 @@
 """
-STUB MODULE: memory.core
+Memory Core Module
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
-
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
+Unified memory orchestration system for LUKHAS AI, providing:
+- Multi-tier memory architecture (working, episodic, semantic, fold)
+- Automatic consolidation between tiers
+- Semantic search and retrieval
+- Memory fold compression for long-term storage
 """
 
-# TODO: Implement or remove dead imports referencing this module
+from .unified_memory_orchestrator import (
+    ConsolidationResult,
+    FoldEngine,
+    Memory,
+    MemoryType,
+    UnifiedMemoryOrchestrator,
+    WorkingMemory,
+)
+
+__all__ = [
+    "UnifiedMemoryOrchestrator",
+    "MemoryType",
+    "Memory",
+    "ConsolidationResult",
+    "WorkingMemory",
+    "FoldEngine",
+]
+
+__version__ = "1.0.0"
