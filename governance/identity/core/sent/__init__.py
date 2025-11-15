@@ -1,12 +1,25 @@
 """
-STUB MODULE: governance.identity.core.sent
+Consent Management Module for GDPR Compliance
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
+This module provides GDPR-compliant consent management functionality including:
+- Consent history tracking with cryptographic audit trails
+- Symbolic consent scopes
+- GDPR Article 7(1) compliance (demonstrable consent)
+- GDPR Article 20 compliance (data portability)
 
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
+Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
-# TODO: Implement or remove dead imports referencing this module
+from governance.identity.core.sent.consent_history import (
+    ConsentEventType,
+    ConsentHistoryManager,
+    StorageBackend,
+    TraceLogger,
+)
+
+__all__ = [
+    "ConsentHistoryManager",
+    "ConsentEventType",
+    "StorageBackend",
+    "TraceLogger",
+]
