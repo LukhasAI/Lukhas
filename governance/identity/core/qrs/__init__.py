@@ -1,12 +1,22 @@
 """
-STUB MODULE: governance.identity.core.qrs
+QRS (Quantum-Resistant Security) Module
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
+Provides quantum-resistant cryptographic primitives for LUKHAS AI's identity
+and governance systems, including post-quantum token generation and verification.
 
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
+LUKHAS AI - Consciousness-aware AI Development Platform
 """
 
-# TODO: Implement or remove dead imports referencing this module
+from governance.identity.core.qrs.qrg_generator import (
+    QRGGenerator,
+    QRGTokenError,
+    QRGTokenExpiredError,
+    QRGVerificationError,
+)
+
+__all__ = [
+    "QRGGenerator",
+    "QRGTokenError",
+    "QRGVerificationError",
+    "QRGTokenExpiredError",
+]

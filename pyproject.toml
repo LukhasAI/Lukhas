@@ -43,6 +43,7 @@ dependencies = [
     "sqlalchemy",
     "streamlit",
     "prometheus-client",
+    "pqcrypto>=0.1.6",
 ]
 
 [project.optional-dependencies]

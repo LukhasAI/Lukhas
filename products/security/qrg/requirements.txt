@@ -11,6 +11,9 @@ qrcode[pil]>=7.0.0
 cryptography>=3.4.8
 pycryptodome>=3.15.0
 
+# Post-Quantum Cryptography (PQC)
+pqcrypto>=0.1.6
+
 # Quantum and scientific computing
 scipy>=1.7.0
 
