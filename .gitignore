@@ -56,6 +56,14 @@ lib/
 bin/
 .tmp.driveupload/
 
+# Large audit reports (keep locally only)
+reports/analysis/file_index.json
+reports/analysis/static_metrics.json
+reports/analysis/security_surface.json
+reports/analysis/high_risk_patterns.json
+reports/analysis/symbolic_consistency.csv
+reports/analysis/cloud_audit_result.json
+
 
 # IDE and OS files
 .DS_Store

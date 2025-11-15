@@ -102,8 +102,15 @@ class SecurityScanner:
                     line_num = content[:match.start()].count('\n') + 1
                     # Skip if it's in comments, tests, or examples
                     line_content = content.split('\n')[line_num - 1]
-                    if any(marker in str(file_path).lower() for marker in ['test', 'example', '.env.example']):
+                    
+                    # Check path segments, not substrings
+                    path_parts = [p.lower() for p in file_path.parts]
+                    if any(part in {'tests', 'test', 'testing', 'examples', 'example'} for part in path_parts[:-1]):
                         continue
+                    filename = path_parts[-1]
+                    if filename.startswith('test_') or filename.endswith('_test.py') or filename == '.env.example':
+                        continue
+                    
                     if line_content.strip().startswith('#'):
                         continue
 
@@ -253,7 +260,7 @@ def main():
 
     print(f"\nSecurity surface report written to: {output_file}")
     print(f"High-risk patterns: {findings['summary']['total_high_risk']}")
-    print(f"Secret patterns found: {findings['summary']['total_secrets_found']}")
+    print(f"Secret patterns found: [REDACTED - see report]")
     print(f"Network calls: {findings['summary']['total_network_calls']}")
     print(f"Total dependencies: {findings['summary']['total_dependencies']}")
 
