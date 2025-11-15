@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from typing import Optional
+from __future__ import annotations
 
 """
 Type-safe encryption algorithm definitions and metadata.
@@ -34,8 +34,7 @@ Example Usage:
     >>> print(f"Post-quantum resistant: {metadata.pq_resistant}")
 """
 
-from __future__ import annotations
-
+from typing import Optional
 from dataclasses import dataclass
 from enum import Enum
 
