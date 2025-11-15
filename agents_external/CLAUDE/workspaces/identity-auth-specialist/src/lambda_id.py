@@ -7,6 +7,8 @@ import base64
 import hashlib
 import secrets
 import time
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, ClassVar, Optional
@@ -31,7 +33,7 @@ class LukhasID:
 class NamespaceSchema:
     """ΛID Namespace Schema Definition"""
 
-    NAMESPACES: ClassVar[dict] = {  # TODO[T4-ISSUE]: {"code":"RUF012","ticket":"GH-1031","owner":"consciousness-team","status":"planned","reason":"Mutable class attribute needs ClassVar annotation for type safety","estimate":"15m","priority":"medium","dependencies":"typing imports","id":"_Users_agi_dev_LOCAL_REPOS_Lukhas_agents_external_CLAUDE_workspaces_identity_auth_specialist_src_lambda_id_py_L34"}
+    NAMESPACES: ClassVar[dict[str, dict[str, Any]]] = {
         "user": {
             "prefix": "USR",
             "required_fields": ["email", "display_name"],

@@ -6,6 +6,20 @@
  */
 
 import { createHash } from 'crypto';
+import AuditLogger from './audit-logger';
+import { DatabaseInterface, CreateSecurityEventInput } from './database';
+
+export interface AlertConfig {
+  enabled: boolean;
+  webhookUrl?: string;
+  slackWebhook?: string;
+  emailRecipients?: string[];
+  alertThresholds: {
+    failedAuthAttempts: number;
+    rateLimitHits: number;
+    suspiciousActivity: number;
+  };
+}
 
 export interface RateLimitConfig {
   windowMs: number;
@@ -20,6 +34,8 @@ export interface SecurityConfig {
   preventEnumeration: boolean;
   auditLogging: boolean;
   alertThreshold: number;
+  alertConfig?: AlertConfig;
+  db?: DatabaseInterface;
 }
 
 export interface RateLimitEntry {
@@ -74,10 +90,12 @@ export class SecurityManager {
   private rateLimitStore: MemoryRateLimitStore;
   private auditLog: AuditEvent[] = [];
   private cleanupInterval?: NodeJS.Timer;
+  private db?: DatabaseInterface;
 
   constructor(config: SecurityConfig) {
     this.config = config;
     this.rateLimitStore = new MemoryRateLimitStore();
+    this.db = config.db;
 
     // Start cleanup interval
     this.cleanupInterval = setInterval(() => {
@@ -185,7 +203,7 @@ export class SecurityManager {
   }
 
   /**
-   * Log security audit event
+   * Log security audit event with persistent storage
    */
   async logAuditEvent(event: Omit<AuditEvent, 'timestamp'>): Promise<void> {
     if (!this.config.auditLogging) return;
@@ -197,10 +215,78 @@ export class SecurityManager {
 
     this.auditLog.push(auditEvent);
 
-    // In production, write to persistent storage (database, file, etc.)
+    // Persistent audit logging to database
+    if (this.db) {
+      try {
+        const securityEvent: CreateSecurityEventInput = {
+          user_id: event.email,
+          event_type: event.event as any,
+          severity: event.success ? 'info' : 'warning',
+          description: event.reason || `${event.event} event`,
+          result: event.success ? 'success' : 'failure',
+          ip_address: event.ip,
+          user_agent: event.userAgent,
+          event_timestamp: new Date(),
+          metadata: event.metadata || {}
+        };
+
+        await this.db.createSecurityEvent(securityEvent);
+      } catch (error) {
+        console.error('[SecurityManager] Failed to persist audit event to database:', error);
+      }
+    }
+
+    // Also log via AuditLogger for comprehensive trail
+    await AuditLogger.logSecurityEvent({
+      eventType: this.mapEventTypeToAuditType(event.event),
+      description: event.reason || `${event.event} event`,
+      context: {
+        ipAddress: event.ip,
+        userAgent: event.userAgent || 'Unknown'
+      },
+      actionTaken: event.success ? 'allowed' : 'blocked',
+      metadata: event.metadata
+    });
+
+    // Write to file in production for backup
     if (process.env.NODE_ENV === 'production') {
-      // TODO: Implement persistent audit logging
-      console.log('AUDIT:', JSON.stringify(auditEvent));
+      this.writeAuditToFile(auditEvent);
+    }
+  }
+
+  /**
+   * Map security event type to audit log event type
+   */
+  private mapEventTypeToAuditType(eventType: string): any {
+    const mapping: Record<string, string> = {
+      'login_attempt': 'auth_login_failure',
+      'magic_link_request': 'auth_login_success',
+      'auth_success': 'auth_login_success',
+      'auth_failure': 'auth_login_failure',
+      'rate_limit_hit': 'security_rate_limit_exceeded',
+      'enumeration_attempt': 'security_suspicious_activity'
+    };
+
+    return mapping[eventType] || 'security_suspicious_activity';
+  }
+
+  /**
+   * Write audit event to file for backup
+   */
+  private async writeAuditToFile(event: AuditEvent): Promise<void> {
+    try {
+      const logDir = process.env.AUDIT_LOG_DIR || './logs/security';
+      const logFile = `${logDir}/security-${new Date().toISOString().split('T')[0]}.log`;
+
+      // Ensure directory exists
+      const fs = await import('fs/promises');
+      await fs.mkdir(logDir, { recursive: true });
+
+      // Append audit event
+      const logLine = JSON.stringify(event) + '\n';
+      await fs.appendFile(logFile, logLine, 'utf8');
+    } catch (error) {
+      console.error('[SecurityManager] Failed to write audit to file:', error);
     }
   }
 
@@ -334,11 +420,185 @@ export class SecurityManager {
   }
 
   /**
-   * Send security alert (implement with your alerting system)
+   * Send security alert to configured channels
    */
   private async sendSecurityAlert(alert: any): Promise<void> {
-    // TODO: Implement alerting (Slack, email, PagerDuty, etc.)
+    const alertConfig = this.config.alertConfig;
+
+    if (!alertConfig || !alertConfig.enabled) {
+      console.warn('🚨 SECURITY ALERT (alerting disabled):', JSON.stringify(alert));
+      return;
+    }
+
+    // Send to Slack
+    if (alertConfig.slackWebhook) {
+      await this.sendSlackAlert(alertConfig.slackWebhook, alert);
+    }
+
+    // Send to generic webhook
+    if (alertConfig.webhookUrl) {
+      await this.sendWebhookAlert(alertConfig.webhookUrl, alert);
+    }
+
+    // Send via email
+    if (alertConfig.emailRecipients?.length) {
+      await this.sendEmailAlert(alertConfig.emailRecipients, alert);
+    }
+
+    // Log to audit trail
+    await AuditLogger.logSecurityEvent({
+      eventType: 'security_anomaly_detected',
+      description: `Security alert triggered: ${alert.type}`,
+      context: {
+        ipAddress: alert.ip || 'system',
+        userAgent: 'security_monitor'
+      },
+      riskScore: this.calculateRiskScore(alert),
+      actionTaken: 'alert_sent',
+      metadata: alert
+    });
+
     console.warn('🚨 SECURITY ALERT:', JSON.stringify(alert));
+  }
+
+  /**
+   * Send alert to Slack
+   */
+  private async sendSlackAlert(webhookUrl: string, alert: any): Promise<void> {
+    try {
+      const payload = {
+        text: `🚨 Security Alert: ${alert.type}`,
+        blocks: [
+          {
+            type: 'header',
+            text: {
+              type: 'plain_text',
+              text: `🚨 Security Alert: ${alert.type}`,
+              emoji: true
+            }
+          },
+          {
+            type: 'section',
+            fields: [
+              { type: 'mrkdwn', text: `*IP Address:*\n${alert.ip}` },
+              { type: 'mrkdwn', text: `*Failure Count:*\n${alert.failureCount}` },
+              { type: 'mrkdwn', text: `*Time Window:*\n${alert.timeWindow}` },
+              { type: 'mrkdwn', text: `*Timestamp:*\n${new Date().toISOString()}` }
+            ]
+          },
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `*Details:*\n\`\`\`${JSON.stringify(alert, null, 2)}\`\`\``
+            }
+          }
+        ]
+      };
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Slack webhook failed: ${response.statusText}`);
+      }
+
+      console.log('[SecurityManager] Slack alert sent successfully');
+    } catch (error) {
+      console.error('[SecurityManager] Failed to send Slack alert:', error);
+    }
+  }
+
+  /**
+   * Send alert to generic webhook
+   */
+  private async sendWebhookAlert(webhookUrl: string, alert: any): Promise<void> {
+    try {
+      const payload = {
+        type: 'security_alert',
+        severity: 'high',
+        timestamp: new Date().toISOString(),
+        alert
+      };
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Webhook failed: ${response.statusText}`);
+      }
+
+      console.log('[SecurityManager] Webhook alert sent successfully');
+    } catch (error) {
+      console.error('[SecurityManager] Failed to send webhook alert:', error);
+    }
+  }
+
+  /**
+   * Send alert via email
+   */
+  private async sendEmailAlert(recipients: string[], alert: any): Promise<void> {
+    try {
+      // Import email service dynamically to avoid circular dependencies
+      const { createEmailServiceFromEnv } = await import('./email-service');
+      const emailService = createEmailServiceFromEnv();
+
+      for (const recipient of recipients) {
+        await emailService.sendEmail({
+          to: recipient,
+          template: {
+            subject: `🚨 Security Alert: ${alert.type}`,
+            htmlBody: `
+              <h2>Security Alert</h2>
+              <p><strong>Type:</strong> ${alert.type}</p>
+              <p><strong>IP Address:</strong> ${alert.ip}</p>
+              <p><strong>Failure Count:</strong> ${alert.failureCount}</p>
+              <p><strong>Time Window:</strong> ${alert.timeWindow}</p>
+              <p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>
+              <pre>${JSON.stringify(alert, null, 2)}</pre>
+            `,
+            textBody: `
+Security Alert: ${alert.type}
+IP Address: ${alert.ip}
+Failure Count: ${alert.failureCount}
+Time Window: ${alert.timeWindow}
+Timestamp: ${new Date().toISOString()}
+
+Details:
+${JSON.stringify(alert, null, 2)}
+            `
+          }
+        });
+      }
+
+      console.log('[SecurityManager] Email alerts sent successfully');
+    } catch (error) {
+      console.error('[SecurityManager] Failed to send email alerts:', error);
+    }
+  }
+
+  /**
+   * Calculate risk score for alert
+   */
+  private calculateRiskScore(alert: any): number {
+    let score = 0;
+
+    // Higher failure count = higher risk
+    if (alert.failureCount >= 10) score += 0.5;
+    else if (alert.failureCount >= 5) score += 0.3;
+    else score += 0.1;
+
+    // Add risk based on alert type
+    if (alert.type === 'high_failure_rate') score += 0.3;
+    if (alert.type === 'suspicious_pattern') score += 0.2;
+
+    return Math.min(1.0, score);
   }
 
   /**
